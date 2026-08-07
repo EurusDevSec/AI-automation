@@ -18,6 +18,7 @@ import FormField from '@cloudscape-design/components/form-field';
 import HelpPanel from '@cloudscape-design/components/help-panel';
 import ColumnLayout from '@cloudscape-design/components/column-layout';
 import Checkbox from '@cloudscape-design/components/checkbox';
+import Modal from '@cloudscape-design/components/modal';
 import Navigation from '../components/Navigation';
 import { initialLessonsData } from '../data/lessonsData';
 import { getLocalLessonsOverride } from '../lib/supabase';
@@ -30,6 +31,9 @@ export default function StudentPortal() {
   const [copiedPromptName, setCopiedPromptName] = useState('');
   const [lessons, setLessons] = useState(initialLessonsData);
   const [toolsOpen, setToolsOpen] = useState(false);
+
+  // Lightbox Modal State
+  const [lightboxImage, setLightboxImage] = useState(null);
 
   // Checklist state for DoD
   const [checkListState, setCheckListState] = useState({});
@@ -70,6 +74,31 @@ export default function StudentPortal() {
 
   const toggleChecklist = (idx) => {
     setCheckListState((prev) => ({ ...prev, [idx]: !prev[idx] }));
+  };
+
+  const renderImageCard = (src, title, badgeText, badgeColor = "blue", containerHeight = "h-72") => {
+    const resolvedUrl = resolveMarkdownImageUrl(src);
+    return (
+      <div 
+        className="group relative border-2 border-dashed border-indigo-200 hover:border-indigo-500 rounded-xl p-3 bg-indigo-50/40 hover:bg-indigo-50/90 transition-all cursor-pointer shadow-sm hover:shadow-md"
+        onClick={() => setLightboxImage({ url: resolvedUrl, title: title || src })}
+      >
+        <div className="text-xs font-semibold text-indigo-800 mb-2 flex items-center justify-between">
+          <span className="flex items-center gap-1.5">📸 <span>{title}:</span></span>
+          <Badge color={badgeColor}>{badgeText || src}</Badge>
+        </div>
+        <div className={`rounded-lg overflow-hidden border border-slate-200 bg-white relative ${containerHeight}`}>
+          <img 
+            src={resolvedUrl} 
+            alt={title} 
+            className="w-full h-full object-contain bg-slate-900/5 group-hover:scale-105 transition-transform duration-300" 
+          />
+          <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-semibold text-sm gap-2 backdrop-blur-[1px]">
+            <span>🔍 Click để xem phóng to 100% HD</span>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -142,10 +171,9 @@ export default function StudentPortal() {
             header={<h2>💡 Trợ Giúp Học Viên</h2>}
             footer={
               <div>
-                <h3>Kiểm soát 100% từ Local IDE:</h3>
+                <h3>Tính Năng Xem Ảnh Phóng To:</h3>
                 <Box color="text-body-secondary">
-                  Tệp giáo án: <code>src/content/buoi_{currentLesson.session_number}.md</code>.<br/>
-                  Tự động đồng bộ ảnh cùng cấp khi dán vào VS Code!
+                  Nhấp chuột vào bất kỳ bức ảnh chụp màn hình nào để mở <strong>Lightbox Modal</strong> phóng to sắc nét HD 100%!
                 </Box>
               </div>
             }
@@ -166,7 +194,7 @@ export default function StudentPortal() {
                 actions={
                   <SpaceBetween direction="horizontal" size="xs">
                     <Badge color="blue">{currentLesson.module_name}</Badge>
-                    <StatusIndicator type="success">IDE Single Control Mode</StatusIndicator>
+                    <StatusIndicator type="success">Click-to-Zoom Lightbox Active</StatusIndicator>
                     <Button iconName="help" onClick={() => setToolsOpen(!toolsOpen)}>
                       Trợ Giúp
                     </Button>
@@ -194,9 +222,9 @@ export default function StudentPortal() {
                   <StatusIndicator type="info">Tab Trò Chuyện &amp; Tab Spark BETA</StatusIndicator>
                   <Box color="text-body-secondary">Chuẩn 100% giao diện thực tế</Box>
                 </Container>
-                <Container header={<Header variant="h3">🛡️ Quản Lý Bài Học</Header>}>
-                  <StatusIndicator type="success">IDE Markdown Only (No CMS)</StatusIndicator>
-                  <Box color="text-body-secondary">src/content/buoi_{currentLesson.session_number}.md</Box>
+                <Container header={<Header variant="h3">🔍 Phóng To HD</Header>}>
+                  <StatusIndicator type="success">Click-to-Zoom Lightbox</StatusIndicator>
+                  <Box color="text-body-secondary">Nhấp ảnh bất kỳ để xem toàn màn hình</Box>
                 </Container>
               </ColumnLayout>
 
@@ -214,6 +242,7 @@ export default function StudentPortal() {
                             <div className="space-y-1 text-sm">
                               <div><strong>Tình huống thực tế:</strong> Bạn được giao lên kế hoạch du lịch / team building 3N2Đ cho nhóm 10-15 người (3-5 triệu/người).</div>
                               <div><strong>Luồng Thao Tác 2 Tab:</strong> [Tab Trò chuyện] (Research + Canvas + Veo) &rarr; [Tab Spark BETA] (Trình duyệt từ xa Agoda + Standing Instructions Gmail sang Sheets).</div>
+                              <div className="text-xs text-indigo-700 font-semibold mt-1">💡 Mẹo: Nhấp chuột vào hình ảnh bất kỳ để xem phóng to HD 100% toàn màn hình!</div>
                             </div>
                           </Alert>
                         )}
@@ -237,31 +266,14 @@ export default function StudentPortal() {
                                 </div>
                               )}
 
-                              {/* REAL SCREENSHOTS FOR DEEP RESEARCH */}
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 my-3">
-                                <div className="border-2 border-dashed border-indigo-200 rounded-xl p-3 bg-indigo-50/50">
-                                  <div className="text-xs font-semibold text-indigo-700 mb-2 flex items-center gap-1.5">
-                                    📸 <span>Deep Research Gemini:</span>
-                                    <Badge color="blue">image-1.png</Badge>
-                                  </div>
-                                  <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
-                                    <img src={resolveMarkdownImageUrl('image-1.png')} alt="image-1.png" className="w-full h-48 object-contain bg-slate-50" />
-                                  </div>
-                                </div>
-
-                                <div className="border-2 border-dashed border-indigo-200 rounded-xl p-3 bg-indigo-50/50">
-                                  <div className="text-xs font-semibold text-indigo-700 mb-2 flex items-center gap-1.5">
-                                    📸 <span>Chi Tiết Báo Cáo Canvas:</span>
-                                    <Badge color="blue">image-2.png</Badge>
-                                  </div>
-                                  <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
-                                    <img src={resolveMarkdownImageUrl('image-2.png')} alt="image-2.png" className="w-full h-48 object-contain bg-slate-50" />
-                                  </div>
-                                </div>
+                              {/* REAL SCREENSHOTS FOR DEEP RESEARCH WITH LIGHTBOX */}
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+                                {renderImageCard('image-1.png', 'Deep Research Gemini', 'image-1.png', 'blue', 'h-80')}
+                                {renderImageCard('image-2.png', 'Chi Tiết Báo Cáo Canvas', 'image-2.png', 'blue', 'h-80')}
                               </div>
                             </div>
 
-                            <div className="pt-2 border-t border-slate-200">
+                            <div className="pt-3 border-t border-slate-200">
                               <h3 className="font-bold text-slate-900 text-base mb-1">2️⃣ Tính Năng Native "Tạo" Trên Canvas &amp; Guided Learning (10 Phút)</h3>
                               <p className="text-sm text-slate-600 mb-2">Ngay tại giao diện Canvas vừa tạo, dùng menu nút <strong>Tạo ∨</strong> ở góc trên bên phải để sinh Bài kiểm tra (Quiz) hoặc Audio Podcast.</p>
                               
@@ -277,24 +289,13 @@ export default function StudentPortal() {
                                 </div>
                               )}
 
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 my-3">
-                                <div className="border-2 border-dashed border-emerald-200 rounded-xl p-3 bg-emerald-50/50">
-                                  <div className="text-xs font-semibold text-emerald-700 mb-2">📸 Menu Nút Tạo ∨ Trên Canvas:</div>
-                                  <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
-                                    <img src={resolveMarkdownImageUrl('canvas-create-web.png')} alt="canvas-create-web.png" className="w-full h-44 object-contain bg-slate-50" />
-                                  </div>
-                                </div>
-
-                                <div className="border-2 border-dashed border-indigo-200 rounded-xl p-3 bg-indigo-50/50">
-                                  <div className="text-xs font-semibold text-indigo-700 mb-2">📸 Giao Diện Trắc Nghiệm Guided Learning:</div>
-                                  <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
-                                    <img src={resolveMarkdownImageUrl('guided-learning-quiz.png')} alt="guided-learning-quiz.png" className="w-full h-44 object-contain bg-slate-50" />
-                                  </div>
-                                </div>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+                                {renderImageCard('canvas-create-web.png', 'Menu Nút Tạo ∨ Trên Canvas', 'canvas-create-web.png', 'green', 'h-72')}
+                                {renderImageCard('guided-learning-quiz.png', 'Giao Diện Trắc Nghiệm Guided Learning', 'guided-learning-quiz.png', 'blue', 'h-72')}
                               </div>
                             </div>
 
-                            <div className="pt-2 border-t border-slate-200">
+                            <div className="pt-3 border-t border-slate-200">
                               <h3 className="font-bold text-slate-900 text-base mb-1">3️⃣ Xưởng Media: Poster &amp; Video Veo 5s (10 Phút)</h3>
                               <p className="text-sm text-slate-600 mb-2">Tạo ảnh Poster du lịch Cinematic và ném ảnh vào Veo để sinh Clip Video 5s chuyển động Tilt up.</p>
                               
@@ -322,14 +323,8 @@ export default function StudentPortal() {
                                 </div>
                               )}
 
-                              <div className="border-2 border-dashed border-indigo-200 rounded-xl p-3 bg-indigo-50/50 my-3">
-                                <div className="text-xs font-semibold text-indigo-700 mb-2 flex items-center gap-1.5">
-                                  📸 <span>Ảnh Poster Team Building Cinematic Thực Tế:</span>
-                                  <Badge color="blue">image.png</Badge>
-                                </div>
-                                <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
-                                  <img src={resolveMarkdownImageUrl('image.png')} alt="image.png" className="w-full h-56 object-contain bg-slate-50" />
-                                </div>
+                              <div className="my-4">
+                                {renderImageCard('image.png', 'Ảnh Poster Team Building Cinematic Thực Tế', 'image.png', 'blue', 'h-96')}
                               </div>
                             </div>
                           </SpaceBetween>
@@ -354,38 +349,15 @@ export default function StudentPortal() {
                                 </div>
                               )}
 
-                              {/* SPARK REMOTE BROWSER 3 REAL SCREENSHOTS */}
-                              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 my-3">
-                                <div className="border-2 border-dashed border-red-200 rounded-xl p-3 bg-red-50/50">
-                                  <div className="text-xs font-semibold text-red-700 mb-2 flex items-center gap-1">
-                                    📸 <span>1. Trình Duyệt Mở Nửa Phải:</span>
-                                  </div>
-                                  <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
-                                    <img src={resolveMarkdownImageUrl('spark-remote-browser-1.png')} alt="spark-remote-browser-1.png" className="w-full h-44 object-contain bg-slate-50" />
-                                  </div>
-                                </div>
-
-                                <div className="border-2 border-dashed border-red-200 rounded-xl p-3 bg-red-50/50">
-                                  <div className="text-xs font-semibold text-red-700 mb-2 flex items-center gap-1">
-                                    📸 <span>2. Spark Tự Tương Tác Click:</span>
-                                  </div>
-                                  <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
-                                    <img src={resolveMarkdownImageUrl('spark-remote-browser-2.png')} alt="spark-remote-browser-2.png" className="w-full h-44 object-contain bg-slate-50" />
-                                  </div>
-                                </div>
-
-                                <div className="border-2 border-dashed border-emerald-200 rounded-xl p-3 bg-emerald-50/50">
-                                  <div className="text-xs font-semibold text-emerald-700 mb-2 flex items-center gap-1">
-                                    📸 <span>3. Trích Xuất Giá Phòng Kết Quả:</span>
-                                  </div>
-                                  <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
-                                    <img src={resolveMarkdownImageUrl('spark-remote-browser-result.png')} alt="spark-remote-browser-result.png" className="w-full h-44 object-contain bg-slate-50" />
-                                  </div>
-                                </div>
+                              {/* SPARK REMOTE BROWSER 3 REAL SCREENSHOTS WITH LIGHTBOX */}
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-4">
+                                {renderImageCard('spark-remote-browser-1.png', '1. Trình Duyệt Mở Nửa Phải', 'spark-remote-browser-1.png', 'red', 'h-64')}
+                                {renderImageCard('spark-remote-browser-2.png', '2. Spark Tự Tương Tác Click', 'spark-remote-browser-2.png', 'red', 'h-64')}
+                                {renderImageCard('spark-remote-browser-result.png', '3. Trích Xuất Giá Phòng Kết Quả', 'spark-remote-browser-result.png', 'green', 'h-64')}
                               </div>
                             </div>
 
-                            <div className="pt-2 border-t border-slate-200">
+                            <div className="pt-3 border-t border-slate-200">
                               <h3 className="font-bold text-slate-900 text-base mb-1">2️⃣ Cài Đặt Standing Instructions 24/7 (25 Phút)</h3>
                               <p className="text-sm text-slate-600 mb-2">Vào Spark Settings &amp; Standing Instructions, dán lệnh tự động ghi nhận bill Gmail về Google Sheets 24/7.</p>
                               
@@ -513,6 +485,39 @@ export default function StudentPortal() {
           </ContentLayout>
         }
       />
+
+      {/* LIGHTBOX MODAL FOR HD FULLSCREEN IMAGE VIEWING */}
+      {lightboxImage && (
+        <Modal
+          visible={!!lightboxImage}
+          onDismiss={() => setLightboxImage(null)}
+          header={
+            <Header
+              variant="h2"
+              description="Ảnh chụp màn hình thực tế sắc nét (Sử dụng con lăn chuột hoặc thu phóng để xem chi tiết chữ)"
+            >
+              🔍 {lightboxImage.title}
+            </Header>
+          }
+          size="max"
+          footer={
+            <Box float="right">
+              <Button variant="primary" onClick={() => setLightboxImage(null)}>
+                Đóng (Esc)
+              </Button>
+            </Box>
+          }
+        >
+          <div className="p-3 bg-slate-950 rounded-xl overflow-auto flex items-center justify-center" style={{ maxHeight: '75vh' }}>
+            <img
+              src={lightboxImage.url}
+              alt={lightboxImage.title}
+              className="max-w-full object-contain rounded-lg shadow-2xl border border-slate-800"
+              style={{ maxHeight: '72vh' }}
+            />
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }
