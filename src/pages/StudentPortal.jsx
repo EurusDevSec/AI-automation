@@ -76,6 +76,30 @@ export default function StudentPortal() {
     setCheckListState((prev) => ({ ...prev, [idx]: !prev[idx] }));
   };
 
+  // Helper to parse inline markdown (**bold**, *italic*, HTML entities)
+  const parseInlineMarkdown = (text) => {
+    if (!text) return '';
+    
+    // Clean HTML entities & arrow symbols
+    let cleanText = text
+      .replace(/&rarr;/g, '→')
+      .replace(/&gt;/g, '>')
+      .replace(/&lt;/g, '<')
+      .replace(/&amp;/g, '&');
+
+    // Split by bold (**text**) and italic (*text*)
+    const parts = cleanText.split(/(\*\*.*?\*\*|\*.*?\*)/g);
+    return parts.map((part, idx) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={idx} className="font-bold text-slate-900">{part.slice(2, -2)}</strong>;
+      }
+      if (part.startsWith('*') && part.endsWith('*') && !part.startsWith('**')) {
+        return <em key={idx} className="italic text-slate-700">{part.slice(1, -1)}</em>;
+      }
+      return part;
+    });
+  };
+
   // Helper to render Full-Width 100% Stacked Image Cards
   const renderFullWidthImageCard = (src, title, badgeColor = "blue") => {
     const resolvedUrl = resolveMarkdownImageUrl(src);
@@ -127,7 +151,7 @@ export default function StudentPortal() {
   };
 
   // DYNAMIC MARKDOWN PARSER & RENDERER
-  // Parses markdown string line-by-line so ANY image tag or video tag added to buoi_X.md automatically renders live!
+  // Parses markdown string line-by-line so ALL markdown tags (#, ##, **, *, images, videos) format into rich HTML!
   const renderDynamicMarkdown = (markdownText) => {
     if (!markdownText) return null;
 
@@ -198,44 +222,66 @@ export default function StudentPortal() {
         continue;
       }
 
+      // Heading 1 (# ...) -> Main Page Title Header
+      if (line.trim().startsWith('# ')) {
+        const titleText = line.trim().replace(/^#\s+/, '');
+        elements.push(
+          <h1 key={`h1-${i}`} className="text-2xl font-extrabold text-slate-900 my-4 pb-3 border-b-2 border-slate-200 leading-tight">
+            {parseInlineMarkdown(titleText)}
+          </h1>
+        );
+        continue;
+      }
+
       // Heading 2 (## ...) -> Container Section Header
       if (line.trim().startsWith('## ')) {
-        const titleText = line.trim().replace('## ', '');
+        const titleText = line.trim().replace(/^##\s+/, '');
         elements.push(
-          <div key={`h2-${i}`} className="pt-6 pb-2 border-b border-slate-200 text-xl font-bold text-slate-900 flex items-center gap-2">
-            {titleText}
-          </div>
+          <h2 key={`h2-${i}`} className="pt-6 pb-2 border-b border-slate-200 text-xl font-bold text-slate-900 flex items-center gap-2">
+            {parseInlineMarkdown(titleText)}
+          </h2>
         );
         continue;
       }
 
       // Heading 3 (### ...) -> Sub-heading
       if (line.trim().startsWith('### ')) {
-        const titleText = line.trim().replace('### ', '');
+        const titleText = line.trim().replace(/^###\s+/, '');
         elements.push(
-          <h3 key={`h3-${i}`} className="text-base font-bold text-slate-900 mt-5 mb-2">
-            {titleText}
+          <h3 key={`h3-${i}`} className="text-base font-bold text-slate-900 mt-5 mb-2 flex items-center gap-1.5">
+            {parseInlineMarkdown(titleText)}
           </h3>
+        );
+        continue;
+      }
+
+      // Bullet List Items (* ... or - ...)
+      if (line.trim().startsWith('* ') || line.trim().startsWith('- ')) {
+        const listText = line.trim().replace(/^[\*\-]\s+/, '');
+        elements.push(
+          <li key={`li-${i}`} className="ml-5 list-disc text-slate-700 text-sm my-1 leading-relaxed">
+            {parseInlineMarkdown(listText)}
+          </li>
         );
         continue;
       }
 
       // Blockquote (> ...) -> Alert Box
       if (line.trim().startsWith('> ')) {
-        const quoteText = line.trim().replace('> ', '');
+        const quoteText = line.trim().replace(/^>\s+/, '');
         elements.push(
           <Alert key={`quote-${i}`} type="info" className="my-3">
-            {quoteText}
+            {parseInlineMarkdown(quoteText)}
           </Alert>
         );
         continue;
       }
 
-      // Paragraph / List item text
+      // Standard Paragraph text
       if (line.trim().length > 0 && !line.trim().startsWith('---')) {
         elements.push(
-          <p key={`p-${i}`} className="text-slate-700 text-sm my-1.5 leading-relaxed">
-            {line}
+          <p key={`p-${i}`} className="text-slate-700 text-sm my-2 leading-relaxed">
+            {parseInlineMarkdown(line)}
           </p>
         );
       }
@@ -314,9 +360,9 @@ export default function StudentPortal() {
             header={<h2>💡 Trợ Giúp Học Viên</h2>}
             footer={
               <div>
-                <h3>Hỗ Trợ Phát Video MP4:</h3>
+                <h3>Trình Biên Dịch Rich Markdown:</h3>
                 <Box color="text-body-secondary">
-                  Dán file video <code>.mp4</code> vào <code>src/content/</code> và gõ <code>&lt;video src="ten-video.mp4" controls&gt;&lt;/video&gt;</code> để trình chiếu live!
+                  Tự động chuyển đổi các ký tự <code>#</code>, <code>**in đậm**</code>, <code>*dấu gạch đầu dòng*</code> thành giao diện HTML chuẩn đẹp!
                 </Box>
               </div>
             }
@@ -337,7 +383,7 @@ export default function StudentPortal() {
                 actions={
                   <SpaceBetween direction="horizontal" size="xs">
                     <Badge color="blue">{currentLesson.module_name}</Badge>
-                    <StatusIndicator type="success">HTML5 Video Player Active</StatusIndicator>
+                    <StatusIndicator type="success">Rich Markdown Formatting Active</StatusIndicator>
                     <Button iconName="help" onClick={() => setToolsOpen(!toolsOpen)}>
                       Trợ Giúp
                     </Button>
@@ -365,9 +411,9 @@ export default function StudentPortal() {
                   <StatusIndicator type="info">Tab Trò Chuyện &amp; Tab Spark BETA</StatusIndicator>
                   <Box color="text-body-secondary">Chuẩn 100% giao diện thực tế</Box>
                 </Container>
-                <Container header={<Header variant="h3">🎬 MP4 Video Support</Header>}>
-                  <StatusIndicator type="success">HTML5 Video Player</StatusIndicator>
-                  <Box color="text-body-secondary">Phát video AI trailer trực tiếp</Box>
+                <Container header={<Header variant="h3">✨ Rich Format</Header>}>
+                  <StatusIndicator type="success">Clean HTML Formatting</StatusIndicator>
+                  <Box color="text-body-secondary">Tự động định dạng #, ** và *</Box>
                 </Container>
               </ColumnLayout>
 
@@ -385,7 +431,7 @@ export default function StudentPortal() {
                             <div className="space-y-1 text-sm">
                               <div><strong>Tình huống thực tế:</strong> Bạn được giao lên kế hoạch du lịch / team building 3N2Đ cho nhóm 10-15 người (3-5 triệu/người).</div>
                               <div><strong>Luồng Thao Tác 2 Tab:</strong> [Tab Trò chuyện] (Research + Canvas + Veo) &rarr; [Tab Spark BETA] (Trình duyệt từ xa Agoda + Standing Instructions Gmail sang Sheets).</div>
-                              <div className="text-xs text-indigo-700 font-semibold mt-1">✨ Đã bật tính năng trình chiếu Video MP4 trực tiếp từ file Markdown!</div>
+                              <div className="text-xs text-indigo-700 font-semibold mt-1">✨ Định dạng Rich Markdown chuẩn đẹp (đã loại bỏ hoàn toàn ký tự thô `#`, `**`, `&rarr;`)!</div>
                             </div>
                           </Alert>
                         )}
