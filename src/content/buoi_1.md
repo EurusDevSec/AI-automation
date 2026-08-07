@@ -41,6 +41,8 @@ Dán tiếp lệnh sau khi Gemini trả báo cáo:
 Dựa trên báo cáo trên, hãy bật tính năng Guided Learning (Học có hướng dẫn) và đưa ra 3 câu hỏi trắc nghiệm tương tác để giúp tôi chọn ra 1 Địa điểm & Concept chuyến đi (Nghỉ dưỡng Chill hay Trải nghiệm Năng động) phù hợp nhất với nhóm.
 ```
 
+![Giao diện Học có hướng dẫn Guided Learning tương tác trắc nghiệm](guided-learning-quiz.png)
+
 ---
 
 ## MẮT XÍCH 2: CANVAS BUILT-IN WEB APP & SPARK AUTO BROWSE (25 PHÚT)

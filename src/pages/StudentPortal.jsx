@@ -335,7 +335,7 @@ export default function StudentPortal() {
                                 <h4 className="font-bold text-slate-800 text-sm mb-1">📌 Thao tác 1.2: Chốt địa điểm & Concept bằng Guided Learning</h4>
                                 <p className="text-xs text-slate-600 mb-2">Bật Guided Learning đưa ra 3 câu hỏi trắc nghiệm tương tác để chọn địa điểm & concept.</p>
                                 {currentLesson.prompts_with_placeholders?.step1_2 && (
-                                  <div>
+                                  <div className="mb-4">
                                     <div className="flex items-center justify-between bg-slate-800 text-slate-200 px-3 py-1.5 rounded-t-lg text-xs font-semibold">
                                       <span>Prompt 1.2 - Guided Learning Q&A</span>
                                       <Button iconName="copy" onClick={() => handleCopyPrompt(currentLesson.prompts_with_placeholders.step1_2, 'Prompt 1.2')}>
@@ -345,6 +345,17 @@ export default function StudentPortal() {
                                     <div className="custom-code-editor rounded-b-lg rounded-t-none">{currentLesson.prompts_with_placeholders.step1_2}</div>
                                   </div>
                                 )}
+
+                                {/* GUIDED LEARNING QUIZ REAL SCREENSHOT */}
+                                <div className="border-2 border-dashed border-indigo-200 rounded-xl p-3 bg-indigo-50/50 mt-3">
+                                  <div className="text-xs font-semibold text-indigo-700 mb-2 flex items-center gap-1.5">
+                                    📸 <span>Giao diện Trắc Nghiệm Guided Learning Thực Tế:</span>
+                                    <Badge color="blue">guided-learning-quiz.png</Badge>
+                                  </div>
+                                  <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
+                                    <img src={resolveMarkdownImageUrl('guided-learning-quiz.png')} alt="guided-learning-quiz.png" className="w-full h-64 object-contain bg-slate-50" />
+                                  </div>
+                                </div>
                               </div>
                             </SpaceBetween>
                           </Container>
