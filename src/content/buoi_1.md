@@ -62,8 +62,6 @@ Tạo một video ngắn 5 giây từ bức ảnh này với yêu cầu:
 - Hiệu ứng: Ánh nắng chiếu xuyên qua kẽ lá, mây nhẹ nhàng trôi trên bầu trời, không khí chuyến đi tràn đầy năng lượng.
 ```
 
-![Poster Du Lịch Team Building Cinematic](image.png)
-
 ---
 
 ## 🔴 CHẶNG 2: TAB "SPARK BETA" - TRÌNH DUYỆT TỪ XA & TỰ ĐỘNG HÓA (45 PHÚT)
