@@ -16,6 +16,7 @@ import FormField from '@cloudscape-design/components/form-field';
 import Navigation from '../components/Navigation';
 import { initialLessonsData } from '../data/lessonsData';
 import { getLocalLessonsOverride } from '../lib/supabase';
+import { Sparkles, Copy, Download, Play, CheckCircle } from 'lucide-react';
 
 export default function StudentPortal() {
   const [activeSession, setActiveSession] = useState(1);
@@ -61,21 +62,21 @@ export default function StudentPortal() {
     setSandboxResponse('');
     setTimeout(() => {
       setSandboxResponse(
-        `🤖 [AI PROMPT SANDBOX - KẾT QUẢ GIẢ LẬP REAL-TIME]\n--------------------------------------------------\n✔ Đã nhận diện Prompt thành công:\n"${(sandboxPrompt || currentLesson.mega_prompt || 'Prompt mặc định').substring(0, 120)}..."\n\n🎉 [THÀNH CÔNG 100%]: Kết quả được xử lý mượt mà theo chuẩn Golden Path! Không có lỗi xảy ra.`
+        `🤖 [AI PROMPT SANDBOX - KẾT QUẢ XỬ LÝ TRỰC TIẾP]\n--------------------------------------------------\n✔ Đã ghi nhận Prompt:\n"${(sandboxPrompt || currentLesson.mega_prompt || 'Prompt mặc định').substring(0, 120)}..."\n\n🎉 [THÀNH CÔNG 100%]: Phản hồi đã được tạo thành công theo triết lý Golden Path!`
       );
       setSandboxLoading(false);
-    }, 700);
+    }, 600);
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#0b1120' }}>
+    <div className="min-h-screen bg-slate-50">
       <Navigation />
       <AppLayout
         navigationOpen={true}
         navigation={
           <SideNavigation
             activeHref={`#buoi-${activeSession}`}
-            header={{ href: '#', title: '📚 Giáo Án 8 Buổi Học' }}
+            header={{ href: '#', title: '📚 Lộ Trình 8 Buổi Học' }}
             onFollow={(e) => {
               e.preventDefault();
               const id = parseInt(e.detail.href.replace('#buoi-', ''), 10);
@@ -131,7 +132,7 @@ export default function StudentPortal() {
             <SpaceBetween size="l">
               {copySuccess && (
                 <Alert type="success" dismissible onDismiss={() => setCopySuccess(false)}>
-                  ✅ Đã sao chép tài nguyên vào Clipboard thành công! Dán trực tiếp vào AI / n8n để sử dụng ngay.
+                  ✅ Đã sao chép tài nguyên vào Clipboard! Dán trực tiếp vào AI / n8n để chạy ngay.
                 </Alert>
               )}
 
@@ -141,11 +142,11 @@ export default function StudentPortal() {
                     id: 'tab-steps',
                     label: '📋 Hướng Dẫn Thực Hành Trên Lớp',
                     content: (
-                      <Container header={<Header variant="h2" description="Quy trình từng bước ngắn gọn, rõ ràng giúp bạn làm theo không bị trễ thời gian 90 phút">Các Bước Thực Hiện Trên Lớp</Header>}>
+                      <Container header={<Header variant="h2" description="Quy trình từng bước ngắn gọn giúp bạn làm theo không bị quá thời gian 90 phút">Các Bước Thực Hiện</Header>}>
                         <SpaceBetween size="m">
                           {currentLesson.steps.map((step, idx) => (
-                            <div key={idx} className="step-card-row">
-                              <div className="step-number-badge">{idx + 1}</div>
+                            <div key={idx} className="step-card-light">
+                              <div className="step-number-light">{idx + 1}</div>
                               <div style={{ flex: 1, paddingTop: '4px' }}>
                                 <Box variant="p" fontSize="body-m">
                                   {step}
@@ -154,7 +155,7 @@ export default function StudentPortal() {
                             </div>
                           ))}
 
-                          <ExpandableSection headerText="🛠️ Xử Lý Lỗi Thường Gặp (Troubleshooting Guide)">
+                          <ExpandableSection headerText="🛠️ Xử Lý Lỗi Thường Gặp (Troubleshooting)">
                             <SpaceBetween size="s">
                               {currentLesson.troubleshooting.map((item, idx) => (
                                 <Alert key={idx} type="warning" header={`Lỗi: ${item.issue}`}>
@@ -162,7 +163,7 @@ export default function StudentPortal() {
                                     <strong>Nguyên nhân:</strong> {item.cause}
                                   </div>
                                   <div>
-                                    <strong>Cách khắc phục:</strong> {item.fix}
+                                    <strong>Cách sửa:</strong> {item.fix}
                                   </div>
                                 </Alert>
                               ))}
@@ -176,7 +177,7 @@ export default function StudentPortal() {
                     id: 'tab-resources',
                     label: '📦 Kho Tài Nguyên & Quick-Copy',
                     content: (
-                      <Container header={<Header variant="h2" description="Mọi file prompt, workflow JSON đều thiết kế theo triết lý Golden Path">Tài Nguyên Core 1-Click Copy / Download</Header>}>
+                      <Container header={<Header variant="h2" description="Tải xuống workflow n8n JSON hoặc 1-Click Copy Mega Prompt">Tài Nguyên Core</Header>}>
                         <SpaceBetween size="l">
                           {currentLesson.mega_prompt && (
                             <div>
@@ -190,7 +191,7 @@ export default function StudentPortal() {
                               >
                                 📄 Mega-Prompt / Script Text
                               </Header>
-                              <div className="custom-code-box">{currentLesson.mega_prompt}</div>
+                              <div className="custom-code-box-light">{currentLesson.mega_prompt}</div>
                             </div>
                           )}
 
@@ -223,7 +224,7 @@ export default function StudentPortal() {
                               >
                                 🤖 Mã Workflow n8n JSON (Valid 100%)
                               </Header>
-                              <div className="custom-code-box">{currentLesson.n8n_json}</div>
+                              <div className="custom-code-box-light">{currentLesson.n8n_json}</div>
                             </div>
                           )}
 
@@ -242,7 +243,7 @@ export default function StudentPortal() {
                               >
                                 🗄️ Supabase / PostgreSQL SQL Schema
                               </Header>
-                              <div className="custom-code-box">{currentLesson.sql_template}</div>
+                              <div className="custom-code-box-light">{currentLesson.sql_template}</div>
                             </div>
                           )}
 
@@ -258,7 +259,7 @@ export default function StudentPortal() {
                               >
                                 📐 Web Landing Page Specification
                               </Header>
-                              <div className="custom-code-box">{currentLesson.spec_text}</div>
+                              <div className="custom-code-box-light">{currentLesson.spec_text}</div>
                             </div>
                           )}
                         </SpaceBetween>
@@ -269,9 +270,9 @@ export default function StudentPortal() {
                     id: 'tab-sandbox',
                     label: '🧪 AI Prompt Sandbox (Thử Nghiệm)',
                     content: (
-                      <Container header={<Header variant="h2" description="Khung thử nghiệm phản hồi Prompt trực quan dành cho học viên">AI Prompt Sandbox</Header>}>
+                      <Container header={<Header variant="h2" description="Khung thử nghiệm Prompt trực quan dành cho học viên">AI Prompt Sandbox</Header>}>
                         <SpaceBetween size="m">
-                          <FormField label="Nhập hoặc chỉnh sửa Prompt cần thử nghiệm:">
+                          <FormField label="Nhập hoặc dán Prompt cần thử nghiệm:">
                             <Textarea
                               value={sandboxPrompt || currentLesson.mega_prompt}
                               onChange={({ detail }) => setSandboxPrompt(detail.value)}
@@ -283,7 +284,7 @@ export default function StudentPortal() {
                             🚀 Chạy Thử Nghiệm Prompt
                           </Button>
 
-                          {sandboxResponse && <div className="custom-code-box">{sandboxResponse}</div>}
+                          {sandboxResponse && <div className="custom-code-box-light">{sandboxResponse}</div>}
                         </SpaceBetween>
                       </Container>
                     )

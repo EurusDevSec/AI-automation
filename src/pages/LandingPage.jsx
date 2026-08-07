@@ -1,28 +1,15 @@
 import React, { useState } from 'react';
-import Container from '@cloudscape-design/components/container';
-import Header from '@cloudscape-design/components/header';
-import Grid from '@cloudscape-design/components/grid';
-import Form from '@cloudscape-design/components/form';
-import FormField from '@cloudscape-design/components/form-field';
-import Input from '@cloudscape-design/components/input';
-import Select from '@cloudscape-design/components/select';
-import Button from '@cloudscape-design/components/button';
-import Alert from '@cloudscape-design/components/alert';
-import Badge from '@cloudscape-design/components/badge';
-import SpaceBetween from '@cloudscape-design/components/space-between';
-import Box from '@cloudscape-design/components/box';
-import StatusIndicator from '@cloudscape-design/components/status-indicator';
-import Cards from '@cloudscape-design/components/cards';
 import { useNavigate } from 'react-router-dom';
-import { saveLead } from '../lib/supabase';
+import { ShieldCheck, Zap, Globe, Cpu, CheckCircle2, ArrowRight, BookOpen, UserCheck, Star, Sparkles } from 'lucide-react';
 import Navigation from '../components/Navigation';
+import { saveLead } from '../lib/supabase';
 
 export default function LandingPage() {
   const navigate = useNavigate();
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [occupation, setOccupation] = useState({ label: 'Dân văn phòng', value: 'Office' });
+  const [occupation, setOccupation] = useState('Office');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -33,7 +20,7 @@ export default function LandingPage() {
       full_name: fullName,
       email: email,
       phone: phone,
-      occupation: occupation ? occupation.label : 'Office'
+      occupation: occupation
     });
     setLoading(false);
     setSubmitted(true);
@@ -41,172 +28,307 @@ export default function LandingPage() {
 
   const featurePillars = [
     {
-      title: '🛡️ Con Đường Hoàng Kim (Golden Path)',
-      description: 'Mọi câu prompt, file cấu hình JSON của n8n hay mã SQL đều đã được kiểm thử 100% chạy mượt không lỗi.'
+      icon: <ShieldCheck className="w-7 h-7 text-indigo-600" />,
+      title: 'Triết Lý Golden Path 100%',
+      description: 'Mọi câu prompt, file JSON n8n hay mã SQL đều đã kiểm thử chạy 100% không lỗi khi copy-paste.'
     },
     {
-      title: '⚡ 1-Click Copy & Direct Download',
-      description: 'Lấy ngay tài nguyên Mega-Prompt hoặc tải mã workflow n8n JSON chỉ với 1 click chuột trực tiếp trên giao diện.'
+      icon: <Zap className="w-7 h-7 text-emerald-600" />,
+      title: '1-Click Copy & Direct Download',
+      description: 'Sao chép prompt chuẩn doanh nghiệp hoặc tải workflow n8n JSON trực tiếp ngay trên giao diện web.'
     },
     {
-      title: '🌐 Đưa Sản Phẩm Lên Internet Thực Tế',
-      description: 'Hướng dẫn kết nối GitHub, Vercel và Supabase Database để đưa website cá nhân chạy live công khai trên internet.'
+      icon: <Globe className="w-7 h-7 text-blue-600" />,
+      title: 'Deploy Web Live Lên Internet',
+      description: 'Tự mình kết nối Git repo với Vercel & Supabase để đưa website sản phẩm chạy thực tế công khai.'
     },
     {
-      title: '🧪 AI Prompt Sandbox Trực Tuyến',
-      description: 'Thực hành thử nghiệm prompt và quan sát phản hồi AI trực tiếp ngay trong nền tảng học tập.'
+      icon: <Cpu className="w-7 h-7 text-purple-600" />,
+      title: 'AI Prompt Sandbox Trực Tuyến',
+      description: 'Thực hành thử nghiệm prompt và quan sát kết quả xử lý ngay trong nền tảng học tập.'
     }
   ];
 
-  const curriculumCards = [
+  const curriculumModules = [
     {
-      stage: 'Chặng 1: Trợ Lý AI Văn Phòng & Dữ Liệu',
-      badge: 'Chặng 1',
+      phase: 'Chặng 1',
+      title: 'Trợ Lý AI Văn Phòng & Dữ Liệu',
       sessions: 'Buổi 1 & Buổi 2 (90 phút/buổi)',
-      details: 'Chuẩn hóa văn bản doanh nghiệp chuyên nghiệp & Tự động xử lý dữ liệu thô Excel, tạo công thức chính xác 100%.'
+      desc: 'Chuẩn hóa văn bản doanh nghiệp chuyên nghiệp & Dọn dẹp dữ liệu thô Excel, tự động xuất công thức chính xác 100%.',
+      tags: ['ChatGPT', 'Claude', 'Excel AI']
     },
     {
-      stage: 'Chặng 2: Hệ Thống Tự Động Hóa n8n',
-      badge: 'Chặng 2',
+      phase: 'Chặng 2',
+      title: 'Hệ Thống Tự Động Hóa n8n',
       sessions: 'Buổi 3 đến Buổi 6 (90 phút/buổi)',
-      details: 'Tự động săn ý tưởng RSS, sản xuất nội dung đa kênh Facebook, xưởng kịch bản Video TikTok & Chatbot Messenger báo giá auto.'
+      desc: 'Tự động cào tin RSS sang Sheet, AI viết bài đăng Facebook, xưởng kịch bản Video TikTok & Chatbot Messenger auto báo giá.',
+      tags: ['n8n Workflow', 'Facebook API', 'Chatbot']
     },
     {
-      stage: 'Chặng 3: Website AI & Triển Khai Live',
-      badge: 'Chặng 3',
+      phase: 'Chặng 3',
+      title: 'Lập Trình Website AI & Triển Khai Live',
       sessions: 'Buổi 7 & Buổi 8 (90 phút/buổi)',
-      details: 'Ra lệnh cho AI Agent tự gõ code Web React/Tailwind, đẩy lên GitHub, triển khai Vercel & kết nối cơ sở dữ liệu Supabase.'
+      desc: 'Ra lệnh AI Agent tạo web React/Tailwind, đẩy mã nguồn lên GitHub, deploy Vercel & quản lý dữ liệu Supabase.',
+      tags: ['React', 'Vercel', 'Supabase']
     }
   ];
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#0b1120' }}>
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-500 selection:text-white">
       <Navigation />
-      
+
+      {/* TOP NOTIFICATION BANNER */}
+      <div className="bg-indigo-600 text-white text-xs sm:text-sm py-2.5 px-4 text-center font-medium flex items-center justify-center gap-2 shadow-sm">
+        <Sparkles className="w-4 h-4 text-emerald-300 animate-pulse" />
+        <span>Chương trình đào tạo AI & Automation thực chiến dành riêng cho người không biết code</span>
+        <span className="hidden md:inline-block bg-indigo-700 text-indigo-100 text-[11px] px-2 py-0.5 rounded-full font-semibold">Tối ưu 90 phút/buổi</span>
+      </div>
+
       {/* HERO SECTION */}
-      <div style={{ padding: '40px 24px', maxWidth: '1280px', margin: '0 auto' }}>
-        <SpaceBetween size="xxl">
-          <div className="hero-glow-banner">
-            <Grid gridDefinition={[{ span: { default: 12, s: 7 } }, { span: { default: 12, s: 5 } }]}>
-              <SpaceBetween size="l">
-                <div>
-                  <Badge color="blue">✨ CHƯƠNG TRÌNH ĐÀO TẠO AI & AUTOMATION 2026</Badge>
-                  <h1 style={{ fontSize: '2.8rem', lineHeight: '1.2', margin: '16px 0', fontWeight: '800' }}>
-                    Làm Chủ AI & Tự Động Hóa <span className="gradient-text">Kinh Doanh Thực Chiến</span>
-                  </h1>
-                  <Box variant="p" color="text-body-secondary" fontSize="heading-m">
-                    Lộ trình 8 buổi chuyên sâu thiết kế theo triết lý <strong>"Golden Path"</strong> dành cho người không biết code, dân văn phòng, kinh doanh online & marketer.Ứng dụng ngay công việc ngay tại lớp.
-                  </Box>
+      <section className="relative overflow-hidden pt-12 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="hero-light-banner p-8 sm:p-12 shadow-xl border border-indigo-100">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            {/* LEFT COLUMN: PSYCHOLOGY DRIVEN CONTENT */}
+            <div className="lg:col-span-7 space-y-6">
+              <div className="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-200 text-indigo-700 px-3.5 py-1.5 rounded-full text-xs font-semibold">
+                <Star className="w-3.5 h-3.5 fill-indigo-600 text-indigo-600" />
+                <span>Khóa Học Đào Tạo Thực Chiến 8 Buổi</span>
+              </div>
+
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.15]">
+                Làm Chủ AI & Tự Động Hóa <br />
+                <span className="text-gradient-primary">Kinh Doanh Thực Chiến</span>
+              </h1>
+
+              <p className="text-lg text-slate-600 leading-relaxed max-w-2xl">
+                Lộ trình 8 buổi kéo dài nghiêm ngặt 90 phút/buổi giúp bạn ứng dụng <strong>ChatGPT, n8n, Supabase và AI Web Builder</strong> vào công việc hàng ngày mà không sợ rào cản lỗi hệ thống.
+              </p>
+
+              {/* TRUST BADGES & CTA */}
+              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                <button
+                  onClick={() => navigate('/app')}
+                  className="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-7 py-4 rounded-xl shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all duration-200 text-base"
+                >
+                  <Zap className="w-5 h-5 fill-current" />
+                  <span>Vào Học Ngay (Student Portal)</span>
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+
+                <button
+                  onClick={() => window.scrollTo({ top: 850, behavior: 'smooth' })}
+                  className="inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-100 text-slate-700 font-semibold px-6 py-4 rounded-xl border border-slate-300 shadow-sm transition-all duration-200 text-base"
+                >
+                  <BookOpen className="w-5 h-5 text-slate-500" />
+                  <span>Khám Phá Lộ Trình</span>
+                </button>
+              </div>
+
+              <div className="pt-4 grid grid-cols-2 sm:grid-cols-3 gap-4 border-t border-slate-200/80 text-xs text-slate-600">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  <span>100% Tested Zero-Error</span>
                 </div>
-
-                <SpaceBetween direction="horizontal" size="s">
-                  <Button variant="primary" iconName="unlocked" onClick={() => navigate('/app')}>
-                    ⚡ Khám Phá Student Portal (8 Buổi)
-                  </Button>
-                  <Button onClick={() => window.scrollTo({ top: 900, behavior: 'smooth' })}>
-                    📑 Xem Chi Tiết Lộ Trình
-                  </Button>
-                </SpaceBetween>
-
-                <SpaceBetween direction="horizontal" size="l">
-                  <StatusIndicator type="success">100% Tested Zero-Error</StatusIndicator>
-                  <StatusIndicator type="info">Deploy Live Vercel & Supabase</StatusIndicator>
-                </SpaceBetween>
-              </SpaceBetween>
-
-              {/* ENROLLMENT FORM */}
-              <div className="glass-container" style={{ padding: '24px' }}>
-                <Header variant="h2" description="Nhận trọn bộ giáo án & tài nguyên thực chiến 8 buổi">
-                  📝 Nhận Tư Vấn Lộ Trình
-                </Header>
-                <div style={{ marginTop: '16px' }}>
-                  {submitted ? (
-                    <Alert type="success" header="Đăng Ký Thành Công!">
-                      Cảm ơn bạn! Thông tin tư vấn đã được ghi nhận vào hệ thống Supabase. Giảng viên sẽ liên hệ với bạn trong thời gian sớm nhất.
-                    </Alert>
-                  ) : (
-                    <form onSubmit={handleSubmit}>
-                      <Form actions={<Button variant="primary" loading={loading} fullWidth>Gửi Thông Tin Đăng Ký Tư Vấn</Button>}>
-                        <SpaceBetween size="m">
-                          <FormField label="Họ và tên">
-                            <Input
-                              value={fullName}
-                              onChange={({ detail }) => setFullName(detail.value)}
-                              placeholder="Nguyễn Văn A"
-                              required
-                            />
-                          </FormField>
-                          <FormField label="Email">
-                            <Input
-                              value={email}
-                              onChange={({ detail }) => setEmail(detail.value)}
-                              placeholder="name@company.com"
-                              type="email"
-                              required
-                            />
-                          </FormField>
-                          <FormField label="Số điện thoại / Zalo">
-                            <Input
-                              value={phone}
-                              onChange={({ detail }) => setPhone(detail.value)}
-                              placeholder="0987 654 321"
-                              required
-                            />
-                          </FormField>
-                          <FormField label="Nghề nghiệp hiện tại">
-                            <Select
-                              selectedOption={occupation}
-                              onChange={({ detail }) => setOccupation(detail.selectedOption)}
-                              options={[
-                                { label: 'Dân văn phòng / Nhân sự / Kế toán', value: 'Office' },
-                                { label: 'Chủ shop / Kinh doanh online', value: 'Business' },
-                                { label: 'Marketer / Content Creator', value: 'Marketing' },
-                                { label: 'Khác', value: 'Other' }
-                              ]}
-                            />
-                          </FormField>
-                        </SpaceBetween>
-                      </Form>
-                    </form>
-                  )}
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-indigo-600" />
+                  <span>Direct n8n Download</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-blue-600" />
+                  <span>Live Vercel Deploy</span>
                 </div>
               </div>
-            </Grid>
-          </div>
+            </div>
 
-          {/* CORE PILLARS */}
-          <Container header={<Header variant="h2" description="Phương pháp đào tạo tối ưu hóa cho người mới bắt đầu">💡 Giá Trị Cốt Lõi Khóa Học</Header>}>
-            <Grid gridDefinition={[{ span: 6 }, { span: 6 }, { span: 6 }, { span: 6 }]}>
-              {featurePillars.map((item, idx) => (
-                <div key={idx} className="glass-container" style={{ padding: '20px' }}>
-                  <h3 style={{ margin: '0 0 8px 0', fontSize: '1.1rem', color: '#60a5fa' }}>{item.title}</h3>
-                  <Box color="text-body-secondary">{item.description}</Box>
+            {/* RIGHT COLUMN: GENERATED UI IMAGE & ENROLLMENT FORM */}
+            <div className="lg:col-span-5 space-y-6">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200 group">
+                <img
+                  src="/hero_ai_automation_light.jpg"
+                  alt="AI Automation Dashboard Preview"
+                  className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-800 shadow-md border border-slate-200/80 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                  <span>Golden Path Verified</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* CORE VALUE PROPOSITION PILLARS */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <h2 className="text-3xl font-extrabold text-slate-900">
+            Tại Sao Khóa Học Này <span className="text-gradient-emerald">Khác Biệt Hoàn Toàn?</span>
+          </h2>
+          <p className="mt-3 text-slate-600 text-base">
+            Thiết kế dành riêng cho người không biết code, loại bỏ hoàn toàn cảm giác bối rối và áp lực công nghệ.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {featurePillars.map((item, idx) => (
+            <div key={idx} className="light-glass-card p-6 flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="p-3 bg-slate-100/80 rounded-xl w-fit">
+                  {item.icon}
+                </div>
+                <h3 className="font-bold text-lg text-slate-900">{item.title}</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">{item.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CURRICULUM ROADMAP SECTION WITH PREVIEW IMAGE */}
+      <section className="py-16 bg-white border-y border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <div className="lg:col-span-5 space-y-6">
+              <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 px-3.5 py-1.5 rounded-full text-xs font-semibold">
+                <UserCheck className="w-4 h-4 text-emerald-600" />
+                <span>Thực Hành 100% Tại Lớp</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
+                Lộ Trình 3 Chặng Kéo Dài 8 Buổi Học
+              </h2>
+              <p className="text-slate-600 leading-relaxed">
+                Mỗi buổi học diễn ra trong 90 phút với hướng dẫn từng bước gạch đầu dòng rõ ràng bên dưới 10 từ. Giúp bạn đạt được kết quả ngay lập tức mà không bị cháy giáo án.
+              </p>
+
+              <div className="rounded-2xl overflow-hidden shadow-lg border border-slate-200">
+                <img
+                  src="/workflow_n8n_preview.jpg"
+                  alt="n8n Workflow Preview"
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            </div>
+
+            <div className="lg:col-span-7 space-y-4">
+              {curriculumModules.map((mod, idx) => (
+                <div key={idx} className="light-glass-card p-6 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="bg-indigo-100 text-indigo-700 font-bold text-xs px-3 py-1 rounded-full">
+                      {mod.phase}
+                    </span>
+                    <span className="text-xs font-medium text-slate-500">{mod.sessions}</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900">{mod.title}</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">{mod.desc}</p>
+                  <div className="pt-2 flex flex-wrap gap-2">
+                    {mod.tags.map((t, tid) => (
+                      <span key={tid} className="bg-slate-100 text-slate-700 text-[11px] font-semibold px-2.5 py-1 rounded-md border border-slate-200">
+                        #{t}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               ))}
-            </Grid>
-          </Container>
+            </div>
 
-          {/* CURRICULUM ROADMAP */}
-          <Container header={<Header variant="h2" description="3 Chặng đào tạo thực chiến kéo dài 8 buổi (90 phút/buổi)">🎯 Lộ Trình 8 Buổi Học Thực Chiến</Header>}>
-            <Cards
-              cardDefinition={{
-                header: (item) => (
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontWeight: '700', fontSize: '1.1rem' }}>{item.stage}</span>
-                    <Badge color="blue">{item.badge}</Badge>
-                  </div>
-                ),
-                sections: [
-                  { id: 'sessions', header: 'Thời lượng', content: (item) => item.sessions },
-                  { id: 'details', header: 'Mục tiêu đạt được', content: (item) => item.details }
-                ]
-              }}
-              cardsPerRow={[{ default: 1, s: 3 }]}
-              items={curriculumCards}
-            />
-          </Container>
-        </SpaceBetween>
-      </div>
+          </div>
+        </div>
+      </section>
+
+      {/* REGISTRATION FORM SECTION */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <div className="bg-white rounded-3xl p-8 sm:p-12 shadow-2xl border border-indigo-100 text-center space-y-8">
+          <div>
+            <span className="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+              Đăng Ký Tư Vấn Ngay
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">
+              Nhận Trọn Bộ Giáo Án & Tài Nguyên 8 Buổi
+            </h2>
+            <p className="text-slate-600 text-base max-w-xl mx-auto mt-2">
+              Giảng viên sẽ trực tiếp liên hệ hỗ trợ bạn giải đáp lộ trình học tập tối ưu nhất.
+            </p>
+          </div>
+
+          {submitted ? (
+            <div className="p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-800 space-y-2">
+              <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto" />
+              <h3 className="font-bold text-xl">Gửi Đăng Ký Thành Công!</h3>
+              <p className="text-sm">Thông tin của bạn đã được ghi nhận vào cơ sở dữ liệu Supabase. Giảng viên sẽ liên hệ với bạn trong thời gian sớm nhất.</p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-5 text-left max-w-xl mx-auto">
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">Họ và tên</label>
+                <input
+                  type="text"
+                  required
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="Nguyễn Văn A"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-sm outline-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">Email liên hệ</label>
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="name@company.com"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-sm outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">Số điện thoại / Zalo</label>
+                  <input
+                    type="tel"
+                    required
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="0987 654 321"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-sm outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">Nghề nghiệp hiện tại</label>
+                <select
+                  value={occupation}
+                  onChange={(e) => setOccupation(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-sm outline-none bg-white"
+                >
+                  <option value="Office">Dân văn phòng / Kế toán / Nhân sự</option>
+                  <option value="Business">Chủ shop / Kinh doanh online</option>
+                  <option value="Marketing">Marketer / Content Creator</option>
+                  <option value="Other">Khác</option>
+                </select>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg shadow-indigo-500/25 transition-all text-base flex items-center justify-center gap-2"
+              >
+                {loading ? 'Đang gửi thông tin...' : '🚀 Gửi Thông Tin Đăng Ký Tư Vấn'}
+              </button>
+            </form>
+          )}
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="py-8 bg-slate-900 text-slate-400 text-sm text-center border-t border-slate-800">
+        <p>© 2026 AI & Automation Masterclass. Powered by EurusDevSec, Cloudscape & Supabase.</p>
+      </footer>
     </div>
   );
 }

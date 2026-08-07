@@ -5,8 +5,8 @@ import { applyMode, applyTheme, Mode, Theme } from '@cloudscape-design/global-st
 import App from './App';
 import './index.css';
 
-// Apply Cloudscape Dark Mode & Visual Refresh Theme globally
-applyMode(Mode.Dark);
+// Apply Cloudscape Light Mode & Visual Refresh Theme globally for crisp, modern SaaS aesthetic
+applyMode(Mode.Light);
 applyTheme(Theme.VisualRefresh);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

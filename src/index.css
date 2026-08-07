@@ -1,77 +1,63 @@
-@import "@cloudscape-design/global-styles/index.css";
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "@cloudscape-design/global-styles/index.css";
+@import "tailwindcss";
 
 :root {
   --font-family-base: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-family-code: 'JetBrains Mono', monospace;
-  --color-brand-primary: #3b82f6;
-  --color-brand-accent: #10b981;
-  --bg-gradient-hero: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.15) 0%, rgba(15, 23, 42, 0) 70%);
 }
 
 body {
   margin: 0;
   padding: 0;
   font-family: var(--font-family-base);
-  background-color: #0b1120 !important;
-  color: #f1f5f9;
+  background-color: #f8fafc !important;
+  color: #0f172a;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Glassmorphism & Custom Card Container Styling */
-.glass-container {
-  background: rgba(30, 41, 59, 0.7) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+/* Light Mode Glassmorphism & Card Utilities */
+.light-glass-card {
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.9) !important;
   border-radius: 16px !important;
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5) !important;
-  transition: all 0.3s ease-in-out;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.glass-container:hover {
-  border-color: rgba(59, 130, 246, 0.3) !important;
-  box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.15) !important;
+.light-glass-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(99, 102, 241, 0.4) !important;
+  box-shadow: 0 20px 35px -10px rgba(99, 102, 241, 0.12), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
 }
 
-.hero-glow-banner {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
-  border: 1px solid rgba(59, 130, 246, 0.2);
-  border-radius: 20px;
+.hero-light-banner {
+  background: radial-gradient(circle at 50% 0%, rgba(238, 242, 255, 0.95) 0%, rgba(248, 250, 252, 1) 100%);
+  border: 1px solid rgba(224, 231, 255, 1);
+  border-radius: 24px;
   position: relative;
   overflow: hidden;
-  padding: 40px;
 }
 
-.hero-glow-banner::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 60%);
-  pointer-events: none;
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
+.text-gradient-primary {
+  background: linear-gradient(135deg, #4f46e5 0%, #0284c7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 800;
 }
 
-.gradient-text-alt {
-  background: linear-gradient(135deg, #a78bfa 0%, #f472b6 100%);
+.text-gradient-emerald {
+  background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 800;
 }
 
-/* Custom Code Box */
-.custom-code-box {
+.custom-code-box-light {
   background-color: #0f172a !important;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid #1e293b;
   border-radius: 12px;
   padding: 20px;
   font-family: var(--font-family-code);
@@ -80,46 +66,38 @@ body {
   color: #38bdf8;
   white-space: pre-wrap;
   word-break: break-all;
-  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 }
 
-/* Step Badge Number */
-.step-number-badge {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+.step-number-light {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 15px;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
   flex-shrink: 0;
 }
 
-.step-card-row {
+.step-card-light {
   display: flex;
   align-items: flex-start;
   gap: 16px;
-  padding: 16px;
-  background: rgba(30, 41, 59, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease;
 }
 
-.step-card-row:hover {
+.step-card-light:hover {
   transform: translateX(4px);
-  border-color: rgba(59, 130, 246, 0.4);
-}
-
-/* Cloudscape Overrides for Premium Aesthetic */
-[class*="awsui_navbar"] {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-}
-
-[class*="awsui_card"] {
-  border-radius: 12px !important;
+  border-color: #6366f1;
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.08);
 }
