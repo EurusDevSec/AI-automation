@@ -204,8 +204,11 @@ export default function StudentPortal() {
             header={<h2>💡 Hướng Dẫn Học Viên</h2>}
             footer={
               <div>
-                <h3>Chỉnh sửa tệp Markdown từ IDE?</h3>
-                <Box color="text-body-secondary">Mở tệp <code>src/content/buoi_1.md</code> trong VS Code, dán ảnh cùng cấp (vd: <code>image.png</code>) và lưu file. Web sẽ tự cập nhật HMR!</Box>
+                <h3>Lưu ý Luồng 2 Tab:</h3>
+                <Box color="text-body-secondary">
+                  <strong>Tab Trò chuyện:</strong> Sáng tạo Content, Canvas &amp; Xưởng Media (Ảnh/Veo).<br/>
+                  <strong>Tab Spark BETA:</strong> Trình duyệt từ xa cào giá Booking/Agoda &amp; Standing Instructions!
+                </Box>
               </div>
             }
           >
@@ -225,7 +228,7 @@ export default function StudentPortal() {
                 actions={
                   <SpaceBetween direction="horizontal" size="xs">
                     <Badge color="blue">{currentLesson.module_name}</Badge>
-                    <StatusIndicator type="success">IDE Markdown Synced</StatusIndicator>
+                    <StatusIndicator type="success">2-Tab Roadmap Verified</StatusIndicator>
                     <Button iconName="help" onClick={() => setToolsOpen(!toolsOpen)}>
                       Trợ Giúp
                     </Button>
@@ -249,9 +252,9 @@ export default function StudentPortal() {
                   <Box variant="h2">90 Phút</Box>
                   <Box color="text-body-secondary">Thực hành 100% trên lớp</Box>
                 </Container>
-                <Container header={<Header variant="h3">🎯 Nguồn Nội Dung</Header>}>
-                  <StatusIndicator type="info">IDE file: src/content/buoi_{currentLesson.session_number}.md</StatusIndicator>
-                  <Box color="text-body-secondary">Tự động đồng bộ ảnh cùng cấp</Box>
+                <Container header={<Header variant="h3">🎯 Phân Luồng 2 Tab</Header>}>
+                  <StatusIndicator type="info">Tab Trò Chuyện &amp; Tab Spark BETA</StatusIndicator>
+                  <Box color="text-body-secondary">Chuẩn 100% giao diện thực tế</Box>
                 </Container>
                 <Container header={<Header variant="h3">🛡️ Tiêu Chuẩn</Header>}>
                   <StatusIndicator type="success">100% Zero Error Guarantee</StatusIndicator>
@@ -264,7 +267,7 @@ export default function StudentPortal() {
                 <Alert type="info" header={`⛺ ${currentLesson.case_study.title}`}>
                   <div className="space-y-1">
                     <div><strong>Tình huống:</strong> Bạn (dân văn phòng/tự do) lên kế hoạch du lịch / team building 3N2Đ cho nhóm 10-15 người (3-5 triệu/người).</div>
-                    <div><strong>Mục tiêu:</strong> Tự động hóa từ cào địa điểm, Canvas sinh Web App 1-Click, tạo Poster/Video Veo/Music đến gom bill Gmail về Google Sheets 24/7.</div>
+                    <div><strong>Luồng 2 Tab:</strong> [Tab Trò chuyện] (Research + Canvas + Veo) &rarr; [Tab Spark BETA] (Trình duyệt từ xa Agoda + Standing Instructions Gmail sang Sheets).</div>
                   </div>
                 </Alert>
               )}
@@ -274,9 +277,9 @@ export default function StudentPortal() {
                 tabs={[
                   {
                     id: 'tab-theory',
-                    label: '💡 1. Bối Cảnh & Nội Dung Giáo Án',
+                    label: '💡 1. Roadmap 2 Tab & Nội Dung Giáo Án',
                     content: (
-                      <Container header={<Header variant="h2" description={`Nội dung hiển thị live từ src/content/buoi_${currentLesson.session_number}.md`}>Giáo Án Chi Tiết (IDE Live Stream)</Header>}>
+                      <Container header={<Header variant="h2" description={`Nội dung hiển thị live từ src/content/buoi_${currentLesson.session_number}.md`}>Giáo Án Chi Tiết Roadmap 2 Tab</Header>}>
                         <SpaceBetween size="l">
                           {renderMarkdownContent(currentLesson.raw_markdown)}
                         </SpaceBetween>
@@ -285,16 +288,16 @@ export default function StudentPortal() {
                   },
                   {
                     id: 'tab-steps',
-                    label: '📋 2. Quy Trình 4 Mắt Xích Thực Hành & Prompt Buttons',
+                    label: '📋 2. Quy Trình Thực Hành Theo 2 Tab (35p + 45p + 10p)',
                     content: (
-                      <Container header={<Header variant="h2" description="Các Nút 1-Click Copy Prompt & Ảnh Mẫu Thực Tế">4 Mắt Xích Thực Hành 90 Phút</Header>}>
+                      <Container header={<Header variant="h2" description="Phân bổ chính xác theo giao diện Tab Trò Chuyện và Tab Spark BETA">Quy Trình Thực Hành 90 Phút</Header>}>
                         <SpaceBetween size="l">
-                          {/* MAT XICH 1 */}
-                          <Container header={<Header variant="h3" description="15 Phút | 00:00 - 00:15">🔗 MẮT XÍCH 1: DEEP RESEARCH & GUIDED LEARNING</Header>}>
+                          {/* CHANG 1: TAB TRO CHUYE N */}
+                          <Container header={<Header variant="h3" description="35 Phút | Tab Trò Chuyện (Menu Trái)">🔵 CHẶNG 1: TAB "TRÒ CHUYỆN" - TẠO CONTENT &amp; MEDIA</Header>}>
                             <SpaceBetween size="m">
                               <div>
-                                <h4 className="font-bold text-slate-800 text-sm mb-1">📌 Thao tác 1.1: Tìm địa điểm & ý tưởng bằng Deep Research</h4>
-                                <p className="text-xs text-slate-600 mb-2">Kích hoạt Deep Research quét các địa điểm du lịch 3N2Đ hot nhất 2026 cho nhóm 10-15 người.</p>
+                                <h4 className="font-bold text-slate-800 text-sm mb-1">1️⃣ Deep Research &amp; Canvas Kế Hoạch (15 Phút)</h4>
+                                <p className="text-xs text-slate-600 mb-2">Ở tab <strong>Trò chuyện</strong>, dán câu lệnh Deep Research quét địa điểm 3N2Đ và xuất bài viết kế hoạch trên Canvas.</p>
                                 {currentLesson.prompts_with_placeholders?.step1_1 && (
                                   <div className="mb-4">
                                     <div className="flex items-center justify-between bg-slate-800 text-slate-200 px-3 py-1.5 rounded-t-lg text-xs font-semibold">
@@ -308,7 +311,6 @@ export default function StudentPortal() {
                                 )}
                               </div>
 
-                              {/* DYNAMIC IMAGE RESOLUTION FOR IMAGE-1.PNG AND IMAGE-2.PNG */}
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <div className="border-2 border-dashed border-indigo-200 rounded-xl p-3 bg-indigo-50/50">
                                   <div className="text-xs font-semibold text-indigo-700 mb-2 flex items-center gap-1.5">
@@ -332,90 +334,29 @@ export default function StudentPortal() {
                               </div>
 
                               <div>
-                                <h4 className="font-bold text-slate-800 text-sm mb-1">📌 Thao tác 1.2: Chốt địa điểm & Concept bằng Guided Learning</h4>
-                                <p className="text-xs text-slate-600 mb-2">Bật Guided Learning đưa ra 3 câu hỏi trắc nghiệm tương tác để chọn địa điểm & concept.</p>
-                                {currentLesson.prompts_with_placeholders?.step1_2 && (
-                                  <div className="mb-4">
-                                    <div className="flex items-center justify-between bg-slate-800 text-slate-200 px-3 py-1.5 rounded-t-lg text-xs font-semibold">
-                                      <span>Prompt 1.2 - Guided Learning Q&A</span>
-                                      <Button iconName="copy" onClick={() => handleCopyPrompt(currentLesson.prompts_with_placeholders.step1_2, 'Prompt 1.2')}>
-                                        1-Click Copy Prompt 1.2
-                                      </Button>
+                                <h4 className="font-bold text-slate-800 text-sm mb-1">2️⃣ Tính Năng Native "Tạo" Trên Canvas (10 Phút)</h4>
+                                <p className="text-xs text-slate-600 mb-2">Sử dụng nút <strong>Tạo ∨</strong> ở góc trên bên phải trang Canvas để tự sinh Bài kiểm tra (Quiz) hoặc Audio Podcast.</p>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+                                  <div className="border-2 border-dashed border-emerald-200 rounded-xl p-3 bg-emerald-50/50">
+                                    <div className="text-xs font-semibold text-emerald-700 mb-2">📸 Nút Tạo ∨ trên Canvas:</div>
+                                    <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
+                                      <img src={resolveMarkdownImageUrl('canvas-create-web.png')} alt="canvas-create-web.png" className="w-full h-44 object-contain bg-slate-50" />
                                     </div>
-                                    <div className="custom-code-editor rounded-b-lg rounded-t-none">{currentLesson.prompts_with_placeholders.step1_2}</div>
                                   </div>
-                                )}
-
-                                {/* GUIDED LEARNING QUIZ REAL SCREENSHOT */}
-                                <div className="border-2 border-dashed border-indigo-200 rounded-xl p-3 bg-indigo-50/50 mt-3">
-                                  <div className="text-xs font-semibold text-indigo-700 mb-2 flex items-center gap-1.5">
-                                    📸 <span>Giao diện Trắc Nghiệm Guided Learning Thực Tế:</span>
-                                    <Badge color="blue">guided-learning-quiz.png</Badge>
-                                  </div>
-                                  <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
-                                    <img src={resolveMarkdownImageUrl('guided-learning-quiz.png')} alt="guided-learning-quiz.png" className="w-full h-64 object-contain bg-slate-50" />
-                                  </div>
-                                </div>
-                              </div>
-                            </SpaceBetween>
-                          </Container>
-
-                          {/* MAT XICH 2 */}
-                          <Container header={<Header variant="h3" description="25 Phút | 01:15 - 00:40">🔗 MẮT XÍCH 2: CANVAS BUILT-IN WEB APP & SPARK AUTO BROWSE</Header>}>
-                            <SpaceBetween size="m">
-                              <Alert type="info" header="💡 Đột Phá Gemini Canvas: Tính Năng Built-in 'Tạo -> Trang web'">
-                                Sau khi Gemini trả Báo cáo Deep Research trên Canvas, chỉ cần nhìn góc trên bên phải bấm <strong>Tạo &rarr; Trang web</strong>. Gemini sẽ tự sinh 1 Interactive Web App trực quan mà không cần gõ thêm Prompt!
-                              </Alert>
-
-                              {/* CANVAS WEBSITE APP REAL SCREENSHOTS */}
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <div className="border-2 border-dashed border-emerald-200 rounded-xl p-3 bg-emerald-50/50">
-                                  <div className="text-xs font-semibold text-emerald-700 mb-2 flex items-center gap-1.5">
-                                    📸 <span>Bấm nút Tạo &rarr; Trang web trên Canvas:</span>
-                                    <Badge color="green">canvas-create-web.png</Badge>
-                                  </div>
-                                  <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
-                                    <img src={resolveMarkdownImageUrl('canvas-create-web.png')} alt="canvas-create-web.png" className="w-full h-48 object-contain bg-slate-50" />
-                                  </div>
-                                </div>
-
-                                <div className="border-2 border-dashed border-emerald-200 rounded-xl p-3 bg-emerald-50/50">
-                                  <div className="text-xs font-semibold text-emerald-700 mb-2 flex items-center gap-1.5">
-                                    📸 <span>Web App Team Building Sinh Ra Tự Động:</span>
-                                    <Badge color="green">canvas-web-app.png</Badge>
-                                  </div>
-                                  <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
-                                    <img src={resolveMarkdownImageUrl('canvas-web-app.png')} alt="canvas-web-app.png" className="w-full h-48 object-contain bg-slate-50" />
+                                  <div className="border-2 border-dashed border-indigo-200 rounded-xl p-3 bg-indigo-50/50">
+                                    <div className="text-xs font-semibold text-indigo-700 mb-2">📸 Giao diện Trắc Nghiệm Guided Learning:</div>
+                                    <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
+                                      <img src={resolveMarkdownImageUrl('guided-learning-quiz.png')} alt="guided-learning-quiz.png" className="w-full h-44 object-contain bg-slate-50" />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
 
                               <div>
-                                <h4 className="font-bold text-slate-800 text-sm mb-1">📌 Thao tác 2.2: Sửa trực tiếp trên Canvas & Auto Browse cào giá Homestay</h4>
-                                <p className="text-xs text-slate-600 mb-2">Dùng Comment lề trang sửa văn bản &amp; Ra lệnh Spark Auto Browse cào bảng giá phòng Homestay.</p>
-                                {currentLesson.prompts_with_placeholders?.step2_2 && (
-                                  <div>
-                                    <div className="flex items-center justify-between bg-slate-800 text-slate-200 px-3 py-1.5 rounded-t-lg text-xs font-semibold">
-                                      <span>Prompt 2.2 - Auto Browse Homestay Prices</span>
-                                      <Button iconName="copy" onClick={() => handleCopyPrompt(currentLesson.prompts_with_placeholders.step2_2, 'Prompt 2.2')}>
-                                        1-Click Copy Prompt 2.2
-                                      </Button>
-                                    </div>
-                                    <div className="custom-code-editor rounded-b-lg rounded-t-none">{currentLesson.prompts_with_placeholders.step2_2}</div>
-                                  </div>
-                                )}
-                              </div>
-                            </SpaceBetween>
-                          </Container>
-
-                          {/* MAT XICH 3 */}
-                          <Container header={<Header variant="h3" description="25 Phút | 00:40 - 01:05">🔗 MẮT XÍCH 3: XƯỞNG SẢN XUẤT ĐA PHƯƠNG TIỆN</Header>}>
-                            <SpaceBetween size="m">
-                              <div>
-                                <h4 className="font-bold text-slate-800 text-sm mb-1">📌 Thao tác 3.1: Tạo Poster chuyến đi (Image Generation)</h4>
-                                <p className="text-xs text-slate-600 mb-2">Tạo bức ảnh Poster du lịch chuẩn Cinematic với ánh sáng rực rỡ bên xe Jeep/camping.</p>
+                                <h4 className="font-bold text-slate-800 text-sm mb-1">3️⃣ Xưởng Media: Poster &amp; Video Veo (10 Phút)</h4>
+                                <p className="text-xs text-slate-600 mb-2">Tạo ảnh Poster du lịch Cinematic và ném ảnh vào Veo để sinh Clip Video 5s chuyển động Tilt up.</p>
                                 {currentLesson.prompts_with_placeholders?.step3_1 && (
-                                  <div className="mb-4">
+                                  <div className="mb-3">
                                     <div className="flex items-center justify-between bg-slate-800 text-slate-200 px-3 py-1.5 rounded-t-lg text-xs font-semibold">
                                       <span>Prompt 3.1 - Cinematic Poster Image Gen</span>
                                       <Button iconName="copy" variant="primary" onClick={() => handleCopyPrompt(currentLesson.prompts_with_placeholders.step3_1, 'Prompt 3.1')}>
@@ -425,13 +366,8 @@ export default function StudentPortal() {
                                     <div className="custom-code-editor rounded-b-lg rounded-t-none">{currentLesson.prompts_with_placeholders.step3_1}</div>
                                   </div>
                                 )}
-                              </div>
-
-                              <div>
-                                <h4 className="font-bold text-slate-800 text-sm mb-1">📌 Thao tác 3.2: Biến ảnh thành Video Trailer (Veo Integration)</h4>
-                                <p className="text-xs text-slate-600 mb-2">Đính kèm ảnh vào Gemini, nhập Prompt camera Tilt up biến ảnh thành Clip Video 5s.</p>
                                 {currentLesson.prompts_with_placeholders?.step3_2 && (
-                                  <div className="mb-4">
+                                  <div>
                                     <div className="flex items-center justify-between bg-slate-800 text-slate-200 px-3 py-1.5 rounded-t-lg text-xs font-semibold">
                                       <span>Prompt 3.2 - Veo Video 5s Motion</span>
                                       <Button iconName="copy" onClick={() => handleCopyPrompt(currentLesson.prompts_with_placeholders.step3_2, 'Prompt 3.2')}>
@@ -442,57 +378,81 @@ export default function StudentPortal() {
                                   </div>
                                 )}
                               </div>
-
-                              <Alert type="info" header="💡 Mẹo Render Song Song Tối Ưu Thời Gian">
-                                Trong lúc Veo đang xử lý render Video (mất ~1-2 phút), hãy lấy ngay Prompt 3.3 tạo Nhạc nền Tropical House để không lãng phí thời gian trên lớp!
-                              </Alert>
-
-                              <div>
-                                <h4 className="font-bold text-slate-800 text-sm mb-1">📌 Thao tác 3.3: Tạo Nhạc nền Video (Audio/Music Generation)</h4>
-                                <p className="text-xs text-slate-600 mb-2">Tạo đoạn nhạc nền Audio 15s phong cách Tropical House / Indie Pop tươi vui.</p>
-                                {currentLesson.prompts_with_placeholders?.step3_3 && (
-                                  <div>
-                                    <div className="flex items-center justify-between bg-slate-800 text-slate-200 px-3 py-1.5 rounded-t-lg text-xs font-semibold">
-                                      <span>Prompt 3.3 - Tropical House Audio Music</span>
-                                      <Button iconName="copy" onClick={() => handleCopyPrompt(currentLesson.prompts_with_placeholders.step3_3, 'Prompt 3.3')}>
-                                        1-Click Copy Prompt 3.3
-                                      </Button>
-                                    </div>
-                                    <div className="custom-code-editor rounded-b-lg rounded-t-none">{currentLesson.prompts_with_placeholders.step3_3}</div>
-                                  </div>
-                                )}
-                              </div>
                             </SpaceBetween>
                           </Container>
 
-                          {/* MAT XICH 4 */}
-                          <Container header={<Header variant="h3" description="25 Phút | 01:05 - 01:30">🔗 MẮT XÍCH 4: STANDING INSTRUCTION 24/7 & CUSTOM GEM</Header>}>
+                          {/* CHANG 2: TAB SPARK BETA */}
+                          <Container header={<Header variant="h3" description="45 Phút | Tab Spark BETA (Chuyển Tab Menu Trái)">🔴 CHẶNG 2: TAB "SPARK BETA" - TRÌNH DUYỆT TỪ XA &amp; TỰ ĐỘNG HÓA</Header>}>
                             <SpaceBetween size="m">
                               <div>
-                                <h4 className="font-bold text-slate-800 text-sm mb-1">📌 Thao tác 4.1: Cài đặt Tự động hóa ghi nhận Thu - Chi chuyến đi</h4>
-                                <p className="text-xs text-slate-600 mb-2">Mở Spark Settings &amp; Standing Instructions dán lệnh tự động trích xuất bill Gmail sang Google Sheets.</p>
-                                {currentLesson.prompts_with_placeholders?.step4_1 && (
-                                  <div className="mb-4">
+                                <h4 className="font-bold text-slate-800 text-sm mb-1">1️⃣ Trình Duyệt Từ Xa (Auto Browse) - Cào Giá Agoda / Booking (20 Phút)</h4>
+                                <p className="text-xs text-slate-600 mb-2">Chuyển sang tab <strong>Spark BETA</strong>, dán câu lệnh ra lệnh cho Trình duyệt từ xa tự tương tác web Agoda / Booking.com.</p>
+                                {currentLesson.prompts_with_placeholders?.step2_2 && (
+                                  <div className="mb-3">
                                     <div className="flex items-center justify-between bg-slate-800 text-slate-200 px-3 py-1.5 rounded-t-lg text-xs font-semibold">
-                                      <span>Prompt 4.1 - Standing Instruction 24/7</span>
-                                      <Button iconName="copy" variant="primary" onClick={() => handleCopyPrompt(currentLesson.prompts_with_placeholders.step4_1, 'Prompt 4.1')}>
-                                        1-Click Copy Prompt 4.1
+                                      <span>Prompt Spark Auto Browse Booking</span>
+                                      <Button iconName="copy" variant="primary" onClick={() => handleCopyPrompt(currentLesson.prompts_with_placeholders.step2_2, 'Prompt Auto Browse')}>
+                                        1-Click Copy Prompt Auto Browse
+                                      </Button>
+                                    </div>
+                                    <div className="custom-code-editor rounded-b-lg rounded-t-none">{currentLesson.prompts_with_placeholders.step2_2}</div>
+                                  </div>
+                                )}
+
+                                {/* SPARK REMOTE BROWSER REAL SCREENSHOTS */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                                  <div className="border-2 border-dashed border-red-200 rounded-xl p-3 bg-red-50/50">
+                                    <div className="text-xs font-semibold text-red-700 mb-2 flex items-center gap-1.5">
+                                      📸 <span>Trình duyệt từ xa Mở Nửa Màn Hình Phải:</span>
+                                      <Badge color="red">spark-remote-browser-1.png</Badge>
+                                    </div>
+                                    <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
+                                      <img src={resolveMarkdownImageUrl('spark-remote-browser-1.png')} alt="spark-remote-browser-1.png" className="w-full h-52 object-contain bg-slate-50" />
+                                    </div>
+                                  </div>
+
+                                  <div className="border-2 border-dashed border-red-200 rounded-xl p-3 bg-red-50/50">
+                                    <div className="text-xs font-semibold text-red-700 mb-2 flex items-center gap-1.5">
+                                      📸 <span>Spark Tự Tương Tác Click Chọn Phòng Agoda:</span>
+                                      <Badge color="red">spark-remote-browser-2.png</Badge>
+                                    </div>
+                                    <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
+                                      <img src={resolveMarkdownImageUrl('spark-remote-browser-2.png')} alt="spark-remote-browser-2.png" className="w-full h-52 object-contain bg-slate-50" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div>
+                                <h4 className="font-bold text-slate-800 text-sm mb-1">2️⃣ Cài Đặt Standing Instructions 24/7 (25 Phút)</h4>
+                                <p className="text-xs text-slate-600 mb-2">Vào Spark Settings &amp; Standing Instructions, dán lệnh tự động ghi nhận bill Gmail về Google Sheets 24/7.</p>
+                                {currentLesson.prompts_with_placeholders?.step4_1 && (
+                                  <div>
+                                    <div className="flex items-center justify-between bg-slate-800 text-slate-200 px-3 py-1.5 rounded-t-lg text-xs font-semibold">
+                                      <span>Prompt Standing Instruction 24/7</span>
+                                      <Button iconName="copy" variant="primary" onClick={() => handleCopyPrompt(currentLesson.prompts_with_placeholders.step4_1, 'Prompt Standing Instruction')}>
+                                        1-Click Copy Prompt Standing Instruction
                                       </Button>
                                     </div>
                                     <div className="custom-code-editor rounded-b-lg rounded-t-none">{currentLesson.prompts_with_placeholders.step4_1}</div>
                                   </div>
                                 )}
                               </div>
+                            </SpaceBetween>
+                          </Container>
 
+                          {/* CHANG 3: DONG GOI GEM */}
+                          <Container header={<Header variant="h3" description="10 Phút | Mục Custom Gems">🟢 CHẶNG 3: ĐÓNG GÓI CUSTOM GEM &amp; TỔNG KẾT</Header>}>
+                            <SpaceBetween size="m">
                               <div>
-                                <h4 className="font-bold text-slate-800 text-sm mb-1">📌 Thao tác 4.2: Đóng gói thành Custom Gem dùng lâu dài</h4>
-                                <p className="text-xs text-slate-600 mb-2">Vào Gems &amp; Create New Gem, dán System Instruction tạo Bot 'Trợ Lý Lập Kế Hoạch Sự Kiện &amp; Du Lịch'.</p>
+                                <h4 className="font-bold text-slate-800 text-sm mb-1">1️⃣ Tạo Gem "Trợ Lý Lập Kế Hoạch Du Lịch 360"</h4>
+                                <p className="text-xs text-slate-600 mb-2">Đóng gói System Instruction thành Custom Gem mang về dùng lâu dài.</p>
                                 {currentLesson.prompts_with_placeholders?.step4_2 && (
                                   <div>
                                     <div className="flex items-center justify-between bg-slate-800 text-slate-200 px-3 py-1.5 rounded-t-lg text-xs font-semibold">
-                                      <span>Prompt 4.2 - Custom Gem System Instruction</span>
-                                      <Button iconName="copy" onClick={() => handleCopyPrompt(currentLesson.prompts_with_placeholders.step4_2, 'Prompt 4.2')}>
-                                        1-Click Copy Prompt 4.2
+                                      <span>Prompt Custom Gem Instructions</span>
+                                      <Button iconName="copy" onClick={() => handleCopyPrompt(currentLesson.prompts_with_placeholders.step4_2, 'Prompt Custom Gem')}>
+                                        1-Click Copy Gem Instruction
                                       </Button>
                                     </div>
                                     <div className="custom-code-editor rounded-b-lg rounded-t-none">{currentLesson.prompts_with_placeholders.step4_2}</div>
