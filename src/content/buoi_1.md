@@ -67,6 +67,8 @@ Tạo một video ngắn 5 giây từ bức ảnh này với yêu cầu:
 
 <video controls src="video_du_lich.mp4" title="Video AI Trailer Thực Tế"></video>
 
+![Poster Du Lịch Team Building Cinematic](image.png)
+
 ### 4️⃣ Tạo Nhạc Nền Cho Video Trailer (Audio / Music Generation)
 
 > 💡 **Mẹo Render Song Song:** Tạo Nhạc nền Music ngay khi Veo đang xử lý render Video (mất ~1-2 phút) để không lãng phí thời gian trên lớp!
@@ -78,7 +80,8 @@ Tạo một đoạn nhạc nền Audio thời lượng 15 giây phong cách Trop
 ```
 
 ![ảnh prompt nhạc](image-7.png)
-<audio controls src="Cứ_Đi_Thôi.mp3" title="Title"></audio>
+
+<audio controls src="Cứ_Đi_Thôi.mp3" title="Nhạc Nền Audio MP3 Thực Tế"></audio>
 
 ---
 
@@ -104,13 +107,33 @@ Hãy dùng Trình duyệt từ xa truy cập Booking.com (hoặc Agoda), tìm kh
 
 ### 2️⃣ Cài Đặt Standing Instructions 24/7 (25 Phút)
 
-* **Thao tác:** Trong giao diện **Spark BETA**, truy cập Cài đặt &rarr; Standing Instructions:
+**Bước 1: Hướng dẫn học viên truy cập cài đặt**
+* Nhấp biểu tượng Cài Đặt (Gear icon) ở góc trên Spark BETA &rarr; Chọn **Standing Instructions**.
+
+**Bước 2: Prompt Standing Instructions (Copy dán vào Spark Settings)**
 
 ```prompt
-Standing Instruction: Mỗi khi có Gmail mới chứa bill/xác nhận chuyển khoản tiền du lịch, hãy tự động trích xuất Tên người gửi, Số tiền, Nội dung và điền vào file Google Sheets 'Thu Chi Du Lịch 2026' trong thư mục Spark OS.
+[STANDING INSTRUCTION 24/7]
+Nhiệm vụ: Lọc email chuyển khoản/bill du lịch và tự động lưu vào Google Sheets.
+
+1. Điều kiện kích hoạt:
+Mỗi khi có Gmail mới gửi đến chứa từ khóa "Thanh toán du lịch" ở Tiêu đề.
+
+2. Hành động thực thi:
+- Trích xuất: Tên người gửi, Số tiền (chỉ lấy con số), Nội dung chuyển khoản, Ngày gửi.
+- Mở file Google Sheets tên 'Thu Chi Du Lịch 2026' trong thư mục 'Spark OS' trên Google Drive.
+- Bổ sung dữ liệu vừa trích xuất vào đúng các cột tương ứng (A: Ngày, B: Tên, C: Số tiền, D: Nội dung).
 ```
 
-* **Test thực chiến:** Học viên tự gửi 1 Gmail test &rarr; Mở Google Sheets xem dòng dữ liệu tự động nhảy vào.
+**Bước 3: Kịch bản Test thực chiến ngay tại lớp (2 phút)**
+
+Yêu cầu học viên mở Gmail cá nhân và tự gửi 1 email cho chính mình với đúng cấu trúc:
+
+* **Người nhận:** Email của chính học viên.
+* **Tiêu đề:** `Thanh toán du lịch - Nguyễn Văn A`
+* **Nội dung:** `Xác nhận đã chuyển khoản 3.000.000 VNĐ tiền cọc chuyến đi Đà Lạt.`
+
+&rarr; **Kết quả nghiệm thu:** Sau 30-60 giây, học viên mở file `Thu Chi Du Lịch 2026` trên Drive ra thấy dữ liệu tự nhảy đúng 4 cột.
 
 ---
 
