@@ -5,6 +5,16 @@ export const initialLessonsData = [
     module_name: "Chặng 1: Trợ Lý AI Văn Phòng & Dữ Liệu",
     time_minutes: 90,
     description: "Làm chủ ChatGPT/Claude để soạn thảo email, tờ trình, báo cáo đúng chuẩn doanh nghiệp.",
+    image_url: "/session_1.jpg",
+    theory: {
+      overview: "Trong buổi này, người học sẽ nắm vững cách làm chủ các công cụ AI thế hệ mới (ChatGPT, Claude) để biến các ý tưởng hay văn bản thô sơ thành các tài liệu kinh doanh chuyên nghiệp.",
+      learning_outcomes: [
+        "Hiểu cấu trúc Prompt doanh nghiệp chuẩn 5 thành phần: Role, Context, Constraints, Input, Output Format.",
+        "Loại bỏ hoàn toàn cảm giác bối rối khi viết báo cáo, tờ trình hay email giao việc.",
+        "Kỹ thuật ép AI tuân thủ đúng định dạng Markdown và phong cách văn phong trang trọng."
+      ],
+      core_concept: "Prompt Engineering chuẩn Doanh nghiệp không phải là đặt câu hỏi ngắn, mà là giao một Vai trò (Role) và Bản hợp đồng nguyên tắc (Constraints) cho AI."
+    },
     steps: [
       "Mở ChatGPT (chatgpt.com) hoặc Claude (claude.ai).",
       "Nhấn 1-Click Copy file mega_prompt_van_ban.txt.",
@@ -41,6 +51,16 @@ Tôi cần bạn giúp chuẩn hóa, biên tập và nâng cấp bản thảo v�
     module_name: "Chặng 1: Trợ Lý AI Văn Phòng & Dữ Liệu",
     time_minutes: 90,
     description: "Dùng AI tự động viết hàm Excel/Google Sheets, dọn dẹp dữ liệu thô và xuất công thức chính xác.",
+    image_url: "/session_2.jpg",
+    theory: {
+      overview: "Học viên sẽ biến AI thành chuyên viên phân tích dữ liệu Senior, tự động hóa xử lý bảng tính Excel mà không cần ghi nhớ hàng trăm công thức phức tạp.",
+      learning_outcomes: [
+        "Cách tạo dữ liệu giả lập chuẩn để nhờ ChatGPT viết công thức chính xác.",
+        "Làm chủ các hàm tìm kiếm & tổng hợp nâng cao: VLOOKUP, INDEX-MATCH, XLOOKUP, SUMIFS.",
+        "Kỹ thuật Prompting ép AI dọn dẹp khoảng trắng, định dạng ngày tháng và phát hiện lỗi dữ liệu."
+      ],
+      core_concept: "Mô tả tên các Cột (Columns) và kiểu dữ liệu rõ ràng cho AI giúp ChatGPT sinh ra công thức chuẩn xác 100%."
+    },
     steps: [
       "Copy bảng dữ liệu thô từ file raw_data_excel.md.",
       "Dán dữ liệu vào Google Sheets hoặc Excel.",
@@ -71,6 +91,16 @@ Hãy viết công thức Excel/Google Sheets chính xác 100% cho yêu cầu:
     module_name: "Chặng 2: Hệ Thống Tự Động Hóa Mạng Xã Hội",
     time_minutes: 90,
     description: "Cài đặt n8n tự động săn tin tức & bài viết hot nhất từ RSS VNExpress lưu về Google Sheets.",
+    image_url: "/session_3.jpg",
+    theory: {
+      overview: "Bắt đầu bước chân vào thế giới Tự Động Hóa Workflow không code với n8n. Tạo hệ thống tự động 'cào' bài viết từ báo chí/đối thủ về Google Sheets mỗi ngày.",
+      learning_outcomes: [
+        "Hiểu tư duy kiến trúc Workflow: Triggers (Kích hoạt) -> Nodes (Xử lý) -> Actions (Hành động).",
+        "Cách kết nối OAuth2 an toàn giữa n8n và Google Sheets.",
+        "Cấu hình Schedule Trigger chạy ngầm tự động theo chu kỳ mỗi 24 giờ."
+      ],
+      core_concept: "Tự động hóa giúp giải phóng hoàn toàn các công việc lặp đi lặp lại hàng ngày mà không tốn chi phí nhân sự."
+    },
     steps: [
       "Mở n8n Dashboard -> Select Workflows -> Import.",
       "Tải file workflow_buoi_3_rss_to_sheet.json và import.",
@@ -139,6 +169,16 @@ Hãy viết công thức Excel/Google Sheets chính xác 100% cho yêu cầu:
     module_name: "Chặng 2: Hệ Thống Tự Động Hóa Mạng Xã Hội",
     time_minutes: 90,
     description: "Kết nối AI OpenAI vào n8n đọc ý tưởng từ Google Sheets, sinh bài đăng AIDA và đăng lên Fanpage.",
+    image_url: "/session_4.jpg",
+    theory: {
+      overview: "Xây dựng 'Nhà máy sản xuất nội dung' hoàn toàn tự động. Nối kết Google Sheets -> OpenAI GPT-4o -> Facebook Graph API để tạo và đăng bài tự động đa kênh.",
+      learning_outcomes: [
+        "Cách tạo và sử dụng OpenAI API Key trong n8n.",
+        "Cấu hình System Prompt chuẩn công thức Marketing AIDA (Attention - Interest - Desire - Action).",
+        "Cách lấy Facebook Page Access Token và sử dụng Graph API v19.0 để đăng bài tự động."
+      ],
+      core_concept: "Kết nối AI với các API mạng xã hội biến n8n thành một Marketer tự động làm việc 24/7."
+    },
     steps: [
       "Import file workflow_buoi_4_sheet_to_facebook.json vào n8n.",
       "Kết nối OpenAI Credential (nhập API Key).",
@@ -196,6 +236,16 @@ Hãy viết công thức Excel/Google Sheets chính xác 100% cho yêu cầu:
     module_name: "Chặng 2: Hệ Thống Tự Động Hóa Mạng Xã Hội",
     time_minutes: 90,
     description: "Cấu hình chuỗi prompt liên hoàn chuyển đổi ý tưởng thô thành bảng kịch bản video chi tiết phân cảnh.",
+    image_url: "/session_5.jpg",
+    theory: {
+      overview: "Quy trình 2 giai đoạn biến một ý tưởng thô thành bảng kịch bản phân cảnh chi tiết cho TikTok, Facebook Reels và YouTube Shorts.",
+      learning_outcomes: [
+        "Kỹ thuật Chained Prompting (Prompt liên hoàn) để AI suy luận từng bước.",
+        "Cách tạo 3 giây đầu tiên (Hook) giữ chân người xem tỷ lệ giữ chân cao.",
+        "Xây dựng Bảng kịch bản 4 cột chuyên nghiệp: Thời gian - Visual Cue - Voiceover - Text Overlay."
+      ],
+      core_concept: "Kịch bản video ngắn thành bại ở 3 giây đầu tiên (Hook). AI giúp bạn thử nghiệm hàng chục câu Hook triệu view trong vài giây."
+    },
     steps: [
       "Mở ChatGPT hoặc Claude.",
       "Copy Prompt Giai Đoạn 1 (Xác định góc nhìn & Hook).",
@@ -222,6 +272,16 @@ Hãy biên soạn Kịch bản chi tiết dưới dạng BẢNG MARKDOWN 4 cột
     module_name: "Chặng 2: Hệ Thống Tự Động Hóa Mạng Xã Hội",
     time_minutes: 90,
     description: "Quy trình Webhook n8n tự động nhận tin nhắn khách hàng trên Fanpage, xử lý AI và reply Messenger.",
+    image_url: "/session_6.jpg",
+    theory: {
+      overview: "Xây dựng Chatbot tư vấn bán hàng & báo giá thông minh kết nối trực tiếp Facebook Messenger Webhook với OpenAI API qua n8n.",
+      learning_outcomes: [
+        "Hiểu nguyên lý Webhook: Sự kiện khách gửi tin nhắn -> Trigger n8n tức thì.",
+        "Cấu hình Verify Token và Messenger Graph API Send Message.",
+        "Kỹ thuật ép AI trả lời ngắn gọn, thân thiện và định hướng thu thập SĐT tư vấn."
+      ],
+      core_concept: "Webhook giúp hệ thống phản hồi tức thì dưới 1 giây ngay khi khách hàng tương tác trên Fanpage."
+    },
     steps: [
       "Import workflow_buoi_6_chatbot_messenger.json vào n8n.",
       "Copy Webhook URL từ Node Facebook Webhook.",
@@ -278,6 +338,16 @@ Hãy biên soạn Kịch bản chi tiết dưới dạng BẢNG MARKDOWN 4 cột
     module_name: "Chặng 3: Lập Trình Website Bằng AI",
     time_minutes: 90,
     description: "Sử dụng bản đặc tả PRD kỹ thuật ra lệnh cho AI Agent tự sinh mã nguồn React + Tailwind CSS.",
+    image_url: "/session_7.jpg",
+    theory: {
+      overview: "Ứng dụng sức mạnh của các AI Code Generator (Bolt.new, Lovable) để xây dựng một Landing Page bán hàng hoàn chỉnh bằng ngôn ngữ tự nhiên.",
+      learning_outcomes: [
+        "Cách viết Bản đặc tả kỹ thuật PRD (Product Requirement Document) cho AI Code Agent.",
+        "Hiểu cấu trúc trang web hiện đại: Hero Section, Feature Cards, Form Lead Capture, Footer.",
+        "Kỹ thuật tinh chỉnh màu sắc, layout và giao diện thông qua câu lệnh hội thoại."
+      ],
+      core_concept: "Bản đặc tả kỹ thuật (PRD) chi tiết là chìa khóa giúp AI Code Agent tạo ra website chính xác 100% mong muốn."
+    },
     steps: [
       "Truy cập Bolt.new hoặc Lovable.dev.",
       "Copy bản đặc tả kỹ thuật từ file landing_page_spec.txt.",
@@ -302,6 +372,16 @@ Hãy biên soạn Kịch bản chi tiết dưới dạng BẢNG MARKDOWN 4 cột
     module_name: "Chặng 3: Lập Trình Website Bằng AI",
     time_minutes: 90,
     description: "Kết nối GitHub Repo với Vercel để chạy live trang web công khai và quản lý dữ liệu Supabase DB.",
+    image_url: "/session_8.jpg",
+    theory: {
+      overview: "Hoàn thiện case study cuối khóa: Đẩy toàn bộ mã nguồn lên GitHub, kết nối Vercel để xuất bản trang web live công khai và thiết lập cơ sở dữ liệu Supabase.",
+      learning_outcomes: [
+        "Quy trình 3 bước đẩy code lên GitHub và CI/CD tự động của Vercel.",
+        "Cấu hình biến môi trường Environment Variables an toàn trên Cloud.",
+        "Khởi tạo bảng Supabase Database và kết nối Form thu thập Lead từ Website."
+      ],
+      core_concept: "Đưa sản phẩm lên Internet công khai là bằng chứng thực tế nhất cho thấy sức mạnh của việc học AI & Automation."
+    },
     steps: [
       "Đẩy toàn bộ mã nguồn lên GitHub Remote.",
       "Mở Vercel.com -> Add New Project -> Chọn GitHub Repo.",

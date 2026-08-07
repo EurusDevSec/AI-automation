@@ -24,6 +24,7 @@ import { getLocalLessonsOverride } from '../lib/supabase';
 
 export default function StudentPortal() {
   const [activeSession, setActiveSession] = useState(1);
+  const [navigationOpen, setNavigationOpen] = useState(true);
   const [copySuccess, setCopySuccess] = useState(false);
   const [lessons, setLessons] = useState(initialLessonsData);
   const [toolsOpen, setToolsOpen] = useState(false);
@@ -86,7 +87,8 @@ export default function StudentPortal() {
       
       <AppLayout
         contentType="default"
-        navigationOpen={true}
+        navigationOpen={navigationOpen}
+        onNavigationChange={({ detail }) => setNavigationOpen(detail.open)}
         toolsOpen={toolsOpen}
         onToolsChange={({ detail }) => setToolsOpen(detail.open)}
         breadcrumbs={
@@ -150,7 +152,7 @@ export default function StudentPortal() {
             footer={
               <div>
                 <h3>Cần hỗ trợ trực tiếp?</h3>
-                <Box color="text-body-secondary">Liên hệ giảng viên qua Zalo / Telegram nhóm học tập 24/7.</Box>
+                <Box color="text-body-secondary">Liên hệ giảng viên EurusDevSec qua Zalo / Telegram nhóm học tập 24/7.</Box>
               </div>
             }
           >
@@ -161,6 +163,7 @@ export default function StudentPortal() {
               <div>
                 <h4>Mẹo thực hành mượt mà:</h4>
                 <ul>
+                  <li>Xem <strong>Lý thuyết & Hình minh họa</strong> để hiểu rõ mục tiêu buổi học.</li>
                   <li>Bấm <strong>1-Click Copy</strong> để sao chép prompt chuẩn.</li>
                   <li>Tải file JSON n8n về máy rồi chọn <strong>Import from File</strong> trong n8n.</li>
                   <li>Dùng tab <strong>AI Prompt Sandbox</strong> để thử nghiệm phản hồi ngay trên lớp.</li>
@@ -216,8 +219,46 @@ export default function StudentPortal() {
               <Tabs
                 tabs={[
                   {
+                    id: 'tab-theory',
+                    label: '💡 1. Lý Thuyết & Kiến Thức Cốt Lõi',
+                    content: (
+                      <Container header={<Header variant="h2" description="Tổng quan khái niệm & kết quả người học sẽ gặt hái được sau 90 phút">Mục Tiêu Bài Học Buổi {currentLesson.session_number}</Header>}>
+                        <SpaceBetween size="l">
+                          {/* ILLUSTRATION IMAGE */}
+                          <div style={{ borderRadius: '16px', overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+                            <img
+                              src={currentLesson.image_url}
+                              alt={currentLesson.title}
+                              style={{ width: '100%', height: 'auto', maxHeight: '420px', objectFit: 'cover' }}
+                            />
+                          </div>
+
+                          <Container header={<Header variant="h3">📖 Tổng Quan Buổi Học</Header>}>
+                            <Box variant="p" fontSize="body-m" color="text-body-primary">
+                              {currentLesson.theory.overview}
+                            </Box>
+                          </Container>
+
+                          <Alert type="info" header="💡 Khái Niệm Cốt Lõi (Core Concept)">
+                            {currentLesson.theory.core_concept}
+                          </Alert>
+
+                          <Container header={<Header variant="h3">🎯 Kết Quả Người Học Đạt Được (Learning Outcomes)</Header>}>
+                            <SpaceBetween size="s">
+                              {currentLesson.theory.learning_outcomes.map((outcome, idx) => (
+                                <StatusIndicator key={idx} type="success">
+                                  <strong>{outcome}</strong>
+                                </StatusIndicator>
+                              ))}
+                            </SpaceBetween>
+                          </Container>
+                        </SpaceBetween>
+                      </Container>
+                    )
+                  },
+                  {
                     id: 'tab-steps',
-                    label: '📋 1. Hướng Dẫn Thực Hành (90 Phút)',
+                    label: '📋 2. Hướng Dẫn Thực Hành (90 Phút)',
                     content: (
                       <Container header={<Header variant="h2" description="Quy trình từng bước ngắn gọn (<10 từ/gạch đầu dòng) để hoàn thành bài thực hành trên lớp">Các Bước Thực Hiện</Header>}>
                         <SpaceBetween size="m">
@@ -254,7 +295,7 @@ export default function StudentPortal() {
                   },
                   {
                     id: 'tab-resources',
-                    label: '📦 2. Kho Tài Nguyên Mega-Prompt & JSON',
+                    label: '📦 3. Kho Tài Nguyên Mega-Prompt & JSON',
                     content: (
                       <Container header={<Header variant="h2" description="Tải xuống workflow n8n JSON hoặc 1-Click Copy Mega Prompt">Tài Nguyên Thực Chiến Core</Header>}>
                         <SpaceBetween size="l">
@@ -347,7 +388,7 @@ export default function StudentPortal() {
                   },
                   {
                     id: 'tab-sandbox',
-                    label: '🧪 3. AI Prompt Sandbox (Thử Nghiệm)',
+                    label: '🧪 4. AI Prompt Sandbox (Thử Nghiệm)',
                     content: (
                       <Container header={<Header variant="h2" description="Khung thử nghiệm phản hồi Prompt trực quan dành cho học viên">AI Prompt Sandbox Live</Header>}>
                         <SpaceBetween size="m">
@@ -370,7 +411,7 @@ export default function StudentPortal() {
                   },
                   {
                     id: 'tab-checklist',
-                    label: '🎯 4. Đánh Giá Tiêu Chuẩn Bài Học (DoD)',
+                    label: '🎯 5. Đánh Giá Tiêu Chuẩn Bài Học (DoD)',
                     content: (
                       <Container header={<Header variant="h2" description="Tự kiểm tra mức độ hoàn thành bài học 90 phút">Checklist Hoàn Thành</Header>}>
                         <SpaceBetween size="m">
