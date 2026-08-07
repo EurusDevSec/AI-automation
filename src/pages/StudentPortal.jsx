@@ -107,7 +107,7 @@ export default function StudentPortal() {
             header={{
               href: '#/app',
               text: 'Lộ Trình Đào Tạo AI 2026',
-              logo: { src: 'https://img.icons8.com/color/96/brain--v1.png', alt: 'AI' }
+              logo: { src: '/logo.png', alt: 'AWS AI Automation Service Icon' }
             }}
             onFollow={(e) => {
               e.preventDefault();

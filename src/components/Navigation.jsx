@@ -7,14 +7,14 @@ export default function Navigation() {
   const location = useLocation();
 
   return (
-    <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
       <TopNavigation
         identity={{
           href: '/',
           title: 'AI & Automation Masterclass',
           logo: {
-            src: 'https://img.icons8.com/color/96/brain--v1.png',
-            alt: 'AI Platform Logo'
+            src: '/logo.png',
+            alt: 'AWS AI Automation Service Icon'
           }
         }}
         utilities={[
