@@ -26,6 +26,7 @@ export default function StudentPortal() {
   const [activeSession, setActiveSession] = useState(1);
   const [navigationOpen, setNavigationOpen] = useState(true);
   const [copySuccess, setCopySuccess] = useState(false);
+  const [copiedPromptName, setCopiedPromptName] = useState('');
   const [lessons, setLessons] = useState(initialLessonsData);
   const [toolsOpen, setToolsOpen] = useState(false);
 
@@ -48,8 +49,9 @@ export default function StudentPortal() {
 
   const currentLesson = lessons.find((l) => l.session_number === activeSession) || lessons[0];
 
-  const handleCopyPrompt = (text) => {
+  const handleCopyPrompt = (text, promptName = 'Prompt') => {
     navigator.clipboard.writeText(text);
+    setCopiedPromptName(promptName);
     setCopySuccess(true);
     setTimeout(() => setCopySuccess(false), 3000);
   };
@@ -119,7 +121,7 @@ export default function StudentPortal() {
                 type: 'section',
                 text: 'Chặng 1: AI Văn Phòng & Dữ Liệu',
                 items: [
-                  { type: 'link', text: 'Buổi 1: Chuẩn Hóa Văn Bản', href: '#buoi-1', info: <Badge color="blue">Cơ bản</Badge> },
+                  { type: 'link', text: 'Buổi 1: Spark OS & Case Study', href: '#buoi-1', info: <Badge color="blue">Cơ bản</Badge> },
                   { type: 'link', text: 'Buổi 2: Trợ Lý Excel', href: '#buoi-2', info: <Badge color="blue">Cơ bản</Badge> }
                 ]
               },
@@ -163,10 +165,9 @@ export default function StudentPortal() {
               <div>
                 <h4>Mẹo thực hành mượt mà:</h4>
                 <ul>
-                  <li>Xem <strong>Lý thuyết & Hình minh họa</strong> để hiểu rõ mục tiêu buổi học.</li>
-                  <li>Bấm <strong>1-Click Copy</strong> để sao chép prompt chuẩn.</li>
-                  <li>Tải file JSON n8n về máy rồi chọn <strong>Import from File</strong> trong n8n.</li>
-                  <li>Dùng tab <strong>AI Prompt Sandbox</strong> để thử nghiệm phản hồi ngay trên lớp.</li>
+                  <li>Thay thế các từ trong ngoặc vuông <strong>[TÊN_SẢN_PHẨM_DỊCH_VỤ]</strong> bằng ý tưởng của bạn.</li>
+                  <li>Bấm <strong>1-Click Copy Prompt</strong> để sao chép vào Clipboard.</li>
+                  <li>Xem <strong>Ảnh Bài Làm Thực Tế Mẫu</strong> bên dưới từng Mắt xích để so sánh kết quả.</li>
                 </ul>
               </div>
             </SpaceBetween>
@@ -195,7 +196,7 @@ export default function StudentPortal() {
             <SpaceBetween size="l">
               {copySuccess && (
                 <Alert type="success" dismissible onDismiss={() => setCopySuccess(false)}>
-                  ✅ Đã sao chép tài nguyên vào Clipboard! Dán trực tiếp vào AI / n8n để chạy ngay.
+                  ✅ Đã sao chép <strong>{copiedPromptName}</strong> vào Clipboard! Dán trực tiếp vào Gemini / AI để chạy ngay.
                 </Alert>
               )}
 
@@ -203,33 +204,43 @@ export default function StudentPortal() {
               <ColumnLayout columns={3} variant="classic">
                 <Container header={<Header variant="h3">⏱️ Thời Lượng</Header>}>
                   <Box variant="h2">90 Phút</Box>
-                  <Box color="text-body-secondary">Thực hành 100% tại lớp</Box>
+                  <Box color="text-body-secondary">Thực hành 100% trên lớp</Box>
                 </Container>
-                <Container header={<Header variant="h3">🎯 Cấp Độ</Header>}>
-                  <StatusIndicator type="info">Người mới bắt đầu (Beginners)</StatusIndicator>
+                <Container header={<Header variant="h3">🎯 Cấp Độ & Đối Tượng</Header>}>
+                  <StatusIndicator type="info">Dân Văn Phòng & Chủ Shop</StatusIndicator>
                   <Box color="text-body-secondary">Không cần kiến thức lập trình</Box>
                 </Container>
                 <Container header={<Header variant="h3">🛡️ Tiêu Chuẩn</Header>}>
                   <StatusIndicator type="success">100% Zero Error Guarantee</StatusIndicator>
-                  <Box color="text-body-secondary">Prompt & n8n JSON đã kiểm thử</Box>
+                  <Box color="text-body-secondary">Prompt đã thử nghiệm 100%</Box>
                 </Container>
               </ColumnLayout>
+
+              {/* CASE STUDY HIGHLIGHT CARD */}
+              {currentLesson.case_study && (
+                <Alert type="info" header={`🎯 ${currentLesson.case_study.title}`}>
+                  <div className="space-y-1">
+                    <div><strong>Đối tượng thực hành:</strong> {currentLesson.case_study.target_audience}</div>
+                    <div><strong>Mục tiêu buổi học:</strong> {currentLesson.case_study.goal}</div>
+                  </div>
+                </Alert>
+              )}
 
               {/* TABS CONTAINER */}
               <Tabs
                 tabs={[
                   {
                     id: 'tab-theory',
-                    label: '💡 1. Lý Thuyết & Kiến Thức Cốt Lõi',
+                    label: '💡 1. Lý Thuyết & Ma Trận Công Cụ',
                     content: (
                       <Container header={<Header variant="h2" description="Tổng quan khái niệm & kết quả người học sẽ gặt hái được sau 90 phút">Mục Tiêu Bài Học Buổi {currentLesson.session_number}</Header>}>
                         <SpaceBetween size="l">
-                          {/* ILLUSTRATION IMAGE */}
-                          <div style={{ borderRadius: '16px', overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+                          {/* MAIN SESSION IMAGE */}
+                          <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-slate-100">
                             <img
                               src={currentLesson.image_url}
                               alt={currentLesson.title}
-                              style={{ width: '100%', height: 'auto', maxHeight: '420px', objectFit: 'cover' }}
+                              className="w-full h-auto max-h-[380px] object-cover"
                             />
                           </div>
 
@@ -239,7 +250,7 @@ export default function StudentPortal() {
                             </Box>
                           </Container>
 
-                          <Alert type="info" header="💡 Khái Niệm Cốt Lõi (Core Concept)">
+                          <Alert type="warning" header="💡 Khái Niệm Cốt Lõi (Core Concept)">
                             {currentLesson.theory.core_concept}
                           </Alert>
 
@@ -258,22 +269,170 @@ export default function StudentPortal() {
                   },
                   {
                     id: 'tab-steps',
-                    label: '📋 2. Hướng Dẫn Thực Hành (90 Phút)',
+                    label: '📋 2. Quy Trình 4 Mắt Xích Thực Hành (90 Phút)',
                     content: (
-                      <Container header={<Header variant="h2" description="Quy trình từng bước ngắn gọn (<10 từ/gạch đầu dòng) để hoàn thành bài thực hành trên lớp">Các Bước Thực Hiện</Header>}>
-                        <SpaceBetween size="m">
-                          {currentLesson.steps.map((step, idx) => (
-                            <Container key={idx}>
-                              <SpaceBetween direction="horizontal" size="s">
-                                <StatusIndicator type={checkListState[idx] ? 'success' : 'in-progress'}>
-                                  <strong>Bước {idx + 1}:</strong>
-                                </StatusIndicator>
-                                <Box variant="p" fontSize="body-m" color="text-body-primary">
-                                  {step}
-                                </Box>
-                              </SpaceBetween>
-                            </Container>
-                          ))}
+                      <Container header={<Header variant="h2" description="Thực hành từng bước ngắn gọn (<10 từ/gạch đầu dòng) kèm Ảnh Mẫu Thực Tế & Prompt Placeholders">Thực Hành Case Study Trực Quan</Header>}>
+                        <SpaceBetween size="l">
+                          {/* STEP 1 CARD */}
+                          <Container header={<Header variant="h3" description="15 Phút | 00:00 - 00:15">🔗 Mắt Xích 1: Khởi Tạo Bộ Não AI & Research Thị Trường</Header>}>
+                            <SpaceBetween size="m">
+                              <ul className="list-disc list-inside space-y-1 text-sm text-slate-700">
+                                <li>Bật <strong>Personal Intelligence</strong> trong Cài đặt Gemini.</li>
+                                <li>Tạo thư mục <strong>Spark OS</strong> trên Google Drive.</li>
+                                <li>Nhấn 1-Click Copy Prompt Step 1 dán vào Gemini.</li>
+                                <li>Bật <strong>Guided Learning</strong> chốt góc đánh tiếp thị.</li>
+                              </ul>
+
+                              {/* SAMPLE IMAGE SLOT STEP 1 */}
+                              <div className="border-2 border-dashed border-indigo-200 rounded-xl p-3 bg-indigo-50/50">
+                                <div className="text-xs font-semibold text-indigo-700 mb-2 flex items-center gap-1.5">
+                                  📸 <span>Ảnh Bài Làm Thực Tế Mẫu (Mắt Xích 1):</span>
+                                  <Badge color="blue">Sample Work</Badge>
+                                </div>
+                                <div className="rounded-lg overflow-hidden border border-slate-200">
+                                  <img src="/session_1.jpg" alt="Mắt Xích 1 Mẫu" className="w-full h-56 object-cover" />
+                                </div>
+                              </div>
+
+                              {/* PROMPT PLACEHOLDER STEP 1 */}
+                              {currentLesson.prompts_with_placeholders?.step1 && (
+                                <div>
+                                  <Header
+                                    variant="h4"
+                                    actions={
+                                      <Button iconName="copy" variant="primary" onClick={() => handleCopyPrompt(currentLesson.prompts_with_placeholders.step1, 'Prompt Step 1')}>
+                                        1-Click Copy Step 1 Prompt
+                                      </Button>
+                                    }
+                                  >
+                                    📋 Prompt Mẫu Mắt Xích 1 (Kèm Placeholders)
+                                  </Header>
+                                  <div className="custom-code-editor">{currentLesson.prompts_with_placeholders.step1}</div>
+                                </div>
+                              )}
+                            </SpaceBetween>
+                          </Container>
+
+                          {/* STEP 2 CARD */}
+                          <Container header={<Header variant="h3" description="25 Phút | 00:15 - 00:40">🔗 Mắt Xích 2: Dàn Kịch Bản Canvas & Chrome Auto Browse</Header>}>
+                            <SpaceBetween size="m">
+                              <ul className="list-disc list-inside space-y-1 text-sm text-slate-700">
+                                <li>Bấm 1-Click Copy Step 2 Prompt dán vào <strong>Canvas</strong>.</li>
+                                <li>Gõ comment lề trang Canvas để Spark tự sửa nội dung.</li>
+                                <li>Chạy Spark Chrome Auto Browse cào dữ liệu web đối thủ.</li>
+                              </ul>
+
+                              {/* SAMPLE IMAGE SLOT STEP 2 */}
+                              <div className="border-2 border-dashed border-emerald-200 rounded-xl p-3 bg-emerald-50/50">
+                                <div className="text-xs font-semibold text-emerald-700 mb-2 flex items-center gap-1.5">
+                                  📸 <span>Ảnh Bài Làm Thực Tế Mẫu (Mắt Xích 2):</span>
+                                  <Badge color="green">Sample Work</Badge>
+                                </div>
+                                <div className="rounded-lg overflow-hidden border border-slate-200">
+                                  <img src="/workflow_n8n_preview.jpg" alt="Mắt Xích 2 Mẫu" className="w-full h-56 object-cover" />
+                                </div>
+                              </div>
+
+                              {/* PROMPT PLACEHOLDER STEP 2 */}
+                              {currentLesson.prompts_with_placeholders?.step2 && (
+                                <div>
+                                  <Header
+                                    variant="h4"
+                                    actions={
+                                      <Button iconName="copy" variant="primary" onClick={() => handleCopyPrompt(currentLesson.prompts_with_placeholders.step2, 'Prompt Step 2')}>
+                                        1-Click Copy Step 2 Prompt
+                                      </Button>
+                                    }
+                                  >
+                                    📋 Prompt Mẫu Mắt Xích 2 (Kèm Placeholders)
+                                  </Header>
+                                  <div className="custom-code-editor">{currentLesson.prompts_with_placeholders.step2}</div>
+                                </div>
+                              )}
+                            </SpaceBetween>
+                          </Container>
+
+                          {/* STEP 3 CARD */}
+                          <Container header={<Header variant="h3" description="25 Phút | 00:40 - 01:05">🔗 Mắt Xích 3: Xưởng Sản Xuất Đa Phương Tiện End-to-End</Header>}>
+                            <SpaceBetween size="m">
+                              <ul className="list-disc list-inside space-y-1 text-sm text-slate-700">
+                                <li>Tạo ảnh Banner Studio từ kịch bản Canvas.</li>
+                                <li>Nhập Prompt camera 3D biến ảnh thành Clip Video Veo 5s.</li>
+                                <li>Chạy Prompt Audio Music song song trong lúc chờ Veo render.</li>
+                              </ul>
+
+                              <Alert type="info" header="💡 Mẹo Render Song Song Tối Ưu Thời Gian">
+                                Khi Veo đang xử lý render Video (mất ~1-2 phút), hãy lấy ngay Prompt Audio Music chạy tạo nhạc nền song song để không lãng phí 2 phút chờ trên lớp!
+                              </Alert>
+
+                              {/* SAMPLE IMAGE SLOT STEP 3 */}
+                              <div className="border-2 border-dashed border-amber-200 rounded-xl p-3 bg-amber-50/50">
+                                <div className="text-xs font-semibold text-amber-700 mb-2 flex items-center gap-1.5">
+                                  📸 <span>Ảnh Bài Làm Thực Tế Mẫu (Mắt Xích 3):</span>
+                                  <Badge color="red">Sample Work</Badge>
+                                </div>
+                                <div className="rounded-lg overflow-hidden border border-slate-200">
+                                  <img src="/hero_ai_automation_light.jpg" alt="Mắt Xích 3 Mẫu" className="w-full h-56 object-cover" />
+                                </div>
+                              </div>
+
+                              {/* PROMPT PLACEHOLDER STEP 3 */}
+                              {currentLesson.prompts_with_placeholders?.step3 && (
+                                <div>
+                                  <Header
+                                    variant="h4"
+                                    actions={
+                                      <Button iconName="copy" variant="primary" onClick={() => handleCopyPrompt(currentLesson.prompts_with_placeholders.step3, 'Prompt Step 3')}>
+                                        1-Click Copy Step 3 Prompt
+                                      </Button>
+                                    }
+                                  >
+                                    📋 Prompt Mẫu Mắt Xích 3 (Kèm Placeholders)
+                                  </Header>
+                                  <div className="custom-code-editor">{currentLesson.prompts_with_placeholders.step3}</div>
+                                </div>
+                              )}
+                            </SpaceBetween>
+                          </Container>
+
+                          {/* STEP 4 CARD */}
+                          <Container header={<Header variant="h3" description="25 Phút | 01:05 - 01:30">🔗 Mắt Xích 4: Standing Instructions 24/7 & Đóng Gói Custom Gem</Header>}>
+                            <SpaceBetween size="m">
+                              <ul className="list-disc list-inside space-y-1 text-sm text-slate-700">
+                                <li>Dán lệnh Standing Instruction (Gmail tự điền Google Sheets).</li>
+                                <li>Tự gửi 1 Gmail test kiểm tra dữ liệu tự nhảy vào Sheets.</li>
+                                <li>Lưu System Instruction đóng gói thành Custom Gem Bot.</li>
+                              </ul>
+
+                              {/* SAMPLE IMAGE SLOT STEP 4 */}
+                              <div className="border-2 border-dashed border-purple-200 rounded-xl p-3 bg-purple-50/50">
+                                <div className="text-xs font-semibold text-purple-700 mb-2 flex items-center gap-1.5">
+                                  📸 <span>Ảnh Bài Làm Thực Tế Mẫu (Mắt Xích 4):</span>
+                                  <Badge color="blue">Sample Work</Badge>
+                                </div>
+                                <div className="rounded-lg overflow-hidden border border-slate-200">
+                                  <img src="/session_1.jpg" alt="Mắt Xích 4 Mẫu" className="w-full h-56 object-cover" />
+                                </div>
+                              </div>
+
+                              {/* PROMPT PLACEHOLDER STEP 4 */}
+                              {currentLesson.prompts_with_placeholders?.step4 && (
+                                <div>
+                                  <Header
+                                    variant="h4"
+                                    actions={
+                                      <Button iconName="copy" variant="primary" onClick={() => handleCopyPrompt(currentLesson.prompts_with_placeholders.step4, 'Prompt Step 4')}>
+                                        1-Click Copy Step 4 Prompt
+                                      </Button>
+                                    }
+                                  >
+                                    📋 Prompt Mẫu Mắt Xích 4 (Kèm Placeholders)
+                                  </Header>
+                                  <div className="custom-code-editor">{currentLesson.prompts_with_placeholders.step4}</div>
+                                </div>
+                              )}
+                            </SpaceBetween>
+                          </Container>
 
                           <ExpandableSection headerText="🛠️ Xử Lý Lỗi Thường Gặp (Troubleshooting Guide)">
                             <SpaceBetween size="s">
@@ -304,8 +463,8 @@ export default function StudentPortal() {
                               <Header
                                 variant="h3"
                                 actions={
-                                  <Button iconName="copy" variant="primary" onClick={() => handleCopyPrompt(currentLesson.mega_prompt)}>
-                                    1-Click Copy Prompt
+                                  <Button iconName="copy" variant="primary" onClick={() => handleCopyPrompt(currentLesson.mega_prompt, 'Mega-Prompt')}>
+                                    1-Click Copy Mega-Prompt
                                   </Button>
                                 }
                               >
@@ -323,7 +482,7 @@ export default function StudentPortal() {
                                   <SpaceBetween direction="horizontal" size="xs">
                                     <Button
                                       iconName="copy"
-                                      onClick={() => handleCopyPrompt(currentLesson.n8n_json)}
+                                      onClick={() => handleCopyPrompt(currentLesson.n8n_json, 'n8n JSON')}
                                     >
                                       Copy JSON
                                     </Button>
@@ -355,7 +514,7 @@ export default function StudentPortal() {
                                 actions={
                                   <Button
                                     iconName="copy"
-                                    onClick={() => handleCopyPrompt(currentLesson.sql_template)}
+                                    onClick={() => handleCopyPrompt(currentLesson.sql_template, 'SQL Schema')}
                                   >
                                     Copy SQL Schema
                                   </Button>
@@ -364,22 +523,6 @@ export default function StudentPortal() {
                                 🗄️ Supabase / PostgreSQL SQL Schema
                               </Header>
                               <div className="custom-code-editor">{currentLesson.sql_template}</div>
-                            </div>
-                          )}
-
-                          {currentLesson.spec_text && (
-                            <div>
-                              <Header
-                                variant="h3"
-                                actions={
-                                  <Button iconName="copy" onClick={() => handleCopyPrompt(currentLesson.spec_text)}>
-                                    Copy PRD Spec
-                                  </Button>
-                                }
-                              >
-                                📐 Web Landing Page Specification
-                              </Header>
-                              <div className="custom-code-editor">{currentLesson.spec_text}</div>
                             </div>
                           )}
                         </SpaceBetween>
@@ -421,7 +564,7 @@ export default function StudentPortal() {
                               checked={!!checkListState[idx]}
                               onChange={() => toggleChecklist(idx)}
                             >
-                              Hoàn thành Bước {idx + 1}: {step}
+                              Hoàn thành Mắt xích {idx + 1}: {step}
                             </Checkbox>
                           ))}
                         </SpaceBetween>

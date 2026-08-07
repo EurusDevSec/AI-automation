@@ -1,151 +1,122 @@
 export const initialLessonsData = [
   {
     session_number: 1,
-    title: "Buổi 1: Khởi Tạo Spark OS & Chuỗi Sản Xuất Đa Phương Tiện End-to-End",
+    title: "Buổi 1: Case Study - Tự Động Hóa Ra Mắt Sản Phẩm Mới (Spark OS)",
     module_name: "Chặng 1: Trợ Lý AI Văn Phòng & Dữ Liệu",
     time_minutes: 90,
-    description: "Khởi tạo Hệ điều hành Trợ lý Tự động hóa Spark OS & Chuỗi sản xuất Đa phương tiện qua 4 Mắt xích Vercel 1-Click Copy.",
+    description: "Case Study thực chiến cho Dân Văn Phòng & Chủ Shop: Tự động hóa ra mắt sản phẩm mới qua 4 Mắt xích Vercel 1-Click Copy.",
     image_url: "/session_1.jpg",
+    case_study: {
+      title: "Case Study Thực Tế: Ra Mắt Sản Phẩm / Dịch Vụ Mới 360°",
+      target_audience: "Dân văn phòng, Marketer, Chủ shop online & Người khởi nghiệp không biết code",
+      goal: "Tự động nghiên cứu thị trường -> Dàn kịch bản Canvas -> Tạo Bộ Media (Ảnh + Clip Veo + Nhạc) -> Cài bot ngầm Gmail 24/7."
+    },
     theory: {
-      overview: "Trong buổi này, học viên sẽ thiết lập Hệ điều hành Trợ lý Tự động hóa (Spark OS) và thực thi chuỗi sản xuất nội dung đa phương tiện (Văn bản -> Ảnh Studio -> Video Veo -> Audio Music -> Custom Gem).",
+      overview: "Học viên nhập vai chủ dự án ra mắt sản phẩm mới. Vận dụng 8 công cụ AI tạo thành dây chuyền làm việc tự động khép kín.",
       learning_outcomes: [
-        "Nắm vững Ma trận phân công 8 công cụ AI: Personal Intelligence, Deep Research, Guided Learning, Canvas, Spark Auto Browse, Veo Video, Music & Custom Gems.",
-        "Làm chủ Quy trình 4 Mắt xích thực thi trên Vercel không sợ quá tải nhận thức.",
-        "Tự tay tạo ra sản phẩm đa phương tiện hoàn chỉnh và đóng gói Custom Gem mang về nhà sử dụng hằng ngày."
+        "Nắm vững 8 công cụ AI theo ma trận nhiệm vụ chuyên biệt.",
+        "Thực thi 4 Mắt xích Vercel theo Case Study thực tế.",
+        "Đóng gói Custom Gem Bot cá nhân hóa mang về dùng hằng ngày."
       ],
-      core_concept: "Tự động hóa không phải là dùng 1 công cụ riêng lẻ, mà là kết nối các mắt xích công cụ chuyên biệt thành một dây chuyền làm việc 24/7."
+      core_concept: "Thay vì làm thủ công từng bước, hãy kết nối 8 công cụ AI thành dây chuyền ra mắt sản phẩm tự động 24/7."
     },
     steps: [
-      "MẮT XÍCH 1 (00:00 - 00:15): Bật Personal Intelligence, chạy Deep Research quét thị trường & chọn góc đánh qua Guided Learning.",
-      "MẮT XÍCH 2 (00:15 - 00:40): Dàn kịch bản trên Canvas, dùng Spark Deep Control chỉnh sửa & chạy Spark Chrome Auto Browse cào dữ liệu đối thủ.",
-      "MẮT XÍCH 3 (00:40 - 01:05): Xưởng sản xuất Đa phương tiện - Tạo Ảnh Studio -> Tạo Video Veo 5s -> Tạo Nhạc nền Music.",
-      "MẮT XÍCH 4 (01:05 - 01:30): Cài đặt Standing Instructions tự động hóa 24/7 (Gmail sang Google Sheets) & Đóng gói Custom Gem."
+      "MẮT XÍCH 1 (15p): Bật Personal Intelligence, chạy Deep Research cào thị trường & chọn góc đánh tiếp thị.",
+      "MẮT XÍCH 2 (25p): Dàn kịch bản trên Canvas & chạy Spark Chrome Auto Browse cào giá đối thủ.",
+      "MẮT XÍCH 3 (25p): Tạo Ảnh Studio -> Tạo Clip Veo 5s -> Tạo Nhạc nền Music (Chạy song song).",
+      "MẮT XÍCH 4 (25p): Cài Standing Instruction 24/7 (Gmail sang Sheets) & Đóng gói Custom Gem Bot."
     ],
     troubleshooting: [
-      { issue: "Veo render Video bị lâu (1-2 phút)", cause: "Hệ thống AI xử lý hiệu ứng chuyển động camera 3D", fix: "Trong lúc đợi Veo render, hãy chuyển sang chạy Prompt tạo Audio Music ngay để tối ưu thời gian." },
-      { issue: "Spark Chrome Auto Browse không truy cập web", cause: "URL web đối thủ thiếu https://", fix: "Nhập đầy đủ URL có https:// và thử lại." }
+      { issue: "Veo render Video mất 1-2 phút", cause: "AI dựng hình ảnh chuyển động 3D", fix: "Tạo Nhạc nền Music song song trong lúc chờ Veo render." },
+      { issue: "Spark Chrome Auto Browse không tải web", cause: "Nhập sai cấu trúc URL", fix: "Nhập đầy đủ https:// ở đầu link web." }
     ],
+    prompts_with_placeholders: {
+      step1: `[STEP 1 - DEEP RESEARCH & GUIDED LEARNING]
+Kích hoạt Deep Research quét xu hướng thị trường và 3 đối thủ lớn nhất của [TÊN_SẢN_PHẨM_DỊCH_VỤ] trong ngành [NGÀNH_HÀNG] tại Việt Nam. Xuất báo cáo và dùng Guided Learning đưa 3 câu hỏi chọn góc đánh tiếp thị cho [KHÁCH_HÀNG_MỤC_TIÊU].`,
+      step2: `[STEP 2 - CANVAS KỊCH BẢN & AUTO BROWSE]
+Dàn Kế hoạch truyền thông & Kịch bản Video chi tiết trên giao diện Canvas cho [TÊN_SẢN_PHẨM_DỊCH_VỤ]. Sau đó dùng Chrome Auto Browse cào thêm bảng giá đối thủ từ web [URL_WEB_ĐỐI_THỦ] lưu vào folder Spark OS trên Drive.`,
+      step3: `[STEP 3 - MEDIA PIPELINE END-TO-END]
+Tạo hình ảnh Banner chuẩn Studio cho [TÊN_SẢN_PHẨM_DỊCH_VỤ], biến ảnh thành Clip Video Veo 5s với hiệu ứng camera lượn ngang, và tạo đoạn nhạc nền Audio Music khớp phong cách truyền thông.`,
+      step4: `[STEP 4 - STANDING INSTRUCTION 24/7 & CUSTOM GEM]
+Standing Instruction 24/7: Mỗi khi có Gmail mới chứa tiêu đề '[TÊN_SẢN_PHẨM_DỊCH_VỤ]', tự động trích xuất thông tin khách hàng và ghi 1 dòng mới vào Google Sheets trong folder Spark OS. Gom toàn bộ logic thành Gem 'Trợ Lý Sales 360'.`
+    },
     mega_prompt: `[STEP 1 - DEEP RESEARCH & GUIDED LEARNING]
-Kích hoạt Deep Research quét toàn bộ xu hướng thị trường và 3 đối thủ lớn nhất ngành [X] tại Việt Nam tháng 8/2026. Xuất báo cáo tổng hợp và đưa 3 câu hỏi trắc nghiệm qua Guided Learning để chốt góc tiếp thị.`,
+Kích hoạt Deep Research quét xu hướng thị trường và 3 đối thủ lớn nhất của [TÊN_SẢN_PHẨM_DỊCH_VỤ] trong ngành [NGÀNH_HÀNG] tại Việt Nam. Xuất báo cáo và dùng Guided Learning đưa 3 câu hỏi chọn góc đánh tiếp thị cho [KHÁCH_HÀNG_MỤC_TIÊU].`,
     n8n_json: "",
     sql_template: "",
     spec_text: "",
-    raw_markdown: `# TOÀN BỘ QUY TRÌNH & HỆ THỐNG CÔNG CỤ BUỔI 1 (MASTER BLUEPRINT)
+    raw_markdown: `# BUỔI 1: CASE STUDY - TỰ ĐỘNG HÓA RA MẮT SẢN PHẨM MỚI (SPARK OS)
 
-**Chủ đề:** Khởi tạo "Hệ điều hành Trợ lý Tự động hóa" (Spark OS) & Chuỗi sản xuất Đa phương tiện End-to-End.
+**Đối tượng thực hành:** Dân văn phòng, Marketer, Chủ shop online & Người khởi nghiệp không biết code.
 
-![Spark OS & Master Blueprint Buổi 1](/session_1.jpg)
-
----
-
-## I. MA TRẬN PHÂN CÔNG CÔNG CỤ (TOOL STACK MATRIX)
-
-Sắp xếp 8 công cụ vào đúng vị trí trong chuỗi để tránh bị chồng chéo tính năng:
-
-| Công cụ | Phân nhóm | Nhiệm vụ kỹ thuật chính trong chuỗi |
-| --- | --- | --- |
-| **Personal Intelligence** | Bộ nhớ & Hạ tầng | Bật \`Memory\` lưu ngữ cảnh công ty & Kích hoạt kết nối Google Workspace (Gmail, Drive, Docs, Sheets). |
-| **Deep Research** | Thu thập dữ liệu | Quét sâu đa nguồn trên Internet để cào dữ liệu thị trường và đối thủ. |
-| **Guided Learning** | Lọc & Tiêu hóa | Đặt câu hỏi tương tác (Quiz/Q&A) giúp học viên chốt hướng đi mà không cần đọc báo cáo dài. |
-| **Canvas** | Thao tác trực quan | Mở giao diện soạn thảo trực tiếp để làm mịn Kế hoạch & Kịch bản truyền thông. |
-| **Gemini Spark** | Agent Tự động hóa | Chạy ngầm 24/7, dùng **Chrome Auto Browse** cào dữ liệu web và thực thi **Standing Instructions** tự điền Google Sheets/Gmail. |
-| **Image Generation** | Sản xuất Visual | Tạo hình ảnh Banner/Sản phẩm chuẩn Studio dựa trên kịch bản từ Canvas. |
-| **Video (Veo)** | Sản xuất Motion | Biến ảnh tĩnh thành Clip 5 giây tả chuyển động camera chuyên nghiệp. |
-| **Audio (Music)** | Sản xuất Âm thanh | Tạo đoạn nhạc nền khớp phong cách kịch bản. |
-| **Custom Gems** | Đóng gói Sản phẩm | Gom toàn bộ logic workflow thành 1 con Bot tùy chỉnh để học viên mang về dùng hằng ngày. |
+![Case Study Ra Mắt Sản Phẩm Mới](/session_1.jpg)
 
 ---
 
-## II. QUY TRÌNH THỰC THI 90 PHÚT (THE GOLDEN PATH)
+## 🎯 CASE STUDY THỰC TẾ: RA MẮT SẢN PHẨM / DỊCH VỤ MỚI 360°
 
-Toàn bộ quy trình chạy theo đúng **4 Mắt xích bấm nút trên Vercel**, không lý thuyết rời rạc.
-
----
-
-### 🔗 MẮT XÍCH 1: KHỞI TẠO BỘ NÃO AI & CÀO DỮ LIỆU (15 PHÚT | 00:00 - 00:15)
-
-![Mắt xích 1 - Khởi tạo bộ não AI](/session_1.jpg)
-
-1. **Thiết lập hạ tầng (5 phút):**
-   - Học viên vào Cài đặt Gemini -> Bật \`Personal Intelligence\` (Memory & Workspace Connections).
-   - Mở Google Drive -> Tạo thư mục tên \`Spark OS\`.
-
-2. **Cào dữ liệu thị trường (5 phút):**
-   - Học viên bấm **Quick-Copy Step 1** trên Vercel:
-   \`\`\`prompt
-   Kích hoạt Deep Research quét toàn bộ xu hướng thị trường và 3 đối thủ lớn nhất ngành [X] tại Việt Nam tháng 8/2026. Xuất báo cáo tổng hợp.
-   \`\`\`
-
-3. **Chốt góc đánh tiếp thị (5 phút):**
-   - Chọn báo cáo vừa tạo -> Bật \`Guided Learning\`: Gemini đưa 3 câu hỏi trắc nghiệm để học viên chọn ra 1 ý tưởng tiếp thị (Angle) tối ưu nhất.
+- **Mục tiêu:** Tự động nghiên cứu thị trường -> Dàn kịch bản Canvas -> Sản xuất Bộ Media (Ảnh + Clip Veo + Nhạc) -> Cài Bot ngầm 24/7.
+- **Biến số Placeholder:** Học viên thay thế \`[TÊN_SẢN_PHẨM_DỊCH_VỤ]\`, \`[NGÀNH_HÀNG]\`, \`[KHÁCH_HÀNG_MỤC_TIÊU]\` vào Prompt.
 
 ---
 
-### 🔗 MẮT XÍCH 2: DÀN KỊCH BẢN CANVAS & TỰ ĐỘNG BROWSE (25 PHÚT | 00:15 - 00:40)
+## 🔗 QUY TRÌNH 4 MẮT XÍCH THỰC THI 90 PHÚT
 
-![Mắt xích 2 - Canvas & Chrome Auto Browse](/workflow_n8n_preview.jpg)
+### 1️⃣ MẮT XÍCH 1: Khởi Tạo Bộ Não AI & Research Thị Trường (15 Phút)
+- **Bước 1:** Bật \`Personal Intelligence\` trong Cài đặt Gemini & tạo thư mục \`Spark OS\` trên Google Drive.
+- **Bước 2:** Nhấn **1-Click Copy Step 1 Prompt** dán vào Gemini.
+- **Bước 3:** Bật \`Guided Learning\` chốt góc tiếp thị sản phẩm.
 
-1. **Dàn kịch bản trên Canvas (10 phút):**
-   - Bấm **Quick-Copy Step 2** trên Vercel -> Dán góc đánh vừa chọn vào giao diện **Canvas** để Gemini xuất Kế hoạch nội dung & Kịch bản Video chi tiết.
-   \`\`\`prompt
-   [STEP 2 - CANVAS & BROWSE]
-   Dàn Kế hoạch nội dung truyền thông và Kịch bản Video chi tiết trên giao diện Canvas dựa trên góc đánh vừa chọn.
-   \`\`\`
-
-2. **Spark Workspace Deep Control (10 phút):**
-   - Học viên gõ 1 đoạn Comment ở lề trang Canvas -> Spark tự đọc comment và sửa trực tiếp văn bản/bảng biểu trong Canvas.
-
-3. **Spark Chrome Auto Browse (5 phút):**
-   - Ra lệnh cho Spark: *"Dùng Chrome Auto Browse truy cập vào trang [Web đối thủ] lấy thêm bảng giá/hình ảnh thực tế lưu thẳng vào thư mục Spark OS trên Drive."*
-
----
-
-### 🔗 MẮT XÍCH 3: XƯỞNG SẢN XUẤT ĐA PHƯƠNG TIỆN (25 PHÚT | 00:40 - 01:05)
-
-![Mắt xích 3 - Xưởng sản xuất Đa phương tiện](/hero_ai_automation_light.jpg)
-
-> 💡 **Mẹo Tối Ưu Thời Gian chờ Render**: Trong lúc Veo đang xử lý render Video (mất ~1-2 phút), học viên lập tức lấy Prompt Audio Music chạy song song để không tốn 2 phút chờ trên lớp!
-
-Học viên bấm **Quick-Copy Step 3** trên Vercel để lấy bộ Prompt kỹ thuật tạo Asset theo kịch bản ở Canvas:
-
-1. **Tạo Hình ảnh (8 phút):** Ném mô tả từ Canvas vào ô Chat -> Tạo ảnh Banner/Product Visual chuẩn Cinematic.
-2. **Tạo Video Veo (10 phút):** Đưa bức ảnh vừa tạo vào công cụ Video -> Nhập Prompt tả chuyển động: *"Góc quay camera lượn từ trái sang phải, hiệu ứng ánh sáng lung linh, 5 giây."*
-3. **Tạo Nhạc nền (7 phút):** Yêu cầu Gemini xuất 1 đoạn Audio ngắn (15-30s) hợp mood kịch bản -> Tải trọn bộ (Ảnh + Video + Nhạc).
+![📸 Ảnh Bài Làm Thực Tế Mắt Xích 1](/session_1.jpg)
 
 \`\`\`prompt
-[STEP 3 - MEDIA PIPELINE]
-Tạo hình ảnh Banner chuẩn Studio, chuyển thể thành Clip Video Veo 5s với hiệu ứng camera lượn ngang, và tạo đoạn nhạc nền Audio Music khớp mood kịch bản.
+[STEP 1 - DEEP RESEARCH & GUIDED LEARNING]
+Kích hoạt Deep Research quét xu hướng thị trường và 3 đối thủ lớn nhất của [TÊN_SẢN_PHẨM_DỊCH_VỤ] trong ngành [NGÀNH_HÀNG] tại Việt Nam. Xuất báo cáo và dùng Guided Learning đưa 3 câu hỏi chọn góc đánh tiếp thị cho [KHÁCH_HÀNG_MỤC_TIÊU].
 \`\`\`
 
 ---
 
-### 🔗 MẮT XÍCH 4: CÀI ĐẶT TỰ ĐỘNG HÓA 24/7 & ĐÓNG GÓI GEM (25 PHÚT | 01:05 - 01:30)
+### 2️⃣ MẮT XÍCH 2: Dàn Kịch Bản Canvas & Chrome Auto Browse (25 Phút)
+- **Bước 1:** Nhấn **1-Click Copy Step 2 Prompt** dán vào giao diện Canvas.
+- **Bước 2:** Gõ comment lề trang Canvas để Spark tự sửa nội dung.
+- **Bước 3:** Ra lệnh cho Spark Chrome Auto Browse cào dữ liệu web đối thủ lưu về Drive.
 
-![Mắt xích 4 - Standing Instructions & Custom Gem](/session_1.jpg)
+![📸 Ảnh Bài Làm Thực Tế Mắt Xích 2](/workflow_n8n_preview.jpg)
 
-1. **Cài đặt Standing Instructions (15 phút):**
-   - Học viên bấm **Quick-Copy Step 4** -> Dán vào mục Standing Instructions của Spark:
-   \`\`\`prompt
-   Standing Instruction 24/7: Mỗi khi có Gmail mới chứa tiêu đề 'Nội dung/Báo cáo', hãy tự động trích xuất ý chính và cập nhật thành 1 dòng mới vào file Google Sheets 'Theo dõi Campaign' trong folder Spark OS.
-   \`\`\`
-   - **Test trực tiếp:** Học viên tự gửi 1 Gmail test -> Mở Sheets kiểm tra dữ liệu tự nhảy vào.
-
-2. **Đóng gói Custom Gem (5 phút):**
-   - Mở mục Custom Gems -> Dán khung System Instruction từ Vercel -> Lưu thành Gem \`Trợ Lý Tự Động Hóa Truyền Thông 360\`.
-
-3. **Kích hoạt Family Pro (5 phút):**
-   - Add 2 học viên vào gói Family Pro của bạn, hoàn tất cam kết quyền lợi tài khoản Pro.
+\`\`\`prompt
+[STEP 2 - CANVAS KỊCH BẢN & AUTO BROWSE]
+Dàn Kế hoạch truyền thông & Kịch bản Video chi tiết trên giao diện Canvas cho [TÊN_SẢN_PHẨM_DỊCH_VỤ]. Sau đó dùng Chrome Auto Browse cào thêm bảng giá đối thủ từ web [URL_WEB_ĐỐI_THỦ] lưu vào folder Spark OS trên Drive.
+\`\`\`
 
 ---
 
-## III. TÀI NGUYÊN CHUẨN BỊ TRÊN GITHUB / VERCEL
+### 3️⃣ MẮT XÍCH 3: Xưởng Sản Xuất Đa Phương Tiện End-to-End (25 Phút)
+- **Bước 1:** Tạo ảnh Banner/Product Visual chuẩn Studio từ kịch bản Canvas.
+- **Bước 2:** Nhập Prompt tả camera 3D biến ảnh thành Clip Video Veo 5s.
+- **Bước 3:** Lấy Prompt tạo Audio Music chạy song song trong lúc đợi Veo render.
 
-Trang Vercel chỉ cần **4 Nút Quick-Copy** duy nhất:
+> 💡 **Mẹo Render Song Song:** Tạo Nhạc nền Music ngay khi Veo đang xử lý render Video để tối ưu thời gian trên lớp!
 
-- **Button 1 (\`Step1_Research.txt\`):** Prompt gọi Deep Research + Framework Guided Learning.
-- **Button 2 (\`Step2_Canvas_Browse.txt\`):** Prompt cấu trúc Kế hoạch Content trên Canvas + Lệnh Auto Browse.
-- **Button 3 (\`Step3_Media_Pipeline.txt\`):** Cú pháp chuẩn tả Ảnh, Video (Veo), Âm thanh.
-- **Button 4 (\`Step4_Spark_Gem.txt\`):** Khung lệnh Standing Instructions 24/7 + System Instruction đóng gói Gem.
+![📸 Ảnh Bài Làm Thực Tế Mắt Xích 3](/hero_ai_automation_light.jpg)
+
+\`\`\`prompt
+[STEP 3 - MEDIA PIPELINE END-TO-END]
+Tạo hình ảnh Banner chuẩn Studio cho [TÊN_SẢN_PHẨM_DỊCH_VỤ], biến ảnh thành Clip Video Veo 5s với hiệu ứng camera lượn ngang, và tạo đoạn nhạc nền Audio Music khớp phong cách truyền thông.
+\`\`\`
+
+---
+
+### 4️⃣ MẮT XÍCH 4: Standing Instructions 24/7 & Đóng Gói Gem Bot (25 Phút)
+- **Bước 1:** Dán lệnh Standing Instruction 24/7 (Gmail tự động điền Google Sheets).
+- **Bước 2:** Tự gửi 1 Gmail test để kiểm tra dữ liệu nhảy vào Sheets.
+- **Bước 3:** Lưu System Instruction đóng gói thành Custom Gem Bot.
+
+![📸 Ảnh Bài Làm Thực Tế Mắt Xích 4](/session_1.jpg)
+
+\`\`\`prompt
+[STEP 4 - STANDING INSTRUCTION 24/7 & CUSTOM GEM]
+Standing Instruction 24/7: Mỗi khi có Gmail mới chứa tiêu đề '[TÊN_SẢN_PHẨM_DỊCH_VỤ]', tự động trích xuất thông tin khách hàng và ghi 1 dòng mới vào Google Sheets trong folder Spark OS. Gom toàn bộ logic thành Gem 'Trợ Lý Sales 360'.
+\`\`\`
 `
   },
   {
@@ -193,8 +164,6 @@ Hãy viết công thức Excel/Google Sheets chính xác 100% cho yêu cầu:
 
 ## 📖 Tổng Quan Buổi Học
 Học viên sẽ biến AI thành chuyên viên phân tích dữ liệu Senior, tự động hóa xử lý bảng tính Excel mà không cần ghi nhớ hàng trăm công thức phức tạp.
-
-> 💡 **Khái Niệm Cốt Lõi (Core Concept)**: Mô tả tên các Cột (Columns) và kiểu dữ liệu rõ ràng cho AI giúp ChatGPT sinh ra công thức chuẩn xác 100%.
 
 ---
 
