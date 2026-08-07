@@ -18,7 +18,6 @@ import FormField from '@cloudscape-design/components/form-field';
 import HelpPanel from '@cloudscape-design/components/help-panel';
 import ColumnLayout from '@cloudscape-design/components/column-layout';
 import Checkbox from '@cloudscape-design/components/checkbox';
-import Modal from '@cloudscape-design/components/modal';
 import Navigation from '../components/Navigation';
 import { initialLessonsData } from '../data/lessonsData';
 import { getLocalLessonsOverride } from '../lib/supabase';
@@ -31,9 +30,6 @@ export default function StudentPortal() {
   const [copiedPromptName, setCopiedPromptName] = useState('');
   const [lessons, setLessons] = useState(initialLessonsData);
   const [toolsOpen, setToolsOpen] = useState(false);
-
-  // Lightbox Modal State
-  const [lightboxImage, setLightboxImage] = useState(null);
 
   // Checklist state for DoD
   const [checkListState, setCheckListState] = useState({});
@@ -100,28 +96,24 @@ export default function StudentPortal() {
     });
   };
 
-  // Helper to render Full-Width 100% Stacked Image Cards
+  // Helper to render Full-Width 100% Clean Image Cards (No popup modal needed)
   const renderFullWidthImageCard = (src, title, badgeColor = "blue") => {
     const resolvedUrl = resolveMarkdownImageUrl(src);
     return (
       <div 
         key={src + title}
-        className="group relative border-2 border-dashed border-indigo-200 hover:border-indigo-500 rounded-2xl p-4 bg-indigo-50/40 hover:bg-indigo-50 transition-all cursor-pointer shadow-sm hover:shadow-md my-4 w-full"
-        onClick={() => setLightboxImage({ url: resolvedUrl, title: title || src })}
+        className="border-2 border-dashed border-indigo-200 rounded-2xl p-4 bg-indigo-50/40 my-4 w-full shadow-sm"
       >
         <div className="text-sm font-bold text-indigo-900 mb-2.5 flex items-center justify-between">
           <span className="flex items-center gap-2">📸 <span>{title || 'Ảnh chụp màn hình'}:</span></span>
           <Badge color={badgeColor}>{src}</Badge>
         </div>
-        <div className="rounded-xl overflow-hidden border border-slate-200 bg-white relative w-full shadow-inner">
+        <div className="rounded-xl overflow-hidden border border-slate-200 bg-white w-full shadow-inner">
           <img 
             src={resolvedUrl} 
             alt={title || src} 
-            className="w-full h-auto object-cover bg-slate-50 transition-transform duration-300" 
+            className="w-full h-auto object-cover bg-slate-50" 
           />
-          <div className="absolute top-3 right-3 bg-slate-900/80 text-white text-xs px-3 py-1.5 rounded-full backdrop-blur-md opacity-80 group-hover:opacity-100 transition-opacity flex items-center gap-1 font-medium">
-            <span>🔍 Click để phóng to toàn màn hình HD</span>
-          </div>
         </div>
       </div>
     );
@@ -360,9 +352,9 @@ export default function StudentPortal() {
             header={<h2>💡 Trợ Giúp Học Viên</h2>}
             footer={
               <div>
-                <h3>Trình Biên Dịch Rich Markdown:</h3>
+                <h3>Hiển Thị Full-Width 100%:</h3>
                 <Box color="text-body-secondary">
-                  Tự động chuyển đổi các ký tự <code>#</code>, <code>**in đậm**</code>, <code>*dấu gạch đầu dòng*</code> thành giao diện HTML chuẩn đẹp!
+                  Hình ảnh hiển thị sắc nét trực tiếp trên trang, không cần nhấp chuột mở modal popup!
                 </Box>
               </div>
             }
@@ -383,7 +375,7 @@ export default function StudentPortal() {
                 actions={
                   <SpaceBetween direction="horizontal" size="xs">
                     <Badge color="blue">{currentLesson.module_name}</Badge>
-                    <StatusIndicator type="success">Rich Markdown Formatting Active</StatusIndicator>
+                    <StatusIndicator type="success">100% Full-Width Direct View</StatusIndicator>
                     <Button iconName="help" onClick={() => setToolsOpen(!toolsOpen)}>
                       Trợ Giúp
                     </Button>
@@ -411,9 +403,9 @@ export default function StudentPortal() {
                   <StatusIndicator type="info">Tab Trò Chuyện &amp; Tab Spark BETA</StatusIndicator>
                   <Box color="text-body-secondary">Chuẩn 100% giao diện thực tế</Box>
                 </Container>
-                <Container header={<Header variant="h3">✨ Rich Format</Header>}>
-                  <StatusIndicator type="success">Clean HTML Formatting</StatusIndicator>
-                  <Box color="text-body-secondary">Tự động định dạng #, ** và *</Box>
+                <Container header={<Header variant="h3">🖼️ Bố Cục Trực Quan</Header>}>
+                  <StatusIndicator type="success">Full-Width Natural View</StatusIndicator>
+                  <Box color="text-body-secondary">Hiển thị sắc nét không cần popup modal</Box>
                 </Container>
               </ColumnLayout>
 
@@ -431,7 +423,7 @@ export default function StudentPortal() {
                             <div className="space-y-1 text-sm">
                               <div><strong>Tình huống thực tế:</strong> Bạn được giao lên kế hoạch du lịch / team building 3N2Đ cho nhóm 10-15 người (3-5 triệu/người).</div>
                               <div><strong>Luồng Thao Tác 2 Tab:</strong> [Tab Trò chuyện] (Research + Canvas + Veo) &rarr; [Tab Spark BETA] (Trình duyệt từ xa Agoda + Standing Instructions Gmail sang Sheets).</div>
-                              <div className="text-xs text-indigo-700 font-semibold mt-1">✨ Định dạng Rich Markdown chuẩn đẹp (đã loại bỏ hoàn toàn ký tự thô `#`, `**`, `&rarr;`)!</div>
+                              <div className="text-xs text-indigo-700 font-semibold mt-1">✨ Tất cả hình ảnh hiển thị sắc nét trực tiếp 100% Full-Width khi cuộn trang!</div>
                             </div>
                           </Alert>
                         )}
@@ -503,39 +495,6 @@ export default function StudentPortal() {
           </ContentLayout>
         }
       />
-
-      {/* LIGHTBOX MODAL FOR HD FULLSCREEN IMAGE VIEWING */}
-      {lightboxImage && (
-        <Modal
-          visible={!!lightboxImage}
-          onDismiss={() => setLightboxImage(null)}
-          header={
-            <Header
-              variant="h2"
-              description="Ảnh chụp màn hình thực tế sắc nét (Sử dụng con lăn chuột hoặc thu phóng để xem chi tiết chữ)"
-            >
-              🔍 {lightboxImage.title}
-            </Header>
-          }
-          size="max"
-          footer={
-            <Box float="right">
-              <Button variant="primary" onClick={() => setLightboxImage(null)}>
-                Đóng (Esc)
-              </Button>
-            </Box>
-          }
-        >
-          <div className="p-3 bg-slate-950 rounded-xl overflow-auto flex items-center justify-center" style={{ maxHeight: '75vh' }}>
-            <img
-              src={lightboxImage.url}
-              alt={lightboxImage.title}
-              className="max-w-full object-contain rounded-lg shadow-2xl border border-slate-800"
-              style={{ maxHeight: '72vh' }}
-            />
-          </div>
-        </Modal>
-      )}
     </div>
   );
 }
