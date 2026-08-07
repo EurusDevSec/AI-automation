@@ -1,0 +1,94 @@
+{
+  "name": "Buổi 3 - Auto Cào Ý Tưởng RSS sang Google Sheets",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24
+            }
+          ]
+        }
+      },
+      "id": "node-schedule-trigger",
+      "name": "Schedule Trigger (Mỗi 24h)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://vnexpress.net/rss/so-hoa.rss",
+        "options": {}
+      },
+      "id": "node-rss-feed",
+      "name": "HTTP RSS Request (VNExpress Số Hóa)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "[YOUR_GOOGLE_SHEET_ID_HERE]",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Sheet1",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Tiêu Đề": "={{ $json.title }}",
+            "Đường Dẫn": "={{ $json.link }}",
+            "Mô Tả": "={{ $json.pubDate }}"
+          }
+        }
+      },
+      "id": "node-google-sheets-append",
+      "name": "Google Sheets Append Node",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [700, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "[YOUR_CREDENTIAL_ID]",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger (Mỗi 24h)": {
+      "main": [
+        [
+          {
+            "node": "HTTP RSS Request (VNExpress Số Hóa)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP RSS Request (VNExpress Số Hóa)": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets Append Node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

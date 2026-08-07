@@ -1,0 +1,35 @@
+====================================================================
+📐 BẢN ĐẶC TẢ KỸ THUẬT WEB LANDING PAGE (PRD CHO AI AGENT)
+====================================================================
+
+[TEHNOLOGY STACK]
+- Framework: React 18 (Vite)
+- Styling: Tailwind CSS (Modern Dark Mode & Glassmorphism)
+- Components: Lucide React Icons, Responsive Grid System.
+
+[GIAO DIỆN & CẤU TRÚC TRANG LANDING PAGE KHÓA HỌC AI & AUTOMATION]
+
+1. TOP NAVIGATION:
+   - Logo: AI-Automation Platform
+   - Menu Links: [Trang Chủ], [Lộ Trình 8 Buổi], [Giảng Viên], [Học Phí], [Đăng Ký]
+   - Button: "Đăng Ký Tư Vấn Ngay" (Gradients Emerald/Cyan).
+
+2. HERO SECTION:
+   - Badge: "🔥 Khóa Học Thực Chiến 8 Buổi - Dành Cho Người Không Biết Code"
+   - Headline H1: "Làm Chủ AI & Tự Động Hóa Kinh Doanh Trong 8 Buổi Học"
+   - Subheadline: "Ứng dụng ChatGPT, n8n, Supabase và AI Agent giúp tự động hóa 90% công việc văn phòng & bán hàng."
+   - Action Buttons: Nút [Đăng Ký Ngay (3.500.000 VNĐ)] và Nút [Xem Lộ Trình 8 Buổi].
+   - Visual Element: Card xem trước 3 Chặng đào tạo đẹp mắt với hiệu ứng Glow glass.
+
+3. LỘ TRÌNH DÀO TẠO 8 BUỔI (CURRICULUM GRID):
+   - Chặng 1: Trợ Lý AI Văn Phòng & Dữ Liệu (Buổi 1 - Chuẩn hóa văn bản, Buổi 2 - Trợ lý Excel).
+   - Chặng 2: Hệ Thống Tự Động Hóa Mạng Xã Hội (Buổi 3 - RSS n8n, Buổi 4 - Content Facebook, Buổi 5 - Kịch bản Video, Buổi 6 - Auto Chatbot).
+   - Chặng 3: Lập Trình Website Bằng AI (Buổi 7 - AI Web Builder, Buổi 8 - Deploy Vercel & Supabase).
+
+4. LEAD CAPTURE FORM SECTION:
+   - Form Fields: Họ và tên, Email, Số điện thoại, Nghề nghiệp (Dropdown: Văn phòng, Kinh doanh online, Marketer, Khác).
+   - Submit Button: "Gửi Thông Tin Đăng Ký - Nhận Ưu Đãi 3.5M".
+   - Notification: Toast Alert xanh lá khi gửi thành công.
+
+5. FOOTER:
+   - Bản quyền & Thông tin liên hệ Giảng viên (EurusDevSec).

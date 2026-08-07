@@ -1,0 +1,26 @@
+====================================================================
+🎬 CHUỖI PROMPT LIÊN HOÀN TẠO KỊCH BẢN VIDEO NGẮN CHUYÊN SÂU
+====================================================================
+
+--- [GIAI ĐOẠN 1: TÌM ANGLE & CÂU HOOK GIỮ CHÂN MẠNH MẼ] ---
+[ROLE]
+Bạn là Đạo diễn Video Ngắn TikTok/Facebook Reels triệu view.
+
+[CONTEXT]
+Chủ đề video: "[NHẬP CHỦ ĐỀ - VÍ DỤ: Cách dùng AI dọn dẹp dữ liệu Excel trong 30 giây]"
+Đối tượng xem: Dân văn phòng, người làm kinh doanh online bận rộn.
+
+[NHIỆM VỤ]
+Hãy đề xuất 3 góc nhìn (Angle) độc đáo kèm 3 câu Hook (3 giây đầu) cực kỳ giữ chân người xem.
+
+
+--- [GIAI ĐOẠN 2: CHI TIẾT BẢNG PHÂN CẢNH VIDEO SHORT] ---
+[NHIỆM VỤ]
+Từ Góc nhìn & Câu Hook tôi vừa chọn ở trên, hãy biên soạn toàn bộ Kịch bản chi tiết dưới dạng BẢNG MARKDOWN theo chuẩn sau:
+
+| Thời Gian | Hình Ảnh & Góc Quay (Visual Cue) | Lời Thoại (Voiceover Script) | Chữ Trên Màn Hình & Âm Thanh |
+| :--- | :--- | :--- | :--- |
+| 00:00 - 00:03 | Quay cận cảnh mặt hốt hoảng nhìn màn hình Excel báo lỗi đỏ | "Bạn vẫn đang ngồi sửa từng dòng Excel thủ công như thế này ư?" | TEXT: Stop làm thủ công! <br>SOUND: Pop effect |
+| 00:03 - 00:10 | Màn hình máy tính bật ChatGPT, paste dữ liệu thô | "Xem ngay cách AI xử lý sạch sẽ 1.000 dòng dữ liệu chỉ trong 5 giây!" | TEXT: Dọn dữ liệu trong 5s <br>SOUND: Whoosh |
+| 00:10 - 00:45 | [Chi tiết các bước thực hiện thao tác] | [Lời thoại hướng dẫn mượt mà] | [Text hướng dẫn & SFX] |
+| 00:45 - 00:60 | Nụ cười tự tin, nhấp nút Lưu và tắt máy tính sớm | "Follow kênh ngay để học thêm nhiều tuyệt chiêu tự động hóa AI!" | TEXT: Follow để nhận Prompt <br>SOUND: Chime victory |

@@ -1,0 +1,100 @@
+{
+  "name": "Buổi 6 - Auto Chatbot Messenger Facebook n8n",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "fb-messenger-webhook",
+        "options": {}
+      },
+      "id": "node-webhook-messenger",
+      "name": "Facebook Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "messages": {
+          "messageValues": [
+            {
+              "role": "system",
+              "content": "Bạn là Nhân viên Tư vấn Báo giá Khóa học AI & Automation chuyên nghiệp. Hãy trả lời ngắn gọn, thân thiện, lịch sự và chốt đơn thu hút khách hàng để lại SĐT."
+            },
+            {
+              "role": "user",
+              "content": "=Khách hàng hỏi: {{ $json.body.entry[0].messaging[0].message.text }}"
+            }
+          ]
+        }
+      },
+      "id": "node-openai-sales-chatbot",
+      "name": "OpenAI Sales Bot Node",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.3,
+      "position": [480, 300],
+      "credentials": {
+        "openAiApi": {
+          "id": "[YOUR_OPENAI_CREDENTIAL_ID]",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v19.0/me/messages",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "recipient",
+              "value": "={{ JSON.stringify({ id: $node[\"Facebook Webhook Trigger\"].json.body.entry[0].messaging[0].sender.id }) }}"
+            },
+            {
+              "name": "message",
+              "value": "={{ JSON.stringify({ text: $json.message.content }) }}"
+            },
+            {
+              "name": "access_token",
+              "value": "[YOUR_FACEBOOK_PAGE_ACCESS_TOKEN]"
+            }
+          ]
+        }
+      },
+      "id": "node-fb-reply-messenger",
+      "name": "FB Send Messenger Reply Node",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [700, 300]
+    }
+  ],
+  "connections": {
+    "Facebook Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "OpenAI Sales Bot Node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Sales Bot Node": {
+      "main": [
+        [
+          {
+            "node": "FB Send Messenger Reply Node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

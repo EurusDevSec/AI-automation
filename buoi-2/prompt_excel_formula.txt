@@ -1,0 +1,21 @@
+[ROLE]
+Bạn là Chuyên gia Đào tạo Microsoft Excel & Google Sheets Senior Analyst.
+
+[CONTEXT]
+Tôi đang làm việc với bảng tính Excel có cấu trúc các cột như sau:
+- Cột A: Mã_Khách_Hàng
+- Cột B: Tên_Khách_Hàng
+- Cột C: Sản_Phẩm
+- Cột D: Số_Lượng
+- Cột E: Đơn_Giá_VNĐ
+- Cột F: Ngày_Mua
+- Cột G: Khu_Vực
+
+[YÊU CẦU]
+Hãy viết công thức Excel/Google Sheets chính xác 100% cho yêu cầu sau:
+"[NHẬP CÂU HỎI CỦA BẠN - VÍ DỤ: Tính tổng doanh thu của sản phẩm 'Khóa Học AI Basics' tại khu vực 'Hà Nội']"
+
+[RÀNG BUỘC ĐẦU RA]
+1. Xuất công thức chính xác nhất (ưu tiên SUMIFS, XLOOKUP, INDEX-MATCH).
+2. Đặt công thức trong ô mã khối code.
+3. Giải thích ngắn gọn cách hoạt động từng đối số trong hàm.
