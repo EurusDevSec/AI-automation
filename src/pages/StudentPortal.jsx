@@ -142,8 +142,31 @@ export default function StudentPortal() {
     );
   };
 
+  // Helper to render Full-Width 100% HTML5 Audio Player Cards
+  const renderFullWidthAudioCard = (src, title = 'Nhạc Nền Audio Tropical House') => {
+    const resolvedUrl = resolveMarkdownImageUrl(src);
+    return (
+      <div 
+        key={src + title}
+        className="border-2 border-dashed border-emerald-300 rounded-2xl p-4 bg-emerald-50/60 transition-all shadow-sm my-5 w-full"
+      >
+        <div className="text-sm font-bold text-emerald-950 mb-2.5 flex items-center justify-between">
+          <span className="flex items-center gap-2">🎵 <span>{title}:</span></span>
+          <Badge color="green">{src}</Badge>
+        </div>
+        <div className="rounded-xl overflow-hidden border border-emerald-200 bg-white p-3 shadow-inner flex items-center gap-3">
+          <audio 
+            src={resolvedUrl} 
+            controls 
+            className="w-full h-11"
+          />
+        </div>
+      </div>
+    );
+  };
+
   // DYNAMIC MARKDOWN PARSER & RENDERER
-  // Parses markdown string line-by-line so ALL markdown tags (#, ##, **, *, images, videos) format into rich HTML!
+  // Parses markdown string line-by-line so ALL markdown tags (#, ##, **, *, images, videos, audio) format into rich HTML!
   const renderDynamicMarkdown = (markdownText) => {
     if (!markdownText) return null;
 
@@ -191,6 +214,14 @@ export default function StudentPortal() {
         continue;
       }
 
+      // HTML <audio ... src="filename.mp3"> Tag Match
+      const htmlAudioMatch = line.trim().match(/<audio[^>]*src=["'](.*?)["']/i);
+      if (htmlAudioMatch) {
+        const audioSrc = htmlAudioMatch[1];
+        elements.push(renderFullWidthAudioCard(audioSrc, 'Nhạc Nền Audio MP3 Thực Tế'));
+        continue;
+      }
+
       // HTML <video ... src="filename.mp4"> Tag Match
       const htmlVideoMatch = line.trim().match(/<video[^>]*src=["'](.*?)["']/i);
       if (htmlVideoMatch) {
@@ -199,15 +230,18 @@ export default function StudentPortal() {
         continue;
       }
 
-      // Image / Video Tag Match: ![alt](filename.ext)
+      // Image / Video / Audio Tag Match: ![alt](filename.ext)
       const imgMatch = line.trim().match(/^!\[(.*?)\]\((.*?)\)/);
       if (imgMatch) {
         const altText = imgMatch[1] || 'Tệp đính kèm';
         const mediaSrc = imgMatch[2];
         const isVideo = /\.(mp4|webm|mov)$/i.test(mediaSrc);
+        const isAudio = /\.(mp3|wav|ogg|m4a|flac)$/i.test(mediaSrc);
 
         if (isVideo) {
           elements.push(renderFullWidthVideoCard(mediaSrc, altText));
+        } else if (isAudio) {
+          elements.push(renderFullWidthAudioCard(mediaSrc, altText));
         } else {
           elements.push(renderFullWidthImageCard(mediaSrc, altText, 'blue'));
         }
@@ -352,9 +386,9 @@ export default function StudentPortal() {
             header={<h2>💡 Trợ Giúp Học Viên</h2>}
             footer={
               <div>
-                <h3>Hiển Thị Full-Width 100%:</h3>
+                <h3>Hỗ Trợ Phát Audio MP3:</h3>
                 <Box color="text-body-secondary">
-                  Hình ảnh hiển thị sắc nét trực tiếp trên trang, không cần nhấp chuột mở modal popup!
+                  Dán file âm thanh <code>.mp3</code> vào <code>src/content/</code> và gõ <code>&lt;audio src="nhac.mp3" controls&gt;&lt;/audio&gt;</code> để nghe nhạc live!
                 </Box>
               </div>
             }
@@ -375,7 +409,7 @@ export default function StudentPortal() {
                 actions={
                   <SpaceBetween direction="horizontal" size="xs">
                     <Badge color="blue">{currentLesson.module_name}</Badge>
-                    <StatusIndicator type="success">100% Full-Width Direct View</StatusIndicator>
+                    <StatusIndicator type="success">HTML5 Audio Player Active</StatusIndicator>
                     <Button iconName="help" onClick={() => setToolsOpen(!toolsOpen)}>
                       Trợ Giúp
                     </Button>
@@ -403,9 +437,9 @@ export default function StudentPortal() {
                   <StatusIndicator type="info">Tab Trò Chuyện &amp; Tab Spark BETA</StatusIndicator>
                   <Box color="text-body-secondary">Chuẩn 100% giao diện thực tế</Box>
                 </Container>
-                <Container header={<Header variant="h3">🖼️ Bố Cục Trực Quan</Header>}>
-                  <StatusIndicator type="success">Full-Width Natural View</StatusIndicator>
-                  <Box color="text-body-secondary">Hiển thị sắc nét không cần popup modal</Box>
+                <Container header={<Header variant="h3">🎵 MP3 Audio Support</Header>}>
+                  <StatusIndicator type="success">HTML5 Audio Player</StatusIndicator>
+                  <Box color="text-body-secondary">Phát nhạc nền MP3 trực tiếp</Box>
                 </Container>
               </ColumnLayout>
 
@@ -423,7 +457,7 @@ export default function StudentPortal() {
                             <div className="space-y-1 text-sm">
                               <div><strong>Tình huống thực tế:</strong> Bạn được giao lên kế hoạch du lịch / team building 3N2Đ cho nhóm 10-15 người (3-5 triệu/người).</div>
                               <div><strong>Luồng Thao Tác 2 Tab:</strong> [Tab Trò chuyện] (Research + Canvas + Veo) &rarr; [Tab Spark BETA] (Trình duyệt từ xa Agoda + Standing Instructions Gmail sang Sheets).</div>
-                              <div className="text-xs text-indigo-700 font-semibold mt-1">✨ Tất cả hình ảnh hiển thị sắc nét trực tiếp 100% Full-Width khi cuộn trang!</div>
+                              <div className="text-xs text-indigo-700 font-semibold mt-1">✨ Đã bật tính năng trình phát Nhạc Nền MP3 trực tiếp từ file Markdown!</div>
                             </div>
                           </Alert>
                         )}

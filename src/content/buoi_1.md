@@ -77,6 +77,7 @@ Tạo một video ngắn 5 giây từ bức ảnh này với yêu cầu:
 Tạo một đoạn nhạc nền Audio thời lượng 15 giây phong cách Tropical House / Indie Pop tươi vui, nhịp điệu rộn ràng, mang lại cảm giác hào hứng, tự do cho chuyến đi du lịch mùa hè.
 ```
 
+![ảnh prompt nhạc](image-7.png)
 <audio controls src="Cứ_Đi_Thôi.mp3" title="Title"></audio>
 
 ---

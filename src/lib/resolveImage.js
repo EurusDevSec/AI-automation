@@ -1,11 +1,11 @@
-// Vite eager glob import for all images and videos in src/content
-const contentAssets = import.meta.glob('../content/**/*.{png,jpg,jpeg,svg,gif,webp,JPG,PNG,JPEG,mp4,webm,mov,MP4,WEBM}', {
+// Vite eager glob import for all images, videos, and audio files in src/content
+const contentAssets = import.meta.glob('../content/**/*.{png,jpg,jpeg,svg,gif,webp,JPG,PNG,JPEG,mp4,webm,mov,MP4,WEBM,mp3,wav,ogg,m4a,flac,MP3,WAV,OGG,M4A}', {
   eager: true,
   import: 'default'
 });
 
 /**
- * Resolves relative markdown image and video URLs (e.g. "image.png", "video.mp4")
+ * Resolves relative markdown media URLs (e.g. "image.png", "video.mp4", "song.mp3")
  * to actual Vite bundled URLs.
  */
 export function resolveMarkdownImageUrl(url) {
