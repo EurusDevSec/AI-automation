@@ -76,25 +76,26 @@ export default function StudentPortal() {
     setCheckListState((prev) => ({ ...prev, [idx]: !prev[idx] }));
   };
 
-  const renderImageCard = (src, title, badgeText, badgeColor = "blue", containerHeight = "h-72") => {
+  // Render Full-Width 100% Natural Vertical Stacked Image Card
+  const renderFullWidthImageCard = (src, title, badgeText, badgeColor = "blue") => {
     const resolvedUrl = resolveMarkdownImageUrl(src);
     return (
       <div 
-        className="group relative border-2 border-dashed border-indigo-200 hover:border-indigo-500 rounded-xl p-3 bg-indigo-50/40 hover:bg-indigo-50/90 transition-all cursor-pointer shadow-sm hover:shadow-md"
+        className="group relative border-2 border-dashed border-indigo-200 hover:border-indigo-500 rounded-2xl p-4 bg-indigo-50/40 hover:bg-indigo-50 transition-all cursor-pointer shadow-sm hover:shadow-md my-4 w-full"
         onClick={() => setLightboxImage({ url: resolvedUrl, title: title || src })}
       >
-        <div className="text-xs font-semibold text-indigo-800 mb-2 flex items-center justify-between">
-          <span className="flex items-center gap-1.5">📸 <span>{title}:</span></span>
+        <div className="text-sm font-bold text-indigo-900 mb-2.5 flex items-center justify-between">
+          <span className="flex items-center gap-2">📸 <span>{title}:</span></span>
           <Badge color={badgeColor}>{badgeText || src}</Badge>
         </div>
-        <div className={`rounded-lg overflow-hidden border border-slate-200 bg-white relative ${containerHeight}`}>
+        <div className="rounded-xl overflow-hidden border border-slate-200 bg-white relative w-full shadow-inner">
           <img 
             src={resolvedUrl} 
             alt={title} 
-            className="w-full h-full object-contain bg-slate-900/5 group-hover:scale-105 transition-transform duration-300" 
+            className="w-full h-auto object-cover bg-slate-50 transition-transform duration-300" 
           />
-          <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-semibold text-sm gap-2 backdrop-blur-[1px]">
-            <span>🔍 Click để xem phóng to 100% HD</span>
+          <div className="absolute top-3 right-3 bg-slate-900/80 text-white text-xs px-3 py-1.5 rounded-full backdrop-blur-md opacity-80 group-hover:opacity-100 transition-opacity flex items-center gap-1 font-medium">
+            <span>🔍 Click để phóng to toàn màn hình</span>
           </div>
         </div>
       </div>
@@ -171,9 +172,9 @@ export default function StudentPortal() {
             header={<h2>💡 Trợ Giúp Học Viên</h2>}
             footer={
               <div>
-                <h3>Tính Năng Xem Ảnh Phóng To:</h3>
+                <h3>Hiển Thị Full-Width 100%:</h3>
                 <Box color="text-body-secondary">
-                  Nhấp chuột vào bất kỳ bức ảnh chụp màn hình nào để mở <strong>Lightbox Modal</strong> phóng to sắc nét HD 100%!
+                  Tất cả ảnh minh họa được dàn <strong>Full-Width 1 Cột Xếp Dọc</strong> giúp học viên đọc chữ trực tiếp khi cuộn bài!
                 </Box>
               </div>
             }
@@ -194,7 +195,7 @@ export default function StudentPortal() {
                 actions={
                   <SpaceBetween direction="horizontal" size="xs">
                     <Badge color="blue">{currentLesson.module_name}</Badge>
-                    <StatusIndicator type="success">Click-to-Zoom Lightbox Active</StatusIndicator>
+                    <StatusIndicator type="success">100% Full-Width Vertical Flow</StatusIndicator>
                     <Button iconName="help" onClick={() => setToolsOpen(!toolsOpen)}>
                       Trợ Giúp
                     </Button>
@@ -222,9 +223,9 @@ export default function StudentPortal() {
                   <StatusIndicator type="info">Tab Trò Chuyện &amp; Tab Spark BETA</StatusIndicator>
                   <Box color="text-body-secondary">Chuẩn 100% giao diện thực tế</Box>
                 </Container>
-                <Container header={<Header variant="h3">🔍 Phóng To HD</Header>}>
-                  <StatusIndicator type="success">Click-to-Zoom Lightbox</StatusIndicator>
-                  <Box color="text-body-secondary">Nhấp ảnh bất kỳ để xem toàn màn hình</Box>
+                <Container header={<Header variant="h3">🖼️ Bố Cục Ảnh</Header>}>
+                  <StatusIndicator type="success">Full-Width 1 Cột Xếp Dọc</StatusIndicator>
+                  <Box color="text-body-secondary">Hình nào ra hình nấy, đọc trực tiếp</Box>
                 </Container>
               </ColumnLayout>
 
@@ -242,7 +243,7 @@ export default function StudentPortal() {
                             <div className="space-y-1 text-sm">
                               <div><strong>Tình huống thực tế:</strong> Bạn được giao lên kế hoạch du lịch / team building 3N2Đ cho nhóm 10-15 người (3-5 triệu/người).</div>
                               <div><strong>Luồng Thao Tác 2 Tab:</strong> [Tab Trò chuyện] (Research + Canvas + Veo) &rarr; [Tab Spark BETA] (Trình duyệt từ xa Agoda + Standing Instructions Gmail sang Sheets).</div>
-                              <div className="text-xs text-indigo-700 font-semibold mt-1">💡 Mẹo: Nhấp chuột vào hình ảnh bất kỳ để xem phóng to HD 100% toàn màn hình!</div>
+                              <div className="text-xs text-indigo-700 font-semibold mt-1">✨ Toàn bộ ảnh được dàn Full-Width 1 Cột Xếp Dọc giúp bạn đọc rõ chữ trực tiếp khi cuộn bài!</div>
                             </div>
                           </Alert>
                         )}
@@ -266,14 +267,12 @@ export default function StudentPortal() {
                                 </div>
                               )}
 
-                              {/* REAL SCREENSHOTS FOR DEEP RESEARCH WITH LIGHTBOX */}
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
-                                {renderImageCard('image-1.png', 'Deep Research Gemini', 'image-1.png', 'blue', 'h-80')}
-                                {renderImageCard('image-2.png', 'Chi Tiết Báo Cáo Canvas', 'image-2.png', 'blue', 'h-80')}
-                              </div>
+                              {/* FULL-WIDTH VERTICAL STACKED SCREENSHOTS */}
+                              {renderFullWidthImageCard('image-1.png', 'Giao diện Deep Research Gemini Thực Tế', 'image-1.png', 'blue')}
+                              {renderFullWidthImageCard('image-2.png', 'Chi Tiết Báo Cáo Trên Giao Diện Canvas', 'image-2.png', 'blue')}
                             </div>
 
-                            <div className="pt-3 border-t border-slate-200">
+                            <div className="pt-4 border-t border-slate-200">
                               <h3 className="font-bold text-slate-900 text-base mb-1">2️⃣ Tính Năng Native "Tạo" Trên Canvas &amp; Guided Learning (10 Phút)</h3>
                               <p className="text-sm text-slate-600 mb-2">Ngay tại giao diện Canvas vừa tạo, dùng menu nút <strong>Tạo ∨</strong> ở góc trên bên phải để sinh Bài kiểm tra (Quiz) hoặc Audio Podcast.</p>
                               
@@ -289,13 +288,11 @@ export default function StudentPortal() {
                                 </div>
                               )}
 
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
-                                {renderImageCard('canvas-create-web.png', 'Menu Nút Tạo ∨ Trên Canvas', 'canvas-create-web.png', 'green', 'h-72')}
-                                {renderImageCard('guided-learning-quiz.png', 'Giao Diện Trắc Nghiệm Guided Learning', 'guided-learning-quiz.png', 'blue', 'h-72')}
-                              </div>
+                              {renderFullWidthImageCard('canvas-create-web.png', 'Menu Nút Tạo ∨ Tích Hợp Sẵn Trên Canvas', 'canvas-create-web.png', 'green')}
+                              {renderFullWidthImageCard('guided-learning-quiz.png', 'Giao Diện Khung Trắc Nghiệm Guided Learning', 'guided-learning-quiz.png', 'blue')}
                             </div>
 
-                            <div className="pt-3 border-t border-slate-200">
+                            <div className="pt-4 border-t border-slate-200">
                               <h3 className="font-bold text-slate-900 text-base mb-1">3️⃣ Xưởng Media: Poster &amp; Video Veo 5s (10 Phút)</h3>
                               <p className="text-sm text-slate-600 mb-2">Tạo ảnh Poster du lịch Cinematic và ném ảnh vào Veo để sinh Clip Video 5s chuyển động Tilt up.</p>
                               
@@ -323,9 +320,7 @@ export default function StudentPortal() {
                                 </div>
                               )}
 
-                              <div className="my-4">
-                                {renderImageCard('image.png', 'Ảnh Poster Team Building Cinematic Thực Tế', 'image.png', 'blue', 'h-96')}
-                              </div>
+                              {renderFullWidthImageCard('image.png', 'Ảnh Poster Team Building Cinematic Thực Tế', 'image.png', 'blue')}
                             </div>
                           </SpaceBetween>
                         </Container>
@@ -349,15 +344,13 @@ export default function StudentPortal() {
                                 </div>
                               )}
 
-                              {/* SPARK REMOTE BROWSER 3 REAL SCREENSHOTS WITH LIGHTBOX */}
-                              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-4">
-                                {renderImageCard('spark-remote-browser-1.png', '1. Trình Duyệt Mở Nửa Phải', 'spark-remote-browser-1.png', 'red', 'h-64')}
-                                {renderImageCard('spark-remote-browser-2.png', '2. Spark Tự Tương Tác Click', 'spark-remote-browser-2.png', 'red', 'h-64')}
-                                {renderImageCard('spark-remote-browser-result.png', '3. Trích Xuất Giá Phòng Kết Quả', 'spark-remote-browser-result.png', 'green', 'h-64')}
-                              </div>
+                              {/* SPARK REMOTE BROWSER 3 FULL-WIDTH VERTICAL STACKED SCREENSHOTS */}
+                              {renderFullWidthImageCard('spark-remote-browser-1.png', 'Bước 1: Trình Duyệt Mở Nửa Màn Hình Bên Phải', 'spark-remote-browser-1.png', 'red')}
+                              {renderFullWidthImageCard('spark-remote-browser-2.png', 'Bước 2: Spark Tự Động Click Chọn Phòng Khách Sạn Agoda', 'spark-remote-browser-2.png', 'red')}
+                              {renderFullWidthImageCard('spark-remote-browser-result.png', 'Bước 3: Spark Trích Xuất Chi Tiết Bảng Giá Phòng Về Khung Chat', 'spark-remote-browser-result.png', 'green')}
                             </div>
 
-                            <div className="pt-3 border-t border-slate-200">
+                            <div className="pt-4 border-t border-slate-200">
                               <h3 className="font-bold text-slate-900 text-base mb-1">2️⃣ Cài Đặt Standing Instructions 24/7 (25 Phút)</h3>
                               <p className="text-sm text-slate-600 mb-2">Vào Spark Settings &amp; Standing Instructions, dán lệnh tự động ghi nhận bill Gmail về Google Sheets 24/7.</p>
                               
