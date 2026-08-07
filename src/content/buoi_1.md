@@ -50,6 +50,12 @@ Tạo cho tôi một bức ảnh Poster du lịch chuẩn Cinematic, phong cách
 - Phong cách: Ánh sáng mặt trời rực rỡ, màu sắc tươi sáng, sắc nét chuẩn ảnh tạp chí du lịch.
 ```
 
+![Prompt tạo ảnh](image-4.png)
+Prompt tạo ảnh
+
+![kết quả ảnh](image-5.png)
+Kết quả ảnh
+
 ```prompt
 Tạo một video ngắn 5 giây từ bức ảnh này với yêu cầu:
 - Chuyển động Camera: Góc quay Cinematic lướt chậm từ dưới lên cao (Tilt up) mở ra toàn cảnh thiên nhiên.
