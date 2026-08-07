@@ -4,7 +4,7 @@
 
 ## 🎯 TỔNG QUAN LUỒNG THAO TÁC 2 TAB TRÊN GIAO DIỆN THỰC TẾ
 
-* **[TAB 1: TRÒ CHUYỆN]** &rarr; Deep Research &rarr; Canvas (Kế hoạch) &rarr; Nút "Tạo" (Audio/Quiz) &rarr; Tạo Ảnh & Video Veo
+* **[TAB 1: TRÒ CHUYỆN]** &rarr; Deep Research &rarr; Canvas (Kế hoạch) &rarr; Nút "Tạo" (Audio Podcast / Quiz) &rarr; Tạo Ảnh & Video Veo
 * **[TAB 2: SPARK BETA]** &rarr; Trình duyệt từ xa (Auto Browse Booking/Agoda) &rarr; Standing Instructions (Gmail -&gt; Sheets)
 
 ---
@@ -25,11 +25,16 @@ Deep Research các địa điểm du lịch 3N2Đ hot nhất 2026 cho nhóm 10-1
 
 ![deepresearch detail](image-2.png)
 
-### 2️⃣ Tính Năng Native "Tạo" Trên Canvas (10 Phút)
+### 2️⃣ Tính Năng Native "Tạo" Trên Canvas & Bài Tập Audio Overview (10 Phút)
 
-* **Thao tác:** Ngay tại giao diện Canvas vừa tạo, học viên dùng menu nút **Tạo ∨** ở góc trên bên phải:
-  * Chọn **Bài kiểm tra (Quiz):** Tạo bộ câu hỏi trắc nghiệm gửi vào nhóm chốt địa điểm.
-  * Chọn **Tổng quan bằng âm thanh:** Xuất ra file Audio podcast tóm tắt chuyến đi đầy cảm hứng.
+* **Thao tác:** Ngay tại giao diện Canvas vừa tạo kế hoạch, học viên dùng menu nút **Tạo ∨** ở góc trên bên phải để tạo 2 sản phẩm:
+  1. **Bài kiểm tra (Quiz):** Sinh bộ câu hỏi trắc nghiệm tương tác chọn địa điểm.
+  2. **Tổng quan bằng âm thanh (Audio Overview):** Sinh file Audio Podcast tóm tắt lịch trình chuyến đi bằng giọng đối thoại hào hứng.
+
+```prompt
+[BÀI TẬP TẠO AUDIO OVERVIEW - GEMINI CANVAS]
+Dựa trên trang Canvas kế hoạch du lịch 3N2Đ đã soạn thảo, hãy dùng nút "Tạo ∨" -> Chọn "Tổng quan bằng âm thanh" (Audio Overview) để sinh ra một bản Audio Podcast thảo luận 2 người dẫn chuyện (Host) tóm tắt các điểm đến ăn uống và chơi đêm hấp dẫn nhất của chuyến đi.
+```
 
 ![Tính năng nút Tạo trên Canvas](canvas-create-web.png)
 
@@ -51,10 +56,8 @@ Tạo cho tôi một bức ảnh Poster du lịch chuẩn Cinematic, phong cách
 ```
 
 ![Prompt tạo ảnh](image-4.png)
-Prompt tạo ảnh
 
 ![kết quả ảnh](image-5.png)
-Kết quả ảnh
 
 ```prompt
 Tạo một video ngắn 5 giây từ bức ảnh này với yêu cầu:
@@ -62,9 +65,9 @@ Tạo một video ngắn 5 giây từ bức ảnh này với yêu cầu:
 - Hiệu ứng: Ánh nắng chiếu xuyên qua kẽ lá, mây nhẹ nhàng trôi trên bầu trời, không khí chuyến đi tràn đầy năng lượng.
 ```
 
-![prompt video](image-6.png)
+<video controls src="video_du_lich.mp4" title="Video AI Trailer Thực Tế"></video>
 
-<video controls src="video_du_lich.mp4" title="Title"></video>
+![Poster Du Lịch Team Building Cinematic](image.png)
 
 ---
 
@@ -77,7 +80,7 @@ Tạo một video ngắn 5 giây từ bức ảnh này với yêu cầu:
 * **Thao tác:** Dán câu lệnh vào tab **Spark BETA**:
 
 ```prompt
-Hãy dùng Chrome Auto Browse truy cập vào trang web đặt phòng (như Agoda, Traveloka hoặc Booking), cào bằng giả phòng thực tế của 1 Homestay Resort phù hợp tại địa điểm đã chọn và chèn thêm 1 Bảng tổng hợp chi phí lưu trú vào cuối trang Canvas cho tôi.
+Hãy dùng Trình duyệt từ xa truy cập Booking.com (hoặc Agoda), tìm khách sạn/resort cho nhóm 10 người tại [Tên địa điểm] vào tháng 8/2026. Lấy danh sách 3 chỗ ở tốt nhất kèm giá phòng thực tế.
 ```
 
 * **Trải nghiệm thực tế:** Khung **Trình duyệt từ xa** mở ra ở nửa màn hình bên phải (như trong ảnh chụp thực tế). Học viên quan sát Spark tự click chuột, chọn ngày tháng trên lịch Booking/Agoda và cào dữ liệu về bảng chat.

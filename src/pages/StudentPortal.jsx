@@ -456,33 +456,8 @@ export default function StudentPortal() {
                     )
                   },
                   {
-                    id: 'tab-resources',
-                    label: '📦 2. Mega-Prompt & Tài Nguyên JSON',
-                    content: (
-                      <Container header={<Header variant="h2" description="Tải xuống workflow n8n JSON hoặc 1-Click Copy Mega Prompt">Tài Nguyên Thực Chiến Core</Header>}>
-                        <SpaceBetween size="l">
-                          {currentLesson.mega_prompt && (
-                            <div>
-                              <Header
-                                variant="h3"
-                                actions={
-                                  <Button iconName="copy" variant="primary" onClick={() => handleCopyPrompt(currentLesson.mega_prompt, 'Mega-Prompt')}>
-                                    1-Click Copy Full Case Study Prompt
-                                  </Button>
-                                }
-                              >
-                                📄 Full Case Study Master Prompt
-                              </Header>
-                              <div className="custom-code-editor">{currentLesson.mega_prompt}</div>
-                            </div>
-                          )}
-                        </SpaceBetween>
-                      </Container>
-                    )
-                  },
-                  {
                     id: 'tab-sandbox',
-                    label: '🧪 3. AI Prompt Sandbox (Thử Nghiệm)',
+                    label: '🧪 2. AI Prompt Sandbox (Thử Nghiệm)',
                     content: (
                       <Container header={<Header variant="h2" description="Khung thử nghiệm phản hồi Prompt trực quan dành cho học viên">AI Prompt Sandbox Live</Header>}>
                         <SpaceBetween size="m">
@@ -505,7 +480,7 @@ export default function StudentPortal() {
                   },
                   {
                     id: 'tab-checklist',
-                    label: '🎯 4. Checklist Hoàn Thành (DoD)',
+                    label: '🎯 3. Checklist Hoàn Thành (DoD)',
                     content: (
                       <Container header={<Header variant="h2" description="Tự kiểm tra mức độ hoàn thành bài học 90 phút">Checklist Hoàn Thành</Header>}>
                         <SpaceBetween size="m">
