@@ -16,7 +16,8 @@
 * **Thao tác:** Ở tab **Trò chuyện**, học viên dán lệnh:
 
 ```prompt
-Deep Research các địa điểm du lịch 3N2Đ hot nhất 2026 cho nhóm 10-15 người, ngân sách 3-5 triệu/người. Xuất kế hoạch chi tiết.
+[BỐI CẢNH & NHIỆM VỤ]
+Tôi cần lên kế hoạch cho chuyến du lịch / team building 3 ngày 2 đêm cho nhóm khoảng 10-15 người (nam và nữ, độ tuổi 22-35). Chi phí dự kiến: 3 - 5 triệu VNĐ / người.
 ```
 
 * **Đầu ra:** Gemini xuất bài viết kế hoạch trên Canvas.
@@ -28,17 +29,17 @@ Deep Research các địa điểm du lịch 3N2Đ hot nhất 2026 cho nhóm 10-1
 ### 2️⃣ Tính Năng Native "Tạo" Trên Canvas & Bài Tập Audio Overview (10 Phút)
 
 * **Thao tác:** Ngay tại giao diện Canvas vừa tạo kế hoạch, học viên dùng menu nút **Tạo ∨** ở góc trên bên phải để tạo 2 sản phẩm:
-  1. **Bài kiểm tra (Quiz):** Sinh bộ câu hỏi trắc nghiệm tương tác chọn địa điểm.
-  2. **Tổng quan bằng âm thanh (Audio Overview):** Sinh file Audio Podcast tóm tắt lịch trình chuyến đi bằng giọng đối thoại hào hứng.
+   **Bài kiểm tra (Quiz):** Sinh bộ câu hỏi trắc nghiệm tương tác chọn địa điểm.
 
-```prompt
-[BÀI TẬP TẠO AUDIO OVERVIEW - GEMINI CANVAS]
-Dựa trên trang Canvas kế hoạch du lịch 3N2Đ đã soạn thảo, hãy dùng nút "Tạo ∨" -> Chọn "Tổng quan bằng âm thanh" (Audio Overview) để sinh ra một bản Audio Podcast thảo luận 2 người dẫn chuyện (Host) tóm tắt các điểm đến ăn uống và chơi đêm hấp dẫn nhất của chuyến đi.
-```
+    ![Giao diện Trắc Nghiệm Guided Learning Quiz](guided-learning-quiz.png)
+  
+   **Tổng quan bằng âm thanh (Audio Overview):** Sinh file Audio Podcast tóm tắt lịch trình chuyến đi bằng giọng đối thoại hào hứng.
+
+![tạo audio podcast từ deep research](image-15.png)
+
+ **Tính năng tạo Canvas**
 
 ![Tính năng nút Tạo trên Canvas](canvas-create-web.png)
-
-![Giao diện Trắc Nghiệm Guided Learning Quiz](guided-learning-quiz.png)
 
 ![Giao diện Web App Team Building Canvas](canvas-web-app.png)
 
@@ -107,7 +108,7 @@ Hãy dùng Trình duyệt từ xa truy cập Booking.com (hoặc Agoda), tìm kh
 
 **Bước 1: Hướng dẫn học viên truy cập cài đặt**
 
-* Nhấp biểu tượng Cài Đặt (Gear icon) ở góc trên Spark BETA &rarr; Chọn **Standing Instructions**.
+* Nhấp biểu tượng Cài Đặt (Gear icon) ở góc trên Spark BETA
 
 **Bước 2: Prompt Standing Instructions (Copy dán vào Spark Settings)**
 
