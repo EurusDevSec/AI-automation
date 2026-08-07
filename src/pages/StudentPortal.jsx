@@ -21,6 +21,7 @@ import Checkbox from '@cloudscape-design/components/checkbox';
 import Navigation from '../components/Navigation';
 import { initialLessonsData } from '../data/lessonsData';
 import { getLocalLessonsOverride } from '../lib/supabase';
+import { resolveMarkdownImageUrl } from '../lib/resolveImage';
 
 export default function StudentPortal() {
   const [activeSession, setActiveSession] = useState(1);
@@ -56,18 +57,6 @@ export default function StudentPortal() {
     setTimeout(() => setCopySuccess(false), 3000);
   };
 
-  const handleDownloadJson = (jsonString, filename) => {
-    const blob = new Blob([jsonString], { type: 'application/json' });
-    const href = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = href;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(href);
-  };
-
   const handleRunSandbox = () => {
     setSandboxLoading(true);
     setSandboxResponse('');
@@ -81,6 +70,68 @@ export default function StudentPortal() {
 
   const toggleChecklist = (idx) => {
     setCheckListState((prev) => ({ ...prev, [idx]: !prev[idx] }));
+  };
+
+  // Helper to render Markdown line by line with auto image path resolution
+  const renderMarkdownContent = (markdownText) => {
+    if (!markdownText) return null;
+    const lines = markdownText.split('\n');
+
+    return (
+      <div className="space-y-4 text-slate-800">
+        {lines.map((line, idx) => {
+          if (line.startsWith('# ')) {
+            return <h1 key={idx} className="text-2xl font-extrabold text-slate-900 mb-3">{line.replace('# ', '')}</h1>;
+          }
+          if (line.startsWith('## ')) {
+            return <h2 key={idx} className="text-xl font-bold text-indigo-900 mt-4 mb-2 pb-1 border-b border-indigo-100">{line.replace('## ', '')}</h2>;
+          }
+          if (line.startsWith('### ')) {
+            return <h3 key={idx} className="text-lg font-semibold text-slate-800 mt-3 mb-1">{line.replace('### ', '')}</h3>;
+          }
+          if (line.startsWith('![') && line.includes('](')) {
+            const altMatch = line.match(/!\[(.*?)\]/);
+            const urlMatch = line.match(/\((.*?)\)/);
+            const alt = altMatch ? altMatch[1] : '';
+            const rawUrl = urlMatch ? urlMatch[1] : '';
+            const resolvedUrl = resolveMarkdownImageUrl(rawUrl);
+
+            return (
+              <div key={idx} className="my-4 border-2 border-dashed border-indigo-200 rounded-xl p-3 bg-indigo-50/50">
+                <div className="text-xs font-semibold text-indigo-700 mb-2 flex items-center gap-1.5">
+                  📸 <span>{alt || 'Ảnh Bài Làm Thực Tế'}:</span>
+                  <Badge color="blue">IDE Synced Image ({rawUrl})</Badge>
+                </div>
+                <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
+                  <img src={resolvedUrl} alt={alt} className="w-full max-h-96 object-contain bg-slate-50" />
+                </div>
+              </div>
+            );
+          }
+          if (line.startsWith('> 💡')) {
+            return (
+              <Alert key={idx} type="info" header="💡 Mẹo Tối Ưu">
+                {line.replace('> 💡 ', '').replace('> 💡', '')}
+              </Alert>
+            );
+          }
+          if (line.startsWith('```')) {
+            return null; // Code blocks handled separately in tabs
+          }
+          if (line.startsWith('- **') || line.startsWith('- ')) {
+            return (
+              <div key={idx} className="flex items-center gap-2 text-sm text-slate-700 py-0.5">
+                <span className="w-2 h-2 rounded-full bg-indigo-500 flex-shrink-0"></span>
+                <span>{line.replace('- ', '')}</span>
+              </div>
+            );
+          }
+          if (line.trim() === '') return <div key={idx} className="h-1"></div>;
+
+          return <p key={idx} className="text-sm leading-relaxed text-slate-700">{line}</p>;
+        })}
+      </div>
+    );
   };
 
   return (
@@ -153,23 +204,15 @@ export default function StudentPortal() {
             header={<h2>💡 Hướng Dẫn Học Viên</h2>}
             footer={
               <div>
-                <h3>Cần hỗ trợ trực tiếp?</h3>
-                <Box color="text-body-secondary">Liên hệ giảng viên EurusDevSec qua Zalo / Telegram nhóm học tập 24/7.</Box>
+                <h3>Chỉnh sửa tệp Markdown từ IDE?</h3>
+                <Box color="text-body-secondary">Mở tệp <code>src/content/buoi_1.md</code> trong VS Code, dán ảnh cùng cấp (vd: <code>image.png</code>) và lưu file. Web sẽ tự cập nhật HMR!</Box>
               </div>
             }
           >
             <SpaceBetween size="m">
               <Box variant="p">
-                Chào mừng bạn đến với <strong>Buổi {currentLesson.session_number}</strong>! Bạn đang thực hành Case Study Lập Kế Hoạch & Bộ Truyền Thông Team Building 3N2Đ.
+                Chào mừng bạn đến với <strong>Buổi {currentLesson.session_number}</strong>! Đang hiển thị trực tiếp từ tệp Markdown IDE <code>src/content/buoi_{currentLesson.session_number}.md</code>.
               </Box>
-              <div>
-                <h4>Mẹo thực hành mượt mà:</h4>
-                <ul>
-                  <li>Nhấn nút <strong>1-Click Copy Prompt</strong> tương ứng với từng Thao tác 1.1 đến 4.2.</li>
-                  <li>Xem <strong>Ảnh Bài Làm Mẫu Thực Tế</strong> bên dưới mỗi Mắt xích để so sánh sản phẩm.</li>
-                  <li>Tạo Audio Music song song khi Veo đang xử lý render Video.</li>
-                </ul>
-              </div>
             </SpaceBetween>
           </HelpPanel>
         }
@@ -182,7 +225,7 @@ export default function StudentPortal() {
                 actions={
                   <SpaceBetween direction="horizontal" size="xs">
                     <Badge color="blue">{currentLesson.module_name}</Badge>
-                    <StatusIndicator type="success">Golden Path Verified</StatusIndicator>
+                    <StatusIndicator type="success">IDE Markdown Synced</StatusIndicator>
                     <Button iconName="help" onClick={() => setToolsOpen(!toolsOpen)}>
                       Trợ Giúp
                     </Button>
@@ -196,7 +239,7 @@ export default function StudentPortal() {
             <SpaceBetween size="l">
               {copySuccess && (
                 <Alert type="success" dismissible onDismiss={() => setCopySuccess(false)}>
-                  ✅ Đã sao chép <strong>{copiedPromptName}</strong> vào Clipboard! Dán trực tiếp vào Gemini / Spark để chạy ngay.
+                  ✅ Đã sao chép <strong>{copiedPromptName}</strong> vào Clipboard!
                 </Alert>
               )}
 
@@ -206,13 +249,13 @@ export default function StudentPortal() {
                   <Box variant="h2">90 Phút</Box>
                   <Box color="text-body-secondary">Thực hành 100% trên lớp</Box>
                 </Container>
-                <Container header={<Header variant="h3">🎯 Cấp Độ & Đối Tượng</Header>}>
-                  <StatusIndicator type="info">Dân Văn Phòng & Freelancer</StatusIndicator>
-                  <Box color="text-body-secondary">Không cần kiến thức lập trình</Box>
+                <Container header={<Header variant="h3">🎯 Nguồn Nội Dung</Header>}>
+                  <StatusIndicator type="info">IDE file: src/content/buoi_{currentLesson.session_number}.md</StatusIndicator>
+                  <Box color="text-body-secondary">Tự động đồng bộ ảnh cùng cấp</Box>
                 </Container>
                 <Container header={<Header variant="h3">🛡️ Tiêu Chuẩn</Header>}>
                   <StatusIndicator type="success">100% Zero Error Guarantee</StatusIndicator>
-                  <Box color="text-body-secondary">Prompt đã thử nghiệm 100%</Box>
+                  <Box color="text-body-secondary">Vite HMR Live Auto Reload</Box>
                 </Container>
               </ColumnLayout>
 
@@ -231,47 +274,20 @@ export default function StudentPortal() {
                 tabs={[
                   {
                     id: 'tab-theory',
-                    label: '💡 1. Bối Cảnh & Ma Trận Công Cụ',
+                    label: '💡 1. Bối Cảnh & Nội Dung Giáo Án',
                     content: (
-                      <Container header={<Header variant="h2" description="Tổng quan bối cảnh dự án & phân công 8 công cụ trong dây chuyền sản xuất">Mục Tiêu Bài Học Buổi {currentLesson.session_number}</Header>}>
+                      <Container header={<Header variant="h2" description={`Nội dung hiển thị live từ src/content/buoi_${currentLesson.session_number}.md`}>Giáo Án Chi Tiết (IDE Live Stream)</Header>}>
                         <SpaceBetween size="l">
-                          {/* MAIN SESSION IMAGE */}
-                          <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-slate-100">
-                            <img
-                              src={currentLesson.image_url}
-                              alt={currentLesson.title}
-                              className="w-full h-auto max-h-[380px] object-cover"
-                            />
-                          </div>
-
-                          <Container header={<Header variant="h3">📖 Bối Cảnh Dự Án Thực Tế</Header>}>
-                            <Box variant="p" fontSize="body-m" color="text-body-primary">
-                              {currentLesson.theory.overview}
-                            </Box>
-                          </Container>
-
-                          <Alert type="warning" header="💡 Khái Niệm Cốt Lõi (Core Concept)">
-                            {currentLesson.theory.core_concept}
-                          </Alert>
-
-                          <Container header={<Header variant="h3">🎯 Kết Quả Người Học Đạt Được (Learning Outcomes)</Header>}>
-                            <SpaceBetween size="s">
-                              {currentLesson.theory.learning_outcomes.map((outcome, idx) => (
-                                <StatusIndicator key={idx} type="success">
-                                  <strong>{outcome}</strong>
-                                </StatusIndicator>
-                              ))}
-                            </SpaceBetween>
-                          </Container>
+                          {renderMarkdownContent(currentLesson.raw_markdown)}
                         </SpaceBetween>
                       </Container>
                     )
                   },
                   {
                     id: 'tab-steps',
-                    label: '📋 2. Quy Trình 4 Mắt Xích Thực Hành (90 Phút)',
+                    label: '📋 2. Quy Trình 4 Mắt Xích Thực Hành & Prompt Buttons',
                     content: (
-                      <Container header={<Header variant="h2" description="Thực hành 4 Mắt xích chi tiết kèm Ảnh Bài Làm Mẫu Thực Tế & Nút Copy Prompt">Quy Trình 4 Mắt Xích Thực Chiếm 90 Phút</Header>}>
+                      <Container header={<Header variant="h2" description="Các Nút 1-Click Copy Prompt & Ảnh Mẫu Thực Tế">4 Mắt Xích Thực Hành 90 Phút</Header>}>
                         <SpaceBetween size="l">
                           {/* MAT XICH 1 */}
                           <Container header={<Header variant="h3" description="15 Phút | 00:00 - 00:15">🔗 MẮT XÍCH 1: DEEP RESEARCH & GUIDED LEARNING</Header>}>
@@ -292,14 +308,26 @@ export default function StudentPortal() {
                                 )}
                               </div>
 
-                              {/* SAMPLE WORK IMAGE 1 */}
-                              <div className="border-2 border-dashed border-indigo-200 rounded-xl p-3 bg-indigo-50/50">
-                                <div className="text-xs font-semibold text-indigo-700 mb-2 flex items-center gap-1.5">
-                                  📸 <span>Ảnh Mẫu Bài Làm (Mắt Xích 1 - Báo Cáo Deep Research & Guided Learning):</span>
-                                  <Badge color="blue">Sample Work</Badge>
+                              {/* DYNAMIC IMAGE RESOLUTION FOR IMAGE-1.PNG AND IMAGE-2.PNG */}
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div className="border-2 border-dashed border-indigo-200 rounded-xl p-3 bg-indigo-50/50">
+                                  <div className="text-xs font-semibold text-indigo-700 mb-2 flex items-center gap-1.5">
+                                    📸 <span>Ảnh 1 (image-1.png):</span>
+                                    <Badge color="blue">image-1.png</Badge>
+                                  </div>
+                                  <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
+                                    <img src={resolveMarkdownImageUrl('image-1.png')} alt="image-1.png" className="w-full h-48 object-contain bg-slate-50" />
+                                  </div>
                                 </div>
-                                <div className="rounded-lg overflow-hidden border border-slate-200">
-                                  <img src="/session_1.jpg" alt="Mắt Xích 1 Mẫu" className="w-full h-56 object-cover" />
+
+                                <div className="border-2 border-dashed border-indigo-200 rounded-xl p-3 bg-indigo-50/50">
+                                  <div className="text-xs font-semibold text-indigo-700 mb-2 flex items-center gap-1.5">
+                                    📸 <span>Ảnh 2 (image-2.png):</span>
+                                    <Badge color="blue">image-2.png</Badge>
+                                  </div>
+                                  <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
+                                    <img src={resolveMarkdownImageUrl('image-2.png')} alt="image-2.png" className="w-full h-48 object-contain bg-slate-50" />
+                                  </div>
                                 </div>
                               </div>
 
@@ -340,20 +368,9 @@ export default function StudentPortal() {
                                 )}
                               </div>
 
-                              {/* SAMPLE WORK IMAGE 2 */}
-                              <div className="border-2 border-dashed border-emerald-200 rounded-xl p-3 bg-emerald-50/50">
-                                <div className="text-xs font-semibold text-emerald-700 mb-2 flex items-center gap-1.5">
-                                  📸 <span>Ảnh Mẫu Bài Làm (Mắt Xích 2 - Lịch Trình Canvas & Auto Browse):</span>
-                                  <Badge color="green">Sample Work</Badge>
-                                </div>
-                                <div className="rounded-lg overflow-hidden border border-slate-200">
-                                  <img src="/workflow_n8n_preview.jpg" alt="Mắt Xích 2 Mẫu" className="w-full h-56 object-cover" />
-                                </div>
-                              </div>
-
                               <div>
                                 <h4 className="font-bold text-slate-800 text-sm mb-1">📌 Thao tác 2.2: Sửa trực tiếp trên Canvas & Auto Browse cào giá Homestay</h4>
-                                <p className="text-xs text-slate-600 mb-2">Dùng Comment lề trang sửa văn bản + Ra lệnh Spark Auto Browse cào bảng giá phòng Homestay.</p>
+                                <p className="text-xs text-slate-600 mb-2">Dùng Comment lề trang sửa văn bản &amp; Ra lệnh Spark Auto Browse cào bảng giá phòng Homestay.</p>
                                 {currentLesson.prompts_with_placeholders?.step2_2 && (
                                   <div>
                                     <div className="flex items-center justify-between bg-slate-800 text-slate-200 px-3 py-1.5 rounded-t-lg text-xs font-semibold">
@@ -408,17 +425,6 @@ export default function StudentPortal() {
                                 Trong lúc Veo đang xử lý render Video (mất ~1-2 phút), hãy lấy ngay Prompt 3.3 tạo Nhạc nền Tropical House để không lãng phí thời gian trên lớp!
                               </Alert>
 
-                              {/* SAMPLE WORK IMAGE 3 */}
-                              <div className="border-2 border-dashed border-amber-200 rounded-xl p-3 bg-amber-50/50">
-                                <div className="text-xs font-semibold text-amber-700 mb-2 flex items-center gap-1.5">
-                                  📸 <span>Ảnh Mẫu Bài Làm (Mắt Xích 3 - Bộ Media Poster, Veo Video & Music):</span>
-                                  <Badge color="red">Sample Work</Badge>
-                                </div>
-                                <div className="rounded-lg overflow-hidden border border-slate-200">
-                                  <img src="/hero_ai_automation_light.jpg" alt="Mắt Xích 3 Mẫu" className="w-full h-56 object-cover" />
-                                </div>
-                              </div>
-
                               <div>
                                 <h4 className="font-bold text-slate-800 text-sm mb-1">📌 Thao tác 3.3: Tạo Nhạc nền Video (Audio/Music Generation)</h4>
                                 <p className="text-xs text-slate-600 mb-2">Tạo đoạn nhạc nền Audio 15s phong cách Tropical House / Indie Pop tươi vui.</p>
@@ -442,7 +448,7 @@ export default function StudentPortal() {
                             <SpaceBetween size="m">
                               <div>
                                 <h4 className="font-bold text-slate-800 text-sm mb-1">📌 Thao tác 4.1: Cài đặt Tự động hóa ghi nhận Thu - Chi chuyến đi</h4>
-                                <p className="text-xs text-slate-600 mb-2">Mở Spark Settings &rarr; Standing Instructions dán lệnh tự động trích xuất bill Gmail sang Google Sheets.</p>
+                                <p className="text-xs text-slate-600 mb-2">Mở Spark Settings &amp; Standing Instructions dán lệnh tự động trích xuất bill Gmail sang Google Sheets.</p>
                                 {currentLesson.prompts_with_placeholders?.step4_1 && (
                                   <div className="mb-4">
                                     <div className="flex items-center justify-between bg-slate-800 text-slate-200 px-3 py-1.5 rounded-t-lg text-xs font-semibold">
@@ -456,20 +462,9 @@ export default function StudentPortal() {
                                 )}
                               </div>
 
-                              {/* SAMPLE WORK IMAGE 4 */}
-                              <div className="border-2 border-dashed border-purple-200 rounded-xl p-3 bg-purple-50/50">
-                                <div className="text-xs font-semibold text-purple-700 mb-2 flex items-center gap-1.5">
-                                  📸 <span>Ảnh Mẫu Bài Làm (Mắt Xích 4 - Standing Instruction & Custom Gem Bot):</span>
-                                  <Badge color="blue">Sample Work</Badge>
-                                </div>
-                                <div className="rounded-lg overflow-hidden border border-slate-200">
-                                  <img src="/session_1.jpg" alt="Mắt Xích 4 Mẫu" className="w-full h-56 object-cover" />
-                                </div>
-                              </div>
-
                               <div>
                                 <h4 className="font-bold text-slate-800 text-sm mb-1">📌 Thao tác 4.2: Đóng gói thành Custom Gem dùng lâu dài</h4>
-                                <p className="text-xs text-slate-600 mb-2">Vào Gems &rarr; Create New Gem, dán System Instruction tạo Bot 'Trợ Lý Lập Kế Hoạch Sự Kiện & Du Lịch'.</p>
+                                <p className="text-xs text-slate-600 mb-2">Vào Gems &amp; Create New Gem, dán System Instruction tạo Bot 'Trợ Lý Lập Kế Hoạch Sự Kiện &amp; Du Lịch'.</p>
                                 {currentLesson.prompts_with_placeholders?.step4_2 && (
                                   <div>
                                     <div className="flex items-center justify-between bg-slate-800 text-slate-200 px-3 py-1.5 rounded-t-lg text-xs font-semibold">
@@ -522,39 +517,6 @@ export default function StudentPortal() {
                                 📄 Full Case Study Master Prompt
                               </Header>
                               <div className="custom-code-editor">{currentLesson.mega_prompt}</div>
-                            </div>
-                          )}
-
-                          {currentLesson.n8n_json && (
-                            <div>
-                              <Header
-                                variant="h3"
-                                actions={
-                                  <SpaceBetween direction="horizontal" size="xs">
-                                    <Button
-                                      iconName="copy"
-                                      onClick={() => handleCopyPrompt(currentLesson.n8n_json, 'n8n JSON')}
-                                    >
-                                      Copy JSON
-                                    </Button>
-                                    <Button
-                                      iconName="download"
-                                      variant="primary"
-                                      onClick={() =>
-                                        handleDownloadJson(
-                                          currentLesson.n8n_json,
-                                          `workflow_buoi_${currentLesson.session_number}.json`
-                                        )
-                                      }
-                                    >
-                                      Tải JSON Direct
-                                    </Button>
-                                  </SpaceBetween>
-                                }
-                              >
-                                🤖 Mã Workflow n8n JSON (Valid 100%)
-                              </Header>
-                              <div className="custom-code-editor">{currentLesson.n8n_json}</div>
                             </div>
                           )}
                         </SpaceBetween>

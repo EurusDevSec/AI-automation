@@ -7,7 +7,7 @@
 * **Tình huống:** Bạn (bất kể nam hay nữ, dân văn phòng hay tự do) được giao hoặc tự mình đứng ra lên kế hoạch cho chuyến đi du lịch / team building 3 ngày 2 đêm cho nhóm bạn hoặc công ty.
 * **Mục tiêu:** Trong 90 phút, tự động hóa từ khâu tìm địa điểm, lên lịch trình chi tiết, thiết kế bộ truyền thông (Poster, Video Trailer, Nhạc nền), đến tự động gom các hóa đơn/chuyển khoản từ Gmail về file Google Sheets quản lý thu chi.
 
-![Poster Du Lịch Team Building Cinematic](/session_1_real.png)
+![poster du lich team building](image.png)
 
 ---
 
@@ -29,7 +29,9 @@ Hãy kích hoạt Deep Research để thực hiện các bước sau:
 4. Tổng hợp thành báo cáo ngắn gọn có dẫn nguồn cụ thể.
 ```
 
-![📸 Ảnh Mẫu Bài Làm Thực Tế Mắt Xích 1](/session_1_real.png)
+![ảnh mẫu deepresearch](image-1.png)
+
+![deepresearch detail](image-2.png)
 
 ### 📌 Thao tác 1.2: Chốt địa điểm & Concept bằng Guided Learning
 
