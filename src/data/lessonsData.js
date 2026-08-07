@@ -1,121 +1,224 @@
 export const initialLessonsData = [
   {
     session_number: 1,
-    title: "Buổi 1: Case Study - Tự Động Hóa Ra Mắt Sản Phẩm Mới (Spark OS)",
+    title: "Buổi 1: Case Study - Lập Kế Hoạch & Bộ Truyền Thông Du Lịch / Team Building",
     module_name: "Chặng 1: Trợ Lý AI Văn Phòng & Dữ Liệu",
     time_minutes: 90,
-    description: "Case Study thực chiến cho Dân Văn Phòng & Chủ Shop: Tự động hóa ra mắt sản phẩm mới qua 4 Mắt xích Vercel 1-Click Copy.",
+    description: "Case Study thực chiến 90 phút: Tự động hóa từ tìm địa điểm, lên lịch trình Canvas, tạo Poster/Video Veo/Music đến gom bill Gmail về Google Sheets 24/7.",
     image_url: "/session_1.jpg",
     case_study: {
-      title: "Case Study Thực Tế: Ra Mắt Sản Phẩm / Dịch Vụ Mới 360°",
-      target_audience: "Dân văn phòng, Marketer, Chủ shop online & Người khởi nghiệp không biết code",
-      goal: "Tự động nghiên cứu thị trường -> Dàn kịch bản Canvas -> Tạo Bộ Media (Ảnh + Clip Veo + Nhạc) -> Cài bot ngầm Gmail 24/7."
+      title: "Case Study Thực Chiến: Lập Kế Hoạch & Bộ Truyền Thông Cho Chuyến Du Lịch / Team Building Nhóm",
+      target_audience: "Dân văn phòng, Freelancer, Leader nhóm & Người lập kế hoạch sự kiện",
+      goal: "Trong 90 phút, tự động hóa từ tìm địa điểm, lên lịch trình Canvas, tạo Poster/Video Veo/Music đến gom bill Gmail về Google Sheets."
     },
     theory: {
-      overview: "Học viên nhập vai chủ dự án ra mắt sản phẩm mới. Vận dụng 8 công cụ AI tạo thành dây chuyền làm việc tự động khép kín.",
+      overview: "Bạn (dân văn phòng hay tự do) được giao lên kế hoạch chuyến đi 3N2Đ cho 10-15 người (ngân sách 3-5 triệu/người). Vận dụng 8 công cụ AI tạo thành hệ thống làm việc hoàn chỉnh.",
       learning_outcomes: [
-        "Nắm vững 8 công cụ AI theo ma trận nhiệm vụ chuyên biệt.",
-        "Thực thi 4 Mắt xích Vercel theo Case Study thực tế.",
-        "Đóng gói Custom Gem Bot cá nhân hóa mang về dùng hằng ngày."
+        "Làm chủ 8 công cụ AI: Personal Intelligence, Deep Research, Guided Learning, Canvas, Spark Auto Browse, Image Gen, Veo Video, Audio Music & Custom Gems.",
+        "Xây dựng trọn bộ kịch bản và truyền thông (Poster + Video Trailer 5s + Nhạc nền Tropical).",
+        "Cài đặt Standing Instruction 24/7 tự động gom bill thu chi từ Gmail về Google Sheets."
       ],
-      core_concept: "Thay vì làm thủ công từng bước, hãy kết nối 8 công cụ AI thành dây chuyền ra mắt sản phẩm tự động 24/7."
+      core_concept: "Tự động hóa toàn bộ quy trình lập kế hoạch sự kiện nhóm: Từ nghiên cứu $\\rightarrow$ kịch bản Canvas $\rightarrow$ sản xuất Media $\rightarrow$ quản lý tài chính ngầm."
     },
     steps: [
-      "MẮT XÍCH 1 (15p): Bật Personal Intelligence, chạy Deep Research cào thị trường & chọn góc đánh tiếp thị.",
-      "MẮT XÍCH 2 (25p): Dàn kịch bản trên Canvas & chạy Spark Chrome Auto Browse cào giá đối thủ.",
-      "MẮT XÍCH 3 (25p): Tạo Ảnh Studio -> Tạo Clip Veo 5s -> Tạo Nhạc nền Music (Chạy song song).",
-      "MẮT XÍCH 4 (25p): Cài Standing Instruction 24/7 (Gmail sang Sheets) & Đóng gói Custom Gem Bot."
+      "MẮT XÍCH 1 (15p): Deep Research cào top 3 địa điểm 3N2Đ & Guided Learning chốt Concept chuyến đi.",
+      "MẮT XÍCH 2 (25p): Dàn lịch trình chi tiết & Kịch bản Trailer trên Canvas + Spark Auto Browse cào giá phòng Homestay.",
+      "MẮT XÍCH 3 (25p): Tạo Poster du lịch Cinematic -> Tạo Clip Veo 5s camera Tilt up -> Tạo Nhạc nền Tropical House.",
+      "MẮT XÍCH 4 (25p): Cài Standing Instruction 24/7 gom bill Gmail sang Google Sheets & Đóng gói Custom Gem."
     ],
     troubleshooting: [
-      { issue: "Veo render Video mất 1-2 phút", cause: "AI dựng hình ảnh chuyển động 3D", fix: "Tạo Nhạc nền Music song song trong lúc chờ Veo render." },
-      { issue: "Spark Chrome Auto Browse không tải web", cause: "Nhập sai cấu trúc URL", fix: "Nhập đầy đủ https:// ở đầu link web." }
+      { issue: "Veo render Video mất 1-2 phút", cause: "AI đang dựng hiệu ứng chuyển động camera 3D", fix: "Chạy Prompt tạo Nhạc nền Tropical House song song trong lúc chờ Veo render." },
+      { issue: "Auto Browse không cào được giá Agoda/Booking", cause: "Trang web yêu cầu CAPTCHA", fix: "Yêu cầu Spark cào thông tin giá trung bình từ các bài review blog travel." }
     ],
     prompts_with_placeholders: {
-      step1: `[STEP 1 - DEEP RESEARCH & GUIDED LEARNING]
-Kích hoạt Deep Research quét xu hướng thị trường và 3 đối thủ lớn nhất của [TÊN_SẢN_PHẨM_DỊCH_VỤ] trong ngành [NGÀNH_HÀNG] tại Việt Nam. Xuất báo cáo và dùng Guided Learning đưa 3 câu hỏi chọn góc đánh tiếp thị cho [KHÁCH_HÀNG_MỤC_TIÊU].`,
-      step2: `[STEP 2 - CANVAS KỊCH BẢN & AUTO BROWSE]
-Dàn Kế hoạch truyền thông & Kịch bản Video chi tiết trên giao diện Canvas cho [TÊN_SẢN_PHẨM_DỊCH_VỤ]. Sau đó dùng Chrome Auto Browse cào thêm bảng giá đối thủ từ web [URL_WEB_ĐỐI_THỦ] lưu vào folder Spark OS trên Drive.`,
-      step3: `[STEP 3 - MEDIA PIPELINE END-TO-END]
-Tạo hình ảnh Banner chuẩn Studio cho [TÊN_SẢN_PHẨM_DỊCH_VỤ], biến ảnh thành Clip Video Veo 5s với hiệu ứng camera lượn ngang, và tạo đoạn nhạc nền Audio Music khớp phong cách truyền thông.`,
-      step4: `[STEP 4 - STANDING INSTRUCTION 24/7 & CUSTOM GEM]
-Standing Instruction 24/7: Mỗi khi có Gmail mới chứa tiêu đề '[TÊN_SẢN_PHẨM_DỊCH_VỤ]', tự động trích xuất thông tin khách hàng và ghi 1 dòng mới vào Google Sheets trong folder Spark OS. Gom toàn bộ logic thành Gem 'Trợ Lý Sales 360'.`
+      step1_1: `[BỐI CẢNH & NHIỆM VỤ]
+Tôi cần lên kế hoạch cho chuyến du lịch / team building 3 ngày 2 đêm cho nhóm khoảng 10-15 người (nam và nữ, độ tuổi 22-35). Chi phí dự kiến: 3 - 5 triệu VNĐ / người.
+
+[YÊU CẦU THỰC THI]
+Hãy kích hoạt Deep Research để thực hiện các bước sau:
+1. Quét các địa điểm du lịch hot nhất năm 2026 phù hợp cho nhóm đi 3 ngày 2 đêm (ưu tiên di chuyển thuận tiện từ Hà Nội / TP.HCM).
+2. Phân tích ưu/nhược điểm và mức chi phí trung bình của 3 địa điểm hàng đầu.
+3. Trích xuất 3 hoạt động gắn kết nhóm (team building) thú vị, hiện đại, không bị sến.
+4. Tổng hợp thành báo cáo ngắn gọn có dẫn nguồn cụ thể.`,
+      step1_2: `Dựa trên báo cáo trên, hãy bật tính năng Guided Learning (Học có hướng dẫn) và đưa ra 3 câu hỏi trắc nghiệm tương tác để giúp tôi chọn ra 1 Địa điểm & Concept chuyến đi (Nghỉ dưỡng Chill hay Trải nghiệm Năng động) phù hợp nhất với nhóm.`,
+      step2_1: `[BỐI CẢNH]
+Địa điểm và Concept đã chọn: "Chuyến đi Ninh Bình / Đà Lạt 3N2Đ - Phong cách Chill kết hợp trải nghiệm thiên nhiên, ăn uống địa phương".
+
+[YÊU CẦU THỰC THI]
+Hãy mở giao diện CANVAS và soạn thảo 2 phần nội dung sau:
+1. BẢNG LỊCH TRÌNH CHI TIẾT 3 NGÀY 2 ĐÊM: Chia theo từng khung giờ (Sáng - Trưa - Chiều - Tối) bao gồm: Địa điểm ăn uống, chỗ chơi, phương tiện di chuyển và dự tính chi phí từng mục.
+2. KỊCH BẢN VIDEO TRAILER 15 GIÂY: Bảng 3 cột (Thời lượng - Hình ảnh góc quay - Lời thoại/Voiceover) để gửi vào nhóm kêu gọi mọi người chốt đăng ký tham gia.`,
+      step2_2: `Hãy dùng Chrome Auto Browse truy cập vào trang web đặt phòng (như Agoda, Traveloka hoặc Booking), cào bảng giá phòng thực tế của 1 Homestay/Resort phù hợp tại địa điểm đã chọn và chèn thêm 1 Bảng tổng hợp chi phí lưu trú vào cuối trang Canvas cho tôi.`,
+      step3_1: `Tạo cho tôi một bức ảnh Poster du lịch chuẩn Cinematic, phong cách hiện đại:
+- Bối cảnh: Phong cảnh thiên nhiên hùng vĩ tươi đẹp (núi rừng hoặc bãi biển ngập nắng buổi sáng).
+- Đối tượng: Một nhóm bạn trẻ nam và nữ mặc trang phục du lịch năng động, đứng cười đùa tự nhiên bên chiếc xe Jeep/camping.
+- Phong cách: Ánh sáng mặt trời rực rỡ, màu sắc tươi sáng, sắc nét chuẩn ảnh tạp chí du lịch.`,
+      step3_2: `Tạo một video ngắn 5 giây từ bức ảnh này với yêu cầu:
+- Chuyển động Camera: Góc quay Cinematic lướt chậm từ dưới lên cao (Tilt up) mở ra toàn cảnh thiên nhiên.
+- Hiệu ứng: Ánh nắng chiếu xuyên qua kẽ lá, mây nhẹ nhàng trôi trên bầu trời, không khí chuyến đi tràn đầy năng lượng.`,
+      step3_3: `Tạo một đoạn nhạc nền Audio thời lượng 15 giây phong cách Tropical House / Indie Pop tươi vui, nhịp điệu rộn ràng, mang lại cảm giác hào hứng, tự do cho chuyến đi du lịch mùa hè.`,
+      step4_1: `[STANDING INSTRUCTION - CHẠY NGẦM 24/7]
+Nhiệm vụ: Tự động ghi nhận các email xác nhận đặt vé/khách sạn hoặc bill chuyển khoản của thành viên vào Google Sheets.
+
+Điều kiện kích hoạt: Mỗi khi nhận được Gmail chứa từ khóa ["Xác nhận đặt phòng", "Vé máy bay", "Vé xe", "Chuyển khoản du lịch"].
+
+Hành động tự động:
+1. Trích xuất thông tin: Ngày giao dịch, Người gửi/Tên thành viên, Nội dung chi tiêu, Số tiền.
+2. Tự động mở file Google Sheets tên 'Quản Lý Thu Chi Du Lịch 2026' trong thư mục 'Spark OS' trên Google Drive.
+3. Chèn thông tin vừa trích xuất thành 1 dòng mới trong bảng.`,
+      step4_2: `[VAI TRÒ]
+Bạn là Chuyên gia Lập Kế Hoạch Du Lịch & Tổ Chức Sự Kiện Nhóm.
+
+[QUY TRÌNH TỰ ĐỘNG]
+Mỗi khi tôi nhập tên một địa điểm hoặc ý tưởng chuyến đi mới, bạn phải tự động xuất ra:
+1. LỊCH TRÌNH 3N2Đ: Lịch trình ăn chơi theo từng khung giờ + Dự toán ngân sách per head.
+2. PROMPT ẢNH (Tiếng Anh): Tạo ảnh Poster/Banner truyền thông chuyến đi.
+3. PROMPT VIDEO 5S (Tiếng Anh): Dành cho Veo tạo video trailer ngắn kích thích tinh thần nhóm.
+
+[ĐẦU RA]
+Trình bày dạng Bảng Markdown rõ ràng. Văn phong hào hứng, hiện đại, dễ hiểu cho tất cả mọi người.`
     },
-    mega_prompt: `[STEP 1 - DEEP RESEARCH & GUIDED LEARNING]
-Kích hoạt Deep Research quét xu hướng thị trường và 3 đối thủ lớn nhất của [TÊN_SẢN_PHẨM_DỊCH_VỤ] trong ngành [NGÀNH_HÀNG] tại Việt Nam. Xuất báo cáo và dùng Guided Learning đưa 3 câu hỏi chọn góc đánh tiếp thị cho [KHÁCH_HÀNG_MỤC_TIÊU].`,
+    mega_prompt: `[FULL CASE STUDY PROMPT]
+Hãy kích hoạt Deep Research quét các địa điểm du lịch 3N2Đ hot năm 2026 cho nhóm 10-15 người (ngân sách 3-5tr/người) và đề xuất 3 hoạt động team building hấp dẫn.`,
     n8n_json: "",
     sql_template: "",
     spec_text: "",
-    raw_markdown: `# BUỔI 1: CASE STUDY - TỰ ĐỘNG HÓA RA MẮT SẢN PHẨM MỚI (SPARK OS)
-
-**Đối tượng thực hành:** Dân văn phòng, Marketer, Chủ shop online & Người khởi nghiệp không biết code.
-
-![Case Study Ra Mắt Sản Phẩm Mới](/session_1.jpg)
+    raw_markdown: `# CASE STUDY THỰC CHIẾN: LẬP KẾ HOẠCH & BỘ TRUYỀN THÔNG CHO CHUYẾN DU LỊCH / TEAM BUILDING NHÓM
 
 ---
 
-## 🎯 CASE STUDY THỰC TẾ: RA MẮT SẢN PHẨM / DỊCH VỤ MỚI 360°
+## BỐI CẢNH DỰ ÁN
 
-- **Mục tiêu:** Tự động nghiên cứu thị trường -> Dàn kịch bản Canvas -> Sản xuất Bộ Media (Ảnh + Clip Veo + Nhạc) -> Cài Bot ngầm 24/7.
-- **Biến số Placeholder:** Học viên thay thế \`[TÊN_SẢN_PHẨM_DỊCH_VỤ]\`, \`[NGÀNH_HÀNG]\`, \`[KHÁCH_HÀNG_MỤC_TIÊU]\` vào Prompt.
+* **Tình huống:** Bạn (bất kể nam hay nữ, dân văn phòng hay tự do) được giao hoặc tự mình đứng ra lên kế hoạch cho chuyến đi du lịch / team building 3 ngày 2 đêm cho nhóm bạn hoặc công ty.
+* **Mục tiêu:** Trong 90 phút, tự động hóa từ khâu tìm địa điểm, lên lịch trình chi tiết, thiết kế bộ truyền thông (Poster, Video Trailer, Nhạc nền), đến tự động gom các hóa đơn/chuyển khoản từ Gmail về file Google Sheets quản lý thu chi.
+
+![Poster Du Lịch Team Building Cinematic](/session_1.jpg)
 
 ---
 
-## 🔗 QUY TRÌNH 4 MẮT XÍCH THỰC THI 90 PHÚT
+## MẮT XÍCH 1: DEEP RESEARCH & GUIDED LEARNING (15 PHÚT)
 
-### 1️⃣ MẮT XÍCH 1: Khởi Tạo Bộ Não AI & Research Thị Trường (15 Phút)
-- **Bước 1:** Bật \`Personal Intelligence\` trong Cài đặt Gemini & tạo thư mục \`Spark OS\` trên Google Drive.
-- **Bước 2:** Nhấn **1-Click Copy Step 1 Prompt** dán vào Gemini.
-- **Bước 3:** Bật \`Guided Learning\` chốt góc tiếp thị sản phẩm.
+### 📌 Thao tác 1.1: Tìm địa điểm & ý tưởng bằng Deep Research
+Copy lệnh dưới đây dán vào Gemini Chat:
 
-![📸 Ảnh Bài Làm Thực Tế Mắt Xích 1](/session_1.jpg)
+\`\`\`text
+[BỐI CẢNH & NHIỆM VỤ]
+Tôi cần lên kế hoạch cho chuyến du lịch / team building 3 ngày 2 đêm cho nhóm khoảng 10-15 người (nam và nữ, độ tuổi 22-35). Chi phí dự kiến: 3 - 5 triệu VNĐ / người.
 
-\`\`\`prompt
-[STEP 1 - DEEP RESEARCH & GUIDED LEARNING]
-Kích hoạt Deep Research quét xu hướng thị trường và 3 đối thủ lớn nhất của [TÊN_SẢN_PHẨM_DỊCH_VỤ] trong ngành [NGÀNH_HÀNG] tại Việt Nam. Xuất báo cáo và dùng Guided Learning đưa 3 câu hỏi chọn góc đánh tiếp thị cho [KHÁCH_HÀNG_MỤC_TIÊU].
+[YÊU CẦU THỰC THI]
+Hãy kích hoạt Deep Research để thực hiện các bước sau:
+1. Quét các địa điểm du lịch hot nhất năm 2026 phù hợp cho nhóm đi 3 ngày 2 đêm (ưu tiên di chuyển thuận tiện từ Hà Nội / TP.HCM).
+2. Phân tích ưu/nhược điểm và mức chi phí trung bình của 3 địa điểm hàng đầu.
+3. Trích xuất 3 hoạt động gắn kết nhóm (team building) thú vị, hiện đại, không bị sến.
+4. Tổng hợp thành báo cáo ngắn gọn có dẫn nguồn cụ thể.
+\`\`\`
+
+![📸 Ảnh Mẫu Bài Làm Mắt Xích 1](/session_1.jpg)
+
+### 📌 Thao tác 1.2: Chốt địa điểm & Concept bằng Guided Learning
+Dán tiếp lệnh sau khi Gemini trả báo cáo:
+
+\`\`\`text
+Dựa trên báo cáo trên, hãy bật tính năng Guided Learning (Học có hướng dẫn) và đưa ra 3 câu hỏi trắc nghiệm tương tác để giúp tôi chọn ra 1 Địa điểm & Concept chuyến đi (Nghỉ dưỡng Chill hay Trải nghiệm Năng động) phù hợp nhất với nhóm.
 \`\`\`
 
 ---
 
-### 2️⃣ MẮT XÍCH 2: Dàn Kịch Bản Canvas & Chrome Auto Browse (25 Phút)
-- **Bước 1:** Nhấn **1-Click Copy Step 2 Prompt** dán vào giao diện Canvas.
-- **Bước 2:** Gõ comment lề trang Canvas để Spark tự sửa nội dung.
-- **Bước 3:** Ra lệnh cho Spark Chrome Auto Browse cào dữ liệu web đối thủ lưu về Drive.
+## MẮT XÍCH 2: CANVAS & SPARK AUTO BROWSE (25 PHÚT)
 
-![📸 Ảnh Bài Làm Thực Tế Mắt Xích 2](/workflow_n8n_preview.jpg)
+### 📌 Thao tác 2.1: Dàn lịch trình chi tiết lên Canvas
+Copy lệnh dưới đây dán vào Gemini:
 
-\`\`\`prompt
-[STEP 2 - CANVAS KỊCH BẢN & AUTO BROWSE]
-Dàn Kế hoạch truyền thông & Kịch bản Video chi tiết trên giao diện Canvas cho [TÊN_SẢN_PHẨM_DỊCH_VỤ]. Sau đó dùng Chrome Auto Browse cào thêm bảng giá đối thủ từ web [URL_WEB_ĐỐI_THỦ] lưu vào folder Spark OS trên Drive.
+\`\`\`text
+[BỐI CẢNH]
+Địa điểm và Concept đã chọn: "Chuyến đi Ninh Bình / Đà Lạt 3N2Đ - Phong cách Chill kết hợp trải nghiệm thiên nhiên, ăn uống địa phương".
+
+[YÊU CẦU THỰC THI]
+Hãy mở giao diện CANVAS và soạn thảo 2 phần nội dung sau:
+1. BẢNG LỊCH TRÌNH CHI TIẾT 3 NGÀY 2 ĐÊM: Chia theo từng khung giờ (Sáng - Trưa - Chiều - Tối) bao gồm: Địa điểm ăn uống, chỗ chơi, phương tiện di chuyển và dự tính chi phí từng mục.
+2. KỊCH BẢN VIDEO TRAILER 15 GIÂY: Bảng 3 cột (Thời lượng - Hình ảnh góc quay - Lời thoại/Voiceover) để gửi vào nhóm kêu gọi mọi người chốt đăng ký tham gia.
+\`\`\`
+
+![📸 Ảnh Mẫu Bài Làm Mắt Xích 2](/workflow_n8n_preview.jpg)
+
+### 📌 Thao tác 2.2: Sửa trực tiếp trên Canvas & Auto Browse
+1. **Chỉnh sửa qua Comment:** Bôi đen đoạn *Lời thoại 3 giây đầu* trên Canvas, bấm **Add Comment** ở lề trang và gõ: *"Spark ơi, viết lại câu này hài hước hơn để kích thích mọi người rủ nhau đi đông đủ."*
+2. **Cào dữ liệu bằng Auto Browse:** Dán lệnh tiếp theo vào khung chat:
+
+\`\`\`text
+Hãy dùng Chrome Auto Browse truy cập vào trang web đặt phòng (như Agoda, Traveloka hoặc Booking), cào bảng giá phòng thực tế của 1 Homestay/Resort phù hợp tại địa điểm đã chọn và chèn thêm 1 Bảng tổng hợp chi phí lưu trú vào cuối trang Canvas cho tôi.
 \`\`\`
 
 ---
 
-### 3️⃣ MẮT XÍCH 3: Xưởng Sản Xuất Đa Phương Tiện End-to-End (25 Phút)
-- **Bước 1:** Tạo ảnh Banner/Product Visual chuẩn Studio từ kịch bản Canvas.
-- **Bước 2:** Nhập Prompt tả camera 3D biến ảnh thành Clip Video Veo 5s.
-- **Bước 3:** Lấy Prompt tạo Audio Music chạy song song trong lúc đợi Veo render.
+## MẮT XÍCH 3: XƯỞNG SẢN XUẤT ĐA PHƯƠNG TIỆN (25 PHÚT)
 
-> 💡 **Mẹo Render Song Song:** Tạo Nhạc nền Music ngay khi Veo đang xử lý render Video để tối ưu thời gian trên lớp!
+> 💡 **Mẹo Render Song Song:** Tạo Nhạc nền Music ngay khi Veo đang xử lý render Video (mất ~1-2 phút) để không lãng phí thời gian trên lớp!
 
-![📸 Ảnh Bài Làm Thực Tế Mắt Xích 3](/hero_ai_automation_light.jpg)
+### 📌 Thao tác 3.1: Tạo Poster chuyến đi (Image Generation)
+Copy lệnh dán vào Gemini để xuất Visual:
 
-\`\`\`prompt
-[STEP 3 - MEDIA PIPELINE END-TO-END]
-Tạo hình ảnh Banner chuẩn Studio cho [TÊN_SẢN_PHẨM_DỊCH_VỤ], biến ảnh thành Clip Video Veo 5s với hiệu ứng camera lượn ngang, và tạo đoạn nhạc nền Audio Music khớp phong cách truyền thông.
+\`\`\`text
+Tạo cho tôi một bức ảnh Poster du lịch chuẩn Cinematic, phong cách hiện đại:
+- Bối cảnh: Phong cảnh thiên nhiên hùng vĩ tươi đẹp (núi rừng hoặc bãi biển ngập nắng buổi sáng).
+- Đối tượng: Một nhóm bạn trẻ nam và nữ mặc trang phục du lịch năng động, đứng cười đùa tự nhiên bên chiếc xe Jeep/camping.
+- Phong cách: Ánh sáng mặt trời rực rỡ, màu sắc tươi sáng, sắc nét chuẩn ảnh tạp chí du lịch.
+\`\`\`
+
+![📸 Ảnh Mẫu Bài Làm Mắt Xích 3](/hero_ai_automation_light.jpg)
+
+### 📌 Thao tác 3.2: Biến ảnh thành Video Trailer (Veo Integration)
+Tải ảnh vừa tạo về, đính kèm lại vào khung chat Gemini và dán lệnh:
+
+\`\`\`text
+Tạo một video ngắn 5 giây từ bức ảnh này với yêu cầu:
+- Chuyển động Camera: Góc quay Cinematic lướt chậm từ dưới lên cao (Tilt up) mở ra toàn cảnh thiên nhiên.
+- Hiệu ứng: Ánh nắng chiếu xuyên qua kẽ lá, mây nhẹ nhàng trôi trên bầu trời, không khí chuyến đi tràn đầy năng lượng.
+\`\`\`
+
+### 📌 Thao tác 3.3: Tạo Nhạc nền Video (Audio/Music Generation)
+Dán lệnh tạo đoạn âm thanh chèn vào clip:
+
+\`\`\`text
+Tạo một đoạn nhạc nền Audio thời lượng 15 giây phong cách Tropical House / Indie Pop tươi vui, nhịp điệu rộn ràng, mang lại cảm giác hào hứng, tự do cho chuyến đi du lịch mùa hè.
 \`\`\`
 
 ---
 
-### 4️⃣ MẮT XÍCH 4: Standing Instructions 24/7 & Đóng Gói Gem Bot (25 Phút)
-- **Bước 1:** Dán lệnh Standing Instruction 24/7 (Gmail tự động điền Google Sheets).
-- **Bước 2:** Tự gửi 1 Gmail test để kiểm tra dữ liệu nhảy vào Sheets.
-- **Bước 3:** Lưu System Instruction đóng gói thành Custom Gem Bot.
+## MẮT XÍCH 4: STANDING INSTRUCTION 24/7 & CUSTOM GEM (25 PHÚT)
 
-![📸 Ảnh Bài Làm Thực Tế Mắt Xích 4](/session_1.jpg)
+### 📌 Thao tác 4.1: Cài đặt Tự động hóa ghi nhận Thu - Chi chuyến đi
+Truy cập **Spark Settings -> Standing Instructions** và dán câu lệnh:
 
-\`\`\`prompt
-[STEP 4 - STANDING INSTRUCTION 24/7 & CUSTOM GEM]
-Standing Instruction 24/7: Mỗi khi có Gmail mới chứa tiêu đề '[TÊN_SẢN_PHẨM_DỊCH_VỤ]', tự động trích xuất thông tin khách hàng và ghi 1 dòng mới vào Google Sheets trong folder Spark OS. Gom toàn bộ logic thành Gem 'Trợ Lý Sales 360'.
+\`\`\`text
+[STANDING INSTRUCTION - CHẠY NGẦM 24/7]
+Nhiệm vụ: Tự động ghi nhận các email xác nhận đặt vé/khách sạn hoặc bill chuyển khoản của thành viên vào Google Sheets.
+
+Điều kiện kích hoạt: Mỗi khi nhận được Gmail chứa từ khóa ["Xác nhận đặt phòng", "Vé máy bay", "Vé xe", "Chuyển khoản du lịch"].
+
+Hành động tự động:
+1. Trích xuất thông tin: Ngày giao dịch, Người gửi/Tên thành viên, Nội dung chi tiêu, Số tiền.
+2. Tự động mở file Google Sheets tên 'Quản Lý Thu Chi Du Lịch 2026' trong thư mục 'Spark OS' trên Google Drive.
+3. Chèn thông tin vừa trích xuất thành 1 dòng mới trong bảng.
+\`\`\`
+
+![📸 Ảnh Mẫu Bài Làm Mắt Xích 4](/session_1.jpg)
+
+### 📌 Thao tác 4.2: Đóng gói thành Custom Gem dùng lâu dài
+Vào **Gems -> Create New Gem**, đặt tên \`Trợ Lý Lập Kế Hoạch Sự Kiện & Du Lịch\` và dán vào mục **Instructions**:
+
+\`\`\`text
+[VAI TRÒ]
+Bạn là Chuyên gia Lập Kế Hoạch Du Lịch & Tổ Chức Sự Kiện Nhóm.
+
+[QUY TRÌNH TỰ ĐỘNG]
+Mỗi khi tôi nhập tên một địa điểm hoặc ý tưởng chuyến đi mới, bạn phải tự động xuất ra:
+1. LỊCH TRÌNH 3N2Đ: Lịch trình ăn chơi theo từng khung giờ + Dự toán ngân sách per head.
+2. PROMPT ẢNH (Tiếng Anh): Tạo ảnh Poster/Banner truyền thông chuyến đi.
+3. PROMPT VIDEO 5S (Tiếng Anh): Dành cho Veo tạo video trailer ngắn kích thích tinh thần nhóm.
+
+[ĐẦU RA]
+Trình bày dạng Bảng Markdown rõ ràng. Văn phong hào hứng, hiện đại, dễ hiểu cho tất cả mọi người.
 \`\`\`
 `
   },
