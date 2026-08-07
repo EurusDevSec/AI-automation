@@ -1,96 +1,151 @@
 export const initialLessonsData = [
   {
     session_number: 1,
-    title: "Buổi 1: Chuẩn Hóa Văn Bản Doanh Nghiệp Bằng AI",
+    title: "Buổi 1: Khởi Tạo Spark OS & Chuỗi Sản Xuất Đa Phương Tiện End-to-End",
     module_name: "Chặng 1: Trợ Lý AI Văn Phòng & Dữ Liệu",
     time_minutes: 90,
-    description: "Làm chủ ChatGPT/Claude để soạn thảo email, tờ trình, báo cáo đúng chuẩn doanh nghiệp.",
+    description: "Khởi tạo Hệ điều hành Trợ lý Tự động hóa Spark OS & Chuỗi sản xuất Đa phương tiện qua 4 Mắt xích Vercel 1-Click Copy.",
     image_url: "/session_1.jpg",
     theory: {
-      overview: "Trong buổi này, người học sẽ nắm vững cách làm chủ các công cụ AI thế hệ mới (ChatGPT, Claude) để biến các ý tưởng hay văn bản thô sơ thành các tài liệu kinh doanh chuyên nghiệp.",
+      overview: "Trong buổi này, học viên sẽ thiết lập Hệ điều hành Trợ lý Tự động hóa (Spark OS) và thực thi chuỗi sản xuất nội dung đa phương tiện (Văn bản -> Ảnh Studio -> Video Veo -> Audio Music -> Custom Gem).",
       learning_outcomes: [
-        "Hiểu cấu trúc Prompt doanh nghiệp chuẩn 5 thành phần: Role, Context, Constraints, Input, Output Format.",
-        "Loại bỏ hoàn toàn cảm giác bối rối khi viết báo cáo, tờ trình hay email giao việc.",
-        "Kỹ thuật ép AI tuân thủ đúng định dạng Markdown và phong cách văn phong trang trọng."
+        "Nắm vững Ma trận phân công 8 công cụ AI: Personal Intelligence, Deep Research, Guided Learning, Canvas, Spark Auto Browse, Veo Video, Music & Custom Gems.",
+        "Làm chủ Quy trình 4 Mắt xích thực thi trên Vercel không sợ quá tải nhận thức.",
+        "Tự tay tạo ra sản phẩm đa phương tiện hoàn chỉnh và đóng gói Custom Gem mang về nhà sử dụng hằng ngày."
       ],
-      core_concept: "Prompt Engineering chuẩn Doanh nghiệp không phải là đặt câu hỏi ngắn, mà là giao một Vai trò (Role) và Bản hợp đồng nguyên tắc (Constraints) cho AI."
+      core_concept: "Tự động hóa không phải là dùng 1 công cụ riêng lẻ, mà là kết nối các mắt xích công cụ chuyên biệt thành một dây chuyền làm việc 24/7."
     },
     steps: [
-      "Mở ChatGPT (chatgpt.com) hoặc Claude (claude.ai).",
-      "Nhấn 1-Click Copy file mega_prompt_van_ban.txt.",
-      "Dán Mega-Prompt vào ô chat với AI.",
-      "Thay văn bản thô vào phần [DÁN VĂN BẢN THÔ].",
-      "Nhấn Send và nhận kết quả chuẩn doanh nghiệp."
+      "MẮT XÍCH 1 (00:00 - 00:15): Bật Personal Intelligence, chạy Deep Research quét thị trường & chọn góc đánh qua Guided Learning.",
+      "MẮT XÍCH 2 (00:15 - 00:40): Dàn kịch bản trên Canvas, dùng Spark Deep Control chỉnh sửa & chạy Spark Chrome Auto Browse cào dữ liệu đối thủ.",
+      "MẮT XÍCH 3 (00:40 - 01:05): Xưởng sản xuất Đa phương tiện - Tạo Ảnh Studio -> Tạo Video Veo 5s -> Tạo Nhạc nền Music.",
+      "MẮT XÍCH 4 (01:05 - 01:30): Cài đặt Standing Instructions tự động hóa 24/7 (Gmail sang Google Sheets) & Đóng gói Custom Gem."
     ],
     troubleshooting: [
-      { issue: "AI trả lời chung chung", cause: "Quên giữ phần Role & Constraints", fix: "Giữ nguyên phần [ROLE] trong Mega-Prompt." },
-      { issue: "Văn bản quá dài", cause: "AI chưa nhận giới hạn độ dài", fix: "Thêm câu: Tóm tắt trong 300 từ." }
+      { issue: "Veo render Video bị lâu (1-2 phút)", cause: "Hệ thống AI xử lý hiệu ứng chuyển động camera 3D", fix: "Trong lúc đợi Veo render, hãy chuyển sang chạy Prompt tạo Audio Music ngay để tối ưu thời gian." },
+      { issue: "Spark Chrome Auto Browse không truy cập web", cause: "URL web đối thủ thiếu https://", fix: "Nhập đầy đủ URL có https:// và thử lại." }
     ],
-    mega_prompt: `[ROLE]
-Bạn là Chuyên gia Biên soạn Văn bản & Trợ lý Giám đốc Chuyên nghiệp có 15 năm kinh nghiệm.
-
-[CONTEXT]
-Tôi cần bạn giúp chuẩn hóa, biên tập và nâng cấp bản thảo văn bản thô thành văn bản chuẩn doanh nghiệp, trang trọng, logic.
-
-[CONSTRAINTS]
-1. Không dùng từ ngữ cảm xúc thái quá.
-2. Cấu trúc: Tiêu đề -> Tóm tắt điều hành -> Nội dung chi tiết -> Kế hoạch hành động.
-3. Sử dụng định dạng Markdown chuẩn.
-
-[INPUT DATA]
----
-[DÁN VĂN BẢN THÔ CỦA BẠN VÀO ĐÂY]
----`,
+    mega_prompt: `[STEP 1 - DEEP RESEARCH & GUIDED LEARNING]
+Kích hoạt Deep Research quét toàn bộ xu hướng thị trường và 3 đối thủ lớn nhất ngành [X] tại Việt Nam tháng 8/2026. Xuất báo cáo tổng hợp và đưa 3 câu hỏi trắc nghiệm qua Guided Learning để chốt góc tiếp thị.`,
     n8n_json: "",
     sql_template: "",
     spec_text: "",
-    raw_markdown: `# Buổi 1: Chuẩn Hóa Văn Bản Doanh Nghiệp Bằng AI
+    raw_markdown: `# TOÀN BỘ QUY TRÌNH & HỆ THỐNG CÔNG CỤ BUỔI 1 (MASTER BLUEPRINT)
 
-![Giao diện Chuẩn Hóa Văn Bản bằng AI](/session_1.jpg)
+**Chủ đề:** Khởi tạo "Hệ điều hành Trợ lý Tự động hóa" (Spark OS) & Chuỗi sản xuất Đa phương tiện End-to-End.
 
-## 📖 Tổng Quan Buổi Học
-Trong buổi này, người học sẽ nắm vững cách làm chủ các công cụ AI thế hệ mới (ChatGPT, Claude) để biến các ý tưởng hay văn bản thô sơ thành các tài liệu kinh doanh chuyên nghiệp.
-
-> 💡 **Khái Niệm Cốt Lõi (Core Concept)**: Prompt Engineering chuẩn Doanh nghiệp không phải là đặt câu hỏi ngắn, mà là giao một Vai trò (Role) và Bản hợp đồng nguyên tắc (Constraints) cho AI.
-
-### 🎯 Kết Quả Người Học Đạt Được (Learning Outcomes)
-- ✅ Hiểu cấu trúc Prompt doanh nghiệp chuẩn 5 thành phần: Role, Context, Constraints, Input, Output Format.
-- ✅ Loại bỏ hoàn toàn cảm giác bối rối khi viết báo cáo, tờ trình hay email giao việc.
-- ✅ Kỹ thuật ép AI tuân thủ đúng định dạng Markdown và phong cách văn phong trang trọng.
+![Spark OS & Master Blueprint Buổi 1](/session_1.jpg)
 
 ---
 
-## 📋 Hướng Dẫn Thực Hành (90 Phút)
-- **Bước 1:** Mở ChatGPT (chatgpt.com) hoặc Claude (claude.ai).
-- **Bước 2:** Nhấn 1-Click Copy file mega_prompt_van_ban.txt.
-- **Bước 3:** Dán Mega-Prompt vào ô chat với AI.
-- **Bước 4:** Thay văn bản thô vào phần [DÁN VĂN BẢN THÔ].
-- **Bước 5:** Nhấn Send và nhận kết quả chuẩn doanh nghiệp.
+## I. MA TRẬN PHÂN CÔNG CÔNG CỤ (TOOL STACK MATRIX)
 
-> ⚠️ **Lỗi hay gặp:** AI trả lời chung chung
-> **Nguyên nhân:** Quên giữ phần Role & Constraints
-> **Cách sửa nhanh:** Giữ nguyên phần [ROLE] trong Mega-Prompt.
+Sắp xếp 8 công cụ vào đúng vị trí trong chuỗi để tránh bị chồng chéo tính năng:
+
+| Công cụ | Phân nhóm | Nhiệm vụ kỹ thuật chính trong chuỗi |
+| --- | --- | --- |
+| **Personal Intelligence** | Bộ nhớ & Hạ tầng | Bật \`Memory\` lưu ngữ cảnh công ty & Kích hoạt kết nối Google Workspace (Gmail, Drive, Docs, Sheets). |
+| **Deep Research** | Thu thập dữ liệu | Quét sâu đa nguồn trên Internet để cào dữ liệu thị trường và đối thủ. |
+| **Guided Learning** | Lọc & Tiêu hóa | Đặt câu hỏi tương tác (Quiz/Q&A) giúp học viên chốt hướng đi mà không cần đọc báo cáo dài. |
+| **Canvas** | Thao tác trực quan | Mở giao diện soạn thảo trực tiếp để làm mịn Kế hoạch & Kịch bản truyền thông. |
+| **Gemini Spark** | Agent Tự động hóa | Chạy ngầm 24/7, dùng **Chrome Auto Browse** cào dữ liệu web và thực thi **Standing Instructions** tự điền Google Sheets/Gmail. |
+| **Image Generation** | Sản xuất Visual | Tạo hình ảnh Banner/Sản phẩm chuẩn Studio dựa trên kịch bản từ Canvas. |
+| **Video (Veo)** | Sản xuất Motion | Biến ảnh tĩnh thành Clip 5 giây tả chuyển động camera chuyên nghiệp. |
+| **Audio (Music)** | Sản xuất Âm thanh | Tạo đoạn nhạc nền khớp phong cách kịch bản. |
+| **Custom Gems** | Đóng gói Sản phẩm | Gom toàn bộ logic workflow thành 1 con Bot tùy chỉnh để học viên mang về dùng hằng ngày. |
 
 ---
 
-## 📦 Kho Tài Nguyên Mega-Prompt
+## II. QUY TRÌNH THỰC THI 90 PHÚT (THE GOLDEN PATH)
+
+Toàn bộ quy trình chạy theo đúng **4 Mắt xích bấm nút trên Vercel**, không lý thuyết rời rạc.
+
+---
+
+### 🔗 MẮT XÍCH 1: KHỞI TẠO BỘ NÃO AI & CÀO DỮ LIỆU (15 PHÚT | 00:00 - 00:15)
+
+![Mắt xích 1 - Khởi tạo bộ não AI](/session_1.jpg)
+
+1. **Thiết lập hạ tầng (5 phút):**
+   - Học viên vào Cài đặt Gemini -> Bật \`Personal Intelligence\` (Memory & Workspace Connections).
+   - Mở Google Drive -> Tạo thư mục tên \`Spark OS\`.
+
+2. **Cào dữ liệu thị trường (5 phút):**
+   - Học viên bấm **Quick-Copy Step 1** trên Vercel:
+   \`\`\`prompt
+   Kích hoạt Deep Research quét toàn bộ xu hướng thị trường và 3 đối thủ lớn nhất ngành [X] tại Việt Nam tháng 8/2026. Xuất báo cáo tổng hợp.
+   \`\`\`
+
+3. **Chốt góc đánh tiếp thị (5 phút):**
+   - Chọn báo cáo vừa tạo -> Bật \`Guided Learning\`: Gemini đưa 3 câu hỏi trắc nghiệm để học viên chọn ra 1 ý tưởng tiếp thị (Angle) tối ưu nhất.
+
+---
+
+### 🔗 MẮT XÍCH 2: DÀN KỊCH BẢN CANVAS & TỰ ĐỘNG BROWSE (25 PHÚT | 00:15 - 00:40)
+
+![Mắt xích 2 - Canvas & Chrome Auto Browse](/workflow_n8n_preview.jpg)
+
+1. **Dàn kịch bản trên Canvas (10 phút):**
+   - Bấm **Quick-Copy Step 2** trên Vercel -> Dán góc đánh vừa chọn vào giao diện **Canvas** để Gemini xuất Kế hoạch nội dung & Kịch bản Video chi tiết.
+   \`\`\`prompt
+   [STEP 2 - CANVAS & BROWSE]
+   Dàn Kế hoạch nội dung truyền thông và Kịch bản Video chi tiết trên giao diện Canvas dựa trên góc đánh vừa chọn.
+   \`\`\`
+
+2. **Spark Workspace Deep Control (10 phút):**
+   - Học viên gõ 1 đoạn Comment ở lề trang Canvas -> Spark tự đọc comment và sửa trực tiếp văn bản/bảng biểu trong Canvas.
+
+3. **Spark Chrome Auto Browse (5 phút):**
+   - Ra lệnh cho Spark: *"Dùng Chrome Auto Browse truy cập vào trang [Web đối thủ] lấy thêm bảng giá/hình ảnh thực tế lưu thẳng vào thư mục Spark OS trên Drive."*
+
+---
+
+### 🔗 MẮT XÍCH 3: XƯỞNG SẢN XUẤT ĐA PHƯƠNG TIỆN (25 PHÚT | 00:40 - 01:05)
+
+![Mắt xích 3 - Xưởng sản xuất Đa phương tiện](/hero_ai_automation_light.jpg)
+
+> 💡 **Mẹo Tối Ưu Thời Gian chờ Render**: Trong lúc Veo đang xử lý render Video (mất ~1-2 phút), học viên lập tức lấy Prompt Audio Music chạy song song để không tốn 2 phút chờ trên lớp!
+
+Học viên bấm **Quick-Copy Step 3** trên Vercel để lấy bộ Prompt kỹ thuật tạo Asset theo kịch bản ở Canvas:
+
+1. **Tạo Hình ảnh (8 phút):** Ném mô tả từ Canvas vào ô Chat -> Tạo ảnh Banner/Product Visual chuẩn Cinematic.
+2. **Tạo Video Veo (10 phút):** Đưa bức ảnh vừa tạo vào công cụ Video -> Nhập Prompt tả chuyển động: *"Góc quay camera lượn từ trái sang phải, hiệu ứng ánh sáng lung linh, 5 giây."*
+3. **Tạo Nhạc nền (7 phút):** Yêu cầu Gemini xuất 1 đoạn Audio ngắn (15-30s) hợp mood kịch bản -> Tải trọn bộ (Ảnh + Video + Nhạc).
+
 \`\`\`prompt
-[ROLE]
-Bạn là Chuyên gia Biên soạn Văn bản & Trợ lý Giám đốc Chuyên nghiệp có 15 năm kinh nghiệm.
-
-[CONTEXT]
-Tôi cần bạn giúp chuẩn hóa, biên tập và nâng cấp bản thảo văn bản thô thành văn bản chuẩn doanh nghiệp, trang trọng, logic.
-
-[CONSTRAINTS]
-1. Không dùng từ ngữ cảm xúc thái quá.
-2. Cấu trúc: Tiêu đề -> Tóm tắt điều hành -> Nội dung chi tiết -> Kế hoạch hành động.
-3. Sử dụng định dạng Markdown chuẩn.
-
-[INPUT DATA]
----
-[DÁN VĂN BẢN THÔ CỦA BẠN VÀO ĐÂY]
----
+[STEP 3 - MEDIA PIPELINE]
+Tạo hình ảnh Banner chuẩn Studio, chuyển thể thành Clip Video Veo 5s với hiệu ứng camera lượn ngang, và tạo đoạn nhạc nền Audio Music khớp mood kịch bản.
 \`\`\`
+
+---
+
+### 🔗 MẮT XÍCH 4: CÀI ĐẶT TỰ ĐỘNG HÓA 24/7 & ĐÓNG GÓI GEM (25 PHÚT | 01:05 - 01:30)
+
+![Mắt xích 4 - Standing Instructions & Custom Gem](/session_1.jpg)
+
+1. **Cài đặt Standing Instructions (15 phút):**
+   - Học viên bấm **Quick-Copy Step 4** -> Dán vào mục Standing Instructions của Spark:
+   \`\`\`prompt
+   Standing Instruction 24/7: Mỗi khi có Gmail mới chứa tiêu đề 'Nội dung/Báo cáo', hãy tự động trích xuất ý chính và cập nhật thành 1 dòng mới vào file Google Sheets 'Theo dõi Campaign' trong folder Spark OS.
+   \`\`\`
+   - **Test trực tiếp:** Học viên tự gửi 1 Gmail test -> Mở Sheets kiểm tra dữ liệu tự nhảy vào.
+
+2. **Đóng gói Custom Gem (5 phút):**
+   - Mở mục Custom Gems -> Dán khung System Instruction từ Vercel -> Lưu thành Gem \`Trợ Lý Tự Động Hóa Truyền Thông 360\`.
+
+3. **Kích hoạt Family Pro (5 phút):**
+   - Add 2 học viên vào gói Family Pro của bạn, hoàn tất cam kết quyền lợi tài khoản Pro.
+
+---
+
+## III. TÀI NGUYÊN CHUẨN BỊ TRÊN GITHUB / VERCEL
+
+Trang Vercel chỉ cần **4 Nút Quick-Copy** duy nhất:
+
+- **Button 1 (\`Step1_Research.txt\`):** Prompt gọi Deep Research + Framework Guided Learning.
+- **Button 2 (\`Step2_Canvas_Browse.txt\`):** Prompt cấu trúc Kế hoạch Content trên Canvas + Lệnh Auto Browse.
+- **Button 3 (\`Step3_Media_Pipeline.txt\`):** Cú pháp chuẩn tả Ảnh, Video (Veo), Âm thanh.
+- **Button 4 (\`Step4_Spark_Gem.txt\`):** Khung lệnh Standing Instructions 24/7 + System Instruction đóng gói Gem.
 `
   },
   {
@@ -140,20 +195,6 @@ Hãy viết công thức Excel/Google Sheets chính xác 100% cho yêu cầu:
 Học viên sẽ biến AI thành chuyên viên phân tích dữ liệu Senior, tự động hóa xử lý bảng tính Excel mà không cần ghi nhớ hàng trăm công thức phức tạp.
 
 > 💡 **Khái Niệm Cốt Lõi (Core Concept)**: Mô tả tên các Cột (Columns) và kiểu dữ liệu rõ ràng cho AI giúp ChatGPT sinh ra công thức chuẩn xác 100%.
-
-### 🎯 Kết Quả Người Học Đạt Được (Learning Outcomes)
-- ✅ Cách tạo dữ liệu giả lập chuẩn để nhờ ChatGPT viết công thức chính xác.
-- ✅ Làm chủ các hàm tìm kiếm & tổng hợp nâng cao: VLOOKUP, INDEX-MATCH, XLOOKUP, SUMIFS.
-- ✅ Kỹ thuật Prompting ép AI dọn dẹp khoảng trắng, định dạng ngày tháng và phát hiện lỗi dữ liệu.
-
----
-
-## 📋 Hướng Dẫn Thực Hành (90 Phút)
-- **Bước 1:** Copy bảng dữ liệu thô từ file raw_data_excel.md.
-- **Bước 2:** Dán dữ liệu vào Google Sheets hoặc Excel.
-- **Bước 3:** Copy prompt từ file prompt_excel_formula.txt.
-- **Bước 4:** Thay thế câu hỏi dữ liệu của bạn vào prompt.
-- **Bước 5:** Dán công thức AI xuất ra vào Excel.
 
 ---
 
@@ -254,22 +295,6 @@ Hãy viết công thức Excel/Google Sheets chính xác 100% cho yêu cầu:
 
 ## 📖 Tổng Quan Buổi Học
 Bắt đầu bước chân vào thế giới Tự Động Hóa Workflow không code với n8n. Tạo hệ thống tự động 'cào' bài viết từ báo chí/đối thủ về Google Sheets mỗi ngày.
-
-> 💡 **Khái Niệm Cốt Lõi (Core Concept)**: Tự động hóa giúp giải phóng hoàn toàn các công việc lặp đi lặp lại hàng ngày mà không tốn chi phí nhân sự.
-
-### 🎯 Kết Quả Người Học Đạt Được (Learning Outcomes)
-- ✅ Hiểu tư duy kiến trúc Workflow: Triggers (Kích hoạt) -> Nodes (Xử lý) -> Actions (Hành động).
-- ✅ Cách kết nối OAuth2 an toàn giữa n8n và Google Sheets.
-- ✅ Cấu hình Schedule Trigger chạy ngầm tự động theo chu kỳ mỗi 24 giờ.
-
----
-
-## 📋 Hướng Dẫn Thực Hành (90 Phút)
-- **Bước 1:** Mở n8n Dashboard -> Select Workflows -> Import.
-- **Bước 2:** Tải file workflow_buoi_3_rss_to_sheet.json và import.
-- **Bước 3:** Click đúp Node Google Sheets -> Kết nối Google Account.
-- **Bước 4:** Nhập Document ID Google Sheet cá nhân.
-- **Bước 5:** Nhấn Execute Workflow thử nghiệm.
 
 ---
 
@@ -398,22 +423,6 @@ Bắt đầu bước chân vào thế giới Tự Động Hóa Workflow không c
 ## 📖 Tổng Quan Buổi Học
 Xây dựng 'Nhà máy sản xuất nội dung' hoàn toàn tự động. Nối kết Google Sheets -> OpenAI GPT-4o -> Facebook Graph API để tạo và đăng bài tự động đa kênh.
 
-> 💡 **Khái Niệm Cốt Lõi (Core Concept)**: Kết nối AI với các API mạng xã hội biến n8n thành một Marketer tự động làm việc 24/7.
-
-### 🎯 Kết Quả Người Học Đạt Được (Learning Outcomes)
-- ✅ Cách tạo và sử dụng OpenAI API Key trong n8n.
-- ✅ Cấu hình System Prompt chuẩn công thức Marketing AIDA (Attention - Interest - Desire - Action).
-- ✅ Cách lấy Facebook Page Access Token và sử dụng Graph API v19.0 để đăng bài tự động.
-
----
-
-## 📋 Hướng Dẫn Thực Hành (90 Phút)
-- **Bước 1:** Import file workflow_buoi_4_sheet_to_facebook.json vào n8n.
-- **Bước 2:** Kết nối OpenAI Credential (nhập API Key).
-- **Bước 3:** Kết nối Facebook Graph API Credential (nhập Page Token).
-- **Bước 4:** Chọn Google Sheet chứa chủ đề bài viết.
-- **Bước 5:** Kích hoạt Workflow để AI đăng bài tự động.
-
 ---
 
 ## 📦 Mã Workflow n8n JSON
@@ -498,8 +507,6 @@ Hãy biên soạn Kịch bản chi tiết dưới dạng BẢNG MARKDOWN 4 cột
 
 ## 📖 Tổng Quan Buổi Học
 Quy trình 2 giai đoạn biến một ý tưởng thô thành bảng kịch bản phân cảnh chi tiết cho TikTok, Facebook Reels và YouTube Shorts.
-
-> 💡 **Khái Niệm Cốt Lõi (Core Concept)**: Kịch bản video ngắn thành bại ở 3 giây đầu tiên (Hook). AI giúp bạn thử nghiệm hàng chục câu Hook triệu view trong vài giây.
 
 ---
 
@@ -586,8 +593,6 @@ Hãy biên soạn Kịch bản chi tiết dưới dạng BẢNG MARKDOWN 4 cột
 ## 📖 Tổng Quan Buổi Học
 Xây dựng Chatbot tư vấn bán hàng & báo giá thông minh kết nối trực tiếp Facebook Messenger Webhook với OpenAI API qua n8n.
 
-> 💡 **Khái Niệm Cốt Lõi (Core Concept)**: Webhook giúp hệ thống phản hồi tức thì dưới 1 giây ngay khi khách hàng tương tác trên Fanpage.
-
 ---
 
 ## 📦 Mã Workflow n8n JSON Chatbot
@@ -671,8 +676,6 @@ Xây dựng Chatbot tư vấn bán hàng & báo giá thông minh kết nối tr�
 ## 📖 Tổng Quan Buổi Học
 Ứng dụng sức mạnh của các AI Code Generator (Bolt.new, Lovable) để xây dựng một Landing Page bán hàng hoàn chỉnh bằng ngôn ngữ tự nhiên.
 
-> 💡 **Khái Niệm Cốt Lõi (Core Concept)**: Bản đặc tả kỹ thuật (PRD) chi tiết là chìa khóa giúp AI Code Agent tạo ra website chính xác 100% mong muốn.
-
 ---
 
 ## 📦 Web PRD Specification
@@ -727,8 +730,6 @@ Xây dựng Chatbot tư vấn bán hàng & báo giá thông minh kết nối tr�
 
 ## 📖 Tổng Quan Buổi Học
 Hoàn thiện case study cuối khóa: Đẩy toàn bộ mã nguồn lên GitHub, kết nối Vercel để xuất bản trang web live công khai và thiết lập cơ sở dữ liệu Supabase.
-
-> 💡 **Khái Niệm Cốt Lõi (Core Concept)**: Đưa sản phẩm lên Internet công khai là bằng chứng thực tế nhất cho thấy sức mạnh của việc học AI & Automation.
 
 ---
 
