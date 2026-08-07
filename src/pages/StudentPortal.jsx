@@ -116,7 +116,7 @@ export default function StudentPortal() {
             );
           }
           if (line.startsWith('```')) {
-            return null; // Code blocks handled separately in tabs
+            return null;
           }
           if (line.startsWith('- **') || line.startsWith('- ')) {
             return (
@@ -264,7 +264,7 @@ export default function StudentPortal() {
                 <Alert type="info" header={`⛺ ${currentLesson.case_study.title}`}>
                   <div className="space-y-1">
                     <div><strong>Tình huống:</strong> Bạn (dân văn phòng/tự do) lên kế hoạch du lịch / team building 3N2Đ cho nhóm 10-15 người (3-5 triệu/người).</div>
-                    <div><strong>Mục tiêu:</strong> Tự động hóa từ cào địa điểm, kịch bản Canvas, tạo Poster/Video Veo/Music đến gom bill Gmail về Google Sheets 24/7.</div>
+                    <div><strong>Mục tiêu:</strong> Tự động hóa từ cào địa điểm, Canvas sinh Web App 1-Click, tạo Poster/Video Veo/Music đến gom bill Gmail về Google Sheets 24/7.</div>
                   </div>
                 </Alert>
               )}
@@ -350,22 +350,33 @@ export default function StudentPortal() {
                           </Container>
 
                           {/* MAT XICH 2 */}
-                          <Container header={<Header variant="h3" description="25 Phút | 01:15 - 00:40">🔗 MẮT XÍCH 2: CANVAS & SPARK AUTO BROWSE</Header>}>
+                          <Container header={<Header variant="h3" description="25 Phút | 01:15 - 00:40">🔗 MẮT XÍCH 2: CANVAS BUILT-IN WEB APP & SPARK AUTO BROWSE</Header>}>
                             <SpaceBetween size="m">
-                              <div>
-                                <h4 className="font-bold text-slate-800 text-sm mb-1">📌 Thao tác 2.1: Dàn lịch trình chi tiết lên Canvas</h4>
-                                <p className="text-xs text-slate-600 mb-2">Mở giao diện Canvas để Gemini xuất Bảng lịch trình 3N2Đ và Kịch bản Video Trailer 15s.</p>
-                                {currentLesson.prompts_with_placeholders?.step2_1 && (
-                                  <div className="mb-4">
-                                    <div className="flex items-center justify-between bg-slate-800 text-slate-200 px-3 py-1.5 rounded-t-lg text-xs font-semibold">
-                                      <span>Prompt 2.1 - Canvas Itinerary & Script</span>
-                                      <Button iconName="copy" variant="primary" onClick={() => handleCopyPrompt(currentLesson.prompts_with_placeholders.step2_1, 'Prompt 2.1')}>
-                                        1-Click Copy Prompt 2.1
-                                      </Button>
-                                    </div>
-                                    <div className="custom-code-editor rounded-b-lg rounded-t-none">{currentLesson.prompts_with_placeholders.step2_1}</div>
+                              <Alert type="info" header="💡 Đột Phá Gemini Canvas: Tính Năng Built-in 'Tạo -> Trang web'">
+                                Sau khi Gemini trả Báo cáo Deep Research trên Canvas, chỉ cần nhìn góc trên bên phải bấm <strong>Tạo &rarr; Trang web</strong>. Gemini sẽ tự sinh 1 Interactive Web App trực quan mà không cần gõ thêm Prompt!
+                              </Alert>
+
+                              {/* CANVAS WEBSITE APP REAL SCREENSHOTS */}
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div className="border-2 border-dashed border-emerald-200 rounded-xl p-3 bg-emerald-50/50">
+                                  <div className="text-xs font-semibold text-emerald-700 mb-2 flex items-center gap-1.5">
+                                    📸 <span>Bấm nút Tạo &rarr; Trang web trên Canvas:</span>
+                                    <Badge color="green">canvas-create-web.png</Badge>
                                   </div>
-                                )}
+                                  <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
+                                    <img src={resolveMarkdownImageUrl('canvas-create-web.png')} alt="canvas-create-web.png" className="w-full h-48 object-contain bg-slate-50" />
+                                  </div>
+                                </div>
+
+                                <div className="border-2 border-dashed border-emerald-200 rounded-xl p-3 bg-emerald-50/50">
+                                  <div className="text-xs font-semibold text-emerald-700 mb-2 flex items-center gap-1.5">
+                                    📸 <span>Web App Team Building Sinh Ra Tự Động:</span>
+                                    <Badge color="green">canvas-web-app.png</Badge>
+                                  </div>
+                                  <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
+                                    <img src={resolveMarkdownImageUrl('canvas-web-app.png')} alt="canvas-web-app.png" className="w-full h-48 object-contain bg-slate-50" />
+                                  </div>
+                                </div>
                               </div>
 
                               <div>

@@ -5,7 +5,7 @@
 ## BỐI CẢNH DỰ ÁN
 
 * **Tình huống:** Bạn (bất kể nam hay nữ, dân văn phòng hay tự do) được giao hoặc tự mình đứng ra lên kế hoạch cho chuyến đi du lịch / team building 3 ngày 2 đêm cho nhóm bạn hoặc công ty.
-* **Mục tiêu:** Trong 90 phút, tự động hóa từ khâu tìm địa điểm, lên lịch trình chi tiết, thiết kế bộ truyền thông (Poster, Video Trailer, Nhạc nền), đến tự động gom các hóa đơn/chuyển khoản từ Gmail về file Google Sheets quản lý thu chi.
+* **Mục tiêu:** Trong 90 phút, tự động hóa từ khâu tìm địa điểm, chuyển báo cáo Canvas thành Web App 1-Click, thiết kế bộ truyền thông (Poster, Video Trailer, Nhạc nền), đến tự động gom các hóa đơn/chuyển khoản từ Gmail về file Google Sheets quản lý thu chi.
 
 ![poster du lich team building](image.png)
 
@@ -43,28 +43,24 @@ Dựa trên báo cáo trên, hãy bật tính năng Guided Learning (Học có h
 
 ---
 
-## MẮT XÍCH 2: CANVAS & SPARK AUTO BROWSE (25 PHÚT)
+## MẮT XÍCH 2: CANVAS BUILT-IN WEB APP & SPARK AUTO BROWSE (25 PHÚT)
 
-### 📌 Thao tác 2.1: Dàn lịch trình chi tiết lên Canvas
+> 💡 **Tính Năng Đột Phá Gemini Canvas:** Không cần gõ prompt dàn kịch bản thủ công! Gemini sau khi tạo báo cáo Deep Research xong sẽ có sẵn nút **Tạo -> Trang web** ở góc trên bên phải trang Canvas để tự sinh Web App 1-Click.
 
-Copy lệnh dưới đây dán vào Gemini:
+### 📌 Thao tác 2.1: Biến Báo Cáo Thành Web App Trực Quan (Built-in Canvas "Tạo -> Trang web")
 
-```prompt
-[BỐI CẢNH]
-Địa điểm và Concept đã chọn: "Chuyến đi Ninh Bình / Đà Lạt 3N2Đ - Phong cách Chill kết hợp trải nghiệm thiên nhiên, ăn uống địa phương".
+1. Sau khi Gemini hoàn tất báo cáo Deep Research trên trang Canvas, nhìn lên góc trên bên phải nhấn nút **Tạo ∨**.
+2. Chọn mục **Trang web**.
+3. Gemini Canvas sẽ tự động sinh ra một **Interactive Web App "Kế Hoạch Team Building 2026"** trực quan với bảng tổng hợp chi phí, điểm đến và lịch trình 3N2Đ.
 
-[YÊU CẦU THỰC THI]
-Hãy mở giao diện CANVAS và soạn thảo 2 phần nội dung sau:
-1. BẢNG LỊCH TRÌNH CHI TIẾT 3 NGÀY 2 ĐÊM: Chia theo từng khung giờ (Sáng - Trưa - Chiều - Tối) bao gồm: Địa điểm ăn uống, chỗ chơi, phương tiện di chuyển và dự tính chi phí từng mục.
-2. KỊCH BẢN VIDEO TRAILER 15 GIÂY: Bảng 3 cột (Thời lượng - Hình ảnh góc quay - Lời thoại/Voiceover) để gửi vào nhóm kêu gọi mọi người chốt đăng ký tham gia.
-```
+![Menu Tạo -> Trang web tích hợp sẵn trên Canvas](canvas-create-web.png)
 
-![📸 Ảnh Mẫu Bài Làm Thực Tế Mắt Xích 2](/workflow_n8n_preview.jpg)
+![Giao diện Web App Team Building được sinh ra tự động từ Canvas](canvas-web-app.png)
 
-### 📌 Thao tác 2.2: Sửa trực tiếp trên Canvas & Auto Browse
+### 📌 Thao tác 2.2: Sửa trực tiếp trên Canvas & Auto Browse Cào Giá Phòng
 
-1. **Chỉnh sửa qua Comment:** Bôi đen đoạn *Lời thoại 3 giây đầu* trên Canvas, bấm **Add Comment** ở lề trang và gõ: *"Spark ơi, viết lại câu này hài hước hơn để kích thích mọi người rủ nhau đi đông đủ."*
-2. **Cào dữ liệu bằng Auto Browse:** Dán lệnh tiếp theo vào khung chat:
+1. **Chỉnh sửa qua Comment:** Bôi đen đoạn văn bản bất kỳ trên Canvas, bấm **Add Comment** ở lề trang và gõ: *"Spark ơi, viết lại câu này hài hước hơn để kích thích mọi người rủ nhau đi đông đủ."*
+2. **Cào dữ liệu bằng Auto Browse:** Dán lệnh tiếp theo vào khung chat để bổ sung giá phòng thực tế:
 
 ```prompt
 Hãy dùng Chrome Auto Browse truy cập vào trang web đặt phòng (như Agoda, Traveloka hoặc Booking), cào bảng giá phòng thực tế của 1 Homestay/Resort phù hợp tại địa điểm đã chọn và chèn thêm 1 Bảng tổng hợp chi phí lưu trú vào cuối trang Canvas cho tôi.
