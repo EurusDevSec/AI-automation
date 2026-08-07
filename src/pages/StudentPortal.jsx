@@ -16,7 +16,6 @@ import Box from '@cloudscape-design/components/box';
 import Textarea from '@cloudscape-design/components/textarea';
 import FormField from '@cloudscape-design/components/form-field';
 import HelpPanel from '@cloudscape-design/components/help-panel';
-import ColumnLayout from '@cloudscape-design/components/column-layout';
 import Checkbox from '@cloudscape-design/components/checkbox';
 import Navigation from '../components/Navigation';
 import { initialLessonsData } from '../data/lessonsData';
@@ -102,17 +101,17 @@ export default function StudentPortal() {
     return (
       <div 
         key={src + title}
-        className="border-2 border-dashed border-indigo-200 rounded-2xl p-4 bg-indigo-50/40 my-4 w-full shadow-sm"
+        className="border border-slate-200/80 rounded-2xl p-4 bg-white hover:border-indigo-200 transition-all my-5 w-full shadow-2xs"
       >
-        <div className="text-sm font-bold text-indigo-900 mb-2.5 flex items-center justify-between">
+        <div className="text-sm font-bold text-slate-800 mb-2.5 flex items-center justify-between">
           <span className="flex items-center gap-2">📸 <span>{title || 'Ảnh chụp màn hình'}:</span></span>
           <Badge color={badgeColor}>{src}</Badge>
         </div>
-        <div className="rounded-xl overflow-hidden border border-slate-200 bg-white w-full shadow-inner">
+        <div className="rounded-xl overflow-hidden border border-slate-100 bg-slate-50 w-full shadow-inner">
           <img 
             src={resolvedUrl} 
             alt={title || src} 
-            className="w-full h-auto object-cover bg-slate-50" 
+            className="w-full h-auto object-cover" 
           />
         </div>
       </div>
@@ -125,13 +124,13 @@ export default function StudentPortal() {
     return (
       <div 
         key={src + title}
-        className="border-2 border-dashed border-indigo-300 rounded-2xl p-4 bg-indigo-950/5 transition-all shadow-md my-5 w-full"
+        className="border border-indigo-200 rounded-2xl p-4 bg-indigo-50/30 transition-all shadow-2xs my-5 w-full"
       >
         <div className="text-sm font-bold text-indigo-950 mb-2.5 flex items-center justify-between">
           <span className="flex items-center gap-2">🎬 <span>{title}:</span></span>
           <Badge color="red">{src}</Badge>
         </div>
-        <div className="rounded-xl overflow-hidden border border-slate-300 bg-black relative w-full shadow-lg">
+        <div className="rounded-xl overflow-hidden border border-slate-300 bg-black relative w-full shadow-md">
           <video 
             src={resolvedUrl} 
             controls 
@@ -148,7 +147,7 @@ export default function StudentPortal() {
     return (
       <div 
         key={src + title}
-        className="border-2 border-dashed border-emerald-300 rounded-2xl p-4 bg-emerald-50/60 transition-all shadow-sm my-5 w-full"
+        className="border border-emerald-200 rounded-2xl p-4 bg-emerald-50/40 transition-all shadow-2xs my-5 w-full"
       >
         <div className="text-sm font-bold text-emerald-950 mb-2.5 flex items-center justify-between">
           <span className="flex items-center gap-2">🎵 <span>{title}:</span></span>
@@ -186,9 +185,9 @@ export default function StudentPortal() {
           const codeText = codeBuffer.join('\n');
           const promptTitle = codeLang ? `Prompt (${codeLang})` : 'Prompt';
           elements.push(
-            <div key={`code-${i}`} className="my-4">
-              <div className="flex items-center justify-between bg-slate-800 text-slate-200 px-3 py-2 rounded-t-lg text-xs font-semibold">
-                <span>{promptTitle}</span>
+            <div key={`code-${i}`} className="my-5 shadow-2xs rounded-xl overflow-hidden border border-slate-800">
+              <div className="flex items-center justify-between bg-slate-900 text-slate-200 px-4 py-2.5 text-xs font-semibold border-b border-slate-800">
+                <span className="flex items-center gap-2"><span>📝</span> <span>{promptTitle}</span></span>
                 <Button 
                   iconName="copy" 
                   variant="primary" 
@@ -197,7 +196,7 @@ export default function StudentPortal() {
                   1-Click Copy Prompt
                 </Button>
               </div>
-              <div className="custom-code-editor rounded-b-lg rounded-t-none">{codeText}</div>
+              <div className="custom-code-editor rounded-none border-none">{codeText}</div>
             </div>
           );
           codeBuffer = [];
@@ -252,7 +251,7 @@ export default function StudentPortal() {
       if (line.trim().startsWith('# ')) {
         const titleText = line.trim().replace(/^#\s+/, '');
         elements.push(
-          <h1 key={`h1-${i}`} className="text-2xl font-extrabold text-slate-900 my-4 pb-3 border-b-2 border-slate-200 leading-tight">
+          <h1 key={`h1-${i}`} className="text-xl font-extrabold text-slate-900 my-5 pb-3 border-b border-slate-200 tracking-tight leading-snug">
             {parseInlineMarkdown(titleText)}
           </h1>
         );
@@ -263,7 +262,7 @@ export default function StudentPortal() {
       if (line.trim().startsWith('## ')) {
         const titleText = line.trim().replace(/^##\s+/, '');
         elements.push(
-          <h2 key={`h2-${i}`} className="pt-6 pb-2 border-b border-slate-200 text-xl font-bold text-slate-900 flex items-center gap-2">
+          <h2 key={`h2-${i}`} className="mt-8 mb-4 px-4 py-3 bg-gradient-to-r from-indigo-50/80 via-slate-50 to-white border border-indigo-100 rounded-xl text-base font-bold text-indigo-950 flex items-center gap-2.5 shadow-2xs">
             {parseInlineMarkdown(titleText)}
           </h2>
         );
@@ -274,7 +273,7 @@ export default function StudentPortal() {
       if (line.trim().startsWith('### ')) {
         const titleText = line.trim().replace(/^###\s+/, '');
         elements.push(
-          <h3 key={`h3-${i}`} className="text-base font-bold text-slate-900 mt-5 mb-2 flex items-center gap-1.5">
+          <h3 key={`h3-${i}`} className="mt-6 mb-3 border-l-4 border-indigo-500 pl-3.5 text-sm font-bold text-slate-900 flex items-center gap-2">
             {parseInlineMarkdown(titleText)}
           </h3>
         );
@@ -285,9 +284,10 @@ export default function StudentPortal() {
       if (line.trim().startsWith('* ') || line.trim().startsWith('- ')) {
         const listText = line.trim().replace(/^[\*\-]\s+/, '');
         elements.push(
-          <li key={`li-${i}`} className="ml-5 list-disc text-slate-700 text-sm my-1 leading-relaxed">
-            {parseInlineMarkdown(listText)}
-          </li>
+          <div key={`li-${i}`} className="my-2.5 p-3.5 bg-white border border-slate-200/80 rounded-xl shadow-2xs text-slate-700 text-sm leading-relaxed flex items-start gap-3 hover:border-indigo-200 transition-all">
+            <span className="w-2 h-2 rounded-full bg-indigo-500 mt-2 flex-shrink-0" />
+            <div className="flex-1">{parseInlineMarkdown(listText)}</div>
+          </div>
         );
         continue;
       }
@@ -296,9 +296,9 @@ export default function StudentPortal() {
       if (line.trim().startsWith('> ')) {
         const quoteText = line.trim().replace(/^>\s+/, '');
         elements.push(
-          <Alert key={`quote-${i}`} type="info" className="my-3">
+          <div key={`quote-${i}`} className="my-4 p-4 bg-amber-50/80 border-l-4 border-amber-500 rounded-r-xl text-amber-950 text-sm leading-relaxed font-medium shadow-2xs">
             {parseInlineMarkdown(quoteText)}
-          </Alert>
+          </div>
         );
         continue;
       }
@@ -306,14 +306,14 @@ export default function StudentPortal() {
       // Standard Paragraph text
       if (line.trim().length > 0 && !line.trim().startsWith('---')) {
         elements.push(
-          <p key={`p-${i}`} className="text-slate-700 text-sm my-2 leading-relaxed">
+          <p key={`p-${i}`} className="text-slate-600 text-sm my-3 leading-relaxed font-normal">
             {parseInlineMarkdown(line)}
           </p>
         );
       }
     }
 
-    return <div className="space-y-2">{elements}</div>;
+    return <div className="space-y-1">{elements}</div>;
   };
 
   return (
@@ -387,9 +387,9 @@ export default function StudentPortal() {
             header={<h2>💡 Trợ Giúp Học Viên</h2>}
             footer={
               <div>
-                <h3>Hỗ Trợ Phát Audio MP3:</h3>
+                <h3>Giao Diện Tối Ưu Mới:</h3>
                 <Box color="text-body-secondary">
-                  Dán file âm thanh <code>.mp3</code> vào <code>src/content/</code> và gõ <code>&lt;audio src="nhac.mp3" controls&gt;&lt;/audio&gt;</code> để nghe nhạc live!
+                  Tăng khoảng trắng, làm mềm màu chữ và loại bỏ hoàn toàn các khung lặp lại giúp mắt đọc cực kỳ thư thái!
                 </Box>
               </div>
             }
@@ -410,7 +410,7 @@ export default function StudentPortal() {
                 actions={
                   <SpaceBetween direction="horizontal" size="xs">
                     <Badge color="blue">{currentLesson.module_name}</Badge>
-                    <StatusIndicator type="success">HTML5 Audio Player Active</StatusIndicator>
+                    <StatusIndicator type="success">Clean UI Layout</StatusIndicator>
                     <Button iconName="help" onClick={() => setToolsOpen(!toolsOpen)}>
                       Trợ Giúp
                     </Button>
@@ -428,22 +428,6 @@ export default function StudentPortal() {
                 </Alert>
               )}
 
-              {/* OVERVIEW CARDS */}
-              <ColumnLayout columns={3} variant="classic">
-                <Container header={<Header variant="h3">⏱️ Thời Lượng</Header>}>
-                  <Box variant="h2">90 Phút</Box>
-                  <Box color="text-body-secondary">Thực hành 100% trên lớp</Box>
-                </Container>
-                <Container header={<Header variant="h3">🎯 Phân Luồng 2 Tab</Header>}>
-                  <StatusIndicator type="info">Tab Trò Chuyện &amp; Tab Spark BETA</StatusIndicator>
-                  <Box color="text-body-secondary">Chuẩn 100% giao diện thực tế</Box>
-                </Container>
-                <Container header={<Header variant="h3">🎵 MP3 Audio Support</Header>}>
-                  <StatusIndicator type="success">HTML5 Audio Player</StatusIndicator>
-                  <Box color="text-body-secondary">Phát nhạc nền MP3 trực tiếp</Box>
-                </Container>
-              </ColumnLayout>
-
               {/* UNIFIED TABS */}
               <Tabs
                 tabs={[
@@ -452,19 +436,8 @@ export default function StudentPortal() {
                     label: '📖 1. Master Blueprint (Giáo Án & Quy Trình 90 Phút)',
                     content: (
                       <SpaceBetween size="l">
-                        {/* CASE STUDY HIGHLIGHT CARD */}
-                        {currentLesson.case_study && (
-                          <Alert type="info" header={`⛺ ${currentLesson.case_study.title}`}>
-                            <div className="space-y-1 text-sm">
-                              <div><strong>Tình huống thực tế:</strong> Bạn được giao lên kế hoạch du lịch / team building 3N2Đ cho nhóm 10-15 người (3-5 triệu/người).</div>
-                              <div><strong>Luồng Thao Tác 2 Tab:</strong> [Tab Trò chuyện] (Research + Canvas + Veo) &rarr; [Tab Spark BETA] (Trình duyệt từ xa Agoda + Standing Instructions Gmail sang Sheets).</div>
-                              <div className="text-xs text-indigo-700 font-semibold mt-1">✨ Đã bật tính năng trình phát Nhạc Nền MP3 trực tiếp từ file Markdown!</div>
-                            </div>
-                          </Alert>
-                        )}
-
                         {/* DYNAMIC MARKDOWN RENDERER - RENDERS EVERYTHING IN BUOI_1.MD LIVE! */}
-                        <Container header={<Header variant="h2" description="Giáo án &amp; Quy trình thực hành live từ IDE">Master Blueprint Live Content</Header>}>
+                        <Container>
                           {renderDynamicMarkdown(currentLesson.raw_markdown)}
                         </Container>
 
