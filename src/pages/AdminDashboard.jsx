@@ -13,6 +13,8 @@ import Tabs from '@cloudscape-design/components/tabs';
 import Badge from '@cloudscape-design/components/badge';
 import StatusIndicator from '@cloudscape-design/components/status-indicator';
 import Alert from '@cloudscape-design/components/alert';
+import Grid from '@cloudscape-design/components/grid';
+import Box from '@cloudscape-design/components/box';
 import Navigation from '../components/Navigation';
 import { initialLessonsData } from '../data/lessonsData';
 import { getLeads, updateLessonData, getLocalLessonsOverride } from '../lib/supabase';
@@ -74,17 +76,39 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#0f1b2a' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#0b1120' }}>
       <Navigation />
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '32px 24px' }}>
         <SpaceBetween size="l">
           <Header
             variant="h1"
-            description="Trình quản lý bài học online (CMS) và danh sách học viên đăng ký từ Landing Page."
-            actions={<Badge color="green">Role: Giảng Viên / Host</Badge>}
+            description="Trình quản lý bài học trực tuyến (CMS) và danh sách học viên đăng ký tư vấn."
+            actions={<Badge color="green">Role: Host / Giảng Viên</Badge>}
           >
             🛠️ Admin CMS Dashboard - Quản Lý Khóa Học AI
           </Header>
+
+          {/* OVERVIEW STATS METRICS */}
+          <Grid gridDefinition={[{ span: 3 }, { span: 3 }, { span: 3 }, { span: 3 }]}>
+            <div className="glass-container" style={{ padding: '16px' }}>
+              <Box color="text-body-secondary" fontSize="body-s">Tổng Số Buổi Học</Box>
+              <h2 style={{ margin: '8px 0 0 0', fontSize: '1.8rem', color: '#60a5fa' }}>8 Buổi</h2>
+            </div>
+            <div className="glass-container" style={{ padding: '16px' }}>
+              <Box color="text-body-secondary" fontSize="body-s">Học Viên Đăng Ký (Leads)</Box>
+              <h2 style={{ margin: '8px 0 0 0', fontSize: '1.8rem', color: '#34d399' }}>{leads.length} Học viên</h2>
+            </div>
+            <div className="glass-container" style={{ padding: '16px' }}>
+              <Box color="text-body-secondary" fontSize="body-s">Trạng Thái Supabase DB</Box>
+              <div style={{ marginTop: '8px' }}>
+                <StatusIndicator type="success">Connected Realtime</StatusIndicator>
+              </div>
+            </div>
+            <div className="glass-container" style={{ padding: '16px' }}>
+              <Box color="text-body-secondary" fontSize="body-s">Triết Lý Kiểm Thử</Box>
+              <h2 style={{ margin: '8px 0 0 0', fontSize: '1.2rem', color: '#f472b6' }}>Golden Path 100%</h2>
+            </div>
+          </Grid>
 
           {saveAlert && (
             <Alert type="success" dismissible onDismiss={() => setSaveAlert(false)}>
@@ -98,7 +122,7 @@ export default function AdminDashboard() {
                 id: 'tab-manage-lessons',
                 label: '📚 Quản Lý & Chỉnh Sửa 8 Buổi Học Online',
                 content: (
-                  <Container header={<Header variant="h2">Danh Sách 8 Buổi Học</Header>}>
+                  <Container header={<Header variant="h2" description="Sửa đổi nội dung tiêu đề, Mega-Prompt và n8n JSON trực tiếp trên Web">Danh Sách 8 Buổi Học</Header>}>
                     <Table
                       columnDefinitions={[
                         { id: 'session', header: 'Buổi', cell: (item) => `Buổi ${item.session_number}` },
@@ -128,7 +152,7 @@ export default function AdminDashboard() {
                 id: 'tab-manage-leads',
                 label: '👥 Danh Sách Học Viên Đăng Ký (Supabase Leads)',
                 content: (
-                  <Container header={<Header variant="h2">Học Viên Tư Vấn ({leads.length})</Header>}>
+                  <Container header={<Header variant="h2" description="Danh sách lead đăng ký nhận tư vấn từ Landing Page">Học Viên Tư Vấn ({leads.length})</Header>}>
                     <Table
                       columnDefinitions={[
                         { id: 'name', header: 'Họ và tên', cell: (item) => item.full_name },
@@ -139,7 +163,7 @@ export default function AdminDashboard() {
                         {
                           id: 'status',
                           header: 'Trạng thái',
-                          cell: () => <Badge color="green">Cần Liên Hệ (3.5M)</Badge>
+                          cell: () => <Badge color="green">Cần Liên Hệ</Badge>
                         }
                       ]}
                       items={leads}

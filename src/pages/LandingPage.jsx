@@ -11,8 +11,8 @@ import Alert from '@cloudscape-design/components/alert';
 import Badge from '@cloudscape-design/components/badge';
 import SpaceBetween from '@cloudscape-design/components/space-between';
 import Box from '@cloudscape-design/components/box';
-import Cards from '@cloudscape-design/components/cards';
 import StatusIndicator from '@cloudscape-design/components/status-indicator';
+import Cards from '@cloudscape-design/components/cards';
 import { useNavigate } from 'react-router-dom';
 import { saveLead } from '../lib/supabase';
 import Navigation from '../components/Navigation';
@@ -39,132 +39,166 @@ export default function LandingPage() {
     setSubmitted(true);
   };
 
+  const featurePillars = [
+    {
+      title: '🛡️ Con Đường Hoàng Kim (Golden Path)',
+      description: 'Mọi câu prompt, file cấu hình JSON của n8n hay mã SQL đều đã được kiểm thử 100% chạy mượt không lỗi.'
+    },
+    {
+      title: '⚡ 1-Click Copy & Direct Download',
+      description: 'Lấy ngay tài nguyên Mega-Prompt hoặc tải mã workflow n8n JSON chỉ với 1 click chuột trực tiếp trên giao diện.'
+    },
+    {
+      title: '🌐 Đưa Sản Phẩm Lên Internet Thực Tế',
+      description: 'Hướng dẫn kết nối GitHub, Vercel và Supabase Database để đưa website cá nhân chạy live công khai trên internet.'
+    },
+    {
+      title: '🧪 AI Prompt Sandbox Trực Tuyến',
+      description: 'Thực hành thử nghiệm prompt và quan sát phản hồi AI trực tiếp ngay trong nền tảng học tập.'
+    }
+  ];
+
   const curriculumCards = [
     {
       stage: 'Chặng 1: Trợ Lý AI Văn Phòng & Dữ Liệu',
-      sessions: 'Buổi 1 - 2',
-      details: 'Soạn thảo văn bản doanh nghiệp chuẩn mực & Dọn dẹp dữ liệu Excel, xuất công thức tự động.',
-      badge: 'Cơ Bản'
+      badge: 'Chặng 1',
+      sessions: 'Buổi 1 & Buổi 2 (90 phút/buổi)',
+      details: 'Chuẩn hóa văn bản doanh nghiệp chuyên nghiệp & Tự động xử lý dữ liệu thô Excel, tạo công thức chính xác 100%.'
     },
     {
-      stage: 'Chặng 2: Hệ Thống Tự Động Hóa Mạng Xã Hội',
-      sessions: 'Buổi 3 - 6',
-      details: 'Cài đặt n8n cào RSS, AI sản xuất bài đăng Facebook, kịch bản Video TikTok & Chatbot Messenger auto báo giá.',
-      badge: 'Nâng Cao'
+      stage: 'Chặng 2: Hệ Thống Tự Động Hóa n8n',
+      badge: 'Chặng 2',
+      sessions: 'Buổi 3 đến Buổi 6 (90 phút/buổi)',
+      details: 'Tự động săn ý tưởng RSS, sản xuất nội dung đa kênh Facebook, xưởng kịch bản Video TikTok & Chatbot Messenger báo giá auto.'
     },
     {
-      stage: 'Chặng 3: Lập Trình Website Bằng AI & Triển Khai',
-      sessions: 'Buổi 7 - 8',
-      details: 'Dùng AI Agent tự động viết code Website React/Tailwind, đẩy lên GitHub, triển khai Vercel & Supabase DB.',
-      badge: 'Thực Chiến'
+      stage: 'Chặng 3: Website AI & Triển Khai Live',
+      badge: 'Chặng 3',
+      sessions: 'Buổi 7 & Buổi 8 (90 phút/buổi)',
+      details: 'Ra lệnh cho AI Agent tự gõ code Web React/Tailwind, đẩy lên GitHub, triển khai Vercel & kết nối cơ sở dữ liệu Supabase.'
     }
   ];
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#0f1b2a' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#0b1120' }}>
       <Navigation />
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px' }}>
+      
+      {/* HERO SECTION */}
+      <div style={{ padding: '40px 24px', maxWidth: '1280px', margin: '0 auto' }}>
         <SpaceBetween size="xxl">
-          {/* HERO SECTION */}
-          <Container
-            header={
-              <Header
-                variant="h1"
-                description="Khóa học thực chiến 8 buổi dành riêng cho người không biết code, dân văn phòng, kinh doanh online & marketer."
-                actions={
-                  <SpaceBetween direction="horizontal" size="xs">
-                    <Badge color="green">🔥 Học Phí: 3.500.000 VNĐ</Badge>
-                    <Badge color="blue">90 Phút / Buổi</Badge>
-                  </SpaceBetween>
-                }
-              >
-                🚀 Làm Chủ AI & Tự Động Hóa Kinh Doanh Trong 8 Buổi
-              </Header>
-            }
-          >
+          <div className="hero-glow-banner">
             <Grid gridDefinition={[{ span: { default: 12, s: 7 } }, { span: { default: 12, s: 5 } }]}>
               <SpaceBetween size="l">
-                <Box variant="p">
-                  Ứng dụng triết lý <strong>"Con Đường Hoàng Kim" (Golden Path)</strong> — 100% prompt, workflow n8n JSON và đặc tả kỹ thuật đã được tối ưu hóa, chạy được ngay không lỗi. Giúp bạn nâng cao năng suất công việc gấp 10 lần mà không sợ rào cản công nghệ.
-                </Box>
+                <div>
+                  <Badge color="blue">✨ CHƯƠNG TRÌNH ĐÀO TẠO AI & AUTOMATION 2026</Badge>
+                  <h1 style={{ fontSize: '2.8rem', lineHeight: '1.2', margin: '16px 0', fontWeight: '800' }}>
+                    Làm Chủ AI & Tự Động Hóa <span className="gradient-text">Kinh Doanh Thực Chiến</span>
+                  </h1>
+                  <Box variant="p" color="text-body-secondary" fontSize="heading-m">
+                    Lộ trình 8 buổi chuyên sâu thiết kế theo triết lý <strong>"Golden Path"</strong> dành cho người không biết code, dân văn phòng, kinh doanh online & marketer.Ứng dụng ngay công việc ngay tại lớp.
+                  </Box>
+                </div>
+
                 <SpaceBetween direction="horizontal" size="s">
-                  <Button variant="primary" onClick={() => navigate('/app')}>
-                    ⚡ Vào Học Ngay (Student Portal)
+                  <Button variant="primary" iconName="unlocked" onClick={() => navigate('/app')}>
+                    ⚡ Khám Phá Student Portal (8 Buổi)
                   </Button>
-                  <Button onClick={() => window.scrollTo({ top: 800, behavior: 'smooth' })}>
-                    📑 Xem Lộ Trình 8 Buổi
+                  <Button onClick={() => window.scrollTo({ top: 900, behavior: 'smooth' })}>
+                    📑 Xem Chi Tiết Lộ Trình
                   </Button>
                 </SpaceBetween>
 
-                <StatusIndicator type="success">
-                  Đã kiểm thử 100% không lỗi cú pháp (Zero Error Guarantee)
-                </StatusIndicator>
+                <SpaceBetween direction="horizontal" size="l">
+                  <StatusIndicator type="success">100% Tested Zero-Error</StatusIndicator>
+                  <StatusIndicator type="info">Deploy Live Vercel & Supabase</StatusIndicator>
+                </SpaceBetween>
               </SpaceBetween>
 
-              {/* FORM DANG KY TU VAN */}
-              <Container header={<Header variant="h2">📝 Đăng Ký Nhận Tư Vấn & Ưu Đãi</Header>}>
-                {submitted ? (
-                  <Alert type="success" header="Đăng ký thành công!">
-                    Cảm ơn bạn! Thông tin của bạn đã được ghi nhận vào hệ thống Supabase. Giảng viên sẽ liên hệ với bạn ngay.
-                  </Alert>
-                ) : (
-                  <form onSubmit={handleSubmit}>
-                    <Form actions={<Button variant="primary" loading={loading}>Gửi Thông Tin Đăng Ký (3.5M)</Button>}>
-                      <SpaceBetween size="m">
-                        <FormField label="Họ và tên">
-                          <Input
-                            value={fullName}
-                            onChange={({ detail }) => setFullName(detail.value)}
-                            placeholder="Nguyễn Văn A"
-                            required
-                          />
-                        </FormField>
-                        <FormField label="Email">
-                          <Input
-                            value={email}
-                            onChange={({ detail }) => setEmail(detail.value)}
-                            placeholder="example@gmail.com"
-                            type="email"
-                            required
-                          />
-                        </FormField>
-                        <FormField label="Số điện thoại / Zalo">
-                          <Input
-                            value={phone}
-                            onChange={({ detail }) => setPhone(detail.value)}
-                            placeholder="0987654321"
-                            required
-                          />
-                        </FormField>
-                        <FormField label="Nghề nghiệp hiện tại">
-                          <Select
-                            selectedOption={occupation}
-                            onChange={({ detail }) => setOccupation(detail.selectedOption)}
-                            options={[
-                              { label: 'Dân văn phòng', value: 'Office' },
-                              { label: 'Kinh doanh online', value: 'Business' },
-                              { label: 'Marketer / Content Creator', value: 'Marketing' },
-                              { label: 'Khác', value: 'Other' }
-                            ]}
-                          />
-                        </FormField>
-                      </SpaceBetween>
-                    </Form>
-                  </form>
-                )}
-              </Container>
+              {/* ENROLLMENT FORM */}
+              <div className="glass-container" style={{ padding: '24px' }}>
+                <Header variant="h2" description="Nhận trọn bộ giáo án & tài nguyên thực chiến 8 buổi">
+                  📝 Nhận Tư Vấn Lộ Trình
+                </Header>
+                <div style={{ marginTop: '16px' }}>
+                  {submitted ? (
+                    <Alert type="success" header="Đăng Ký Thành Công!">
+                      Cảm ơn bạn! Thông tin tư vấn đã được ghi nhận vào hệ thống Supabase. Giảng viên sẽ liên hệ với bạn trong thời gian sớm nhất.
+                    </Alert>
+                  ) : (
+                    <form onSubmit={handleSubmit}>
+                      <Form actions={<Button variant="primary" loading={loading} fullWidth>Gửi Thông Tin Đăng Ký Tư Vấn</Button>}>
+                        <SpaceBetween size="m">
+                          <FormField label="Họ và tên">
+                            <Input
+                              value={fullName}
+                              onChange={({ detail }) => setFullName(detail.value)}
+                              placeholder="Nguyễn Văn A"
+                              required
+                            />
+                          </FormField>
+                          <FormField label="Email">
+                            <Input
+                              value={email}
+                              onChange={({ detail }) => setEmail(detail.value)}
+                              placeholder="name@company.com"
+                              type="email"
+                              required
+                            />
+                          </FormField>
+                          <FormField label="Số điện thoại / Zalo">
+                            <Input
+                              value={phone}
+                              onChange={({ detail }) => setPhone(detail.value)}
+                              placeholder="0987 654 321"
+                              required
+                            />
+                          </FormField>
+                          <FormField label="Nghề nghiệp hiện tại">
+                            <Select
+                              selectedOption={occupation}
+                              onChange={({ detail }) => setOccupation(detail.selectedOption)}
+                              options={[
+                                { label: 'Dân văn phòng / Nhân sự / Kế toán', value: 'Office' },
+                                { label: 'Chủ shop / Kinh doanh online', value: 'Business' },
+                                { label: 'Marketer / Content Creator', value: 'Marketing' },
+                                { label: 'Khác', value: 'Other' }
+                              ]}
+                            />
+                          </FormField>
+                        </SpaceBetween>
+                      </Form>
+                    </form>
+                  )}
+                </div>
+              </div>
+            </Grid>
+          </div>
+
+          {/* CORE PILLARS */}
+          <Container header={<Header variant="h2" description="Phương pháp đào tạo tối ưu hóa cho người mới bắt đầu">💡 Giá Trị Cốt Lõi Khóa Học</Header>}>
+            <Grid gridDefinition={[{ span: 6 }, { span: 6 }, { span: 6 }, { span: 6 }]}>
+              {featurePillars.map((item, idx) => (
+                <div key={idx} className="glass-container" style={{ padding: '20px' }}>
+                  <h3 style={{ margin: '0 0 8px 0', fontSize: '1.1rem', color: '#60a5fa' }}>{item.title}</h3>
+                  <Box color="text-body-secondary">{item.description}</Box>
+                </div>
+              ))}
             </Grid>
           </Container>
 
-          {/* LỘ TRÌNH 8 BUỔI CURRICULUM GRID */}
-          <Container header={<Header variant="h2">🎯 Lộ Trình Chi Tiết 3 Chặng & 8 Buổi Học</Header>}>
+          {/* CURRICULUM ROADMAP */}
+          <Container header={<Header variant="h2" description="3 Chặng đào tạo thực chiến kéo dài 8 buổi (90 phút/buổi)">🎯 Lộ Trình 8 Buổi Học Thực Chiến</Header>}>
             <Cards
               cardDefinition={{
-                header: (item) => item.stage,
+                header: (item) => (
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontWeight: '700', fontSize: '1.1rem' }}>{item.stage}</span>
+                    <Badge color="blue">{item.badge}</Badge>
+                  </div>
+                ),
                 sections: [
                   { id: 'sessions', header: 'Thời lượng', content: (item) => item.sessions },
-                  { id: 'details', header: 'Nội dung thực hành', content: (item) => item.details },
-                  { id: 'badge', header: 'Cấp độ', content: (item) => <Badge color="blue">{item.badge}</Badge> }
+                  { id: 'details', header: 'Mục tiêu đạt được', content: (item) => item.details }
                 ]
               }}
               cardsPerRow={[{ default: 1, s: 3 }]}

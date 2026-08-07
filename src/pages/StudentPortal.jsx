@@ -61,21 +61,21 @@ export default function StudentPortal() {
     setSandboxResponse('');
     setTimeout(() => {
       setSandboxResponse(
-        `🤖 [AI PROMPT SANDBOX DEMO RESPONSE]\n----------------------------------------\nĐã nhận diện Prompt thành công:\n"${sandboxPrompt.substring(0, 100)}..."\n\n✅ Đã thực thi giả lập theo triết lý Golden Path thành công 100% không lỗi!`
+        `🤖 [AI PROMPT SANDBOX - KẾT QUẢ GIẢ LẬP REAL-TIME]\n--------------------------------------------------\n✔ Đã nhận diện Prompt thành công:\n"${(sandboxPrompt || currentLesson.mega_prompt || 'Prompt mặc định').substring(0, 120)}..."\n\n🎉 [THÀNH CÔNG 100%]: Kết quả được xử lý mượt mà theo chuẩn Golden Path! Không có lỗi xảy ra.`
       );
       setSandboxLoading(false);
-    }, 800);
+    }, 700);
   };
 
   return (
-    <div style={{ minHeight: '100vh' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#0b1120' }}>
       <Navigation />
       <AppLayout
         navigationOpen={true}
         navigation={
           <SideNavigation
             activeHref={`#buoi-${activeSession}`}
-            header={{ href: '#', title: '📚 Lộ Trình 8 Buổi Học' }}
+            header={{ href: '#', title: '📚 Giáo Án 8 Buổi Học' }}
             onFollow={(e) => {
               e.preventDefault();
               const id = parseInt(e.detail.href.replace('#buoi-', ''), 10);
@@ -95,8 +95,8 @@ export default function StudentPortal() {
                 text: 'Chặng 2: Tự Động Hóa n8n',
                 items: [
                   { type: 'link', text: 'Buổi 3: Săn Ý Tưởng RSS', href: '#buoi-3' },
-                  { type: 'link', text: 'Buổi 4: Máy Viết Content FB', href: '#buoi-4' },
-                  { type: 'link', text: 'Buổi 5: Xưởng Kịch Bản Video', href: '#buoi-5' },
+                  { type: 'link', text: 'Buổi 4: Máy Content FB', href: '#buoi-4' },
+                  { type: 'link', text: 'Buổi 5: Kịch Bản Video', href: '#buoi-5' },
                   { type: 'link', text: 'Buổi 6: Auto Chatbot Messenger', href: '#buoi-6' }
                 ]
               },
@@ -117,7 +117,12 @@ export default function StudentPortal() {
               <Header
                 variant="h1"
                 description={currentLesson.description}
-                actions={<Badge color="blue">{currentLesson.module_name}</Badge>}
+                actions={
+                  <SpaceBetween direction="horizontal" size="xs">
+                    <Badge color="blue">{currentLesson.module_name}</Badge>
+                    <Badge color="green">90 Phút / Buổi</Badge>
+                  </SpaceBetween>
+                }
               >
                 {currentLesson.title}
               </Header>
@@ -126,7 +131,7 @@ export default function StudentPortal() {
             <SpaceBetween size="l">
               {copySuccess && (
                 <Alert type="success" dismissible onDismiss={() => setCopySuccess(false)}>
-                  ✅ Đã sao chép nội dung tài nguyên vào Clipboard! Dán trực tiếp vào AI / n8n để sử dụng ngay.
+                  ✅ Đã sao chép tài nguyên vào Clipboard thành công! Dán trực tiếp vào AI / n8n để sử dụng ngay.
                 </Alert>
               )}
 
@@ -134,17 +139,22 @@ export default function StudentPortal() {
                 tabs={[
                   {
                     id: 'tab-steps',
-                    label: '📋 Hướng Dẫn Thực Hành (90 Phút)',
+                    label: '📋 Hướng Dẫn Thực Hành Trên Lớp',
                     content: (
-                      <Container header={<Header variant="h2">Các Bước Thực Hiện Trên Lớp</Header>}>
+                      <Container header={<Header variant="h2" description="Quy trình từng bước ngắn gọn, rõ ràng giúp bạn làm theo không bị trễ thời gian 90 phút">Các Bước Thực Hiện Trên Lớp</Header>}>
                         <SpaceBetween size="m">
                           {currentLesson.steps.map((step, idx) => (
-                            <Box key={idx} variant="p">
-                              <strong>Bước {idx + 1}:</strong> {step}
-                            </Box>
+                            <div key={idx} className="step-card-row">
+                              <div className="step-number-badge">{idx + 1}</div>
+                              <div style={{ flex: 1, paddingTop: '4px' }}>
+                                <Box variant="p" fontSize="body-m">
+                                  {step}
+                                </Box>
+                              </div>
+                            </div>
                           ))}
 
-                          <ExpandableSection headerText="🛠️ Lỗi Thường Gặp & Cách Sửa (Troubleshooting)">
+                          <ExpandableSection headerText="🛠️ Xử Lý Lỗi Thường Gặp (Troubleshooting Guide)">
                             <SpaceBetween size="s">
                               {currentLesson.troubleshooting.map((item, idx) => (
                                 <Alert key={idx} type="warning" header={`Lỗi: ${item.issue}`}>
@@ -152,7 +162,7 @@ export default function StudentPortal() {
                                     <strong>Nguyên nhân:</strong> {item.cause}
                                   </div>
                                   <div>
-                                    <strong>Cách sửa:</strong> {item.fix}
+                                    <strong>Cách khắc phục:</strong> {item.fix}
                                   </div>
                                 </Alert>
                               ))}
@@ -166,15 +176,15 @@ export default function StudentPortal() {
                     id: 'tab-resources',
                     label: '📦 Kho Tài Nguyên & Quick-Copy',
                     content: (
-                      <Container header={<Header variant="h2">Tài Nguyên Core 1-Click Copy / Download</Header>}>
+                      <Container header={<Header variant="h2" description="Mọi file prompt, workflow JSON đều thiết kế theo triết lý Golden Path">Tài Nguyên Core 1-Click Copy / Download</Header>}>
                         <SpaceBetween size="l">
                           {currentLesson.mega_prompt && (
                             <div>
                               <Header
                                 variant="h3"
                                 actions={
-                                  <Button iconName="copy" onClick={() => handleCopyPrompt(currentLesson.mega_prompt)}>
-                                    1-Click Copy Mega-Prompt
+                                  <Button iconName="copy" variant="primary" onClick={() => handleCopyPrompt(currentLesson.mega_prompt)}>
+                                    1-Click Copy Prompt
                                   </Button>
                                 }
                               >
@@ -194,7 +204,7 @@ export default function StudentPortal() {
                                       iconName="copy"
                                       onClick={() => handleCopyPrompt(currentLesson.n8n_json)}
                                     >
-                                      1-Click Copy JSON
+                                      Copy JSON
                                     </Button>
                                     <Button
                                       iconName="download"
@@ -242,7 +252,7 @@ export default function StudentPortal() {
                                 variant="h3"
                                 actions={
                                   <Button iconName="copy" onClick={() => handleCopyPrompt(currentLesson.spec_text)}>
-                                    Copy Web PRD Spec
+                                    Copy PRD Spec
                                   </Button>
                                 }
                               >
@@ -259,9 +269,9 @@ export default function StudentPortal() {
                     id: 'tab-sandbox',
                     label: '🧪 AI Prompt Sandbox (Thử Nghiệm)',
                     content: (
-                      <Container header={<Header variant="h2">Khung Thử Nghiệm Prompt Trực Tiếp Trên Web</Header>}>
+                      <Container header={<Header variant="h2" description="Khung thử nghiệm phản hồi Prompt trực quan dành cho học viên">AI Prompt Sandbox</Header>}>
                         <SpaceBetween size="m">
-                          <FormField label="Nhập hoặc dán Prompt cần thử nghiệm:">
+                          <FormField label="Nhập hoặc chỉnh sửa Prompt cần thử nghiệm:">
                             <Textarea
                               value={sandboxPrompt || currentLesson.mega_prompt}
                               onChange={({ detail }) => setSandboxPrompt(detail.value)}
