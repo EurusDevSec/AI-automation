@@ -103,8 +103,31 @@ export default function StudentPortal() {
     );
   };
 
+  // Helper to render Full-Width 100% HTML5 Video Player Cards
+  const renderFullWidthVideoCard = (src, title = 'Video AI Trailer') => {
+    const resolvedUrl = resolveMarkdownImageUrl(src);
+    return (
+      <div 
+        key={src + title}
+        className="border-2 border-dashed border-indigo-300 rounded-2xl p-4 bg-indigo-950/5 transition-all shadow-md my-5 w-full"
+      >
+        <div className="text-sm font-bold text-indigo-950 mb-2.5 flex items-center justify-between">
+          <span className="flex items-center gap-2">🎬 <span>{title}:</span></span>
+          <Badge color="red">{src}</Badge>
+        </div>
+        <div className="rounded-xl overflow-hidden border border-slate-300 bg-black relative w-full shadow-lg">
+          <video 
+            src={resolvedUrl} 
+            controls 
+            className="w-full h-auto max-h-[550px] object-contain mx-auto"
+          />
+        </div>
+      </div>
+    );
+  };
+
   // DYNAMIC MARKDOWN PARSER & RENDERER
-  // Parses markdown string line-by-line so ANY image tag added to buoi_X.md automatically renders live!
+  // Parses markdown string line-by-line so ANY image tag or video tag added to buoi_X.md automatically renders live!
   const renderDynamicMarkdown = (markdownText) => {
     if (!markdownText) return null;
 
@@ -152,12 +175,26 @@ export default function StudentPortal() {
         continue;
       }
 
-      // Image Tag Match: ![alt](filename.ext)
+      // HTML <video ... src="filename.mp4"> Tag Match
+      const htmlVideoMatch = line.trim().match(/<video[^>]*src=["'](.*?)["']/i);
+      if (htmlVideoMatch) {
+        const videoSrc = htmlVideoMatch[1];
+        elements.push(renderFullWidthVideoCard(videoSrc, 'Video AI Trailer Thực Tế'));
+        continue;
+      }
+
+      // Image / Video Tag Match: ![alt](filename.ext)
       const imgMatch = line.trim().match(/^!\[(.*?)\]\((.*?)\)/);
       if (imgMatch) {
-        const altText = imgMatch[1] || 'Ảnh thực tế';
-        const imgSrc = imgMatch[2];
-        elements.push(renderFullWidthImageCard(imgSrc, altText, 'blue'));
+        const altText = imgMatch[1] || 'Tệp đính kèm';
+        const mediaSrc = imgMatch[2];
+        const isVideo = /\.(mp4|webm|mov)$/i.test(mediaSrc);
+
+        if (isVideo) {
+          elements.push(renderFullWidthVideoCard(mediaSrc, altText));
+        } else {
+          elements.push(renderFullWidthImageCard(mediaSrc, altText, 'blue'));
+        }
         continue;
       }
 
@@ -277,9 +314,9 @@ export default function StudentPortal() {
             header={<h2>💡 Trợ Giúp Học Viên</h2>}
             footer={
               <div>
-                <h3>100% Dynamic Markdown Synced:</h3>
+                <h3>Hỗ Trợ Phát Video MP4:</h3>
                 <Box color="text-body-secondary">
-                  Tất cả thẻ ảnh dán vào file <code>src/content/buoi_{currentLesson.session_number}.md</code> sẽ <strong>TỰ ĐỘNG HIỂN THỊ LIVE</strong> dạng Full-Width trên web!
+                  Dán file video <code>.mp4</code> vào <code>src/content/</code> và gõ <code>&lt;video src="ten-video.mp4" controls&gt;&lt;/video&gt;</code> để trình chiếu live!
                 </Box>
               </div>
             }
@@ -300,7 +337,7 @@ export default function StudentPortal() {
                 actions={
                   <SpaceBetween direction="horizontal" size="xs">
                     <Badge color="blue">{currentLesson.module_name}</Badge>
-                    <StatusIndicator type="success">100% Dynamic IDE Synced</StatusIndicator>
+                    <StatusIndicator type="success">HTML5 Video Player Active</StatusIndicator>
                     <Button iconName="help" onClick={() => setToolsOpen(!toolsOpen)}>
                       Trợ Giúp
                     </Button>
@@ -328,9 +365,9 @@ export default function StudentPortal() {
                   <StatusIndicator type="info">Tab Trò Chuyện &amp; Tab Spark BETA</StatusIndicator>
                   <Box color="text-body-secondary">Chuẩn 100% giao diện thực tế</Box>
                 </Container>
-                <Container header={<Header variant="h3">🔄 IDE Live Sync</Header>}>
-                  <StatusIndicator type="success">Dynamic Markdown Engine</StatusIndicator>
-                  <Box color="text-body-secondary">Dán ảnh vào buoi_1.md tự lên Web ngay!</Box>
+                <Container header={<Header variant="h3">🎬 MP4 Video Support</Header>}>
+                  <StatusIndicator type="success">HTML5 Video Player</StatusIndicator>
+                  <Box color="text-body-secondary">Phát video AI trailer trực tiếp</Box>
                 </Container>
               </ColumnLayout>
 
@@ -348,7 +385,7 @@ export default function StudentPortal() {
                             <div className="space-y-1 text-sm">
                               <div><strong>Tình huống thực tế:</strong> Bạn được giao lên kế hoạch du lịch / team building 3N2Đ cho nhóm 10-15 người (3-5 triệu/người).</div>
                               <div><strong>Luồng Thao Tác 2 Tab:</strong> [Tab Trò chuyện] (Research + Canvas + Veo) &rarr; [Tab Spark BETA] (Trình duyệt từ xa Agoda + Standing Instructions Gmail sang Sheets).</div>
-                              <div className="text-xs text-indigo-700 font-semibold mt-1">✨ Nội dung &amp; Tất cả hình ảnh hiển thị 100% LIVE từ file IDE `src/content/buoi_{currentLesson.session_number}.md`!</div>
+                              <div className="text-xs text-indigo-700 font-semibold mt-1">✨ Đã bật tính năng trình chiếu Video MP4 trực tiếp từ file Markdown!</div>
                             </div>
                           </Alert>
                         )}

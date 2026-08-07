@@ -1,11 +1,11 @@
-// Vite eager glob import for all images in src/content
-const contentImages = import.meta.glob('../content/**/*.{png,jpg,jpeg,svg,gif,webp,JPG,PNG,JPEG}', {
+// Vite eager glob import for all images and videos in src/content
+const contentAssets = import.meta.glob('../content/**/*.{png,jpg,jpeg,svg,gif,webp,JPG,PNG,JPEG,mp4,webm,mov,MP4,WEBM}', {
   eager: true,
   import: 'default'
 });
 
 /**
- * Resolves relative markdown image URLs (e.g. "image.png", "./image-1.png", "buoi-1/image.png")
+ * Resolves relative markdown image and video URLs (e.g. "image.png", "video.mp4")
  * to actual Vite bundled URLs.
  */
 export function resolveMarkdownImageUrl(url) {
@@ -20,9 +20,9 @@ export function resolveMarkdownImageUrl(url) {
   const cleanName = url.replace(/^\.\//, '').trim();
 
   // 1. Search in src/content glob map
-  for (const path in contentImages) {
+  for (const path in contentAssets) {
     if (path.endsWith('/' + cleanName) || path === '../content/' + cleanName) {
-      return contentImages[path];
+      return contentAssets[path];
     }
   }
 

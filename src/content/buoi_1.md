@@ -62,6 +62,10 @@ Tạo một video ngắn 5 giây từ bức ảnh này với yêu cầu:
 - Hiệu ứng: Ánh nắng chiếu xuyên qua kẽ lá, mây nhẹ nhàng trôi trên bầu trời, không khí chuyến đi tràn đầy năng lượng.
 ```
 
+![prompt video](image-6.png)
+
+<video controls src="video_du_lich.mp4" title="Title"></video>
+
 ---
 
 ## 🔴 CHẶNG 2: TAB "SPARK BETA" - TRÌNH DUYỆT TỪ XA & TỰ ĐỘNG HÓA (45 PHÚT)
@@ -73,7 +77,7 @@ Tạo một video ngắn 5 giây từ bức ảnh này với yêu cầu:
 * **Thao tác:** Dán câu lệnh vào tab **Spark BETA**:
 
 ```prompt
-Hãy dùng Trình duyệt từ xa truy cập Booking.com (hoặc Agoda), tìm khách sạn/resort cho nhóm 10 người tại [Tên địa điểm] vào tháng 8/2026. Lấy danh sách 3 chỗ ở tốt nhất kèm giá phòng thực tế.
+Hãy dùng Chrome Auto Browse truy cập vào trang web đặt phòng (như Agoda, Traveloka hoặc Booking), cào bằng giả phòng thực tế của 1 Homestay Resort phù hợp tại địa điểm đã chọn và chèn thêm 1 Bảng tổng hợp chi phí lưu trú vào cuối trang Canvas cho tôi.
 ```
 
 * **Trải nghiệm thực tế:** Khung **Trình duyệt từ xa** mở ra ở nửa màn hình bên phải (như trong ảnh chụp thực tế). Học viên quan sát Spark tự click chuột, chọn ngày tháng trên lịch Booking/Agoda và cào dữ liệu về bảng chat.
