@@ -399,25 +399,32 @@ export default function StudentPortal() {
                                   </div>
                                 )}
 
-                                {/* SPARK REMOTE BROWSER REAL SCREENSHOTS */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                                {/* SPARK REMOTE BROWSER 3 REAL SCREENSHOTS */}
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
                                   <div className="border-2 border-dashed border-red-200 rounded-xl p-3 bg-red-50/50">
-                                    <div className="text-xs font-semibold text-red-700 mb-2 flex items-center gap-1.5">
-                                      📸 <span>Trình duyệt từ xa Mở Nửa Màn Hình Phải:</span>
-                                      <Badge color="red">spark-remote-browser-1.png</Badge>
+                                    <div className="text-xs font-semibold text-red-700 mb-2 flex items-center gap-1">
+                                      📸 <span>1. Trình Duyệt Mở Nửa Phải:</span>
                                     </div>
                                     <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
-                                      <img src={resolveMarkdownImageUrl('spark-remote-browser-1.png')} alt="spark-remote-browser-1.png" className="w-full h-52 object-contain bg-slate-50" />
+                                      <img src={resolveMarkdownImageUrl('spark-remote-browser-1.png')} alt="spark-remote-browser-1.png" className="w-full h-44 object-contain bg-slate-50" />
                                     </div>
                                   </div>
 
                                   <div className="border-2 border-dashed border-red-200 rounded-xl p-3 bg-red-50/50">
-                                    <div className="text-xs font-semibold text-red-700 mb-2 flex items-center gap-1.5">
-                                      📸 <span>Spark Tự Tương Tác Click Chọn Phòng Agoda:</span>
-                                      <Badge color="red">spark-remote-browser-2.png</Badge>
+                                    <div className="text-xs font-semibold text-red-700 mb-2 flex items-center gap-1">
+                                      📸 <span>2. Spark Tự Tương Tác Click:</span>
                                     </div>
                                     <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
-                                      <img src={resolveMarkdownImageUrl('spark-remote-browser-2.png')} alt="spark-remote-browser-2.png" className="w-full h-52 object-contain bg-slate-50" />
+                                      <img src={resolveMarkdownImageUrl('spark-remote-browser-2.png')} alt="spark-remote-browser-2.png" className="w-full h-44 object-contain bg-slate-50" />
+                                    </div>
+                                  </div>
+
+                                  <div className="border-2 border-dashed border-emerald-200 rounded-xl p-3 bg-emerald-50/50">
+                                    <div className="text-xs font-semibold text-emerald-700 mb-2 flex items-center gap-1">
+                                      📸 <span>3. Trích Xuất Giá Phòng Kết Quả:</span>
+                                    </div>
+                                    <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
+                                      <img src={resolveMarkdownImageUrl('spark-remote-browser-result.png')} alt="spark-remote-browser-result.png" className="w-full h-44 object-contain bg-slate-50" />
                                     </div>
                                   </div>
                                 </div>
