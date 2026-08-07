@@ -4,7 +4,7 @@
 
 ## 🎯 TỔNG QUAN LUỒNG THAO TÁC 2 TAB TRÊN GIAO DIỆN THỰC TẾ
 
-* **[TAB 1: TRÒ CHUYỆN]** &rarr; Deep Research &rarr; Canvas (Kế hoạch) &rarr; Nút "Tạo" (Audio Podcast / Quiz) &rarr; Tạo Ảnh & Video Veo
+* **[TAB 1: TRÒ CHUYỆN]** &rarr; Deep Research &rarr; Canvas (Kế hoạch) &rarr; Nút "Tạo" (Audio Podcast / Quiz) &rarr; Tạo Ảnh & Video Veo &rarr; Nhạc Nền Tropical
 * **[TAB 2: SPARK BETA]** &rarr; Trình duyệt từ xa (Auto Browse Booking/Agoda) &rarr; Standing Instructions (Gmail -&gt; Sheets)
 
 ---
@@ -67,7 +67,17 @@ Tạo một video ngắn 5 giây từ bức ảnh này với yêu cầu:
 
 <video controls src="video_du_lich.mp4" title="Video AI Trailer Thực Tế"></video>
 
-![Poster Du Lịch Team Building Cinematic](image.png)
+### 4️⃣ Tạo Nhạc Nền Cho Video Trailer (Audio / Music Generation)
+
+> 💡 **Mẹo Render Song Song:** Tạo Nhạc nền Music ngay khi Veo đang xử lý render Video (mất ~1-2 phút) để không lãng phí thời gian trên lớp!
+
+* **Thao tác:** Dán câu lệnh tạo đoạn âm thanh nhạc nền chèn vào clip trailer:
+
+```prompt
+Tạo một đoạn nhạc nền Audio thời lượng 15 giây phong cách Tropical House / Indie Pop tươi vui, nhịp điệu rộn ràng, mang lại cảm giác hào hứng, tự do cho chuyến đi du lịch mùa hè.
+```
+
+<audio controls src="Cứ_Đi_Thôi.mp3" title="Title"></audio>
 
 ---
 
