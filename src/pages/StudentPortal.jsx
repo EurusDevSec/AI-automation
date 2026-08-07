@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AppLayout from '@cloudscape-design/components/app-layout';
 import SideNavigation from '@cloudscape-design/components/side-navigation';
+import BreadcrumbGroup from '@cloudscape-design/components/breadcrumb-group';
 import ContentLayout from '@cloudscape-design/components/content-layout';
 import Header from '@cloudscape-design/components/header';
 import Tabs from '@cloudscape-design/components/tabs';
@@ -8,20 +9,27 @@ import Container from '@cloudscape-design/components/container';
 import SpaceBetween from '@cloudscape-design/components/space-between';
 import Button from '@cloudscape-design/components/button';
 import Badge from '@cloudscape-design/components/badge';
+import StatusIndicator from '@cloudscape-design/components/status-indicator';
 import ExpandableSection from '@cloudscape-design/components/expandable-section';
 import Alert from '@cloudscape-design/components/alert';
 import Box from '@cloudscape-design/components/box';
 import Textarea from '@cloudscape-design/components/textarea';
 import FormField from '@cloudscape-design/components/form-field';
+import HelpPanel from '@cloudscape-design/components/help-panel';
+import ColumnLayout from '@cloudscape-design/components/column-layout';
+import Checkbox from '@cloudscape-design/components/checkbox';
 import Navigation from '../components/Navigation';
 import { initialLessonsData } from '../data/lessonsData';
 import { getLocalLessonsOverride } from '../lib/supabase';
-import { Sparkles, Copy, Download, Play, CheckCircle } from 'lucide-react';
 
 export default function StudentPortal() {
   const [activeSession, setActiveSession] = useState(1);
   const [copySuccess, setCopySuccess] = useState(false);
   const [lessons, setLessons] = useState(initialLessonsData);
+  const [toolsOpen, setToolsOpen] = useState(false);
+
+  // Checklist state for DoD
+  const [checkListState, setCheckListState] = useState({});
 
   // Sandbox state
   const [sandboxPrompt, setSandboxPrompt] = useState('');
@@ -62,21 +70,43 @@ export default function StudentPortal() {
     setSandboxResponse('');
     setTimeout(() => {
       setSandboxResponse(
-        `🤖 [AI PROMPT SANDBOX - KẾT QUẢ XỬ LÝ TRỰC TIẾP]\n--------------------------------------------------\n✔ Đã ghi nhận Prompt:\n"${(sandboxPrompt || currentLesson.mega_prompt || 'Prompt mặc định').substring(0, 120)}..."\n\n🎉 [THÀNH CÔNG 100%]: Phản hồi đã được tạo thành công theo triết lý Golden Path!`
+        `🤖 [CLOUDSCAPE AI SANDBOX - SIMULATION RESPONSE]\n--------------------------------------------------\n✔ Prompt Parsed Successfully:\n"${(sandboxPrompt || currentLesson.mega_prompt || 'Default Prompt').substring(0, 150)}..."\n\n🎉 [Status: 200 OK]: Simulation completed 100% cleanly according to Golden Path specification!`
       );
       setSandboxLoading(false);
     }, 600);
   };
 
+  const toggleChecklist = (idx) => {
+    setCheckListState((prev) => ({ ...prev, [idx]: !prev[idx] }));
+  };
+
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
       <Navigation />
+      
       <AppLayout
+        contentType="default"
         navigationOpen={true}
+        toolsOpen={toolsOpen}
+        onToolsChange={({ detail }) => setToolsOpen(detail.open)}
+        breadcrumbs={
+          <BreadcrumbGroup
+            items={[
+              { text: 'Trang Chủ', href: '/' },
+              { text: 'Student Portal', href: '/app' },
+              { text: `Buổi ${currentLesson.session_number}: ${currentLesson.title.split(':')[1] || currentLesson.title}`, href: `#buoi-${currentLesson.session_number}` }
+            ]}
+            ariaLabel="Breadcrumbs"
+          />
+        }
         navigation={
           <SideNavigation
             activeHref={`#buoi-${activeSession}`}
-            header={{ href: '#', title: '📚 Lộ Trình 8 Buổi Học' }}
+            header={{
+              href: '#/app',
+              text: 'Lộ Trình Đào Tạo AI 2026',
+              logo: { src: 'https://img.icons8.com/color/96/brain--v1.png', alt: 'AI' }
+            }}
             onFollow={(e) => {
               e.preventDefault();
               const id = parseInt(e.detail.href.replace('#buoi-', ''), 10);
@@ -85,32 +115,59 @@ export default function StudentPortal() {
             items={[
               {
                 type: 'section',
-                text: 'Chặng 1: Văn Phòng & Dữ Liệu',
+                text: 'Chặng 1: AI Văn Phòng & Dữ Liệu',
                 items: [
-                  { type: 'link', text: 'Buổi 1: Chuẩn Hóa Văn Bản', href: '#buoi-1' },
-                  { type: 'link', text: 'Buổi 2: Trợ Lý Excel', href: '#buoi-2' }
+                  { type: 'link', text: 'Buổi 1: Chuẩn Hóa Văn Bản', href: '#buoi-1', info: <Badge color="blue">Cơ bản</Badge> },
+                  { type: 'link', text: 'Buổi 2: Trợ Lý Excel', href: '#buoi-2', info: <Badge color="blue">Cơ bản</Badge> }
                 ]
               },
+              { type: 'divider' },
               {
                 type: 'section',
                 text: 'Chặng 2: Tự Động Hóa n8n',
                 items: [
-                  { type: 'link', text: 'Buổi 3: Săn Ý Tưởng RSS', href: '#buoi-3' },
-                  { type: 'link', text: 'Buổi 4: Máy Content FB', href: '#buoi-4' },
-                  { type: 'link', text: 'Buổi 5: Kịch Bản Video', href: '#buoi-5' },
-                  { type: 'link', text: 'Buổi 6: Auto Chatbot Messenger', href: '#buoi-6' }
+                  { type: 'link', text: 'Buổi 3: Săn Ý Tưởng RSS', href: '#buoi-3', info: <Badge color="green">Nâng cao</Badge> },
+                  { type: 'link', text: 'Buổi 4: Máy Content FB', href: '#buoi-4', info: <Badge color="green">Nâng cao</Badge> },
+                  { type: 'link', text: 'Buổi 5: Kịch Bản Video', href: '#buoi-5', info: <Badge color="green">Nâng cao</Badge> },
+                  { type: 'link', text: 'Buổi 6: Auto Chatbot Messenger', href: '#buoi-6', info: <Badge color="green">Nâng cao</Badge> }
                 ]
               },
+              { type: 'divider' },
               {
                 type: 'section',
                 text: 'Chặng 3: Website AI & Live',
                 items: [
-                  { type: 'link', text: 'Buổi 7: AI Tạo Website', href: '#buoi-7' },
-                  { type: 'link', text: 'Buổi 8: Deploy Vercel & Supabase', href: '#buoi-8' }
+                  { type: 'link', text: 'Buổi 7: AI Tạo Website', href: '#buoi-7', info: <Badge color="red">Thực chiến</Badge> },
+                  { type: 'link', text: 'Buổi 8: Deploy Vercel & Supabase', href: '#buoi-8', info: <Badge color="red">Thực chiến</Badge> }
                 ]
               }
             ]}
           />
+        }
+        tools={
+          <HelpPanel
+            header={<h2>💡 Hướng Dẫn Học Viên</h2>}
+            footer={
+              <div>
+                <h3>Cần hỗ trợ trực tiếp?</h3>
+                <Box color="text-body-secondary">Liên hệ giảng viên qua Zalo / Telegram nhóm học tập 24/7.</Box>
+              </div>
+            }
+          >
+            <SpaceBetween size="m">
+              <Box variant="p">
+                Chào mừng bạn đến với <strong>Buổi {currentLesson.session_number}</strong>! Mỗi buổi học kéo dài 90 phút và được tối ưu hóa theo triết lý <em>Golden Path</em>.
+              </Box>
+              <div>
+                <h4>Mẹo thực hành mượt mà:</h4>
+                <ul>
+                  <li>Bấm <strong>1-Click Copy</strong> để sao chép prompt chuẩn.</li>
+                  <li>Tải file JSON n8n về máy rồi chọn <strong>Import from File</strong> trong n8n.</li>
+                  <li>Dùng tab <strong>AI Prompt Sandbox</strong> để thử nghiệm phản hồi ngay trên lớp.</li>
+                </ul>
+              </div>
+            </SpaceBetween>
+          </HelpPanel>
         }
         content={
           <ContentLayout
@@ -121,7 +178,10 @@ export default function StudentPortal() {
                 actions={
                   <SpaceBetween direction="horizontal" size="xs">
                     <Badge color="blue">{currentLesson.module_name}</Badge>
-                    <Badge color="green">90 Phút / Buổi</Badge>
+                    <StatusIndicator type="success">Golden Path Verified</StatusIndicator>
+                    <Button iconName="help" onClick={() => setToolsOpen(!toolsOpen)}>
+                      Trợ Giúp
+                    </Button>
                   </SpaceBetween>
                 }
               >
@@ -136,34 +196,53 @@ export default function StudentPortal() {
                 </Alert>
               )}
 
+              {/* OVERVIEW CARDS */}
+              <ColumnLayout columns={3} variant="classic">
+                <Container header={<Header variant="h3">⏱️ Thời Lượng</Header>}>
+                  <Box variant="h2">90 Phút</Box>
+                  <Box color="text-body-secondary">Thực hành 100% tại lớp</Box>
+                </Container>
+                <Container header={<Header variant="h3">🎯 Cấp Độ</Header>}>
+                  <StatusIndicator type="info">Người mới bắt đầu (Beginners)</StatusIndicator>
+                  <Box color="text-body-secondary">Không cần kiến thức lập trình</Box>
+                </Container>
+                <Container header={<Header variant="h3">🛡️ Tiêu Chuẩn</Header>}>
+                  <StatusIndicator type="success">100% Zero Error Guarantee</StatusIndicator>
+                  <Box color="text-body-secondary">Prompt & n8n JSON đã kiểm thử</Box>
+                </Container>
+              </ColumnLayout>
+
+              {/* TABS CONTAINER */}
               <Tabs
                 tabs={[
                   {
                     id: 'tab-steps',
-                    label: '📋 Hướng Dẫn Thực Hành Trên Lớp',
+                    label: '📋 1. Hướng Dẫn Thực Hành (90 Phút)',
                     content: (
-                      <Container header={<Header variant="h2" description="Quy trình từng bước ngắn gọn giúp bạn làm theo không bị quá thời gian 90 phút">Các Bước Thực Hiện</Header>}>
+                      <Container header={<Header variant="h2" description="Quy trình từng bước ngắn gọn (<10 từ/gạch đầu dòng) để hoàn thành bài thực hành trên lớp">Các Bước Thực Hiện</Header>}>
                         <SpaceBetween size="m">
                           {currentLesson.steps.map((step, idx) => (
-                            <div key={idx} className="step-card-light">
-                              <div className="step-number-light">{idx + 1}</div>
-                              <div style={{ flex: 1, paddingTop: '4px' }}>
-                                <Box variant="p" fontSize="body-m">
+                            <Container key={idx}>
+                              <SpaceBetween direction="horizontal" size="s">
+                                <StatusIndicator type={checkListState[idx] ? 'success' : 'in-progress'}>
+                                  <strong>Bước {idx + 1}:</strong>
+                                </StatusIndicator>
+                                <Box variant="p" fontSize="body-m" color="text-body-primary">
                                   {step}
                                 </Box>
-                              </div>
-                            </div>
+                              </SpaceBetween>
+                            </Container>
                           ))}
 
-                          <ExpandableSection headerText="🛠️ Xử Lý Lỗi Thường Gặp (Troubleshooting)">
+                          <ExpandableSection headerText="🛠️ Xử Lý Lỗi Thường Gặp (Troubleshooting Guide)">
                             <SpaceBetween size="s">
                               {currentLesson.troubleshooting.map((item, idx) => (
-                                <Alert key={idx} type="warning" header={`Lỗi: ${item.issue}`}>
+                                <Alert key={idx} type="warning" header={`Lỗi hay gặp: ${item.issue}`}>
                                   <div>
                                     <strong>Nguyên nhân:</strong> {item.cause}
                                   </div>
                                   <div>
-                                    <strong>Cách sửa:</strong> {item.fix}
+                                    <strong>Cách sửa nhanh:</strong> {item.fix}
                                   </div>
                                 </Alert>
                               ))}
@@ -175,9 +254,9 @@ export default function StudentPortal() {
                   },
                   {
                     id: 'tab-resources',
-                    label: '📦 Kho Tài Nguyên & Quick-Copy',
+                    label: '📦 2. Kho Tài Nguyên Mega-Prompt & JSON',
                     content: (
-                      <Container header={<Header variant="h2" description="Tải xuống workflow n8n JSON hoặc 1-Click Copy Mega Prompt">Tài Nguyên Core</Header>}>
+                      <Container header={<Header variant="h2" description="Tải xuống workflow n8n JSON hoặc 1-Click Copy Mega Prompt">Tài Nguyên Thực Chiến Core</Header>}>
                         <SpaceBetween size="l">
                           {currentLesson.mega_prompt && (
                             <div>
@@ -191,7 +270,7 @@ export default function StudentPortal() {
                               >
                                 📄 Mega-Prompt / Script Text
                               </Header>
-                              <div className="custom-code-box-light">{currentLesson.mega_prompt}</div>
+                              <div className="custom-code-editor">{currentLesson.mega_prompt}</div>
                             </div>
                           )}
 
@@ -224,7 +303,7 @@ export default function StudentPortal() {
                               >
                                 🤖 Mã Workflow n8n JSON (Valid 100%)
                               </Header>
-                              <div className="custom-code-box-light">{currentLesson.n8n_json}</div>
+                              <div className="custom-code-editor">{currentLesson.n8n_json}</div>
                             </div>
                           )}
 
@@ -243,7 +322,7 @@ export default function StudentPortal() {
                               >
                                 🗄️ Supabase / PostgreSQL SQL Schema
                               </Header>
-                              <div className="custom-code-box-light">{currentLesson.sql_template}</div>
+                              <div className="custom-code-editor">{currentLesson.sql_template}</div>
                             </div>
                           )}
 
@@ -259,7 +338,7 @@ export default function StudentPortal() {
                               >
                                 📐 Web Landing Page Specification
                               </Header>
-                              <div className="custom-code-box-light">{currentLesson.spec_text}</div>
+                              <div className="custom-code-editor">{currentLesson.spec_text}</div>
                             </div>
                           )}
                         </SpaceBetween>
@@ -268,11 +347,11 @@ export default function StudentPortal() {
                   },
                   {
                     id: 'tab-sandbox',
-                    label: '🧪 AI Prompt Sandbox (Thử Nghiệm)',
+                    label: '🧪 3. AI Prompt Sandbox (Thử Nghiệm)',
                     content: (
-                      <Container header={<Header variant="h2" description="Khung thử nghiệm Prompt trực quan dành cho học viên">AI Prompt Sandbox</Header>}>
+                      <Container header={<Header variant="h2" description="Khung thử nghiệm phản hồi Prompt trực quan dành cho học viên">AI Prompt Sandbox Live</Header>}>
                         <SpaceBetween size="m">
-                          <FormField label="Nhập hoặc dán Prompt cần thử nghiệm:">
+                          <FormField label="Nhập hoặc chỉnh sửa Prompt cần thử nghiệm:">
                             <Textarea
                               value={sandboxPrompt || currentLesson.mega_prompt}
                               onChange={({ detail }) => setSandboxPrompt(detail.value)}
@@ -284,7 +363,26 @@ export default function StudentPortal() {
                             🚀 Chạy Thử Nghiệm Prompt
                           </Button>
 
-                          {sandboxResponse && <div className="custom-code-box-light">{sandboxResponse}</div>}
+                          {sandboxResponse && <div className="custom-code-editor">{sandboxResponse}</div>}
+                        </SpaceBetween>
+                      </Container>
+                    )
+                  },
+                  {
+                    id: 'tab-checklist',
+                    label: '🎯 4. Đánh Giá Tiêu Chuẩn Bài Học (DoD)',
+                    content: (
+                      <Container header={<Header variant="h2" description="Tự kiểm tra mức độ hoàn thành bài học 90 phút">Checklist Hoàn Thành</Header>}>
+                        <SpaceBetween size="m">
+                          {currentLesson.steps.map((step, idx) => (
+                            <Checkbox
+                              key={idx}
+                              checked={!!checkListState[idx]}
+                              onChange={() => toggleChecklist(idx)}
+                            >
+                              Hoàn thành Bước {idx + 1}: {step}
+                            </Checkbox>
+                          ))}
                         </SpaceBetween>
                       </Container>
                     )
