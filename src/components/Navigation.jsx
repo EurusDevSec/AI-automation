@@ -31,12 +31,6 @@ export default function Navigation() {
             onClick: () => navigate('/app')
           },
           {
-            type: 'button',
-            text: '🛠️ Admin CMS Online',
-            variant: location.pathname.startsWith('/admin') ? 'primary-button' : 'normal',
-            onClick: () => navigate('/admin')
-          },
-          {
             type: 'url',
             text: 'GitHub Repo',
             href: 'https://github.com/EurusDevSec/AI-automation',
