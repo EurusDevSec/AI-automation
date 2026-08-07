@@ -28,19 +28,33 @@ body {
   border: 1px solid #1e293b;
 }
 
-/* 🎯 FIX STICKY SIDE NAVIGATION SIDEBAR */
-aside,
+/* 🎯 PIN TOP NAVIGATION AT TOP: 0 */
+#top-nav-container {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+}
+
+/* 🎯 FIX STICKY SIDE NAVIGATION SIDEBAR (PINNED EXACTLY BELOW TOP NAV AT TOP: 56PX) */
 div[class*="awsui_navigation_"],
-div[class*="awsui_side-navigation_"],
-nav[class*="awsui_side-navigation_"] {
+div[class*="awsui_layout-navigation_"],
+aside[class*="awsui_navigation_"],
+[data-awsui-focus-region="navigation"] {
   position: sticky !important;
   top: 56px !important;
   height: calc(100vh - 56px) !important;
   max-height: calc(100vh - 56px) !important;
   overflow-y: auto !important;
+  align-self: flex-start !important;
 }
 
-/* 🎯 FIX STICKY TABS HEADER BAR (STICKY BELOW TOP NAV AT TOP: 56PX) */
+/* Ensure inner nav doesn't re-stick or conflict */
+nav[class*="awsui_side-navigation_"] {
+  position: relative !important;
+  top: 0 !important;
+}
+
+/* 🎯 FIX STICKY TABS HEADER BAR (PINNED BELOW TOP NAV AT TOP: 56PX) */
 div[class*="tab-header-scroll-container"],
 div[class*="tabs-header-list"],
 ul[class*="tabs-header-list"],

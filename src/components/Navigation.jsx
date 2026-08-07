@@ -7,7 +7,7 @@ export default function Navigation() {
   const location = useLocation();
 
   return (
-    <div className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div id="top-nav-container" className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
       <TopNavigation
         identity={{
           href: '/',

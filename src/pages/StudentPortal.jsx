@@ -321,6 +321,7 @@ export default function StudentPortal() {
       <Navigation />
       
       <AppLayout
+        headerSelector="#top-nav-container"
         contentType="default"
         navigationOpen={navigationOpen}
         onNavigationChange={({ detail }) => setNavigationOpen(detail.open)}
