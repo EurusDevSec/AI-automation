@@ -13,8 +13,8 @@ export default function Navigation() {
           href: '/',
           title: 'AI & Automation Masterclass',
           logo: {
-            src: '/logo.png',
-            alt: 'AWS AI Automation Service Icon'
+            src: '/logo.svg',
+            alt: 'AI Automation Minimalist 2D Flat Vector Logo'
           }
         }}
         utilities={[
