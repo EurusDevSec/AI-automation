@@ -67,8 +67,6 @@ Tạo một video ngắn 5 giây từ bức ảnh này với yêu cầu:
 
 <video controls src="video_du_lich.mp4" title="Video AI Trailer Thực Tế"></video>
 
-![Poster Du Lịch Team Building Cinematic](image.png)
-
 ### 4️⃣ Tạo Nhạc Nền Cho Video Trailer (Audio / Music Generation)
 
 > 💡 **Mẹo Render Song Song:** Tạo Nhạc nền Music ngay khi Veo đang xử lý render Video (mất ~1-2 phút) để không lãng phí thời gian trên lớp!
@@ -108,6 +106,7 @@ Hãy dùng Trình duyệt từ xa truy cập Booking.com (hoặc Agoda), tìm kh
 ### 2️⃣ Cài Đặt Standing Instructions 24/7 (25 Phút)
 
 **Bước 1: Hướng dẫn học viên truy cập cài đặt**
+
 * Nhấp biểu tượng Cài Đặt (Gear icon) ở góc trên Spark BETA &rarr; Chọn **Standing Instructions**.
 
 **Bước 2: Prompt Standing Instructions (Copy dán vào Spark Settings)**
@@ -125,6 +124,8 @@ Mỗi khi có Gmail mới gửi đến chứa từ khóa "Thanh toán du lịch"
 - Bổ sung dữ liệu vừa trích xuất vào đúng các cột tương ứng (A: Ngày, B: Tên, C: Số tiền, D: Nội dung).
 ```
 
+![prompt standing instruction 24/7](image-8.png)
+
 **Bước 3: Kịch bản Test thực chiến ngay tại lớp (2 phút)**
 
 Yêu cầu học viên mở Gmail cá nhân và tự gửi 1 email cho chính mình với đúng cấu trúc:
@@ -132,15 +133,17 @@ Yêu cầu học viên mở Gmail cá nhân và tự gửi 1 email cho chính m�
 * **Người nhận:** Email của chính học viên.
 * **Tiêu đề:** `Thanh toán du lịch - Nguyễn Văn A`
 * **Nội dung:** `Xác nhận đã chuyển khoản 3.000.000 VNĐ tiền cọc chuyến đi Đà Lạt.`
+![ảnh mail](image-9.png)
+**Kết quả nghiệm thu:** Sau 30-60 giây, học viên mở file `Thu Chi Du Lịch 2026` trên Drive ra thấy dữ liệu tự nhảy đúng 4 cột.
 
-&rarr; **Kết quả nghiệm thu:** Sau 30-60 giây, học viên mở file `Thu Chi Du Lịch 2026` trên Drive ra thấy dữ liệu tự nhảy đúng 4 cột.
+![kết quả 1_spark đã nhận ra](image-10.png)
 
+![Kết quả 2 spark đã lưu trên sheet](image-11.png)
 ---
 
 ## 🟢 CHẶNG 3: ĐÓNG GÓI GEM & TỔNG KẾT (10 PHÚT)
 
 1. Mở mục **Custom Gems** &rarr; Tạo con Gem `Trợ Lý Lập Kế Hoạch Du Lịch 360` chứa System Instruction (Prompt đóng gói quy trình) để mang về dùng lâu dài.
-2. Thêm học viên vào gói **Family Pro** để hoàn tất kích hoạt tài khoản.
 
 ```prompt
 [VAI TRÒ]
@@ -155,3 +158,9 @@ Mỗi khi tôi nhập tên một địa điểm hoặc ý tưởng chuyến đi 
 [ĐẦU RA]
 Trình bày dạng Bảng Markdown rõ ràng. Văn phong hào hứng, hiện đại, dễ hiểu cho tất cả mọi người.
 ```
+
+![system instruction](image-12.png)
+
+![prompt khi sử dụng](image-13.png)
+
+![AI tự gen prompt](image-14.png)
