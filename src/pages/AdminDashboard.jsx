@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import AppLayout from '@cloudscape-design/components/app-layout';
 import BreadcrumbGroup from '@cloudscape-design/components/breadcrumb-group';
 import ContentLayout from '@cloudscape-design/components/content-layout';
@@ -20,7 +20,7 @@ import ColumnLayout from '@cloudscape-design/components/column-layout';
 import Navigation from '../components/Navigation';
 import { initialLessonsData } from '../data/lessonsData';
 import { getLeads, updateLessonData, getLocalLessonsOverride } from '../lib/supabase';
-import { Image, Code, FileText, AlertTriangle, CheckSquare, Sparkles, X, Save } from 'lucide-react';
+import { Image, Code, FileText, AlertTriangle, CheckSquare, Sparkles, X, Save, Upload, Clipboard } from 'lucide-react';
 
 export default function AdminDashboard() {
   const [lessons, setLessons] = useState(initialLessonsData);
@@ -28,7 +28,11 @@ export default function AdminDashboard() {
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [isStudioMode, setIsStudioMode] = useState(false);
   const [saveAlert, setSaveAlert] = useState(false);
+  const [pasteAlert, setPasteAlert] = useState(false);
   const [imagePickerOpen, setImagePickerOpen] = useState(false);
+
+  // File upload hidden ref
+  const fileInputRef = useRef(null);
 
   // Markdown Studio states
   const [markdownContent, setMarkdownContent] = useState('');
@@ -37,6 +41,7 @@ export default function AdminDashboard() {
 
   // Predefined image catalog for Image Picker
   const systemImages = [
+    { name: 'Buổi 1 - Thực Tế Gemini Deep Research', url: '/session_1_real.png' },
     { name: 'Buổi 1 - Chuẩn Hóa Văn Bản', url: '/session_1.jpg' },
     { name: 'Buổi 2 - Excel AI Analyst', url: '/session_2.jpg' },
     { name: 'Buổi 3 - n8n RSS Automation', url: '/session_3.jpg' },
@@ -81,6 +86,52 @@ export default function AdminDashboard() {
     setImagePickerOpen(false);
   };
 
+  // DIRECT CTRL+V CLIPBOARD IMAGE PASTE HANDLER
+  const handlePasteImage = (e) => {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf('image') !== -1) {
+        e.preventDefault();
+        const file = items[i].getAsFile();
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const base64Data = event.target.result;
+          const imageSnippet = `\n\n![📸 Ảnh Chụp Màn Hình Bài Làm Thực Tế (${new Date().toLocaleTimeString()})](${base64Data})\n\n`;
+          
+          const textarea = e.target;
+          const start = textarea.selectionStart || 0;
+          const end = textarea.selectionEnd || 0;
+          const text = markdownContent;
+          const newText = text.substring(0, start) + imageSnippet + text.substring(end);
+          
+          setMarkdownContent(newText);
+          setPasteAlert(true);
+          setTimeout(() => setPasteAlert(false), 4000);
+        };
+        reader.readAsDataURL(file);
+        break;
+      }
+    }
+  };
+
+  // UPLOAD FILE FROM COMPUTER
+  const handleFileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const base64Data = event.target.result;
+      const imageSnippet = `\n\n![📸 Ảnh Tải Từ Máy Tính (${file.name})](${base64Data})\n\n`;
+      setMarkdownContent((prev) => prev + imageSnippet);
+      setPasteAlert(true);
+      setTimeout(() => setPasteAlert(false), 4000);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleSaveLessonStudio = async () => {
     if (!selectedLesson) return;
 
@@ -105,9 +156,27 @@ export default function AdminDashboard() {
     <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
       <Navigation />
 
+      {/* HIDDEN FILE INPUT FOR IMAGE UPLOAD */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileUpload}
+        accept="image/*"
+        style={{ display: 'none' }}
+      />
+
       {/* FULLSCREEN MARKDOWN STUDIO EDITOR MODE */}
       {isStudioMode ? (
         <div className="p-4 md:p-6 bg-slate-100 min-h-[calc(100vh-64px)]">
+          {/* PASTE NOTIFICATION ALERT */}
+          {pasteAlert && (
+            <div className="mb-3">
+              <Alert type="success" dismissible onDismiss={() => setPasteAlert(false)}>
+                ⚡ <strong>Đã dán (Ctrl + V) thành công!</strong> Ảnh chụp màn hình bài làm thực tế đã được chèn trực tiếp dưới dạng Data-URL vào vị trí con trỏ.
+              </Alert>
+            </div>
+          )}
+
           {/* STUDIO HEADER CONTROL BAR */}
           <div className="bg-white border border-slate-200 rounded-2xl p-4 mb-4 shadow-sm flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
@@ -119,28 +188,27 @@ export default function AdminDashboard() {
                   <span>✏️ Markdown Studio Editor</span>
                   <Badge color="blue">Buổi {selectedLesson?.session_number}</Badge>
                 </h1>
-                <p className="text-xs text-slate-500">Chỉnh sửa tự do nội dung giáo án, chèn ảnh, prompt & n8n JSON với Split-Screen Live Preview</p>
+                <p className="text-xs text-slate-500">
+                  <span className="font-semibold text-emerald-600">💡 Mẹo dán nhanh:</span> Bạn có thể chụp màn hình (Win + Shift + S) rồi nhấn <kbd className="px-1.5 py-0.5 bg-slate-200 rounded text-slate-800 font-mono text-[11px]">Ctrl + V</kbd> dán trực tiếp ảnh vào ô Editor!
+                </p>
               </div>
             </div>
 
             {/* ACTION BUTTONS & SHORTCUTS TOOLBAR */}
             <div className="flex flex-wrap items-center gap-2">
+              <Button iconName="upload" onClick={() => fileInputRef.current?.click()}>
+                📤 Tải Ảnh Từ Máy Tính
+              </Button>
               <Button iconName="insert-image" onClick={() => setImagePickerOpen(true)}>
-                🖼️ Chọn/Chèn Ảnh
+                🖼️ Thư Viện Ảnh
               </Button>
-              <Button onClick={() => handleInsertShortcut('```prompt\n[ROLE]\nBạn là Chuyên gia AI...\n\n[TASK]\nThực hiện nhiệm vụ...\n```')}>
-                📄 +Mega-Prompt
+              <Button onClick={() => handleInsertShortcut('```prompt\n[BỐI CẢNH & NHIỆM VỤ]\n...\n```')}>
+                📄 +Prompt Box
               </Button>
-              <Button onClick={() => handleInsertShortcut('```n8n\n{\n  "name": "n8n Workflow Demo"\n}\n```')}>
-                🤖 +n8n JSON
+              <Button onClick={() => handleInsertShortcut('> 💡 **Mẹo Tối Ưu Thời Gian**: ...')}>
+                💡 +Callout Box
               </Button>
-              <Button onClick={() => handleInsertShortcut('> 💡 **Khái Niệm Cốt Lõi (Core Concept)**: Nhập khái niệm tại đây...')}>
-                💡 +Core Concept
-              </Button>
-              <Button onClick={() => handleInsertShortcut('> ⚠️ **Lỗi Hay Gặp**: Mô tả lỗi...\n> **Cách Sửa Nhanh**: Hướng dẫn sửa lỗi...')}>
-                ⚠️ +Troubleshooting
-              </Button>
-              
+
               <div className="h-6 w-px bg-slate-300 mx-1"></div>
 
               <Button variant="primary" iconName="status-positive" onClick={handleSaveLessonStudio}>
@@ -153,20 +221,23 @@ export default function AdminDashboard() {
           </div>
 
           {/* SPLIT SCREEN 50/50 WORKSPACE */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-[calc(100vh-170px)]">
-            {/* LEFT PANE: MARKDOWN CODE EDITOR */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-[calc(100vh-180px)]">
+            {/* LEFT PANE: MARKDOWN CODE EDITOR WITH DIRECT CTRL+V PASTE */}
             <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col h-full overflow-hidden">
               <div className="flex items-center justify-between pb-3 mb-2 border-b border-slate-100">
                 <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                  <FileText className="w-4 h-4 text-indigo-500" /> Markdown Input Editor (Left)
+                  <FileText className="w-4 h-4 text-indigo-500" /> Markdown Input Editor (Bấm Ctrl+V dán ảnh trực tiếp)
                 </span>
-                <span className="text-xs text-slate-400">Gõ cú pháp Markdown tự do</span>
+                <span className="text-xs text-emerald-600 font-semibold flex items-center gap-1">
+                  <Clipboard className="w-3.5 h-3.5" /> Ctrl+V Paste Enabled
+                </span>
               </div>
               <textarea
                 className="w-full flex-grow p-4 font-mono text-sm bg-slate-900 text-emerald-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none leading-relaxed"
                 value={markdownContent}
                 onChange={(e) => setMarkdownContent(e.target.value)}
-                placeholder="# Nhập nội dung bài học Markdown tại đây..."
+                onPaste={handlePasteImage}
+                placeholder="# Nhập nội dung bài học Markdown tại đây... (Bấm Ctrl + V dán ảnh chụp màn hình trực tiếp)"
               />
             </div>
 
@@ -199,7 +270,7 @@ export default function AdminDashboard() {
                       const url = urlMatch ? urlMatch[1] : '';
                       return (
                         <div key={idx} className="my-4 rounded-xl overflow-hidden border border-slate-200 shadow-sm">
-                          <img src={url} alt={alt} className="w-full max-h-80 object-cover" />
+                          <img src={url} alt={alt} className="w-full max-h-96 object-contain bg-slate-100" />
                         </div>
                       );
                     }
@@ -331,7 +402,7 @@ export default function AdminDashboard() {
                       id: 'tab-manage-lessons',
                       label: '📚 Quản Lý & Chỉnh Sửa 8 Buổi Học Online',
                       content: (
-                        <Container header={<Header variant="h2" description="Sửa đổi nội dung giáo án Markdown, hình ảnh, Mega-Prompt và n8n JSON trực tiếp trên Studio Editor">Danh Sách 8 Buổi Học</Header>}>
+                        <Container header={<Header variant="h2" description="Sửa đổi nội dung giáo án Markdown, dán ảnh Ctrl+V trực tiếp, Mega-Prompt và n8n JSON">Danh Sách 8 Buổi Học</Header>}>
                           <Table
                             columnDefinitions={[
                               { id: 'session', header: 'Buổi', cell: (item) => `Buổi ${item.session_number}` },
