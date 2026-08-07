@@ -43,7 +43,55 @@ Tôi cần bạn giúp chuẩn hóa, biên tập và nâng cấp bản thảo v�
 ---`,
     n8n_json: "",
     sql_template: "",
-    spec_text: ""
+    spec_text: "",
+    raw_markdown: `# Buổi 1: Chuẩn Hóa Văn Bản Doanh Nghiệp Bằng AI
+
+![Giao diện Chuẩn Hóa Văn Bản bằng AI](/session_1.jpg)
+
+## 📖 Tổng Quan Buổi Học
+Trong buổi này, người học sẽ nắm vững cách làm chủ các công cụ AI thế hệ mới (ChatGPT, Claude) để biến các ý tưởng hay văn bản thô sơ thành các tài liệu kinh doanh chuyên nghiệp.
+
+> 💡 **Khái Niệm Cốt Lõi (Core Concept)**: Prompt Engineering chuẩn Doanh nghiệp không phải là đặt câu hỏi ngắn, mà là giao một Vai trò (Role) và Bản hợp đồng nguyên tắc (Constraints) cho AI.
+
+### 🎯 Kết Quả Người Học Đạt Được (Learning Outcomes)
+- ✅ Hiểu cấu trúc Prompt doanh nghiệp chuẩn 5 thành phần: Role, Context, Constraints, Input, Output Format.
+- ✅ Loại bỏ hoàn toàn cảm giác bối rối khi viết báo cáo, tờ trình hay email giao việc.
+- ✅ Kỹ thuật ép AI tuân thủ đúng định dạng Markdown và phong cách văn phong trang trọng.
+
+---
+
+## 📋 Hướng Dẫn Thực Hành (90 Phút)
+- **Bước 1:** Mở ChatGPT (chatgpt.com) hoặc Claude (claude.ai).
+- **Bước 2:** Nhấn 1-Click Copy file mega_prompt_van_ban.txt.
+- **Bước 3:** Dán Mega-Prompt vào ô chat với AI.
+- **Bước 4:** Thay văn bản thô vào phần [DÁN VĂN BẢN THÔ].
+- **Bước 5:** Nhấn Send và nhận kết quả chuẩn doanh nghiệp.
+
+> ⚠️ **Lỗi hay gặp:** AI trả lời chung chung
+> **Nguyên nhân:** Quên giữ phần Role & Constraints
+> **Cách sửa nhanh:** Giữ nguyên phần [ROLE] trong Mega-Prompt.
+
+---
+
+## 📦 Kho Tài Nguyên Mega-Prompt
+\`\`\`prompt
+[ROLE]
+Bạn là Chuyên gia Biên soạn Văn bản & Trợ lý Giám đốc Chuyên nghiệp có 15 năm kinh nghiệm.
+
+[CONTEXT]
+Tôi cần bạn giúp chuẩn hóa, biên tập và nâng cấp bản thảo văn bản thô thành văn bản chuẩn doanh nghiệp, trang trọng, logic.
+
+[CONSTRAINTS]
+1. Không dùng từ ngữ cảm xúc thái quá.
+2. Cấu trúc: Tiêu đề -> Tóm tắt điều hành -> Nội dung chi tiết -> Kế hoạch hành động.
+3. Sử dụng định dạng Markdown chuẩn.
+
+[INPUT DATA]
+---
+[DÁN VĂN BẢN THÔ CỦA BẠN VÀO ĐÂY]
+---
+\`\`\`
+`
   },
   {
     session_number: 2,
@@ -83,7 +131,45 @@ Hãy viết công thức Excel/Google Sheets chính xác 100% cho yêu cầu:
 "[NHẬP CÂU HỎI Excel CỦA BẠN VÀO ĐÂY]"`,
     n8n_json: "",
     sql_template: "",
-    spec_text: ""
+    spec_text: "",
+    raw_markdown: `# Buổi 2: Trợ Lý Excel & Phân Tích Dữ Liệu Thông Minh
+
+![Giao diện Phân Tích Dữ Liệu Excel AI](/session_2.jpg)
+
+## 📖 Tổng Quan Buổi Học
+Học viên sẽ biến AI thành chuyên viên phân tích dữ liệu Senior, tự động hóa xử lý bảng tính Excel mà không cần ghi nhớ hàng trăm công thức phức tạp.
+
+> 💡 **Khái Niệm Cốt Lõi (Core Concept)**: Mô tả tên các Cột (Columns) và kiểu dữ liệu rõ ràng cho AI giúp ChatGPT sinh ra công thức chuẩn xác 100%.
+
+### 🎯 Kết Quả Người Học Đạt Được (Learning Outcomes)
+- ✅ Cách tạo dữ liệu giả lập chuẩn để nhờ ChatGPT viết công thức chính xác.
+- ✅ Làm chủ các hàm tìm kiếm & tổng hợp nâng cao: VLOOKUP, INDEX-MATCH, XLOOKUP, SUMIFS.
+- ✅ Kỹ thuật Prompting ép AI dọn dẹp khoảng trắng, định dạng ngày tháng và phát hiện lỗi dữ liệu.
+
+---
+
+## 📋 Hướng Dẫn Thực Hành (90 Phút)
+- **Bước 1:** Copy bảng dữ liệu thô từ file raw_data_excel.md.
+- **Bước 2:** Dán dữ liệu vào Google Sheets hoặc Excel.
+- **Bước 3:** Copy prompt từ file prompt_excel_formula.txt.
+- **Bước 4:** Thay thế câu hỏi dữ liệu của bạn vào prompt.
+- **Bước 5:** Dán công thức AI xuất ra vào Excel.
+
+---
+
+## 📦 Kho Tài Nguyên Mega-Prompt Excel
+\`\`\`prompt
+[ROLE]
+Bạn là Chuyên gia Đào tạo Microsoft Excel & Google Sheets Senior Analyst.
+
+[CONTEXT]
+Tôi có bảng tính các cột: A(Mã_KH), B(Tên_KH), C(Sản_Phẩm), D(Số_Lượng), E(Đơn_Giá), F(Ngày_Mua), G(Khu_Vực).
+
+[YÊU CẦU]
+Hãy viết công thức Excel/Google Sheets chính xác 100% cho yêu cầu:
+"[NHẬP CÂU HỎI Excel CỦA BẠN VÀO ĐÂY]"
+\`\`\`
+`
   },
   {
     session_number: 3,
@@ -161,7 +247,83 @@ Hãy viết công thức Excel/Google Sheets chính xác 100% cho yêu cầu:
   ]
 }`,
     sql_template: "",
-    spec_text: ""
+    spec_text: "",
+    raw_markdown: `# Buổi 3: Auto Cào Ý Tưởng RSS Sang Google Sheets (n8n)
+
+![Giao diện n8n RSS Automation](/session_3.jpg)
+
+## 📖 Tổng Quan Buổi Học
+Bắt đầu bước chân vào thế giới Tự Động Hóa Workflow không code với n8n. Tạo hệ thống tự động 'cào' bài viết từ báo chí/đối thủ về Google Sheets mỗi ngày.
+
+> 💡 **Khái Niệm Cốt Lõi (Core Concept)**: Tự động hóa giúp giải phóng hoàn toàn các công việc lặp đi lặp lại hàng ngày mà không tốn chi phí nhân sự.
+
+### 🎯 Kết Quả Người Học Đạt Được (Learning Outcomes)
+- ✅ Hiểu tư duy kiến trúc Workflow: Triggers (Kích hoạt) -> Nodes (Xử lý) -> Actions (Hành động).
+- ✅ Cách kết nối OAuth2 an toàn giữa n8n và Google Sheets.
+- ✅ Cấu hình Schedule Trigger chạy ngầm tự động theo chu kỳ mỗi 24 giờ.
+
+---
+
+## 📋 Hướng Dẫn Thực Hành (90 Phút)
+- **Bước 1:** Mở n8n Dashboard -> Select Workflows -> Import.
+- **Bước 2:** Tải file workflow_buoi_3_rss_to_sheet.json và import.
+- **Bước 3:** Click đúp Node Google Sheets -> Kết nối Google Account.
+- **Bước 4:** Nhập Document ID Google Sheet cá nhân.
+- **Bước 5:** Nhấn Execute Workflow thử nghiệm.
+
+---
+
+## 📦 Mã Workflow n8n JSON
+\`\`\`n8n
+{
+  "name": "Buổi 3 - Auto Cào Ý Tưởng RSS sang Google Sheets",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24
+            }
+          ]
+        }
+      },
+      "id": "node-schedule-trigger",
+      "name": "Schedule Trigger (Mỗi 24h)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://vnexpress.net/rss/so-hoa.rss"
+      },
+      "id": "node-rss-feed",
+      "name": "HTTP RSS Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "[YOUR_GOOGLE_SHEET_ID_HERE]",
+          "mode": "list"
+        }
+      },
+      "id": "node-google-sheets",
+      "name": "Google Sheets Append Node",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [700, 300]
+    }
+  ]
+}
+\`\`\`
+`
   },
   {
     session_number: 4,
@@ -228,7 +390,72 @@ Hãy viết công thức Excel/Google Sheets chính xác 100% cho yêu cầu:
   ]
 }`,
     sql_template: "",
-    spec_text: ""
+    spec_text: "",
+    raw_markdown: `# Buổi 4: Máy Sản Xuất Content Auto Đăng Bài Facebook Page
+
+![Giao diện Facebook Auto Content n8n](/session_4.jpg)
+
+## 📖 Tổng Quan Buổi Học
+Xây dựng 'Nhà máy sản xuất nội dung' hoàn toàn tự động. Nối kết Google Sheets -> OpenAI GPT-4o -> Facebook Graph API để tạo và đăng bài tự động đa kênh.
+
+> 💡 **Khái Niệm Cốt Lõi (Core Concept)**: Kết nối AI với các API mạng xã hội biến n8n thành một Marketer tự động làm việc 24/7.
+
+### 🎯 Kết Quả Người Học Đạt Được (Learning Outcomes)
+- ✅ Cách tạo và sử dụng OpenAI API Key trong n8n.
+- ✅ Cấu hình System Prompt chuẩn công thức Marketing AIDA (Attention - Interest - Desire - Action).
+- ✅ Cách lấy Facebook Page Access Token và sử dụng Graph API v19.0 để đăng bài tự động.
+
+---
+
+## 📋 Hướng Dẫn Thực Hành (90 Phút)
+- **Bước 1:** Import file workflow_buoi_4_sheet_to_facebook.json vào n8n.
+- **Bước 2:** Kết nối OpenAI Credential (nhập API Key).
+- **Bước 3:** Kết nối Facebook Graph API Credential (nhập Page Token).
+- **Bước 4:** Chọn Google Sheet chứa chủ đề bài viết.
+- **Bước 5:** Kích hoạt Workflow để AI đăng bài tự động.
+
+---
+
+## 📦 Mã Workflow n8n JSON
+\`\`\`n8n
+{
+  "name": "Buổi 4 - Máy Sản Xuất Content Sheet to OpenAI to Facebook Page",
+  "nodes": [
+    {
+      "parameters": {
+        "documentId": "[YOUR_GOOGLE_SHEET_ID_HERE]"
+      },
+      "id": "node-sheets-trigger",
+      "name": "Google Sheets Trigger",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o-mini"
+      },
+      "id": "node-openai-writer",
+      "name": "OpenAI Content Generator",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.3,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v19.0/me/feed"
+      },
+      "id": "node-facebook-post",
+      "name": "Facebook Graph API Post",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [700, 300]
+    }
+  ]
+}
+\`\`\`
+`
   },
   {
     session_number: 5,
@@ -264,7 +491,28 @@ Hãy biên soạn Kịch bản chi tiết dưới dạng BẢNG MARKDOWN 4 cột
 | Thời Gian | Hình Ảnh & Góc Quay | Lời Thoại (Voiceover) | Text Overlay & SFX |`,
     n8n_json: "",
     sql_template: "",
-    spec_text: ""
+    spec_text: "",
+    raw_markdown: `# Buổi 5: Xưởng Kịch Bản Video Ngắn (Shorts/Reels/TikTok)
+
+![Giao diện Kịch Bản Video AI](/session_5.jpg)
+
+## 📖 Tổng Quan Buổi Học
+Quy trình 2 giai đoạn biến một ý tưởng thô thành bảng kịch bản phân cảnh chi tiết cho TikTok, Facebook Reels và YouTube Shorts.
+
+> 💡 **Khái Niệm Cốt Lõi (Core Concept)**: Kịch bản video ngắn thành bại ở 3 giây đầu tiên (Hook). AI giúp bạn thử nghiệm hàng chục câu Hook triệu view trong vài giây.
+
+---
+
+## 📦 Mega-Prompt Kịch Bản Video
+\`\`\`prompt
+[ROLE]
+Bạn là Đạo diễn Video Ngắn TikTok/Facebook Reels triệu view.
+
+[NHIỆM VỤ]
+Hãy biên soạn Kịch bản chi tiết dưới dạng BẢNG MARKDOWN 4 cột:
+| Thời Gian | Hình Ảnh & Góc Quay | Lời Thoại (Voiceover) | Text Overlay & SFX |
+\`\`\`
+`
   },
   {
     session_number: 6,
@@ -330,7 +578,58 @@ Hãy biên soạn Kịch bản chi tiết dưới dạng BẢNG MARKDOWN 4 cột
   ]
 }`,
     sql_template: "",
-    spec_text: ""
+    spec_text: "",
+    raw_markdown: `# Buổi 6: Auto Chatbot Messenger Facebook n8n
+
+![Giao diện AI Chatbot Messenger](/session_6.jpg)
+
+## 📖 Tổng Quan Buổi Học
+Xây dựng Chatbot tư vấn bán hàng & báo giá thông minh kết nối trực tiếp Facebook Messenger Webhook với OpenAI API qua n8n.
+
+> 💡 **Khái Niệm Cốt Lõi (Core Concept)**: Webhook giúp hệ thống phản hồi tức thì dưới 1 giây ngay khi khách hàng tương tác trên Fanpage.
+
+---
+
+## 📦 Mã Workflow n8n JSON Chatbot
+\`\`\`n8n
+{
+  "name": "Buổi 6 - Auto Chatbot Messenger Facebook n8n",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "fb-messenger-webhook"
+      },
+      "id": "node-webhook",
+      "name": "Facebook Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o-mini"
+      },
+      "id": "node-openai-bot",
+      "name": "OpenAI Sales Bot",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.3,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v19.0/me/messages"
+      },
+      "id": "node-fb-reply",
+      "name": "FB Send Messenger Reply",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [700, 300]
+    }
+  ]
+}
+\`\`\`
+`
   },
   {
     session_number: 7,
@@ -364,7 +663,26 @@ Hãy biên soạn Kịch bản chi tiết dưới dạng BẢNG MARKDOWN 4 cột
     spec_text: `[TEHNOLOGY STACK]
 - Framework: React 18 (Vite)
 - Styling: Tailwind CSS Modern Dark Mode
-- Layout: Top Navigation, Hero Section, Curriculum Grid, Lead Capture Form, Footer.`
+- Layout: Top Navigation, Hero Section, Curriculum Grid, Lead Capture Form, Footer.`,
+    raw_markdown: `# Buổi 7: Ra Lệnh Cho AI Agent Tự Tạo Website (Bolt.new / Lovable)
+
+![Giao diện AI Web Builder](/session_7.jpg)
+
+## 📖 Tổng Quan Buổi Học
+Ứng dụng sức mạnh của các AI Code Generator (Bolt.new, Lovable) để xây dựng một Landing Page bán hàng hoàn chỉnh bằng ngôn ngữ tự nhiên.
+
+> 💡 **Khái Niệm Cốt Lõi (Core Concept)**: Bản đặc tả kỹ thuật (PRD) chi tiết là chìa khóa giúp AI Code Agent tạo ra website chính xác 100% mong muốn.
+
+---
+
+## 📦 Web PRD Specification
+\`\`\`text
+[TEHNOLOGY STACK]
+- Framework: React 18 (Vite)
+- Styling: Tailwind CSS Modern Dark Mode
+- Layout: Top Navigation, Hero Section, Curriculum Grid, Lead Capture Form, Footer.
+\`\`\`
+`
   },
   {
     session_number: 8,
@@ -402,6 +720,29 @@ Hãy biên soạn Kịch bản chi tiết dưới dạng BẢNG MARKDOWN 4 cột
     occupation TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );`,
-    spec_text: ""
+    spec_text: "",
+    raw_markdown: `# Buổi 8: Đưa Web Lên Internet Vercel & Quản Lý Supabase
+
+![Giao diện Vercel & Supabase Live Deployment](/session_8.jpg)
+
+## 📖 Tổng Quan Buổi Học
+Hoàn thiện case study cuối khóa: Đẩy toàn bộ mã nguồn lên GitHub, kết nối Vercel để xuất bản trang web live công khai và thiết lập cơ sở dữ liệu Supabase.
+
+> 💡 **Khái Niệm Cốt Lõi (Core Concept)**: Đưa sản phẩm lên Internet công khai là bằng chứng thực tế nhất cho thấy sức mạnh của việc học AI & Automation.
+
+---
+
+## 📦 Supabase SQL Schema
+\`\`\`sql
+CREATE TABLE IF NOT EXISTS public.leads (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    full_name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    occupation TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+\`\`\`
+`
   }
 ];
