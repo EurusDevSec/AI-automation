@@ -1,86 +1,47 @@
-# CASE STUDY THỰC CHIẾN: LẬP KẾ HOẠCH & BỘ TRUYỀN THÔNG CHO CHUYẾN DU LỊCH / TEAM BUILDING NHÓM
+# ROADMAP BUỔI 1: TỰ ĐỘNG HÓA LẬP KẾ HOẠCH & BỘ TRUYỀN THÔNG DU LỊCH / TEAM BUILDING 2026
 
 ---
 
-## BỐI CẢNH DỰ ÁN
+## 🎯 TỔNG QUAN LUỒNG THAO TÁC 2 TAB TRÊN GIAO DIỆN THỰC TẾ
 
-* **Tình huống:** Bạn (bất kể nam hay nữ, dân văn phòng hay tự do) được giao hoặc tự mình đứng ra lên kế hoạch cho chuyến đi du lịch / team building 3 ngày 2 đêm cho nhóm bạn hoặc công ty.
-* **Mục tiêu:** Trong 90 phút, tự động hóa từ khâu tìm địa điểm, lên lịch trình chi tiết, thiết kế bộ truyền thông (Poster, Video Trailer, Nhạc nền), đến tự động gom các hóa đơn/chuyển khoản từ Gmail về file Google Sheets quản lý thu chi.
-
-![poster du lich team building](image.png)
+* **[TAB 1: TRÒ CHUYỆN]** &rarr; Deep Research &rarr; Canvas (Kế hoạch) &rarr; Nút "Tạo" (Audio/Quiz) &rarr; Tạo Ảnh & Video Veo
+* **[TAB 2: SPARK BETA]** &rarr; Trình duyệt từ xa (Auto Browse Booking/Agoda) &rarr; Standing Instructions (Gmail -&gt; Sheets)
 
 ---
 
-## MẮT XÍCH 1: DEEP RESEARCH & GUIDED LEARNING (15 PHÚT)
+## 🔵 CHẶNG 1: TAB "TRÒ CHUYỆN" - TẠO CONTENT & MEDIA (35 PHÚT)
 
-### 📌 Thao tác 1.1: Tìm địa điểm & ý tưởng bằng Deep Research
+### 1️⃣ Deep Research & Canvas (15 Phút)
 
-Copy lệnh dưới đây dán vào Gemini Chat:
+* **Thao tác:** Ở tab **Trò chuyện**, học viên dán lệnh:
 
 ```prompt
-[BỐI CẢNH & NHIỆM VỤ]
-Tôi cần lên kế hoạch cho chuyến du lịch / team building 3 ngày 2 đêm cho nhóm khoảng 10-15 người (nam và nữ, độ tuổi 22-35). Chi phí dự kiến: 3 - 5 triệu VNĐ / người.
-
-[YÊU CẦU THỰC THI]
-Hãy kích hoạt Deep Research để thực hiện các bước sau:
-1. Quét các địa điểm du lịch hot nhất năm 2026 phù hợp cho nhóm đi 3 ngày 2 đêm (ưu tiên di chuyển thuận tiện từ Hà Nội / TP.HCM).
-2. Phân tích ưu/nhược điểm và mức chi phí trung bình của 3 địa điểm hàng đầu.
-3. Trích xuất 3 hoạt động gắn kết nhóm (team building) thú vị, hiện đại, không bị sến.
-4. Tổng hợp thành báo cáo ngắn gọn có dẫn nguồn cụ thể.
+Deep Research các địa điểm du lịch 3N2Đ hot nhất 2026 cho nhóm 10-15 người, ngân sách 3-5 triệu/người. Xuất kế hoạch chi tiết.
 ```
+
+* **Đầu ra:** Gemini xuất bài viết kế hoạch trên Canvas.
 
 ![ảnh mẫu deepresearch](image-1.png)
 
 ![deepresearch detail](image-2.png)
 
-![kết quả sau deepresearch](image-3.png)
+### 2️⃣ Tính Năng Native "Tạo" Trên Canvas (10 Phút)
 
-### 📌 Thao tác 1.2: Chốt địa điểm & Concept bằng Guided Learning
+* **Thao tác:** Ngay tại giao diện Canvas vừa tạo, học viên dùng menu nút **Tạo ∨** ở góc trên bên phải:
+  * Chọn **Bài kiểm tra (Quiz):** Tạo bộ câu hỏi trắc nghiệm gửi vào nhóm chốt địa điểm.
+  * Chọn **Tổng quan bằng âm thanh:** Xuất ra file Audio podcast tóm tắt chuyến đi đầy cảm hứng.
 
-Dán tiếp lệnh sau khi Gemini trả báo cáo:
+![Tính năng nút Tạo trên Canvas](canvas-create-web.png)
 
-```prompt
-Dựa trên báo cáo trên, hãy bật tính năng Guided Learning (Học có hướng dẫn) và đưa ra 3 câu hỏi trắc nghiệm tương tác để giúp tôi chọn ra 1 Địa điểm & Concept chuyến đi (Nghỉ dưỡng Chill hay Trải nghiệm Năng động) phù hợp nhất với nhóm.
-```
+![Giao diện Trắc Nghiệm Guided Learning Quiz](guided-learning-quiz.png)
 
----
+![Giao diện Web App Team Building Canvas](canvas-web-app.png)
 
-## MẮT XÍCH 2: CANVAS & SPARK AUTO BROWSE (25 PHÚT)
+### 3️⃣ Xưởng Media: Ảnh & Video Veo (10 Phút)
 
-### 📌 Thao tác 2.1: Dàn lịch trình chi tiết lên Canvas
-
-Copy lệnh dưới đây dán vào Gemini:
-
-```prompt
-[BỐI CẢNH]
-Địa điểm và Concept đã chọn: "Chuyến đi Ninh Bình / Đà Lạt 3N2Đ - Phong cách Chill kết hợp trải nghiệm thiên nhiên, ăn uống địa phương".
-
-[YÊU CẦU THỰC THI]
-Hãy mở giao diện CANVAS và soạn thảo 2 phần nội dung sau:
-1. BẢNG LỊCH TRÌNH CHI TIẾT 3 NGÀY 2 ĐÊM: Chia theo từng khung giờ (Sáng - Trưa - Chiều - Tối) bao gồm: Địa điểm ăn uống, chỗ chơi, phương tiện di chuyển và dự tính chi phí từng mục.
-2. KỊCH BẢN VIDEO TRAILER 15 GIÂY: Bảng 3 cột (Thời lượng - Hình ảnh góc quay - Lời thoại/Voiceover) để gửi vào nhóm kêu gọi mọi người chốt đăng ký tham gia.
-```
-
-![📸 Ảnh Mẫu Bài Làm Thực Tế Mắt Xích 2](/workflow_n8n_preview.jpg)
-
-### 📌 Thao tác 2.2: Sửa trực tiếp trên Canvas & Auto Browse
-
-1. **Chỉnh sửa qua Comment:** Bôi đen đoạn *Lời thoại 3 giây đầu* trên Canvas, bấm **Add Comment** ở lề trang và gõ: *"Spark ơi, viết lại câu này hài hước hơn để kích thích mọi người rủ nhau đi đông đủ."*
-2. **Cào dữ liệu bằng Auto Browse:** Dán lệnh tiếp theo vào khung chat:
-
-```prompt
-Hãy dùng Chrome Auto Browse truy cập vào trang web đặt phòng (như Agoda, Traveloka hoặc Booking), cào bảng giá phòng thực tế của 1 Homestay/Resort phù hợp tại địa điểm đã chọn và chèn thêm 1 Bảng tổng hợp chi phí lưu trú vào cuối trang Canvas cho tôi.
-```
-
----
-
-## MẮT XÍCH 3: XƯỞNG SẢN XUẤT ĐA PHƯƠNG TIỆN (25 PHÚT)
-
-> 💡 **Mẹo Render Song Song:** Tạo Nhạc nền Music ngay khi Veo đang xử lý render Video (mất ~1-2 phút) để không lãng phí thời gian trên lớp!
-
-### 📌 Thao tác 3.1: Tạo Poster chuyến đi (Image Generation)
-
-Copy lệnh dán vào Gemini để xuất Visual:
+* **Thao tác:**
+  * Tạo ảnh Poster chuyến đi bằng câu lệnh tả ảnh nhóm bạn trẻ du lịch giữa thiên nhiên.
+  * Ném ảnh Poster vào công cụ Veo &rarr; Nhập prompt tả chuyển động camera lướt từ dưới lên &rarr; Xuất Video Trailer 5s.
 
 ```prompt
 Tạo cho tôi một bức ảnh Poster du lịch chuẩn Cinematic, phong cách hiện đại:
@@ -89,51 +50,52 @@ Tạo cho tôi một bức ảnh Poster du lịch chuẩn Cinematic, phong cách
 - Phong cách: Ánh sáng mặt trời rực rỡ, màu sắc tươi sáng, sắc nét chuẩn ảnh tạp chí du lịch.
 ```
 
-### 📌 Thao tác 3.2: Biến ảnh thành Video Trailer (Veo Integration)
-
-Tải ảnh vừa tạo về, đính kèm lại vào khung chat Gemini và dán lệnh:
-
 ```prompt
 Tạo một video ngắn 5 giây từ bức ảnh này với yêu cầu:
 - Chuyển động Camera: Góc quay Cinematic lướt chậm từ dưới lên cao (Tilt up) mở ra toàn cảnh thiên nhiên.
 - Hiệu ứng: Ánh nắng chiếu xuyên qua kẽ lá, mây nhẹ nhàng trôi trên bầu trời, không khí chuyến đi tràn đầy năng lượng.
 ```
 
-![📸 Ảnh Mẫu Bài Làm Thực Tế Mắt Xích 3](/hero_ai_automation_light.jpg)
-
-### 📌 Thao tác 3.3: Tạo Nhạc nền Video (Audio/Music Generation)
-
-Dán lệnh tạo đoạn âm thanh chèn vào clip:
-
-```prompt
-Tạo một đoạn nhạc nền Audio thời lượng 15 giây phong cách Tropical House / Indie Pop tươi vui, nhịp điệu rộn ràng, mang lại cảm giác hào hứng, tự do cho chuyến đi du lịch mùa hè.
-```
+![Poster Du Lịch Team Building Cinematic](image.png)
 
 ---
 
-## MẮT XÍCH 4: STANDING INSTRUCTION 24/7 & CUSTOM GEM (25 PHÚT)
+## 🔴 CHẶNG 2: TAB "SPARK BETA" - TRÌNH DUYỆT TỪ XA & TỰ ĐỘNG HÓA (45 PHÚT)
 
-### 📌 Thao tác 4.1: Cài đặt Tự động hóa ghi nhận Thu - Chi chuyến đi
+*Học viên nhấp chuyển sang tab **Spark BETA** ở thanh menu bên trái.*
 
-Truy cập **Spark Settings -> Standing Instructions** và dán câu lệnh:
+### 1️⃣ Trình Duyệt Từ Xa (Auto Browse) - Cào Giá Thực Tế (20 Phút)
+
+* **Thao tác:** Dán câu lệnh vào tab **Spark BETA**:
 
 ```prompt
-[STANDING INSTRUCTION - CHẠY NGẦM 24/7]
-Nhiệm vụ: Tự động ghi nhận các email xác nhận đặt vé/khách sạn hoặc bill chuyển khoản của thành viên vào Google Sheets.
-
-Điều kiện kích hoạt: Mỗi khi nhận được Gmail chứa từ khóa ["Xác nhận đặt phòng", "Vé máy bay", "Vé xe", "Chuyển khoản du lịch"].
-
-Hành động tự động:
-1. Trích xuất thông tin: Ngày giao dịch, Người gửi/Tên thành viên, Nội dung chi tiêu, Số tiền.
-2. Tự động mở file Google Sheets tên 'Quản Lý Thu Chi Du Lịch 2026' trong thư mục 'Spark OS' trên Google Drive.
-3. Chèn thông tin vừa trích xuất thành 1 dòng mới trong bảng.
+Hãy dùng Trình duyệt từ xa truy cập Booking.com (hoặc Agoda), tìm khách sạn/resort cho nhóm 10 người tại [Tên địa điểm] vào tháng 8/2026. Lấy danh sách 3 chỗ ở tốt nhất kèm giá phòng thực tế.
 ```
 
-![📸 Ảnh Mẫu Bài Làm Thực Tế Mắt Xích 4](/session_1.jpg)
+* **Trải nghiệm thực tế:** Khung **Trình duyệt từ xa** mở ra ở nửa màn hình bên phải (như trong ảnh chụp thực tế). Học viên quan sát Spark tự click chuột, chọn ngày tháng trên lịch Booking/Agoda và cào dữ liệu về bảng chat.
 
-### 📌 Thao tác 4.2: Đóng gói thành Custom Gem dùng lâu dài
+![1. Trình Duyệt Từ Xa Mở Nửa Phải](spark-remote-browser-1.png)
 
-Vào **Gems -> Create New Gem**, đặt tên `Trợ Lý Lập Kế Hoạch Sự Kiện & Du Lịch` và dán vào mục **Instructions**:
+![2. Spark Tự Tương Tác Click Chọn Phòng Agoda](spark-remote-browser-2.png)
+
+![3. Spark Trích Xuất Dữ Liệu Giá Phòng Agoda Kết Quả](spark-remote-browser-result.png)
+
+### 2️⃣ Cài Đặt Standing Instructions 24/7 (25 Phút)
+
+* **Thao tác:** Trong giao diện **Spark BETA**, truy cập Cài đặt &rarr; Standing Instructions:
+
+```prompt
+Standing Instruction: Mỗi khi có Gmail mới chứa bill/xác nhận chuyển khoản tiền du lịch, hãy tự động trích xuất Tên người gửi, Số tiền, Nội dung và điền vào file Google Sheets 'Thu Chi Du Lịch 2026' trong thư mục Spark OS.
+```
+
+* **Test thực chiến:** Học viên tự gửi 1 Gmail test &rarr; Mở Google Sheets xem dòng dữ liệu tự động nhảy vào.
+
+---
+
+## 🟢 CHẶNG 3: ĐÓNG GÓI GEM & TỔNG KẾT (10 PHÚT)
+
+1. Mở mục **Custom Gems** &rarr; Tạo con Gem `Trợ Lý Lập Kế Hoạch Du Lịch 360` chứa System Instruction (Prompt đóng gói quy trình) để mang về dùng lâu dài.
+2. Thêm học viên vào gói **Family Pro** để hoàn tất kích hoạt tài khoản.
 
 ```prompt
 [VAI TRÒ]
