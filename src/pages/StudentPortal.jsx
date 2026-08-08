@@ -71,7 +71,7 @@ export default function StudentPortal() {
     setCheckListState((prev) => ({ ...prev, [idx]: !prev[idx] }));
   };
 
-  // Helper to parse inline markdown (**bold**, *italic*, HTML entities)
+  // Helper to parse inline markdown (**bold**, *italic*, [link](url), HTML entities)
   const parseInlineMarkdown = (text) => {
     if (!text) return '';
     
@@ -82,14 +82,39 @@ export default function StudentPortal() {
       .replace(/&lt;/g, '<')
       .replace(/&amp;/g, '&');
 
-    // Split by bold (**text**) and italic (*text*)
-    const parts = cleanText.split(/(\*\*.*?\*\*|\*.*?\*)/g);
+    // Split by Markdown links [text](url), bold (**text**), and italic (*text*)
+    const parts = cleanText.split(/(\[.*?\]\(.*?\)\s*|\*\*.*?\*\*|\*.*?\*)/g);
     return parts.map((part, idx) => {
+      if (!part) return null;
+
+      // Check Markdown link [label](url)
+      const linkMatch = part.match(/^\[(.*?)\]\((.*?)\)/);
+      if (linkMatch) {
+        const label = linkMatch[1];
+        const rawUrl = linkMatch[2];
+        const resolvedUrl = resolveMarkdownImageUrl(rawUrl);
+        const isDownload = /\.(docx|doc|pdf|xlsx|xls|zip|rar)$/i.test(rawUrl);
+
+        return (
+          <a
+            key={`link-${idx}`}
+            href={resolvedUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            download={isDownload ? true : undefined}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-lg transition-all text-xs mx-1 shadow-2xs no-underline hover:text-indigo-800 cursor-pointer"
+          >
+            <span>{label}</span>
+            <span className="text-indigo-400">↗</span>
+          </a>
+        );
+      }
+
       if (part.startsWith('**') && part.endsWith('**')) {
-        return <strong key={idx} className="font-bold text-slate-900">{part.slice(2, -2)}</strong>;
+        return <strong key={`bold-${idx}`} className="font-bold text-slate-900">{part.slice(2, -2)}</strong>;
       }
       if (part.startsWith('*') && part.endsWith('*') && !part.startsWith('**')) {
-        return <em key={idx} className="italic text-slate-700">{part.slice(1, -1)}</em>;
+        return <em key={`italic-${idx}`} className="italic text-slate-700">{part.slice(1, -1)}</em>;
       }
       return part;
     });

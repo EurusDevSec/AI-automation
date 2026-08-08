@@ -5,14 +5,14 @@ const contentAssets = import.meta.glob('../content/**/*.{png,jpg,jpeg,svg,gif,we
 });
 
 /**
- * Resolves relative markdown media URLs (e.g. "image.png", "video.mp4", "song.mp3")
- * to actual Vite bundled URLs.
+ * Resolves relative markdown media URLs (e.g. "image.png", "video.mp4", "song.mp3", "/file.docx")
+ * to actual Vite bundled URLs or static public folder URLs.
  */
 export function resolveMarkdownImageUrl(url) {
   if (!url) return '';
 
-  // Return as-is if already absolute or base64
-  if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) {
+  // Return as-is if already absolute, base64, or public root path starting with /
+  if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:') || url.startsWith('/')) {
     return url;
   }
 
@@ -26,6 +26,6 @@ export function resolveMarkdownImageUrl(url) {
     }
   }
 
-  // 2. Fallback to public folder
-  return url.startsWith('/') ? url : '/' + cleanName;
+  // 2. Fallback to public folder root
+  return '/' + cleanName;
 }
