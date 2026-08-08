@@ -96,10 +96,10 @@ Trình bày dạng Bảng Markdown rõ ràng. Văn phong hào hứng, hiện đ�
   },
   {
     session_number: 2,
-    title: "Buổi 2: Trợ Lý Excel & Phân Tích Dữ Liệu Thông Minh",
+    title: "Buổi 2: Trợ Lý Bộ Công Cụ Văn Phòng AI (Google Docs, Sheets & Slides)",
     module_name: "Chặng 1: Trợ Lý AI Văn Phòng & Dữ Liệu",
     time_minutes: 90,
-    description: "Dùng AI tự động viết hàm Excel/Google Sheets, dọn dẹp dữ liệu thô và xuất công thức chính xác.",
+    description: "Ứng dụng Gemini AI toàn diện vào Bộ công cụ Google Docs (xử lý báo cáo thô), Google Sheets (phân tích bảng tính & hàm) và Google Slides (tự động tạo slide thuyết trình).",
     image_url: "/session_2.jpg",
     raw_markdown_file: "src/content/buoi_2.md",
     theory: {

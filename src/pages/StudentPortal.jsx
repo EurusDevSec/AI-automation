@@ -120,7 +120,7 @@ export default function StudentPortal() {
     });
   };
 
-  // Helper to render Full-Width 100% Clean Image Cards (No popup modal needed)
+  // Helper to render Full-Width 100% Clean Image Cards
   const renderFullWidthImageCard = (src, title, badgeColor = "blue") => {
     const resolvedUrl = resolveMarkdownImageUrl(src);
     return (
@@ -189,9 +189,8 @@ export default function StudentPortal() {
     );
   };
 
-  // DYNAMIC MARKDOWN PARSER & RENDERER
-  // Parses markdown string line-by-line so ALL markdown tags (#, ##, **, *, images, videos, audio) format into rich HTML!
-  const renderDynamicMarkdown = (markdownText) => {
+  // RENDER SINGLE MARKDOWN CONTENT BLOCK
+  const renderSingleMarkdownContent = (markdownText) => {
     if (!markdownText) return null;
 
     const lines = markdownText.split('\n');
@@ -341,6 +340,45 @@ export default function StudentPortal() {
     return <div className="space-y-1">{elements}</div>;
   };
 
+  // DYNAMIC MARKDOWN PARSER & RENDERER WITH SUB-TABS SUPPORT
+  const renderDynamicMarkdown = (markdownText) => {
+    if (!markdownText) return null;
+
+    // Check if markdown text contains Sub-Tab delimiters === SUBTAB:
+    if (markdownText.includes('=== SUBTAB:')) {
+      const parts = markdownText.split(/=== SUBTAB:\s*/);
+      const introText = parts[0];
+      const subTabs = [];
+
+      for (let i = 1; i < parts.length; i++) {
+        const lines = parts[i].split('\n');
+        const tabLabel = lines[0].trim();
+        const tabBody = lines.slice(1).join('\n');
+
+        subTabs.push({
+          id: `subtab-${i}`,
+          label: tabLabel,
+          content: (
+            <div className="pt-3">
+              {renderSingleMarkdownContent(tabBody)}
+            </div>
+          )
+        });
+      }
+
+      return (
+        <SpaceBetween size="l">
+          {introText.trim() && renderSingleMarkdownContent(introText)}
+          <div className="border border-slate-200/80 rounded-2xl p-4 bg-white shadow-2xs">
+            <Tabs tabs={subTabs} />
+          </div>
+        </SpaceBetween>
+      );
+    }
+
+    return renderSingleMarkdownContent(markdownText);
+  };
+
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
       <Navigation />
@@ -381,7 +419,7 @@ export default function StudentPortal() {
                 text: 'Chặng 1: AI Văn Phòng & Dữ Liệu',
                 items: [
                   { type: 'link', text: 'Buổi 1: Lập Kế Hoạch Team Building', href: '#buoi-1', info: <Badge color="blue">Cơ bản</Badge> },
-                  { type: 'link', text: 'Buổi 2: Trợ Lý Excel', href: '#buoi-2', info: <Badge color="blue">Cơ bản</Badge> }
+                  { type: 'link', text: 'Buổi 2: Trợ Lý Văn Phòng (Docs/Sheets/Slides)', href: '#buoi-2', info: <Badge color="blue">Cơ bản</Badge> }
                 ]
               },
               { type: 'divider' },
@@ -414,7 +452,7 @@ export default function StudentPortal() {
               <div>
                 <h3>Giao Diện Tối Ưu Mới:</h3>
                 <Box color="text-body-secondary">
-                  Tăng khoảng trắng, làm mềm màu chữ và loại bỏ hoàn toàn các khung lặp lại giúp mắt đọc cực kỳ thư thái!
+                  Hệ thống Sub-Tabs trực quan hỗ trợ học viên chuyển đổi mượt mà giữa các bài tập Google Docs, Sheets và Slides!
                 </Box>
               </div>
             }
@@ -435,7 +473,7 @@ export default function StudentPortal() {
                 actions={
                   <SpaceBetween direction="horizontal" size="xs">
                     <Badge color="blue">{currentLesson.module_name}</Badge>
-                    <StatusIndicator type="success">Clean UI Layout</StatusIndicator>
+                    <StatusIndicator type="success">Sub-Tabs Active</StatusIndicator>
                     <Button iconName="help" onClick={() => setToolsOpen(!toolsOpen)}>
                       Trợ Giúp
                     </Button>
@@ -461,7 +499,7 @@ export default function StudentPortal() {
                     label: '📖 1. Master Blueprint (Giáo Án & Quy Trình 90 Phút)',
                     content: (
                       <SpaceBetween size="l">
-                        {/* DYNAMIC MARKDOWN RENDERER - RENDERS EVERYTHING IN BUOI_1.MD LIVE! */}
+                        {/* DYNAMIC MARKDOWN RENDERER - RENDERS EVERYTHING WITH SUB-TABS LIVE! */}
                         <Container>
                           {renderDynamicMarkdown(currentLesson.raw_markdown)}
                         </Container>

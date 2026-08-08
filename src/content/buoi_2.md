@@ -1,16 +1,18 @@
-# Buổi 2: Trợ Lý Excel, Google Docs & Phân Tích Dữ Liệu Báo Cáo Quản Trị
+# Buổi 2: Trợ Lý Bộ Công Cụ Văn Phòng AI (Google Docs, Sheets & Slides)
 
 ---
 
 ## 📖 TỔNG QUAN BUỔI HỌC
 
-Học viên biến AI thành Chuyên viên Kiểm toán & Phân tích Dữ liệu Quản trị Cấp cao: Tự động làm sạch dữ liệu thô, loại bỏ từ lóng, đối soát chênh lệch tài chính và tái cấu trúc báo cáo chiến lược chuẩn doanh nghiệp.
+Học viên biến AI thành Chuyên viên Kiểm toán & Phân tích Dữ liệu Quản trị Cấp cao: Tự động hóa toàn diện Bộ công cụ Văn phòng Google Docs (làm sạch báo cáo thô), Google Sheets (phân tích bảng tính & viết hàm AI) và Google Slides (tự động dàn ý & thiết kế Slide thuyết trình).
 
 ---
 
-## PHẦN I: TẢI FILE DỮ LIỆU THÔ (THỰC HÀNH TRÊN GOOGLE DOCS)
+=== SUBTAB: 📄 Bài 1: Gemini Docs (Văn Bản & Báo Cáo) ===
 
-> 💡 **Hướng dẫn cho Học viên:** Bấm nút **Tải xuống** ở Thao tác 1 để lấy file `.docx` mẫu về máy, sau đó tải file lên tài khoản Google Docs của bạn để bắt đầu thực hành chuỗi Prompt chuẩn hóa ở Phần II.
+### PHẦN I: TẢI FILE DỮ LIỆU THÔ (THỰC HÀNH TRÊN GOOGLE DOCS)
+
+> 💡 **Hướng dẫn cho Học viên:** Bấm nút **Tải xuống** ở Thao tác 1 để lấy file `.docx` mẫu về máy, sau đó tải file lên tài khoản Google Docs cá nhân của bạn để bắt đầu thực hành chuỗi Prompt chuẩn hóa ở Phần II.
 
 * **Thao tác 1 (Tải File Mẫu):** [📥 Tải Xuống File Mẫu Dự Thảo Quý 2 (.DOCX)](/Du_Thao_Quy_2_Mau_Thuc_Hanh.docx)
 * **Thao tác 2 (Mở Google Docs):** [📝 Mở Trang Web Google Docs Mới (docs.new)](https://docs.new)
@@ -19,13 +21,7 @@ Học viên biến AI thành Chuyên viên Kiểm toán & Phân tích Dữ liệ
 
 ---
 
-## PHẦN II: BỘ PROMPT CHUẨN HÓA & TÁCH NHỎ MÔ-ĐUN (1-CLICK COPY TỪNG MỤC)
-
-Để xử lý triệt để bộ dữ liệu thô phức tạp dài 4 trang ở Phần I, học viên dán lần lượt từng **Prompt mô-đun siêu ngắn** dưới đây vào Gemini Docs.
-
----
-
-### 🟢 BƯỚC 1: LÀM SẠCH VĂN BẢN & CHUẨN HÓA THUẬT NGỮ
+### PHẦN II: BỘ PROMPT CHUẨN HÓA & TÁCH NHỎ MÔ-ĐUN (1-CLICK COPY TỪNG MỤC)
 
 * **Prompt 1.1: Thiết Lập Vai Trò & Soát Lỗi Chính Tả / Từ Lóng**
 
@@ -59,10 +55,6 @@ Chuyển đổi toàn bộ các từ lóng kỹ thuật & bán hàng sang thuậ
 3. Xử lý mâu thuẫn số liệu: Ghi nhận trung thực sự chênh lệch giữa Doanh thu do MKT ghi nhận (1,865 tỷ VNĐ) và Doanh thu Kế toán xác nhận (1,420 tỷ VNĐ) thành mục "Rủi ro Đối soát & Quản trị Dòng tiền" cần kiểm toán lại.
 ```
 
----
-
-### 🔵 BƯỚC 2: CẤU TRÚC BÁO CÁO CHIẾN LƯỢC 6 PHẦN
-
 * **Prompt 2.1: Dựng Phần I (Tổng Quan) & Phần II (Audit Hiệu Quả 6 Kênh Bán Hàng)**
 
 ```prompt
@@ -92,61 +84,128 @@ Tiếp tục cấu trúc Phần V & VI của Báo cáo:
 
 ---
 
-### 🟡 BƯỚC 3: TRÍCH XUẤT BẢNG BIỂU & EXECUTIVE SUMMARY
+=== SUBTAB: 📊 Bài 2: Gemini Sheets (Bảng Tính & Hàm AI) ===
 
-* **Prompt 3.1: Soạn Đoạn Tóm Tắt Điều Hành (Executive Summary)**
+### PHẦN I: TẢI BẢNG TÍNH MẪU & TẠO GOOGLE SHEETS
+
+> 💡 **Hướng dẫn cho Học viên:** Bấm nút **Tải xuống** ở Thao tác 1 để lấy file `.xlsx` dữ liệu doanh thu 6 kênh bán hàng Quý 2 về máy, sau đó tải file lên Google Sheets cá nhân của bạn để thực hành các Prompt xử lý hàm & phân tích tự động bên dưới.
+
+* **Thao tác 1 (Tải File Mẫu):** [📥 Tải Xuống File Mẫu Doanh Thu Quý 2 (.XLSX)](/Bang_Mau_Doanh_Thu_Q2.xlsx)
+* **Thao tác 2 (Mở Google Sheets):** [📊 Mở Trang Web Google Sheets Mới (sheets.new)](https://sheets.new)
+
+---
+
+### PHẦN II: BỘ PROMPT PHÂN TÍCH BẢNG TÍNH & VIẾT HÀM AI (1-CLICK COPY)
+
+* **Prompt 2.1: Sửa & Viết Hàm Phức Tạp (XLOOKUP, SUMIFS, INDEX-MATCH)**
 
 ```prompt
-[NHIỆM VỤ 3.1]
-Viết 1 đoạn Executive Summary (Tóm tắt Điều hành 5-6 dòng) đặt ngay dưới Tiêu đề báo cáo, tóm gọn các con số sinh tử: Doanh thu MKT ghi nhận (1.865B) vs Kế toán ghi nhận (1.420B), Chi phí MKT đã đốt (364M - chiếm 25.6%), Kênh hiệu quả nhất (TikTok), Kênh lỗ nặng nhất (Facebook Ads) và Mục tiêu Doanh thu Quý 3 (2.5B).
+[VAI TRÒ & BỐI CẢNH]
+Bạn là Chuyên gia Kỹ thuật Bảng tính Google Sheets & Excel Senior.
+
+[NHIỆM VỤ 2.1]
+Dựa trên Bảng Doanh Thu Quý 2 có các cột: [Mã Đơn, Kênh Bán Hàng, Ngày Tạo, Doanh Thu, Chi Phí MKT, Trạng Thái, Ghi Chú]:
+1. Viết công thức tính Tỷ Lệ Chi Phí MKT/Doanh Thu (%) cho từng kênh bán hàng.
+2. Viết hàm SUMIFS tính Tổng Doanh Thu riêng cho các kênh có Trạng Thái 'Hoàn thành' hoặc 'Cảnh báo'.
+3. Viết công thức XLOOKUP/INDEX-MATCH tra cứu tự động Chi phí MKT dựa trên Mã Đơn Hàng mà không lo bị lỗi #N/A khi cột bị chèn thêm.
 ```
 
-* **Prompt 3.2: Lập Bảng 1 (Audit Đa Kênh) & Bảng 2 (Ma Trận Rủi Ro Vận Hành)**
+* **Prompt 2.2: Phân Tích Cohort Retention & Tỷ Lệ Chuyển Đổi Đơn Hàng**
 
 ```prompt
-[NHIỆM VỤ 3.2]
-Trích xuất dữ liệu thành 2 Bảng Markdown chi tiết:
-- BẢNG 1: AUDIT HIỆU QUẢ BÁN HÀNG ĐA KÊNH QUÝ 2 (7 cột: Kênh Bán Hàng | Doanh Thu | Chi Phí MKT | Số Đơn Hàng | Tỷ Lệ Chi Phí/Doanh Thu | Trạng Thái Hiệu Quả | Hướng Xử Lý Q3).
-- BẢNG 2: MA TRẬN RỦI RO VẬN HÀNH & NGHỄN LIÊN PHÒNG BAN (5 cột: Mảng Vận Hành | Hiện Trạng Điểm Nghẽn | Hậu Quả Tài Chính | Nguyên Nhân Cốt Lõi | Giải Pháp Khắc Phục Q3).
+[NHIỆM VỤ 2.2]
+Hãy đóng vai Chuyên viên Data Analyst:
+1. Viết công thức tính Tỷ lệ Hoàn hàng (Return Rate) và Chi phí Lợi nhuận Ròng (Net Profit) cho kênh Shopee Mall và TikTok Shop.
+2. Ép AI dọn dẹp 100% khoảng trắng thừa (TRIM), sửa định dạng ngày tháng dính lỗi (DATEVALUE) và xuất công thức cảnh báo ô có doanh thu < chi phí MKT.
 ```
 
-* **Prompt 3.3: Lập Bảng 3 (Tái Phân Bổ Ngân Sách) & Bảng 4 (Danh Mục CapEx/OpEx)**
+* **Prompt 2.3: Viết Google Apps Script Cảnh Báo Tồn Kho & Báo Cáo Tự Động**
 
 ```prompt
-[NHIỆM VỤ 3.3]
-Trích xuất tiếp 2 Bảng Markdown chi tiết:
-- BẢNG 3: SO SÁNH TÁI PHÂN BỔ NGÂN SÁCH MARKETING QUÝ 2 VS QUÝ 3 (5 cột: Kênh Marketing | Ngân Sách Q2 | % Tỷ Trọng Q2 | Ngân Sách Đề Xuất Q3 | % Tỷ Trọng Q3 | Định Hướng Chiến Lược).
-- BẢNG 4: DANH MỤC TỜ TRÌNH ĐẦU TƯ TÀI SẢN & HẠ TẦNG (6 cột: STT | Hạng Mục Đầu Tư | Số Lượng | Đơn Giá Dự Kiến | Tổng Chi Phí | Mục Tiêu Tăng Năng Suất).
+[NHIỆM VỤ 2.3]
+Hãy viết một đoạn mã Google Apps Script (JavaScript) hoàn chỉnh để dán vào Google Sheets (Extensions -> Apps Script):
+1. Tự động quét toàn bộ bảng tính Doanh Thu Quý 2.
+2. Nếu dòng nào có Chi Phí MKT / Doanh Thu > 20%, tự động tô màu nền đỏ nhạt (Red Highlight).
+3. Tự động gửi Email báo cáo tóm tắt về địa chỉ Email cá nhân mỗi khi ngân sách MKT của một kênh vượt quá định mức.
+```
+
+* **Prompt 2.4: Trích Xuất Ma Trận Pivot Table & Đề Xuất Biểu Đồ Dashboard**
+
+```prompt
+[NHIỆM VỤ 2.4]
+1. Trình bày hướng dẫn từng bước cấu hình Pivot Table 3 chiều: [Hàng: Kênh Bán Hàng | Cột: Trạng Thái | Giá Trị: SUM Doanh Thu & SUM Chi Phí MKT].
+2. Đề xuất 4 loại Biểu đồ Dashboard trực quan tốt nhất (Biểu đồ Cột Chồng, Biểu đồ Tròn Tỷ Trọng, Biểu đồ Đường Xu Hướng) giúp Ban Giám Đốc nhìn vào hiểu ngay bức tranh tài chính Quý 2.
 ```
 
 ---
 
-### 🟣 BƯỚC 4: ASSET ĐA PHƯƠNG TIỆN & MEMO GỬI BAN GIÁM ĐỐC
+=== SUBTAB: 🎨 Bài 3: Gemini Slides (Tự Động Tạo Slide) ===
 
-* **Prompt 4.1: Bộ Prompt Tiếng Anh Tả Ảnh AI Native (Imagen 3 / Midjourney)**
+### PHẦN I: TẠO TÀI LIỆU GOOGLE SLIDES MỚI
+
+> 💡 **Hướng dẫn cho Học viên:** Bấm nút mở trang bên dưới để tạo 01 file Google Slides mới trên tài khoản Google cá nhân, sau đó dán chuỗi Prompt dàn ý & mã Apps Script ở Phần II để Gemini tự động dựng 10 trang slide thuyết trình chuyên nghiệp.
+
+* **Thao tác 1 (Mở Google Slides):** [🎨 Mở Trang Web Google Slides Mới (slides.new)](https://slides.new)
+
+---
+
+### PHẦN II: BỘ PROMPT TỰ ĐỘNG THIẾT KẾ SLIDE & KỊCH BẢN THUYẾT MINH (1-CLICK COPY)
+
+* **Prompt 3.1: Chuyển Báo Cáo 6 Phần Thành Dàn Ý Pitch Deck 10 Slide**
 
 ```prompt
-[NHIỆM VỤ 4.1]
-Viết 3 Prompt Tiếng Anh chuẩn kỹ thuật đặt ở cuối tài liệu Docs để dùng công cụ tạo ảnh tích hợp của Gemini:
-1. Ảnh Bìa Báo Cáo: Minimalist corporate executive report cover design, financial growth charts, modern office aesthetic, 3D render style, professional blue and gold lighting.
-2. Ảnh Vận Hành Kho: Modern automated e-commerce warehouse logistics operation, neat packaging line, high efficiency, clean isometric view.
-3. Ảnh Không Gian MKT: High-tech digital marketing agency command center, dual monitors showing analytics dashboards, ergonomic workspace, bright natural lighting.
+[VAI TRÒ & BỐI CẢNH]
+Bạn là Chuyên gia Thiết kế Slide Thuyết minh & Cố vấn Truyền thông Cấp cao.
+
+[NHIỆM VỤ 3.1]
+Dựa trên Báo cáo Quản trị Doanh nghiệp Quý 2, hãy cấu trúc lại toàn bộ nội dung thành Dàn ý 10 Trang Slide Thuyết trình (Pitch Deck Layout 16:9):
+- Slide 1: Bìa Báo Cáo Quản Trị Quý 2 & Định Hướng Quý 3.
+- Slide 2: Tóm Tắt Điều Hành (Executive Summary - 5 con số sinh tử).
+- Slide 3: Audit Kênh TikTok Shop & Livestream (Kênh gánh team).
+- Slide 4: Audit Kênh Facebook Ads & Rủi Ro Thuật Toán Meta.
+- Slide 5: Audit Kênh Shopee Mall & Nghẽn Đóng Gói Kho Vận.
+- Slide 6: Kiểm Toán Hạ Tầng Website & Cổng Thanh Toán VNPay.
+- Slide 7: Giải Trình Mâu Thuẫn Số Liệu Lệch 445M Kế Toán vs MKT.
+- Slide 8: Kế Hoạch Tái Phân Bổ Ngân Sách Marketing Quý 3.
+- Slide 9: Danh Mục Tờ Trình CapEx/OpEx Nâng Cấp Thiết Bị & Nhân Sự.
+- Slide 10: Cam Kết Chỉ Số KPI Doanh Thu 2.5B & Lời Cảm Ơn.
 ```
 
-* **Prompt 4.2: Soạn Email Memo Ngắn Gọn Gửi Ban Giám Đốc**
+* **Prompt 3.2: Viết Kịch Bản Thuyết Minh (Presenter Notes / Speaking Script)**
 
 ```prompt
-[NHIỆM VỤ 4.2]
-Soạn 1 bản Memo ngắn gọn (khoảng 200 từ) có định dạng chuẩn mực (Kính gửi BGD, Nội dung chính, Các con số trọng yếu, Đường link đính kèm file Docs đầy đủ và Lời đề nghị phê duyệt) để Trưởng phòng MKT gửi nhanh qua Email/Slack cho Ban Giám đốc trước cuộc họp.
+[NHIỆM VỤ 3.2]
+Hãy viết Kịch bản Thuyết minh (Presenter Speaking Notes) chi tiết cho Trưởng phòng MKT khi đứng trước Ban Giám Đốc trình bày 10 slide trên:
+- Thời lượng thuyết trình: 15-20 phút.
+- Tông giọng: Tự tin, chuyên nghiệp, đi thẳng vào số liệu tài chính sinh tử và giải pháp khắc phục rủi ro.
+- Yêu cầu: Với mỗi Slide xuất rõ [Nội dung hiển thị trên Slide] + [Lời thoại Trưởng phòng phát biểu].
+```
+
+* **Prompt 3.3: Bộ Prompt Tả Ảnh Minh Họa Slide Tỷ Lệ 16:9 (Imagen 3 / Midjourney v6)**
+
+```prompt
+[NHIỆM VỤ 3.3]
+Viết 5 Prompt Tiếng Anh chuẩn kỹ thuật (Imagen 3 / Midjourney v6) tạo ảnh minh họa 16:9 đặt ở background slide:
+1. Slide Bìa: Modern corporate 3D financial analytics dashboard layout, widescreen 16:9 presentation slide background, sleek dark indigo tone, gold charts.
+2. Slide TikTok/Livestream: High-tech e-commerce livestreaming studio set, ring lights, smartphone tripod, vibrant modern workplace, 16:9 render.
+3. Slide Kho Vận: Automated e-commerce distribution warehouse logistics, smart sorting line, neat isometric packaging layout, 16:9.
+4. Slide Hạ Tầng Kỹ Thuật: Minimalist website UX UI redesign wireframe on curved ultra-wide monitor, professional tech office lighting, 16:9.
+5. Slide Kết Luận: Corporate executive boardroom handshake, financial growth chart rising upward, cinematic lighting, 16:9.
+```
+
+* **Prompt 3.4: Mã Google Apps Script Tự Động Tạo 10 Slide Trong Google Slides**
+
+```prompt
+[NHIỆM VỤ 3.4]
+Hãy viết một đoạn mã Google Apps Script (Apps Script API) hoàn chỉnh:
+- Tạo tự động 10 trang Slide trong Google Slides với đầy đủ Tiêu đề (Title Header), Khung nội dung (Body Bullets) và Màu nền Gradient Indigo sang trọng.
+- Người dùng chỉ cần dán mã vào Google Slides (Extensions -> Apps Script) và bấm Run là toàn bộ 10 Slide báo cáo Quý 2 được tự động dựng sẵn trong 5 giây!
 ```
 
 ---
 
 ## III. CHECKLIST NGHIỆM THU BÀI NỘP (DoD)
 
-- [ ] **Độ sạch dữ liệu:** Loại bỏ 100% các từ lóng (`cày muốn trĩ`, `đốt tiền âm phủ`, `phế vật`, `nát như tương tươm`...), lỗi telex và toàn bộ câu từ mang tính tranh cãi cá nhân.
-- [ ] **Tính chính xác về quản trị:** Biến các vấn đề kỹ thuật (`chết VIA`, `khóc dở mếu dở`, `máy lag`) thành thuật ngữ quản trị rủi ro doanh nghiệp chuẩn mực.
-- [ ] **Cấu trúc hoàn chỉnh:** Đủ 6 Phần Báo cáo chiến lược + 01 Đoạn Executive Summary tổng hợp các chỉ số tài chính sinh tử ở đầu trang.
-- [ ] **Hệ thống Bảng biểu:** Có đủ 04 Bảng Markdown chi tiết (Audit đa kênh, Ma trận rủi ro vận hành, So sánh tái phân bổ ngân sách Q2 vs Q3, Danh mục tờ trình đầu tư CapEx/OpEx).
-- [ ] **Tài chính minh bạch:** Có mục riêng đối soát & giải trình nguyên nhân chênh lệch 445 triệu VNĐ giữa báo cáo Kinh doanh và dữ liệu Kế toán.
-- [ ] **Đa phương tiện & Xuất bản:** Chèn thành công ít nhất 01 hình ảnh AI Native tạo trực tiếp từ Gemini Docs + Có bộ Prompt Tiếng Anh + Có bản Memo gửi nhanh qua Email/Slack ở cuối trang.
+- [ ] **Gemini Docs:** Làm sạch 100% từ lóng, loại bỏ telex, cấu trúc báo cáo 6 phần, trích xuất 4 bảng biểu và đoạn Executive Summary.
+- [ ] **Gemini Sheets:** Tải thành công file `.xlsx` mẫu, thực hành viết hàm XLOOKUP/SUMIFS, viết Google Apps Script cảnh báo đỏ và trích xuất ma trận Pivot Table.
+- [ ] **Gemini Slides:** Dàn ý 10 slide Pitch Deck, viết kịch bản thuyết minh Speaker Notes, bộ Prompt 16:9 tả ảnh và xuất mã Apps Script tạo 10 slide tự động.
