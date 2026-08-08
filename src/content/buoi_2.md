@@ -8,50 +8,14 @@ Học viên biến AI thành Chuyên viên Kiểm toán & Phân tích Dữ liệ
 
 ---
 
-## PHẦN I: VĂN BẢN DỮ LIỆU THÔ (DÁN THẲNG VÀO GOOGLE DOCS)
+## PHẦN I: TẢI FILE DỮ LIỆU THÔ (THỰC HÀNH TRÊN GOOGLE DOCS)
 
-> 💡 **Hướng dẫn cho Học viên:** Bấm nút **1-Click Copy** ở khung bên dưới để chép toàn bộ bản **Dự thảo Quý 2 thô** (chứa 5 nhóm lỗi: chính tả/Telex, từ lóng suồng sã, mâu thuẫn số liệu Kế toán - MKT và điểm nghẽn vận hành) rồi dán trực tiếp vào 01 file Google Docs trống.
+> 💡 **Hướng dẫn cho Học viên:** Bấm nút **Tải xuống** ở Thao tác 1 để lấy file `.docx` mẫu về máy, sau đó tải file lên tài khoản Google Docs của bạn để bắt đầu thực hành chuỗi Prompt chuẩn hóa ở Phần II.
 
-```prompt
-[BẢN DỰ THẢO BÁO CÁO KINH DOANH QUÝ 2 - THỜI ĐIỂM THÁNG 8/2026]
+* **Thao tác 1 (Tải File Mẫu):** [📥 Tải Xuống File Mẫu Dự Thảo Quý 2 (.DOCX)](/Du_Thao_Quy_2_Mau_Thuc_Hanh.docx)
+* **Thao tác 2 (Mở Google Docs):** [📝 Mở Trang Web Google Docs Mới (docs.new)](https://docs.new)
 
-Kính gửi: Chị Mai - Giám Đốc Điều Hành & Anh Hùng - Trưởng Ban Kiểm Soát HĐQT.
-Em làm bản báo cáo nhanh tổng kết tình hình kinh doanh Quý 2 vừa rồi của team MKT, Sales Online và bộ phận Vận hành Kho cho hai sếp xem qua trước cuộc họp giao ban tuần tới. Báo cáo này em viết thẳng thắn, có sao nói vậy chứ k màu mè hoa mỹ gì đâu nha sếp.
-
-Nói thật với hai sếp là Quý 2 vừa rồi team em cày muốn trĩ nội trĩ ngoại luôn nhưng kết quả thu về thì hên xui vãi chưởng, chỗ ăn đậm đè tiền chỗ thì đốt tiền âm phủ lỗ chát lè ra!
-Đầu tiên là kênh TikTok Shop với Livestream: Kênh này đợt này là gánh team gãy lưng cho cả công ty luôn sếp ạ! Tổng doanh thu cày được hơn 650 triệu VNĐ, riêng tiền Ads đốt hết 85 triệu, tiền book mấy bé KOC trẻ trâu review hết 45 triệu nữa. Tính ra chi phí MKT chiếm tầm 20% doanh thu kênh này. Đạt được tầm 4.500 đơn hàng. Nhưng mà cái tụi KOC bây giờ nó ngáo giá vãi cả nồi sếp ơi! Book mấy đứa có tick xanh mà làm ăn như trò mèo, hét giá trên trời xong làm clip như dở hơi. Đã thế có đứa còn dính drama bóc phốt trên mạng làm liên lụy luôn hình ảnh thương hiệu bên mình, làm anh em phòng MKT phải chạy vây dập phốt mệt muốn xỉu.
-
-Thứ hai là kênh Facebook Ads truyền thống: Ôi thôi em nói thật cái kênh này bây giờ như cái chùa abandoned rác rưởi, càng đốt tiền càng lỗ chát lè ra! Tổng doanh thu lẹt đẹt được có 180 củ (triệu) mà tiền chạy Ads cướp hết 95 củ, chưa kể tiền mua nick VIA với BM bọc vách để dự phòng bị Meta quét hết thêm 12 củ nữa. Thuật toán Meta dạo này nó quét tài khoản quảng cáo như quét rác, chết nick liên tục làm chiến dịch gián đoạn hoài. Khách hàng trên FB thì giờ toàn nick ảo với trẻ trâu vào comment dạo hỏi giá xong lặn mất tăm, tỷ lệ chốt đơn (conversion rate) rớt thảm hại xuống còn chưa tới 1.2%. Kênh này bỏ trống không ai chăm sóc, khách nhắn tin hỏi giá k ai trả lời, nhìn như cái chùa abandoned rác rưởi.
-
-Sang tới kênh Shopee Mall với Lazada thì tình hình cũng trập trùng xu cà cà lắm sếp. Kênh Shopee thu về tầm 520 củ, chạy Ads sàn mất 60 củ với chi phí cho KOC kéo traffic ngoại sàn tầm 20 củ nữa, ra được tầm 2.800 đơn. Nhưng mà Shopee đợt này bị khách phàn nàn quá trời quá đất trên phần đánh giá 1 sao vì khâu đóng gói hàng dưới kho bị móp hộp nghiêm trọng. Mấy ông cu ly đóng gói dưới kho làm ăn ẩu tả, dán băng keo nham nhở, dùng thùng carton mỏng dính k có màng xốp nổ bọc lót làm hàng đi đường xa bị va đập vỡ bể tùm lum. Khách nhắn tin chửi đống chăm sóc khách hàng vuốt mặt k kịp, bên Shopee nó trừ điểm vận hành Shop Yêu Thích Plus của mình rớt xuống rủn rẩy. Trả hàng hoàn tiền mất toi mấy chục triệu, chưa kể tiền phạt sàn hết 8 triệu tiền ngu. Còn kênh Lazada thì đì đẹt thu được có 140 triệu, tiền Ads hết 22 triệu, KOC mất 10 triệu mà kéo traffic k vô. Kênh Tiki thì coi như chết lâm sàng, cả quý bán đc 12 đơn thu về 4 triệu bạc k đủ tiền duy trì gian hàng.
-
-Còn cái Website chính chủ công ty mình thì thôi em chả muốn nhắc tới luôn cho đỡ ức chế, đúng nghĩa phế vật! Giao diện thiết kế từ thời đồ đá 2021 tới giờ không chịu chi tiền nâng cấp, bấm vào xem hình sản phẩm thì nó xoay mòng mòng 10-15 giây mới tải xong. Khách bấm từ quảng cáo Google Ads vào xem xong bực mình thoát ra sạch, tỷ lệ thoát (bounce rate) lên tới hơn 82%. Doanh thu cả quý lẹt đẹt đì đẹt được có 75 triệu mà tốn 15 triệu tiền duy trì hosting cùi bối với chạy Ads Google Search. Đã thế cái cổng thanh toán VNPay trên web lại còn bị lỗi API đợt cuối tháng 6, khách chuyển tiền xong web k ghi nhận đơn, khách đe dọa kiện công ty lừa đảo làm bên pháp chế phải nhảy vào xử lý mệt nghỉ.
-
-Kênh Đại lý sỉ và Bán hàng B2B Offline thì theo sổ sách em ghi nhận được khoảng 300 triệu doanh thu (nhưng bên kế toán lại bảo mới thu hồi nợ được 180 triệu, còn 120 triệu bị đại lý tỉnh gối đầu nợ xấu chưa chịu trả). Kênh này k tốn tiền Ads online nhưng tốn mất 15 triệu tiền chiết khấu hoa hồng ngoài cho mấy ông sale thị trường với tiền nhậu nhẹt tiếp khách hết 8 triệu không có hóa đơn đỏ nên bên kế toán k cho thanh toán làm anh em sale bắt đầu đình công k đi thị trường nữa.
-
-Nói về tình hình nội bộ với nhân sự phòng MKT & Sales dạo này nó nát như tương tươm sếp ạ, em nói thật k giấu gì sếp.
-Thứ nhất: Thiếu nhân sự cứng chạy Performance Ads với Media trầm trọng. 2 bạn mới tuyển vô làm được 1 tuần thấy khối lượng công việc nhiều quá cũng ôm đồm chạy mất dép k chào một tiếng.
-Thứ hai: Cơ sở hạ tầng trang thiết bị làm việc quá tệ hại! Máy tính cây công ty cấp từ đời xống hố, cấu hình Ram 8GB chip cùi render cái clip ngắn TikTok có 1 phút mà mất tới 2 tiếng đồng hồ, máy giật đùng đùng xong tự văng ứng dụng Premiere làm mất file liên tục. Mấy bạn designer khóc dở mếu dở.
-Thứ ba: Ghế ngồi làm việc hỏng piston sụt xuống tận đất, anh em ngồi gù lưng đau cột sống mỏi cổ suốt ngày kêu ca. Máy in phòng MKT thì hết mực, kẹt giấy liên tục, mỗi lần in hợp đồng cho khách nhìn lem nhem như tờ giấy nháp.
-Thứ tư: Mối quan hệ giữa phòng MKT và phòng Kế toán cực kỳ căng thẳng! Kế toán bắt anh em đi làm từng cái hóa đơn xe ôm công nghệ 20k cũng phải in giấy tờ ký tá 3-4 chữ ký mới cho hoàn ứng, tiền đề xuất chạy Ads thì ngâm 3-4 ngày k chuyển làm ngắt quãng chiến dịch quảng cáo.
-
-TỔNG CỘNG DOANH THU CẢ QUÝ 2 (Theo miệng em tính): 650M (TikTok) + 180M (FB) + 520M (Shopee) + 75M (Web) + 140M (Lazada) + 300M (Sỉ) = 1 tỷ 865 triệu VNĐ.
-(Nhưng không hiểu sao bên Kế toán xuất file báo cáo tổng kết gửi HĐQT lại chỉ ghi nhận có 1 tỷ 420 triệu VNĐ - Lệch mất hơn 400 triệu chưa rõ nguyên nhân ở đâu!).
-
-Tổng chi phí MKT đã đốt: 85M (TikTok Ads) + 45M (TikTok KOC) + 95M (FB Ads) + 12M (Tiền VIA) + 60M (Shopee Ads) + 20M (Shopee KOC) + 15M (Web Hosting/Google) + 22M (Laza Ads) + 10M (Laza KOC) = 364 triệu VNĐ (Chiếm tới hơn 25% tổng doanh thu, vượt quá định mức 15% Ban Giám đốc giao từ đầu năm).
-
-Bởi vậy cho nên, bước sang Quý 3 mùa cao điểm bán hàng cuối năm này, em thay mặt anh em phòng MKT & Sales đề xuất xin Ban giám đốc duyệt gấp mấy việc khẩn cấp mang tính sống còn như sau, k là công ty đứng yên một chỗ cho đối thủ nó bóp chết:
-Một là: Tái cấu trúc phân bổ lại toàn bộ ngân sách Marketing online. Cắt giảm ngay lập tức 70% ngân sách đốt vào Facebook Ads truyền thống (chỉ để lại tầm 20 triệu/tháng chạy retargeting giữ khách cũ). Dồn 60% tổng ngân sách MKT qua đánh tổng lực cho TikTok Shop (bao gồm Livestream 18/24h) và Shopee Mall.
-Hai là: Xin Ban Giám đốc phê duyệt cấp riêng một khoản ngân sách đặc biệt 50 triệu VNĐ để thuê bên Agency bên ngoài người ta làm lại toàn bộ giao diện Website công ty chuẩn UX/UI, chuẩn SEO di động và tích hợp lại cổng thanh toán tự động, chứ để cái web cũ vừa chậm vừa xấu tốn tiền maintenance hoài k ra đơn.
-Ba là: Tuyển dụng gấp 1 bạn Senior Performance Marketing chuyên nghiệp (mức lương đề xuất 18-20 triệu + % hoa hồng theo doanh số) để về gánh team Ads, tối ưu lại các chiến dịch quảng cáo đa kênh và quản lý đội ngũ nhân sự. Tuyển thêm 1 bạn chuyên viên Quản lý Kho vận & Đóng gói dưới kho để siết lại quy trình đóng hàng Shopee/TikTok.
-Bốn là: Giải quyết triệt me vấn đề hạ tầng làm việc cho phòng MKT. Xin sếp cho mua mới 3 bộ máy tính cây cấu hình cao (Chip I7, Card đồ họa rời, RAM 32GB) rơi vào khoảng 25 triệu/bộ để phục vụ dựng phim/dựng clip ngắn. Thay toàn bộ dàn 10 cái ghế xoay công sở mới có tựa lưng chống đau cột sống cho anh em. Mua thêm 2 cái đèn livestream đường kính 45cm xịn đét cho team phòng Lab.
-Năm là: Đề nghị sếp Hùng họp liên phòng ban gấp để quy định lại quy trình hoàn ứng ngân sách Ads giữa Kế toán và MKT. Yêu cầu Kế toán phải cấp thẻ tín dụng doanh nghiệp riêng cho MKT tự add vào tài khoản quảng cáo, k bắt nhân viên phải bỏ tiền túi ra ứng trước rồi đợi 2 tuần mới đc thanh toán lại.
-
-Nếu sếp Mai và Ban giám đốc gật đầu phê duyệt nguyên văn toàn bộ cái bản đề xuất tốn kém này trong tuần này (trước ngày 15/8), thì em xin giơ tay cam kết Quý 3 tổng doanh thu toàn công ty sẽ tăng bứt phá ít nhất 35-40%, đẩy tổng doanh số lên mốc 2.5 tỷ VNĐ và kéo tỷ suất lợi nhuận gộp lên lại mức trên 25% như kỳ vọng của HĐQT.
-Mong sếp và BGD xem xét duyệt sớm ngai và luôn giúp tụi em trong tuần này nha sếp, chứ k là tuần sau anh em tụt mood k có tinh thần làm việc ráng chịu đâu đó nha sếp ơi!
-
-Đại diện làm báo cáo khẩn: Team MKT, Sales Online & CSKH.
-```
+*(Tài liệu thô gồm 5 nhóm lỗi: chính tả/Telex, từ lóng Ads, mâu thuẫn số liệu Kế toán - MKT 445 triệu, điểm nghẽn kho vận và đề xuất ngân sách CapEx/OpEx Q3).*
 
 ---
 
