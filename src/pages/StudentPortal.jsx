@@ -4,7 +4,6 @@ import SideNavigation from '@cloudscape-design/components/side-navigation';
 import BreadcrumbGroup from '@cloudscape-design/components/breadcrumb-group';
 import ContentLayout from '@cloudscape-design/components/content-layout';
 import Header from '@cloudscape-design/components/header';
-import Tabs from '@cloudscape-design/components/tabs';
 import Container from '@cloudscape-design/components/container';
 import SpaceBetween from '@cloudscape-design/components/space-between';
 import Button from '@cloudscape-design/components/button';
@@ -18,6 +17,7 @@ import AnchorNavigation from '@cloudscape-design/components/anchor-navigation';
 import Navigation from '../components/Navigation';
 import { initialLessonsData } from '../data/lessonsData';
 import { getLocalLessonsOverride } from '../lib/supabase';
+import { getLessonStructuredData } from '../lib/resolveMarkdown';
 import { resolveMarkdownImageUrl } from '../lib/resolveImage';
 
 export default function StudentPortal() {
@@ -27,6 +27,10 @@ export default function StudentPortal() {
   const [copiedPromptName, setCopiedPromptName] = useState('');
   const [lessons, setLessons] = useState(initialLessonsData);
   const [toolsOpen, setToolsOpen] = useState(false);
+
+  // Exercise and Method selection states for ultra-clean UI/UX
+  const [activeExerciseIndex, setActiveExerciseIndex] = useState(0);
+  const [activeMethodIndex, setActiveMethodIndex] = useState(0);
 
   // TOC (Table of Contents) States
   const [isTocVisible, setIsTocVisible] = useState(true);
@@ -42,7 +46,21 @@ export default function StudentPortal() {
     }
   }, []);
 
+  // Reset exercise and method selections when switching sessions
+  useEffect(() => {
+    setActiveExerciseIndex(0);
+    setActiveMethodIndex(0);
+  }, [activeSession]);
+
+  useEffect(() => {
+    setActiveMethodIndex(0);
+  }, [activeExerciseIndex]);
+
   const currentLesson = lessons.find((l) => l.session_number === activeSession) || lessons[0];
+  const structuredData = getLessonStructuredData(activeSession, currentLesson.raw_markdown);
+  const activeExercise = structuredData.exercises[activeExerciseIndex] || structuredData.exercises[0];
+  const activeMethod = activeExercise?.methods[activeMethodIndex] || activeExercise?.methods[0];
+  const activeMarkdown = activeMethod?.content || activeExercise?.rawText || '';
 
   // ScrollSpy listener to dynamically update active anchor link on page scroll
   useEffect(() => {
@@ -67,7 +85,7 @@ export default function StudentPortal() {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [activeHeadingId, activeSession]);
+  }, [activeHeadingId, activeSession, activeExerciseIndex, activeMethodIndex]);
 
   const handleCopyPrompt = (promptText, promptName = 'Prompt') => {
     navigator.clipboard.writeText(promptText);
@@ -91,13 +109,12 @@ export default function StudentPortal() {
     setActiveHeadingId(id);
     const el = document.getElementById(id);
     if (el) {
-      const yOffset = -90; // offset for sticky top navigation bar
+      const yOffset = -90;
       const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
 
-  // Extract Heading Structure from Raw Markdown
   // Get Icon helper for TOC Cards
   const getSectionIcon = (text) => {
     if (!text) return '📌';
@@ -112,7 +129,7 @@ export default function StudentPortal() {
     return '📌';
   };
 
-  // Extract Key Heading Structure from Raw Markdown (Filtered for high UX readability)
+  // Extract Key Heading Structure from active Markdown
   const extractTocHeadings = (markdown) => {
     if (!markdown) return [];
     const lines = markdown.split('\n');
@@ -142,7 +159,6 @@ export default function StudentPortal() {
         text = trimmed.replace(/^###\s+/, '');
       } else if (trimmed.startsWith('#### ')) {
         text = trimmed.replace(/^####\s+/, '');
-        // Only include H4 if it represents a major Step/Phase/Checklist to prevent clutter
         if (/^(bước|giai đoạn|phần|chặng|checklist|okr|quần|tỔng quan)/i.test(text)) {
           level = 4;
         }
@@ -177,7 +193,7 @@ export default function StudentPortal() {
     }));
   };
 
-  const anchors = getCloudscapeAnchors(currentLesson.raw_markdown);
+  const anchors = getCloudscapeAnchors(activeMarkdown);
   const activeHref = activeHeadingId ? `#${activeHeadingId}` : (anchors[0]?.href || '');
 
   // Inline Markdown Parser
@@ -240,7 +256,7 @@ export default function StudentPortal() {
   };
 
   // Helper to render Full-Width Image Cards
-  const renderFullWidthImageCard = (src, altText, themeColor = 'indigo') => {
+  const renderFullWidthImageCard = (src, altText) => {
     const resolvedSrc = resolveMarkdownImageUrl(src);
     return (
       <div className="my-6 rounded-2xl overflow-hidden border border-slate-200/90 bg-white shadow-sm transition-all hover:shadow-md">
@@ -382,7 +398,7 @@ export default function StudentPortal() {
         } else if (isAudio) {
           elements.push(renderFullWidthAudioCard(mediaSrc, altText));
         } else {
-          elements.push(renderFullWidthImageCard(mediaSrc, altText, 'blue'));
+          elements.push(renderFullWidthImageCard(mediaSrc, altText));
         }
         continue;
       }
@@ -477,47 +493,9 @@ export default function StudentPortal() {
     return elements;
   };
 
-  // DYNAMIC MARKDOWN PARSER FOR SUBTABS
-  const renderDynamicMarkdown = (markdownText) => {
-    if (!markdownText) return null;
-
-    if (markdownText.includes('=== SUBTAB:')) {
-      const parts = markdownText.split('=== SUBTAB: ');
-      const introText = parts[0];
-      const subTabs = [];
-
-      for (let i = 1; i < parts.length; i++) {
-        const lines = parts[i].split('\n');
-        const tabLabel = lines[0].trim();
-        const tabBody = lines.slice(1).join('\n');
-
-        subTabs.push({
-          id: `subtab-${i}`,
-          label: tabLabel,
-          content: (
-            <div className="pt-3">
-              {renderSingleMarkdownContent(tabBody)}
-            </div>
-          )
-        });
-      }
-
-      return (
-        <SpaceBetween size="l">
-          {introText.trim() && renderSingleMarkdownContent(introText)}
-          <div className="border border-slate-200/80 rounded-2xl p-4 bg-white shadow-2xs">
-            <Tabs tabs={subTabs} />
-          </div>
-        </SpaceBetween>
-      );
-    }
-
-    return renderSingleMarkdownContent(markdownText);
-  };
-
-  // HIERARCHICAL VISUAL TREE TOC PANEL WITH CLEAR LEVEL INDENTATION
+  // HIERARCHICAL VISUAL TREE TOC PANEL WITH FOCUS ON ACTIVE EXERCISE & METHOD
   const renderCloudscapeTocPanel = () => {
-    const headings = extractTocHeadings(currentLesson.raw_markdown);
+    const headings = extractTocHeadings(activeMarkdown);
     if (!headings.length) return null;
 
     return (
@@ -525,7 +503,7 @@ export default function StudentPortal() {
         <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
           <div className="flex items-center gap-2 font-bold text-slate-800 text-xs tracking-wide uppercase">
             <span>📌</span>
-            <span>Mục Lục Bài Học</span>
+            <span>Mục Lục Mục Xem</span>
             <Badge color="blue">{headings.length}</Badge>
           </div>
           <div className="flex items-center gap-1.5">
@@ -563,7 +541,6 @@ export default function StudentPortal() {
                 const isActive = activeHeadingId === h.id;
                 const icon = getSectionIcon(h.text);
 
-                // Indentation & Style by Heading Level
                 let levelStyle = '';
                 if (h.level === 1) {
                   levelStyle = 'ml-0 bg-indigo-900 border-indigo-950 text-white font-extrabold text-xs p-2.5 shadow-2xs';
@@ -669,7 +646,7 @@ export default function StudentPortal() {
         }
         tools={
           <HelpPanel
-            header={<h2>📌 Mục Lực Bài Học (TOC)</h2>}
+            header={<h2>📌 Mục Lục Bài Học (TOC)</h2>}
             footer={
               <div>
                 <h3>Lộ Trình Đào Tạo AI 2026</h3>
@@ -709,9 +686,9 @@ export default function StudentPortal() {
                 actions={
                   <SpaceBetween direction="horizontal" size="xs">
                     <Badge color="blue">{currentLesson.module_name}</Badge>
-                    <StatusIndicator type="success">Dynamic Sub-Tabs Active</StatusIndicator>
+                    <StatusIndicator type="success">Structured 2-Tier Navigation</StatusIndicator>
                     <Button iconName="help" onClick={() => setToolsOpen(!toolsOpen)}>
-                      Mục Lực (TOC)
+                      Mục Lục (TOC)
                     </Button>
                   </SpaceBetween>
                 }
@@ -727,12 +704,71 @@ export default function StudentPortal() {
                 </Alert>
               )}
 
+              {/* LEVEL 1: PRIMARY EXERCISE TABS SELECTOR */}
+              {structuredData.exercises.length > 1 && (
+                <div className="bg-white border border-slate-200/90 rounded-2xl p-2.5 shadow-2xs">
+                  <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 px-2">
+                    🎯 Danh Sách Bài Tập Thực Hành:
+                  </div>
+                  <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+                    {structuredData.exercises.map((ex, idx) => (
+                      <button
+                        key={ex.id}
+                        onClick={() => setActiveExerciseIndex(idx)}
+                        className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer whitespace-nowrap border ${
+                          activeExerciseIndex === idx
+                            ? 'bg-indigo-600 border-indigo-700 text-white shadow-md ring-2 ring-indigo-300'
+                            : 'bg-slate-50 hover:bg-indigo-50 border-slate-200/80 text-slate-700 hover:text-indigo-900'
+                        }`}
+                      >
+                        <span className="text-sm">{ex.icon}</span>
+                        <span>{ex.title}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* INTRO CONTENT FROM index.md */}
+              {structuredData.intro && (
+                <div className="p-4 bg-gradient-to-r from-indigo-50/70 via-slate-50 to-white border border-indigo-100 rounded-2xl shadow-2xs">
+                  {renderSingleMarkdownContent(structuredData.intro)}
+                </div>
+              )}
+
+              {/* LEVEL 2: SECONDARY METHOD SEGMENTED SWITCH */}
+              {activeExercise && activeExercise.methods.length > 1 && (
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3 bg-slate-100/90 border border-slate-200 rounded-2xl shadow-2xs">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-2.5 w-2.5 rounded-full bg-indigo-600 animate-pulse" />
+                    <span className="text-xs font-bold text-slate-800 tracking-wide uppercase">
+                      Chọn Phương Thức Thực Hành:
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-slate-200/90 shadow-2xs w-full sm:w-auto">
+                    {activeExercise.methods.map((method, mIdx) => (
+                      <button
+                        key={method.id}
+                        onClick={() => setActiveMethodIndex(mIdx)}
+                        className={`flex-1 sm:flex-initial px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                          activeMethodIndex === mIdx
+                            ? 'bg-indigo-600 text-white shadow-sm ring-1 ring-indigo-500'
+                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                        }`}
+                      >
+                        <span>{method.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* TWO COLUMN LAYOUT: MAIN LESSON CONTENT & FLOATING TOC SIDEBAR */}
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start relative">
                 {/* LEFT COLUMN: MAIN LESSON CONTENT */}
                 <div className={isTocVisible && anchors.length > 0 ? "lg:col-span-3 space-y-6" : "lg:col-span-4 space-y-6"}>
                   <Container>
-                    {renderDynamicMarkdown(currentLesson.raw_markdown)}
+                    {renderSingleMarkdownContent(activeMarkdown)}
                   </Container>
 
                   {/* TROUBLESHOOTING SECTION */}
@@ -764,7 +800,7 @@ export default function StudentPortal() {
                   title="Mở lại Mục Lục Bài Học"
                 >
                   <span className="text-base">📌</span>
-                  <span className="text-xs tracking-wide">Mục Lục Bài Học ({anchors.length})</span>
+                  <span className="text-xs tracking-wide">Mục Lục ({anchors.length})</span>
                 </button>
               )}
             </SpaceBetween>
