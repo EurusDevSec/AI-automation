@@ -200,11 +200,11 @@ Dựa trên toàn bộ kết quả phân tích tài chính 30 dòng ở trên, h
 
 Sau 25 phút thực hành chuỗi 4 bước trên, học viên kiểm tra Google Sheets đạt các tiêu chuẩn sau:
 
-- [ ] **Data Cleaned:** 30 dòng dữ liệu không còn khoảng trắng rác, không dính chữ "VNĐ/VND/dong", số nguyên đồng nhất.
-- [ ] **Công thức chuẩn:** Có đủ 6 cột tính toán nâng cao (Tổng Chi Phí MKT, Lợi Nhuận Gộp, ROAS, AOV, CPA, Tỷ Trọng %).
-- [ ] **Ma trận Cảnh báo:** Phân loại đúng 5 cấp độ hiệu quả dựa trên ROAS + Có dòng TỔNG CỘNG/TRUNG BÌNH ở dòng cuối.
-- [ ] **Gom nhóm Pivot:** Có bảng tóm tắt gom 30 dòng thô thành 5 Nhóm Kênh Lớn.
-- [ ] **Trực quan hóa:** Xuất được đề xuất bộ 3 Biểu đồ Quản trị + Đoạn Executive Brief cho CFO.
+* [ ] **Data Cleaned:** 30 dòng dữ liệu không còn khoảng trắng rác, không dính chữ "VNĐ/VND/dong", số nguyên đồng nhất.
+* [ ] **Công thức chuẩn:** Có đủ 6 cột tính toán nâng cao (Tổng Chi Phí MKT, Lợi Nhuận Gộp, ROAS, AOV, CPA, Tỷ Trọng %).
+* [ ] **Ma trận Cảnh báo:** Phân loại đúng 5 cấp độ hiệu quả dựa trên ROAS + Có dòng TỔNG CỘNG/TRUNG BÌNH ở dòng cuối.
+* [ ] **Gom nhóm Pivot:** Có bảng tóm tắt gom 30 dòng thô thành 5 Nhóm Kênh Lớn.
+* [ ] **Trực quan hóa:** Xuất được đề xuất bộ 3 Biểu đồ Quản trị + Đoạn Executive Brief cho CFO.
 
 ---
 
@@ -250,20 +250,11 @@ Dựa trên dàn trang 5 Slide ở trên, hãy viết Kịch bản Thuyết minh
 A professional business infographic slide template showing a 4-quadrant SWOT matrix layout, clean modern corporate design, blue and teal color scheme, isometric style, high resolution.
 ```
 
-* **Prompt 3.4: Mã Google Apps Script Tự Động Dựng 5 Slide Trong Google Slides**
-
-```text
-[NHIỆM VỤ TẠO APPS SCRIPT TỰ ĐỘNG DỰNG SLIDE]
-Hãy viết một đoạn mã Google Apps Script (Apps Script API) hoàn chỉnh:
-- Tạo tự động 5 trang Slide trong Google Slides với đầy đủ Tiêu đề, Khung nội dung SWOT, Bảng tài chính Q2/Q3 và Màu nền Gradient Teal - Blue chuyên nghiệp.
-- Người dùng dán mã vào Google Slides (Extensions -> Apps Script) và bấm Run là 5 trang Slide được dựng ngay lập tức!
-```
-
 ---
 
 ### III. CHECKLIST NGHIỆM THU BÀI NỘP (OKR SLIDES 5 TRANG)
 
-- [ ] **Đủ 5 Trang:** Bộ Slide 5 trang chuẩn cấu trúc chiến lược kinh doanh.
-- [ ] **Tích hợp Chỉ số Sheets:** Slide 2 tích hợp đủ các chỉ số tài chính (ROAS, AOV, CPA) trích xuất từ Sheets.
-- [ ] **Ma trận SWOT:** Slide 3 có Ma trận SWOT phân tích ưu/nhược điểm các kênh bán hàng.
-- [ ] **Infographic AI Native:** Có 01 hình ảnh Infographic Ma trận/Background tạo bằng AI Native.
+* [ ] **Đủ 5 Trang:** Bộ Slide 5 trang chuẩn cấu trúc chiến lược kinh doanh.
+* [ ] **Tích hợp Chỉ số Sheets:** Slide 2 tích hợp đủ các chỉ số tài chính (ROAS, AOV, CPA) trích xuất từ Sheets.
+* [ ] **Ma trận SWOT:** Slide 3 có Ma trận SWOT phân tích ưu/nhược điểm các kênh bán hàng.
+* [ ] **Infographic AI Native:** Có 01 hình ảnh Infographic Ma trận/Background tạo bằng AI Native.
