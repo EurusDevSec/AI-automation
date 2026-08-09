@@ -70,6 +70,7 @@ export default function LandingPage() {
       level: 'Cơ bản',
       badgeColor: 'bg-blue-100 text-blue-800 border-blue-200',
       icon: '📝',
+      imageUrl: '/session_1_real.png',
       desc: 'Tạo kế hoạch sự kiện 2 ngày 1 đêm, phân bổ ngân sách 50 triệu và thiết kế prompt 4 tầng chuẩn 100%.',
       tags: ['ChatGPT', 'Team Building', 'Prompt Sandbox'],
       border: 'border-blue-200 hover:border-blue-500 hover:shadow-blue-500/15'
@@ -83,6 +84,7 @@ export default function LandingPage() {
       level: 'Cơ bản',
       badgeColor: 'bg-blue-100 text-blue-800 border-blue-200',
       icon: '📊',
+      imageUrl: '/session_2.jpg',
       desc: 'Tự động dọn dẹp dữ liệu thô Excel 30 dòng, làm sạch báo cáo Docs và tạo Infographic Native trên Slides.',
       tags: ['Google Docs', 'Google Sheets', 'Slides AI'],
       border: 'border-indigo-200 hover:border-indigo-500 hover:shadow-indigo-500/15'
@@ -96,6 +98,7 @@ export default function LandingPage() {
       level: 'Nâng cao',
       badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
       icon: '⚡',
+      imageUrl: '/session_3.jpg',
       desc: 'Dựng luồng cào tin tức VNExpress tự động sang Google Sheets & tóm tắt AI gửi ngay về Telegram & Gmail.',
       tags: ['n8n Workflow', 'RSS Feed', 'Telegram Bot'],
       border: 'border-emerald-200 hover:border-emerald-500 hover:shadow-emerald-500/15'
@@ -109,6 +112,7 @@ export default function LandingPage() {
       level: 'Nâng cao',
       badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
       icon: '📱',
+      imageUrl: '/session_4.jpg',
       desc: 'Lên lịch biên soạn bài đăng Facebook kèm hình ảnh AI tự động, hẹn giờ đăng bài lên Fanpage 24/7.',
       tags: ['Facebook API', 'AI Content Writer', 'Fanpage Auto'],
       border: 'border-teal-200 hover:border-teal-500 hover:shadow-teal-500/15'
@@ -122,6 +126,7 @@ export default function LandingPage() {
       level: 'Nâng cao',
       badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
       icon: '🎬',
+      imageUrl: '/session_5.jpg',
       desc: 'Tự động sản xuất kịch bản Video TikTok/Shorts, ghép voice AI và xuất file Video trailer sẵn sàng đăng.',
       tags: ['AI Script', 'Voice AI', 'Video Automation'],
       border: 'border-purple-200 hover:border-purple-500 hover:shadow-purple-500/15'
@@ -135,6 +140,7 @@ export default function LandingPage() {
       level: 'Nâng cao',
       badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
       icon: '🤖',
+      imageUrl: '/session_6.jpg',
       desc: 'Thiết lập Chatbot AI tư vấn sản phẩm, tự động trả lời bình luận và gửi báo giá qua tin nhắn riêng.',
       tags: ['Messenger Bot', 'AI Customer Care', 'Auto Reply'],
       border: 'border-amber-200 hover:border-amber-500 hover:shadow-amber-500/15'
@@ -148,6 +154,7 @@ export default function LandingPage() {
       level: 'Thực chiến',
       badgeColor: 'bg-rose-100 text-rose-800 border-rose-200',
       icon: '🌐',
+      imageUrl: '/session_7.jpg',
       desc: 'Ra lệnh cho AI Agent dựng trọn bộ Website bán hàng/Landing Page React hiện đại chuẩn UX/UI.',
       tags: ['React.js', 'TailwindCSS', 'Vite App'],
       border: 'border-rose-200 hover:border-rose-500 hover:shadow-rose-500/15'
@@ -161,6 +168,7 @@ export default function LandingPage() {
       level: 'Thực chiến',
       badgeColor: 'bg-rose-100 text-rose-800 border-rose-200',
       icon: '🚀',
+      imageUrl: '/session_8.jpg',
       desc: 'Kết nối mã nguồn GitHub với Vercel để xuất bản website chạy công khai lên Internet & Supabase Database.',
       tags: ['Vercel Cloud', 'Supabase DB', 'Live Deploy'],
       border: 'border-indigo-300 hover:border-indigo-600 hover:shadow-indigo-500/15'
@@ -379,40 +387,50 @@ export default function HeroSection() {
               <div
                 key={card.id}
                 onClick={() => navigate(`/app?session=${card.id}`)}
-                className={`group relative bg-white rounded-2xl p-6 border ${card.border} shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between hover:-translate-y-1.5 overflow-hidden`}
+                className={`group relative bg-white rounded-2xl border ${card.border} shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between hover:-translate-y-1.5 overflow-hidden`}
               >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl p-2 rounded-xl bg-slate-100 group-hover:scale-110 transition-transform">{card.icon}</span>
-                    <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${card.badgeColor}`}>
-                      {card.level}
-                    </span>
+                {/* POSTER THUMBNAIL HEADER */}
+                {card.imageUrl && (
+                  <div className="relative h-44 w-full overflow-hidden bg-slate-900 border-b border-slate-100">
+                    <img
+                      src={card.imageUrl}
+                      alt={card.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+                    <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between">
+                      <span className="text-xl p-1.5 rounded-lg bg-white/90 backdrop-blur-md shadow-sm">{card.icon}</span>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border backdrop-blur-md ${card.badgeColor}`}>
+                        {card.level}
+                      </span>
+                    </div>
                   </div>
+                )}
 
-                  <div>
-                    <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">{card.stageName} • {card.number}</div>
-                    <h3 className="font-extrabold text-base text-slate-900 group-hover:text-indigo-600 transition-colors mt-1 leading-snug">
+                <div className="p-5 space-y-3 flex-1 flex flex-col justify-between">
+                  <div className="space-y-2">
+                    <div className="text-[11px] font-bold text-indigo-600 uppercase tracking-wider">{card.stageName} • {card.number}</div>
+                    <h3 className="font-extrabold text-base text-slate-900 group-hover:text-indigo-600 transition-colors leading-snug">
                       {card.title}
                     </h3>
+                    <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
+                      {card.desc}
+                    </p>
                   </div>
 
-                  <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
-                    {card.desc}
-                  </p>
-                </div>
+                  <div className="pt-3 mt-3 border-t border-slate-100 space-y-3">
+                    <div className="flex flex-wrap gap-1.5">
+                      {card.tags.map((tag, idx) => (
+                        <span key={idx} className="bg-slate-100 text-slate-700 text-[10px] font-semibold px-2 py-0.5 rounded border border-slate-200/80">
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
 
-                <div className="pt-4 mt-4 border-t border-slate-100 space-y-3">
-                  <div className="flex flex-wrap gap-1.5">
-                    {card.tags.map((tag, idx) => (
-                      <span key={idx} className="bg-slate-100 text-slate-700 text-[10px] font-semibold px-2 py-0.5 rounded border border-slate-200/80">
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="w-full py-2 px-3 rounded-xl bg-slate-100 group-hover:bg-indigo-600 text-slate-700 group-hover:text-white font-bold text-xs transition-all flex items-center justify-between">
-                    <span>Vào Học ngay</span>
-                    <span className="group-hover:translate-x-1 transition-transform">→</span>
+                    <div className="w-full py-2 px-3 rounded-xl bg-slate-100 group-hover:bg-indigo-600 text-slate-700 group-hover:text-white font-bold text-xs transition-all flex items-center justify-between shadow-2xs">
+                      <span>Vào Học ngay</span>
+                      <span className="group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
                   </div>
                 </div>
               </div>

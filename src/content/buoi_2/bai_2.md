@@ -4,7 +4,7 @@
 
 > 💡 **Hướng dẫn cho Học viên:** Bấm nút **Tải xuống** ở Thao tác 1 để lấy file `.xlsx` dữ liệu bán hàng 30 dòng Quý 2 về máy, sau đó tải file lên Google Sheets cá nhân của bạn để mở thanh Gemini Side Panel thực thi chuỗi 4 Prompt dưới đây.
 
-* **Thao tác 1 (Tải File Mẫu):** [📥 Tải Xuống File Bảng Tính Doanh Thu Q2 (.XLSX)](/Bang_Mau_Doanh_Thu_Q2.xlsx)
+* **Thao tác 1 (Tải File Mẫu):** [📥 Tải Xuống File Bảng Tính Doanh Thu Q2 (.XLSX)](/B%E1%BA%A3ng%20m%E1%BA%ABu%20Doanh%20thu%20Q2.xlsx)
 * **Thao tác 2 (Mở Google Sheets):** [📊 Mở Trang Web Google Sheets Mới (sheets.new)](https://sheets.new)
 
 ---
