@@ -19,9 +19,13 @@ export function resolveMarkdownImageUrl(url, sessionNumber, lessonNumber) {
   // Normalize path
   const cleanName = url.replace(/^\.\//, '').trim();
 
-  // 1. If both sessionNumber and lessonNumber are provided, search lesson folder first (e.g. ../content/buoi_3/bai_1/)
-  if (sessionNumber && lessonNumber) {
-    const lessonPrefix = `../content/buoi_${sessionNumber}/bai_${lessonNumber}/`;
+  // 1. If both sessionNumber and lessonNumber/exerciseId are provided, search lesson folder first (e.g. ../content/buoi_3/bai_2/)
+  if (sessionNumber && lessonNumber !== undefined && lessonNumber !== null) {
+    const lessonSubfolder = typeof lessonNumber === 'string'
+      ? (lessonNumber.startsWith('bai_') ? lessonNumber : `bai_${lessonNumber}`)
+      : `bai_${lessonNumber}`;
+
+    const lessonPrefix = `../content/buoi_${sessionNumber}/${lessonSubfolder}/`;
     for (const path in contentAssets) {
       if (path.startsWith(lessonPrefix) && path.endsWith('/' + cleanName)) {
         return contentAssets[path];

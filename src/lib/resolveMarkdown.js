@@ -37,28 +37,31 @@ function parseSubtabsFromMarkdown(rawText) {
  */
 function extractTitleAndIcon(rawText, fileName) {
   const lines = rawText.split('\n');
-  let title = '';
+  let rawTitle = '';
 
   for (const line of lines) {
     const trimmed = line.trim();
     if (trimmed.startsWith('# ') || trimmed.startsWith('## ')) {
-      title = trimmed.replace(/^#{1,2}\s+/, '').trim();
+      rawTitle = trimmed.replace(/^#{1,2}\s+/, '').trim();
       break;
     }
   }
 
-  if (!title) {
+  if (!rawTitle) {
     const numMatch = fileName.match(/\d+/);
-    title = numMatch ? `Bài ${numMatch[0]}` : fileName.replace('.md', '');
+    rawTitle = numMatch ? `Bài ${numMatch[0]}` : fileName.replace('.md', '');
   }
 
   let icon = '📘';
-  if (title.toLowerCase().includes('rss')) icon = '📰';
-  else if (title.toLowerCase().includes('ai') || title.toLowerCase().includes('summarizer')) icon = '🤖';
-  else if (title.toLowerCase().includes('notion') || title.toLowerCase().includes('calendar')) icon = '🗂️';
-  else if (title.toLowerCase().includes('alert') || title.toLowerCase().includes('cảnh báo')) icon = '⚡';
+  if (rawTitle.toLowerCase().includes('rss')) icon = '📰';
+  else if (rawTitle.toLowerCase().includes('ai') || rawTitle.toLowerCase().includes('summarizer')) icon = '🤖';
+  else if (rawTitle.toLowerCase().includes('notion') || rawTitle.toLowerCase().includes('calendar')) icon = '🗂️';
+  else if (rawTitle.toLowerCase().includes('alert') || rawTitle.toLowerCase().includes('cảnh báo')) icon = '⚡';
 
-  return { title, icon };
+  // Strip leading emojis and symbols from title so title string itself doesn't contain duplicate emojis
+  const cleanTitle = rawTitle.replace(/^[\p{Emoji}\s\u200d\uFE0F]+/gu, '').trim() || rawTitle;
+
+  return { title: cleanTitle, icon };
 }
 
 /**

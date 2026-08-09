@@ -186,54 +186,164 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* CURRICULUM ROADMAP SECTION WITH PREVIEW IMAGE */}
-      <section className="py-16 bg-white border-y border-slate-200">
+      {/* INTERACTIVE 8-SESSION CARD CATALOG GRID SECTION */}
+      <section className="py-20 bg-gradient-to-b from-white via-slate-50 to-indigo-50/40 border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
-            <div className="lg:col-span-5 space-y-6">
-              <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 px-3.5 py-1.5 rounded-full text-xs font-semibold">
-                <UserCheck className="w-4 h-4 text-emerald-600" />
-                <span>Thực Hành 100% Tại Lớp</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
-                Lộ Trình 3 Chặng Kéo Dài 8 Buổi Học
-              </h2>
-              <p className="text-slate-600 leading-relaxed">
-                Mỗi buổi học diễn ra trong 90 phút với hướng dẫn từng bước gạch đầu dòng rõ ràng bên dưới 10 từ. Giúp bạn đạt được kết quả ngay lập tức mà không bị cháy giáo án.
-              </p>
-
-              <div className="rounded-2xl overflow-hidden shadow-lg border border-slate-200">
-                <img
-                  src="/workflow_n8n_preview.jpg"
-                  alt="n8n Workflow Preview"
-                  className="w-full h-auto object-cover"
-                />
-              </div>
+          <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
+            <div className="inline-flex items-center gap-2 bg-indigo-100/80 border border-indigo-200 text-indigo-800 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
+              <Sparkles className="w-4 h-4 text-indigo-600 animate-pulse" />
+              <span>Danh Sách 8 Buổi Học Thực Chiến</span>
             </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              Chọn Buổi Học & Trải Nghiệm <span className="text-gradient-primary">Giao Diện Thực Hành</span>
+            </h2>
+            <p className="text-slate-600 text-base leading-relaxed">
+              Nhấp vào bất kỳ Card Buổi học nào bên dưới để đi trực tiếp vào giao diện học tập Student Portal chuẩn Golden Path 100%.
+            </p>
+          </div>
 
-            <div className="lg:col-span-7 space-y-4">
-              {curriculumModules.map((mod, idx) => (
-                <div key={idx} className="light-glass-card p-6 space-y-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                id: 1,
+                number: 'Buổi 1',
+                title: 'Lập Kế Hoạch Team Building & Prompt Sandbox',
+                stage: 'Chặng 1: AI Văn Phòng',
+                level: 'Cơ bản',
+                badgeColor: 'bg-blue-100 text-blue-800 border-blue-200',
+                icon: '📝',
+                desc: 'Tạo kế hoạch sự kiện 2 ngày 1 đêm, phân bổ ngân sách 50 triệu và thiết kế prompt 4 tầng chuẩn 100%.',
+                tags: ['ChatGPT', 'Team Building', 'Prompt Sandbox'],
+                border: 'border-blue-200 hover:border-blue-500 hover:shadow-blue-500/15'
+              },
+              {
+                id: 2,
+                number: 'Buổi 2',
+                title: 'Trợ Lý Văn Phòng Docs, Sheets & Slides',
+                stage: 'Chặng 1: AI Văn Phòng',
+                level: 'Cơ bản',
+                badgeColor: 'bg-blue-100 text-blue-800 border-blue-200',
+                icon: '📊',
+                desc: 'Tự động dọn dẹp dữ liệu thô Excel 30 dòng, làm sạch báo cáo Docs và tạo Infographic Native trên Slides.',
+                tags: ['Google Docs', 'Google Sheets', 'Slides AI'],
+                border: 'border-indigo-200 hover:border-indigo-500 hover:shadow-indigo-500/15'
+              },
+              {
+                id: 3,
+                number: 'Buổi 3',
+                title: 'Auto Cào Ý Tưởng RSS & n8n AI Summarizer',
+                stage: 'Chặng 2: Tự Động Hóa n8n',
+                level: 'Nâng cao',
+                badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+                icon: '⚡',
+                desc: 'Dựng luồng cào tin tức VNExpress tự động sang Google Sheets & tóm tắt AI gửi ngay về Telegram & Gmail.',
+                tags: ['n8n Workflow', 'RSS Feed', 'Telegram Bot'],
+                border: 'border-emerald-200 hover:border-emerald-500 hover:shadow-emerald-500/15'
+              },
+              {
+                id: 4,
+                number: 'Buổi 4',
+                title: 'Máy Tạo Content Facebook Tự Động',
+                stage: 'Chặng 2: Tự Động Hóa n8n',
+                level: 'Nâng cao',
+                badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+                icon: '📱',
+                desc: 'Lên lịch biên soạn bài đăng Facebook kèm hình ảnh AI tự động, hẹn giờ đăng bài lên Fanpage 24/7.',
+                tags: ['Facebook API', 'AI Content Writer', 'Fanpage Auto'],
+                border: 'border-teal-200 hover:border-teal-500 hover:shadow-teal-500/15'
+              },
+              {
+                id: 5,
+                number: 'Buổi 5',
+                title: 'Xưởng Kịch Bản & Video AI Ngắn',
+                stage: 'Chặng 2: Tự Động Hóa n8n',
+                level: 'Nâng cao',
+                badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+                icon: '🎬',
+                desc: 'Tự động sản xuất kịch bản Video TikTok/Shorts, ghép voice AI và xuất file Video trailer sẵn sàng đăng.',
+                tags: ['AI Script', 'Voice AI', 'Video Automation'],
+                border: 'border-purple-200 hover:border-purple-500 hover:shadow-purple-500/15'
+              },
+              {
+                id: 6,
+                number: 'Buổi 6',
+                title: 'Auto Chatbot Messenger Báo Giá',
+                stage: 'Chặng 2: Tự Động Hóa n8n',
+                level: 'Nâng cao',
+                badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+                icon: '🤖',
+                desc: 'Thiết lập Chatbot AI tư vấn sản phẩm, tự động trả lời bình luận và gửi báo giá qua tin nhắn riêng.',
+                tags: ['Messenger Bot', 'AI Customer Care', 'Auto Reply'],
+                border: 'border-amber-200 hover:border-amber-500 hover:shadow-amber-500/15'
+              },
+              {
+                id: 7,
+                number: 'Buổi 7',
+                title: 'Lập Trình Website AI (React & Tailwind)',
+                stage: 'Chặng 3: Website AI & Live',
+                level: 'Thực chiến',
+                badgeColor: 'bg-rose-100 text-rose-800 border-rose-200',
+                icon: '🌐',
+                desc: 'Ra lệnh cho AI Agent dựng trọn bộ Website bán hàng/Landing Page React hiện đại chuẩn UX/UI.',
+                tags: ['React.js', 'TailwindCSS', 'Vite App'],
+                border: 'border-rose-200 hover:border-rose-500 hover:shadow-rose-500/15'
+              },
+              {
+                id: 8,
+                number: 'Buổi 8',
+                title: 'Deploy Vercel & Supabase Cloud DB',
+                stage: 'Chặng 3: Website AI & Live',
+                level: 'Thực chiến',
+                badgeColor: 'bg-rose-100 text-rose-800 border-rose-200',
+                icon: '🚀',
+                desc: 'Kết nối mã nguồn GitHub với Vercel để xuất bản website chạy công khai lên Internet & Supabase Database.',
+                tags: ['Vercel Cloud', 'Supabase DB', 'Live Deploy'],
+                border: 'border-indigo-300 hover:border-indigo-600 hover:shadow-indigo-500/15'
+              }
+            ].map((card) => (
+              <div
+                key={card.id}
+                onClick={() => navigate(`/app?session=${card.id}`)}
+                className={`group relative bg-white rounded-2xl p-6 border ${card.border} shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between hover:-translate-y-1.5 overflow-hidden`}
+              >
+                {/* TOP HEADER */}
+                <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="bg-indigo-100 text-indigo-700 font-bold text-xs px-3 py-1 rounded-full">
-                      {mod.phase}
+                    <span className="text-2xl p-2 rounded-xl bg-slate-100 group-hover:scale-110 transition-transform">{card.icon}</span>
+                    <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${card.badgeColor}`}>
+                      {card.level}
                     </span>
-                    <span className="text-xs font-medium text-slate-500">{mod.sessions}</span>
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900">{mod.title}</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">{mod.desc}</p>
-                  <div className="pt-2 flex flex-wrap gap-2">
-                    {mod.tags.map((t, tid) => (
-                      <span key={tid} className="bg-slate-100 text-slate-700 text-[11px] font-semibold px-2.5 py-1 rounded-md border border-slate-200">
-                        #{t}
+
+                  <div>
+                    <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">{card.stage} • {card.number}</div>
+                    <h3 className="font-extrabold text-base text-slate-900 group-hover:text-indigo-600 transition-colors mt-1 leading-snug">
+                      {card.title}
+                    </h3>
+                  </div>
+
+                  <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
+                    {card.desc}
+                  </p>
+                </div>
+
+                {/* FOOTER TAGS & CTA BUTTON */}
+                <div className="pt-4 mt-4 border-t border-slate-100 space-y-3">
+                  <div className="flex flex-wrap gap-1.5">
+                    {card.tags.map((tag, idx) => (
+                      <span key={idx} className="bg-slate-100 text-slate-700 text-[10px] font-semibold px-2 py-0.5 rounded border border-slate-200/80">
+                        #{tag}
                       </span>
                     ))}
                   </div>
-                </div>
-              ))}
-            </div>
 
+                  <div className="w-full py-2 px-3 rounded-xl bg-slate-100 group-hover:bg-indigo-600 text-slate-700 group-hover:text-white font-bold text-xs transition-all flex items-center justify-between">
+                    <span>Vào Học ngay</span>
+                    <span className="group-hover:translate-x-1 transition-transform">→</span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

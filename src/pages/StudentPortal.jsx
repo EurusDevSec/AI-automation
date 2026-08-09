@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import AppLayout from '@cloudscape-design/components/app-layout';
 import SideNavigation from '@cloudscape-design/components/side-navigation';
 import BreadcrumbGroup from '@cloudscape-design/components/breadcrumb-group';
@@ -12,6 +13,7 @@ import StatusIndicator from '@cloudscape-design/components/status-indicator';
 import ExpandableSection from '@cloudscape-design/components/expandable-section';
 import Alert from '@cloudscape-design/components/alert';
 import Box from '@cloudscape-design/components/box';
+import Modal from '@cloudscape-design/components/modal';
 import Navigation from '../components/Navigation';
 import { initialLessonsData } from '../data/lessonsData';
 import { getLocalLessonsOverride } from '../lib/supabase';
@@ -19,11 +21,13 @@ import { getLessonStructuredData } from '../lib/resolveMarkdown';
 import { resolveMarkdownImageUrl } from '../lib/resolveImage';
 
 export default function StudentPortal() {
+  const location = useLocation();
   const [activeSession, setActiveSession] = useState(1);
   const [navigationOpen, setNavigationOpen] = useState(true);
   const [copySuccess, setCopySuccess] = useState(false);
   const [copiedPromptName, setCopiedPromptName] = useState('');
   const [lessons, setLessons] = useState(initialLessonsData);
+  const [showCatalogModal, setShowCatalogModal] = useState(false);
 
   // Exercise and Method selection states for ultra-clean UI/UX
   const [activeExerciseIndex, setActiveExerciseIndex] = useState(0);
@@ -32,6 +36,19 @@ export default function StudentPortal() {
   // TOC (Table of Contents) States
   const [isTocVisible, setIsTocVisible] = useState(true);
   const [activeHeadingId, setActiveHeadingId] = useState('');
+
+  // Read URL query parameter (?session=X)
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const sessionParam = params.get('session');
+    if (sessionParam) {
+      const parsed = parseInt(sessionParam, 10);
+      if (parsed >= 1 && parsed <= 8) {
+        setActiveSession(parsed);
+        setActiveExerciseIndex(0);
+      }
+    }
+  }, [location.search]);
 
   useEffect(() => {
     const overrides = getLocalLessonsOverride();
@@ -240,7 +257,8 @@ export default function StudentPortal() {
   };
 
   const renderFullWidthImageCard = (src, altText) => {
-    const resolvedSrc = resolveMarkdownImageUrl(src, activeSession, activeExerciseIndex + 1);
+    const currentExId = activeExercise?.id || `bai_${activeExerciseIndex + 1}`;
+    const resolvedSrc = resolveMarkdownImageUrl(src, activeSession, currentExId);
     return (
       <div className="my-6 rounded-2xl overflow-hidden border border-slate-200/90 bg-white shadow-sm transition-all hover:shadow-md">
         <div className="relative group bg-slate-900 overflow-hidden flex items-center justify-center min-h-[220px]">
@@ -271,7 +289,8 @@ export default function StudentPortal() {
   };
 
   const renderFullWidthAudioCard = (src, title) => {
-    const resolvedSrc = resolveMarkdownImageUrl(src, activeSession, activeExerciseIndex + 1);
+    const currentExId = activeExercise?.id || `bai_${activeExerciseIndex + 1}`;
+    const resolvedSrc = resolveMarkdownImageUrl(src, activeSession, currentExId);
     return (
       <div className="my-6 p-4 rounded-2xl border border-indigo-100 bg-gradient-to-r from-indigo-50/50 via-white to-slate-50 shadow-sm flex flex-col md:flex-row items-center gap-4">
         <div className="flex items-center gap-3">
@@ -291,7 +310,8 @@ export default function StudentPortal() {
   };
 
   const renderFullWidthVideoCard = (src, title) => {
-    const resolvedSrc = resolveMarkdownImageUrl(src, activeSession, activeExerciseIndex + 1);
+    const currentExId = activeExercise?.id || `bai_${activeExerciseIndex + 1}`;
+    const resolvedSrc = resolveMarkdownImageUrl(src, activeSession, currentExId);
     return (
       <div className="my-6 rounded-2xl overflow-hidden border border-slate-200/90 bg-slate-900 shadow-md">
         <div className="p-3 bg-slate-900 text-slate-200 flex items-center justify-between text-xs font-semibold border-b border-slate-800">
@@ -448,6 +468,7 @@ export default function StudentPortal() {
     return elements;
   };
 
+  // NOTION / GITBOOK STYLE NESTED TREE TOC PANEL
   const renderCloudscapeTocPanel = () => {
     const headings = extractTocHeadings(activeMarkdown);
     if (!headings.length) return null;
@@ -455,8 +476,8 @@ export default function StudentPortal() {
     return (
       <div className="sticky top-20 bg-white border border-slate-200/90 rounded-2xl p-4 shadow-sm transition-all overflow-hidden self-start">
         <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
-          <div className="flex items-center gap-2 font-bold text-slate-800 text-xs tracking-wide uppercase">
-            <span>📌</span>
+          <div className="flex items-center gap-2 font-bold text-slate-900 text-xs tracking-wide uppercase">
+            <span>🌳</span>
             <span>Mục Lục Bài Học</span>
             <Badge color="blue">{headings.length}</Badge>
           </div>
@@ -469,39 +490,73 @@ export default function StudentPortal() {
           </button>
         </div>
 
-        <div className="max-h-[calc(100vh-200px)] overflow-y-auto overflow-x-hidden pr-1 custom-scrollbar space-y-1.5">
+        <div className="max-h-[calc(100vh-200px)] overflow-y-auto overflow-x-hidden pr-1 custom-scrollbar space-y-1">
           {headings.map((h, i) => {
             const isActive = activeHeadingId === h.id;
             const icon = getSectionIcon(h.text);
 
-            let levelStyle = '';
+            // Level 1: Document Title / Main Heading
             if (h.level === 1) {
-              levelStyle = 'ml-0 bg-indigo-950 border-indigo-900 text-white font-extrabold text-xs p-2.5 shadow-2xs';
-            } else if (h.level === 2) {
-              levelStyle = 'ml-2 border-l-4 border-indigo-500 bg-indigo-50/90 border-indigo-200 text-indigo-950 font-bold text-xs p-2';
-            } else if (h.level === 3) {
-              levelStyle = 'ml-4 border-l-2 border-slate-300 bg-slate-50 hover:bg-indigo-50 border-slate-200 text-slate-800 font-semibold text-xs p-2';
-            } else {
-              levelStyle = 'ml-6 border-l-2 border-emerald-400 bg-emerald-50/40 hover:bg-emerald-100/60 border-emerald-200/80 text-emerald-950 font-medium text-[11px] p-1.5';
+              return (
+                <button
+                  key={`toc-tree-${i}`}
+                  onClick={() => scrollToHeading(h.id)}
+                  className={`w-full text-left rounded-xl border transition-all flex items-center gap-2 cursor-pointer p-2.5 my-1 text-xs ${
+                    isActive
+                      ? 'bg-indigo-950 border-indigo-900 text-white font-extrabold shadow-sm ring-2 ring-indigo-400'
+                      : 'bg-slate-900 border-slate-800 text-slate-100 hover:bg-indigo-950 font-bold'
+                  }`}
+                >
+                  <span className="text-xs">{icon}</span>
+                  <span className="truncate flex-1">{h.text}</span>
+                </button>
+              );
             }
 
+            // Level 2: Main Section / Phần / Giai Đoạn (Parent Header Card)
+            if (h.level === 2) {
+              return (
+                <button
+                  key={`toc-tree-${i}`}
+                  onClick={() => scrollToHeading(h.id)}
+                  className={`w-full text-left rounded-xl border transition-all flex items-center justify-between cursor-pointer px-3 py-2 mt-3 mb-1 text-xs ${
+                    isActive
+                      ? 'bg-indigo-600 border-indigo-700 text-white font-bold shadow-md ring-2 ring-indigo-300'
+                      : 'bg-gradient-to-r from-indigo-50/90 via-slate-50 to-white border-indigo-100 text-indigo-950 font-bold hover:border-indigo-300'
+                  }`}
+                >
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="text-xs">{icon}</span>
+                    <span className="truncate font-bold">{h.text}</span>
+                  </div>
+                  <span className="text-[10px] text-indigo-400 ml-1 font-mono">§</span>
+                </button>
+              );
+            }
+
+            // Level 3 & Level 4: Steps / Sub-sections (Indented Tree Connector Line)
+            const indentClass = h.level >= 4 ? 'ml-6' : 'ml-3';
+
             return (
-              <button
-                key={`toc-tree-${i}`}
-                onClick={() => scrollToHeading(h.id)}
-                className={`w-full text-left rounded-xl border transition-all flex items-start gap-2 cursor-pointer ${levelStyle} ${
-                  isActive
-                    ? '!bg-indigo-600 !border-indigo-700 !text-white font-bold shadow-md ring-2 ring-indigo-300'
-                    : ''
-                }`}
-              >
-                <span className="text-xs flex-shrink-0 mt-0.5">{icon}</span>
-                <div className="flex-1 min-w-0">
-                  <div className={`leading-snug break-words ${isActive ? '!text-white' : ''}`}>
+              <div key={`toc-tree-${i}`} className={`${indentClass} border-l-2 ${isActive ? 'border-indigo-600' : 'border-slate-200/80 hover:border-slate-400'} pl-3 py-1 transition-all`}>
+                <button
+                  onClick={() => scrollToHeading(h.id)}
+                  className={`w-full text-left transition-all flex items-start gap-2 cursor-pointer rounded-lg p-1.5 text-xs ${
+                    isActive
+                      ? 'bg-indigo-50 text-indigo-900 font-extrabold border border-indigo-200/80 shadow-2xs'
+                      : 'text-slate-600 hover:text-indigo-900 hover:bg-slate-100/70 font-medium'
+                  }`}
+                >
+                  <span className={`mt-1.5 flex-shrink-0 rounded-full ${
+                    isActive
+                      ? 'w-2 h-2 bg-indigo-600 ring-4 ring-indigo-100 animate-pulse'
+                      : 'w-1.5 h-1.5 bg-slate-300'
+                  }`} />
+                  <div className="flex-1 min-w-0 leading-relaxed break-words">
                     {h.text}
                   </div>
-                </div>
-              </button>
+                </button>
+              </div>
             );
           })}
         </div>
@@ -606,7 +661,14 @@ export default function StudentPortal() {
                 actions={
                   <SpaceBetween direction="horizontal" size="xs">
                     <Badge color="blue">{currentLesson.module_name}</Badge>
-                    <StatusIndicator type="success">Structured Learning Roadmap</StatusIndicator>
+                    <button
+                      onClick={() => setShowCatalogModal(true)}
+                      className="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs rounded-lg border border-indigo-200 transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                    >
+                      <span>📚</span>
+                      <span>Card 8 Buổi</span>
+                    </button>
+                    <StatusIndicator type="success">Golden Path Ready</StatusIndicator>
                   </SpaceBetween>
                 }
               >
@@ -614,6 +676,108 @@ export default function StudentPortal() {
               </Header>
             }
           >
+            {/* ULTRA-COMPACT SINGLE-ROW STICKY STEP & METHOD TOOLBAR (~42px height) */}
+            {(structuredData.exercises.length > 1 || (activeExercise && activeExercise.methods.length > 1)) && (
+              <div className="sticky top-14 z-40 bg-slate-950/95 backdrop-blur-md rounded-xl px-3.5 py-2 text-white shadow-xl border border-indigo-600/70 my-2 transition-all">
+                <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-2.5">
+                  
+                  {/* LEFT: COMPACT LESSON BADGE & TITLE */}
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                    <span className="px-2 py-0.5 rounded-md bg-indigo-500/25 text-indigo-300 font-extrabold text-[11px] border border-indigo-400/30 flex-shrink-0">
+                      {activeExerciseIndex + 1}/{structuredData.exercises.length || 1}
+                    </span>
+                    <span className="text-xs font-bold text-white truncate leading-snug">
+                      <span className="mr-1">{activeExercise?.icon || '📘'}</span>
+                      <span>{activeExercise?.title}</span>
+                    </span>
+                  </div>
+
+                  {/* RIGHT: COMPACT METHOD SWITCHER & STEP CONTROLS IN A SINGLE ROW */}
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    {/* Compact Method Switcher (Short Pill Labels) */}
+                    {activeExercise && activeExercise.methods.length > 1 && (
+                      <div className="flex items-center gap-1 bg-white/10 p-0.5 rounded-lg border border-white/15">
+                        {activeExercise.methods.map((method, mIdx) => {
+                          const shortLabel = method.label.includes('Thủ Công')
+                            ? '🛠️ Thủ Công'
+                            : method.label.includes('JSON')
+                            ? '⚡ Import JSON'
+                            : method.label;
+
+                          return (
+                            <button
+                              key={method.id}
+                              onClick={() => setActiveMethodIndex(mIdx)}
+                              className={`px-2.5 py-1 text-[11px] font-bold rounded-md transition-all cursor-pointer flex items-center gap-1 ${
+                                activeMethodIndex === mIdx
+                                  ? 'bg-indigo-600 text-white shadow-sm ring-1 ring-indigo-400'
+                                  : 'text-slate-300 hover:text-white hover:bg-white/10'
+                              }`}
+                              title={method.label}
+                            >
+                              <span>{shortLabel}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+
+                    {/* Compact Step Switcher (Bài 1, Bài 2...) */}
+                    {structuredData.exercises.length > 1 && (
+                      <div className="flex items-center gap-1">
+                        {activeExerciseIndex > 0 && (
+                          <button
+                            onClick={() => {
+                              setActiveExerciseIndex(activeExerciseIndex - 1);
+                              setActiveMethodIndex(0);
+                            }}
+                            className="px-2 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-all border border-white/15 active:scale-95 cursor-pointer"
+                            title="Bài Trước"
+                          >
+                            ←
+                          </button>
+                        )}
+
+                        <div className="flex items-center gap-1 bg-white/10 p-0.5 rounded-lg border border-white/15">
+                          {structuredData.exercises.map((ex, idx) => (
+                            <button
+                              key={ex.id}
+                              onClick={() => {
+                                setActiveExerciseIndex(idx);
+                                setActiveMethodIndex(0);
+                              }}
+                              className={`px-2.5 py-1 rounded-md text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1 ${
+                                activeExerciseIndex === idx
+                                  ? 'bg-indigo-600 text-white shadow-sm ring-1 ring-indigo-400'
+                                  : 'text-slate-300 hover:text-white hover:bg-white/10'
+                              }`}
+                            >
+                              <span>{ex.icon}</span>
+                              <span>Bài {idx + 1}</span>
+                            </button>
+                          ))}
+                        </div>
+
+                        {activeExerciseIndex < structuredData.exercises.length - 1 && (
+                          <button
+                            onClick={() => {
+                              setActiveExerciseIndex(activeExerciseIndex + 1);
+                              setActiveMethodIndex(0);
+                            }}
+                            className="px-2 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-all shadow-sm active:scale-95 cursor-pointer"
+                            title="Bài Tiếp"
+                          >
+                            →
+                          </button>
+                        )}
+                      </div>
+                    )}
+
+                  </div>
+                </div>
+              </div>
+            )}
+
             <SpaceBetween size="l">
               {copySuccess && (
                 <Alert type="success" dismissible onDismiss={() => setCopySuccess(false)}>
@@ -621,100 +785,10 @@ export default function StudentPortal() {
                 </Alert>
               )}
 
-              {/* MODERN ELEGANT STEP NAVIGATION BANNER FOR SUB-LESSONS */}
-              {structuredData.exercises.length > 1 && (
-                <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-2xl p-5 text-white shadow-md border border-indigo-900/80 my-2">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div className="flex items-center gap-3.5">
-                      <div className="w-11 h-11 rounded-xl bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 flex items-center justify-center font-extrabold text-sm flex-shrink-0 shadow-inner">
-                        {activeExerciseIndex + 1}/{structuredData.exercises.length}
-                      </div>
-                      <div>
-                        <div className="text-[11px] font-bold text-indigo-400 uppercase tracking-widest flex items-center gap-2">
-                          <span>🎯 Danh Sách Bài Tập Thực Hành</span>
-                          <Badge color="green">Bài {activeExerciseIndex + 1} của {structuredData.exercises.length}</Badge>
-                        </div>
-                        <h2 className="text-base font-extrabold text-white mt-0.5 flex items-center gap-2">
-                          <span>{activeExercise.icon}</span>
-                          <span>{activeExercise.title}</span>
-                        </h2>
-                      </div>
-                    </div>
-
-                    {/* Step Switcher Controls */}
-                    <div className="flex items-center gap-2 flex-wrap">
-                      {activeExerciseIndex > 0 && (
-                        <button
-                          onClick={() => setActiveExerciseIndex(activeExerciseIndex - 1)}
-                          className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-all flex items-center gap-1.5 cursor-pointer border border-white/15 active:scale-95"
-                        >
-                          <span>←</span>
-                          <span>Bài Trước</span>
-                        </button>
-                      )}
-
-                      <div className="flex items-center gap-1 bg-white/10 p-1 rounded-xl border border-white/15">
-                        {structuredData.exercises.map((ex, idx) => (
-                          <button
-                            key={ex.id}
-                            onClick={() => setActiveExerciseIndex(idx)}
-                            className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                              activeExerciseIndex === idx
-                                ? 'bg-indigo-600 text-white shadow-md ring-1 ring-indigo-400'
-                                : 'text-slate-300 hover:text-white hover:bg-white/10'
-                            }`}
-                          >
-                            <span>{ex.icon}</span>
-                            <span>Bài {idx + 1}</span>
-                          </button>
-                        ))}
-                      </div>
-
-                      {activeExerciseIndex < structuredData.exercises.length - 1 && (
-                        <button
-                          onClick={() => setActiveExerciseIndex(activeExerciseIndex + 1)}
-                          className="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-all flex items-center gap-1.5 cursor-pointer shadow-md active:scale-95"
-                        >
-                          <span>Bài Tiếp</span>
-                          <span>→</span>
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-
               {/* INTRO CONTENT FROM index.md */}
               {structuredData.intro && (
                 <div className="p-4 bg-gradient-to-r from-indigo-50/70 via-slate-50 to-white border border-indigo-100 rounded-2xl shadow-2xs">
                   {renderSingleMarkdownContent(structuredData.intro)}
-                </div>
-              )}
-
-              {/* LEVEL 2: SECONDARY METHOD SEGMENTED SWITCH */}
-              {activeExercise && activeExercise.methods.length > 1 && (
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3 bg-slate-100/90 border border-slate-200 rounded-2xl shadow-2xs">
-                  <div className="flex items-center gap-2">
-                    <span className="flex h-2.5 w-2.5 rounded-full bg-indigo-600 animate-pulse" />
-                    <span className="text-xs font-bold text-slate-800 tracking-wide uppercase">
-                      Chọn Phương Thức Thực Hành:
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-slate-200/90 shadow-2xs w-full sm:w-auto">
-                    {activeExercise.methods.map((method, mIdx) => (
-                      <button
-                        key={method.id}
-                        onClick={() => setActiveMethodIndex(mIdx)}
-                        className={`flex-1 sm:flex-initial px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-                          activeMethodIndex === mIdx
-                            ? 'bg-indigo-600 text-white shadow-sm ring-1 ring-indigo-500'
-                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                        }`}
-                      >
-                        <span>{method.label}</span>
-                      </button>
-                    ))}
-                  </div>
                 </div>
               )}
 
@@ -762,6 +836,63 @@ export default function StudentPortal() {
           </ContentLayout>
         }
       />
+
+      {/* SESSION CATALOG CARD GRID MODAL */}
+      <Modal
+        visible={showCatalogModal}
+        onDismiss={() => setShowCatalogModal(false)}
+        header="📚 Danh Sách 8 Buổi Học Thực Chiến (Golden Path Roadmap)"
+        size="max"
+      >
+        <div className="p-2 space-y-4">
+          <p className="text-xs text-slate-600">
+            Bấm vào bất kỳ Card Buổi học nào bên dưới để chuyển trực tiếp đến buổi học đó:
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-h-[70vh] overflow-y-auto p-1 custom-scrollbar">
+            {[
+              { id: 1, number: 'Buổi 1', title: 'Lập Kế Hoạch Team Building', icon: '📝', level: 'Cơ bản', stage: 'Chặng 1' },
+              { id: 2, number: 'Buổi 2', title: 'Trợ Lý Văn Phòng (Docs/Sheets/Slides)', icon: '📊', level: 'Cơ bản', stage: 'Chặng 1' },
+              { id: 3, number: 'Buổi 3', title: 'Auto RSS & n8n AI Summarizer', icon: '⚡', level: 'Nâng cao', stage: 'Chặng 2' },
+              { id: 4, number: 'Buổi 4', title: 'Máy Content FB', icon: '📱', level: 'Nâng cao', stage: 'Chặng 2' },
+              { id: 5, number: 'Buổi 5', title: 'Kịch Bản Video AI', icon: '🎬', level: 'Nâng cao', stage: 'Chặng 2' },
+              { id: 6, number: 'Buổi 6', title: 'Auto Chatbot Messenger', icon: '🤖', level: 'Nâng cao', stage: 'Chặng 2' },
+              { id: 7, number: 'Buổi 7', title: 'AI Tạo Website (React & Tailwind)', icon: '🌐', level: 'Thực chiến', stage: 'Chặng 3' },
+              { id: 8, number: 'Buổi 8', title: 'Deploy Vercel & Supabase', icon: '🚀', level: 'Thực chiến', stage: 'Chặng 3' }
+            ].map((card) => (
+              <button
+                key={card.id}
+                onClick={() => {
+                  setActiveSession(card.id);
+                  setActiveExerciseIndex(0);
+                  setShowCatalogModal(false);
+                }}
+                className={`text-left p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between hover:shadow-md ${
+                  activeSession === card.id
+                    ? 'bg-indigo-600 border-indigo-700 text-white shadow-md ring-2 ring-indigo-300'
+                    : 'bg-white hover:bg-indigo-50/50 border-slate-200 text-slate-900'
+                }`}
+              >
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xl">{card.icon}</span>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                      activeSession === card.id ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-700'
+                    }`}>
+                      {card.level}
+                    </span>
+                  </div>
+                  <div className="text-[10px] font-bold opacity-80 uppercase">{card.stage} • {card.number}</div>
+                  <h4 className="font-extrabold text-xs leading-snug">{card.title}</h4>
+                </div>
+                <div className="mt-3 text-[11px] font-bold flex items-center gap-1">
+                  <span>Mở buổi học</span>
+                  <span>→</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
