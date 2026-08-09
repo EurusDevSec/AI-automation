@@ -6,6 +6,7 @@ import buoi5Md from '../content/buoi_5.md?raw';
 import buoi6Md from '../content/buoi_6.md?raw';
 import buoi7Md from '../content/buoi_7.md?raw';
 import buoi8Md from '../content/buoi_8.md?raw';
+import { getLessonMarkdown } from '../lib/resolveMarkdown';
 
 export const initialLessonsData = [
   {
@@ -44,55 +45,14 @@ export const initialLessonsData = [
       step1_1: `[BỐI CẢNH & NHIỆM VỤ]
 Tôi cần lên kế hoạch cho chuyến du lịch / team building 3 ngày 2 đêm cho nhóm khoảng 10-15 người (nam và nữ, độ tuổi 22-35). Chi phí dự kiến: 3 - 5 triệu VNĐ / người.
 
-[YÊU CẦU THỰC THI]
-Hãy kích hoạt Deep Research để thực hiện các bước sau:
-1. Quét các địa điểm du lịch hot nhất năm 2026 phù hợp cho nhóm đi 3 ngày 2 đêm (ưu tiên di chuyển thuận tiện từ Hà Nội / TP.HCM).
-2. Phân tích ưu/nhược điểm và mức chi phí trung bình của 3 địa điểm hàng đầu.
-3. Trích xuất 3 hoạt động gắn kết nhóm (team building) thú vị, hiện đại, không bị sến.
-4. Tổng hợp thành báo cáo ngắn gọn có dẫn nguồn cụ thể.`,
-      step1_2: `Dựa trên báo cáo trên, hãy bật tính năng Guided Learning (Học có hướng dẫn) và đưa ra 3 câu hỏi trắc nghiệm tương tác để giúp tôi chọn ra 1 Địa điểm & Concept chuyến đi (Nghỉ dưỡng Chill hay Trải nghiệm Năng động) phù hợp nhất với nhóm.`,
-      step2_1: `[BỐI CẢNH]
-Địa điểm và Concept đã chọn: "Chuyến đi Ninh Bình / Đà Lạt 3N2Đ - Phong cách Chill kết hợp trải nghiệm thiên nhiên, ăn uống địa phương".
-
-[YÊU CẦU THỰC THI]
-Hãy mở giao diện CANVAS và soạn thảo 2 phần nội dung sau:
-1. BẢNG LỊCH TRÌNH CHI TIẾT 3 NGÀY 2 ĐÊM: Chia theo từng khung giờ (Sáng - Trưa - Chiều - Tối) bao gồm: Địa điểm ăn uống, chỗ chơi, phương tiện di chuyển và dự tính chi phí từng mục.
-2. KỊCH BẢN VIDEO TRAILER 15 GIÂY: Bảng 3 cột (Thời lượng - Hình ảnh góc quay - Lời thoại/Voiceover) để gửi vào nhóm kêu gọi mọi người chốt đăng ký tham gia.`,
-      step2_2: `Hãy dùng Chrome Auto Browse truy cập vào trang web đặt phòng (như Agoda, Traveloka hoặc Booking), cào bảng giá phòng thực tế của 1 Homestay/Resort phù hợp tại địa điểm đã chọn và chèn thêm 1 Bảng tổng hợp chi phí lưu trú vào cuối trang Canvas cho tôi.`,
-      step3_1: `Tạo cho tôi một bức ảnh Poster du lịch chuẩn Cinematic, phong cách hiện đại:
-- Bối cảnh: Phong cảnh thiên nhiên hùng vĩ tươi đẹp (núi rừng hoặc bãi biển ngập nắng buổi sáng).
-- Đối tượng: Một nhóm bạn trẻ nam và nữ mặc trang phục du lịch năng động, đứng cười đùa tự nhiên bên chiếc xe Jeep/camping.
-- Phong cách: Ánh sáng mặt trời rực rỡ, màu sắc tươi sáng, sắc nét chuẩn ảnh tạp chí du lịch.`,
-      step3_2: `Tạo một video ngắn 5 giây từ bức ảnh này với yêu cầu:
-- Chuyển động Camera: Góc quay Cinematic lướt chậm từ dưới lên cao (Tilt up) mở ra toàn cảnh thiên nhiên.
-- Hiệu ứng: Ánh nắng chiếu xuyên qua kẽ lá, mây nhẹ nhàng trôi trên bầu trời, không khí chuyến đi tràn đầy năng lượng.`,
-      step3_3: `Tạo một đoạn nhạc nền Audio thời lượng 15 giây phong cách Tropical House / Indie Pop tươi vui, nhịp điệu rộn ràng, mang lại cảm giác hào hứng, tự do cho chuyến đi du lịch mùa hè.`,
-      step4_1: `[STANDING INSTRUCTION - CHẠY NGẦM 24/7]
-Nhiệm vụ: Tự động ghi nhận các email xác nhận đặt vé/khách sạn hoặc bill chuyển khoản của thành viên vào Google Sheets.
-
-Điều kiện kích hoạt: Mỗi khi nhận được Gmail chứa từ khóa ["Xác nhận đặt phòng", "Vé máy bay", "Vé xe", "Chuyển khoản du lịch"].
-
-Hành động tự động:
-1. Trích xuất thông tin: Ngày giao dịch, Người gửi/Tên thành viên, Nội dung chi tiêu, Số tiền.
-2. Tự động mở file Google Sheets tên 'Quản Lý Thu Chi Du Lịch 2026' trong thư mục 'Spark OS' trên Google Drive.
-3. Chèn thông tin vừa trích xuất thành 1 dòng mới trong bảng.`,
-      step4_2: `[VAI TRÒ]
-Bạn là Chuyên gia Lập Kế Hoạch Du Lịch & Tổ Chức Sự Kiện Nhóm.
-
-[QUY TRÌNH TỰ ĐỘNG]
-Mỗi khi tôi nhập tên một địa điểm hoặc ý tưởng chuyến đi mới, bạn phải tự động xuất ra:
-1. LỊCH TRÌNH 3N2Đ: Lịch trình ăn chơi theo từng khung giờ + Dự toán ngân sách per head.
-2. PROMPT ẢNH (Tiếng Anh): Tạo ảnh Poster/Banner truyền thông chuyến đi.
-3. PROMPT VIDEO 5S (Tiếng Anh): Dành cho Veo tạo video trailer ngắn kích thích tinh thần nhóm.
-
-[ĐẦU RA]
-Trình bày dạng Bảng Markdown rõ ràng. Văn phong hào hứng, hiện đại, dễ hiểu cho tất cả mọi người.`
+[YÊU CẦU ĐẦU RA]
+Dùng công cụ Deep Research cào và phân tích top 3 địa điểm nổi bật năm 2026 phù hợp (ví dụ: Đà Lạt, Phan Thiết, Măng Đen). Đưa ra ưu/nhược điểm từng nơi về chi phí, phương tiện di chuyển và không gian hoạt động nhóm.`
     },
-    mega_prompt: buoi1Md,
+    mega_prompt: getLessonMarkdown(1, buoi1Md),
     n8n_json: "",
     sql_template: "",
     spec_text: "",
-    raw_markdown: buoi1Md
+    raw_markdown: getLessonMarkdown(1, buoi1Md)
   },
   {
     session_number: 2,
@@ -122,11 +82,11 @@ Trình bày dạng Bảng Markdown rõ ràng. Văn phong hào hứng, hiện đ�
       { issue: "Lỗi #N/A trong Excel", cause: "Khoảng trắng thừa dữ liệu", fix: "Dùng hàm TRIM() dọn dẹp khoảng trắng." },
       { issue: "Sai dấu phẩy , và ;", cause: "Cài đặt vùng Excel (Region)", fix: "Thay dấu phẩy , thành dấu ;" }
     ],
-    mega_prompt: buoi2Md,
+    mega_prompt: getLessonMarkdown(2, buoi2Md),
     n8n_json: "",
     sql_template: "",
     spec_text: "",
-    raw_markdown: buoi2Md
+    raw_markdown: getLessonMarkdown(2, buoi2Md)
   },
   {
     session_number: 3,
@@ -206,7 +166,7 @@ Trình bày dạng Bảng Markdown rõ ràng. Văn phong hào hứng, hiện đ�
 }`,
     sql_template: "",
     spec_text: "",
-    raw_markdown: buoi3Md
+    raw_markdown: getLessonMarkdown(3, buoi3Md)
   },
   {
     session_number: 4,
@@ -219,184 +179,109 @@ Trình bày dạng Bảng Markdown rõ ràng. Văn phong hào hứng, hiện đ�
     theory: {
       overview: "Xây dựng 'Nhà máy sản xuất nội dung' hoàn toàn tự động. Nối kết Google Sheets -> OpenAI GPT-4o -> Facebook Graph API để tạo và đăng bài tự động đa kênh.",
       learning_outcomes: [
-        "Cách tạo và sử dụng OpenAI API Key trong n8n.",
-        "Cấu hình System Prompt chuẩn công thức Marketing AIDA (Attention - Interest - Desire - Action).",
-        "Cách lấy Facebook Page Access Token và sử dụng Graph API v19.0 để đăng bài tự động."
+        "Cấu hình HTTP Request Node gọi API OpenAI GPT-4o.",
+        "Thiết lập Facebook Graph API kết nối Fanpage tự động.",
+        "Kỹ thuật phân luồng xử lý và hẹn giờ đăng bài (Scheduled Post)."
       ],
-      core_concept: "Kết nối AI với các API mạng xã hội biến n8n thành một Marketer tự động làm việc 24/7."
+      core_concept: "Tạo luồng tự động từ khâu lên ý tưởng đến xuất bản bài đăng không cần sự can thiệp của con người."
     },
     steps: [
-      "Import file workflow_buoi_4_sheet_to_facebook.json vào n8n.",
-      "Kết nối OpenAI Credential (nhập API Key).",
-      "Kết nối Facebook Graph API Credential (nhập Page Token).",
-      "Chọn Google Sheet chứa chủ đề bài viết.",
-      "Kích hoạt Workflow để AI đăng bài tự động."
+      "Import file workflow_buoi_4_fb_content.json.",
+      "Nhập OpenAI API Key trong Node OpenAI.",
+      "Cấu hình Facebook Page Access Token.",
+      "Chạy thử nghiệm và kiểm tra bài đăng trên Fanpage."
     ],
     troubleshooting: [
-      { issue: "GraphMethodException 100", cause: "Page Token hết hạn", fix: "Cấp lại Token có quyền pages_manage_posts." },
-      { issue: "429 Insufficient Quotient", cause: "OpenAI hết credit", fix: "Kiểm tra Billing Balance trên platform.openai.com." }
+      { issue: "Lỗi Facebook Graph API", cause: "Token hết hạn", fix: "Lấy lại Page Access Token trong Facebook Developer Console." }
     ],
     mega_prompt: "",
-    n8n_json: `{
-  "name": "Buổi 4 - Máy Sản Xuất Content Sheet to OpenAI to Facebook Page",
-  "nodes": [
-    {
-      "parameters": {
-        "documentId": "[YOUR_GOOGLE_SHEET_ID_HERE]"
-      },
-      "id": "node-sheets-trigger",
-      "name": "Google Sheets Trigger",
-      "type": "n8n-nodes-base.googleSheetsTrigger",
-      "typeVersion": 1,
-      "position": [250, 300]
-    },
-    {
-      "parameters": {
-        "model": "gpt-4o-mini"
-      },
-      "id": "node-openai-writer",
-      "name": "OpenAI Content Generator",
-      "type": "n8n-nodes-base.openAi",
-      "typeVersion": 1.3,
-      "position": [480, 300]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://graph.facebook.com/v19.0/me/feed"
-      },
-      "id": "node-facebook-post",
-      "name": "Facebook Graph API Post",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.1,
-      "position": [700, 300]
-    }
-  ]
-}`,
-    sql_template: "",
-    spec_text: "",
-    raw_markdown: buoi4Md
-  },
-  {
-    session_number: 5,
-    title: "Buổi 5: Xưởng Kịch Bản Video Ngắn (Shorts/Reels/TikTok)",
-    module_name: "Chặng 2: Hệ Thống Tự Động Hóa Mạng Xã Hội",
-    time_minutes: 90,
-    description: "Cấu hình chuỗi prompt liên hoàn chuyển đổi ý tưởng thô thành bảng kịch bản video chi tiết phân cảnh.",
-    image_url: "/session_5.jpg",
-    raw_markdown_file: "src/content/buoi_5.md",
-    theory: {
-      overview: "Quy trình 2 giai đoạn biến một ý tưởng thô thành bảng kịch bản phân cảnh chi tiết cho TikTok, Facebook Reels và YouTube Shorts.",
-      learning_outcomes: [
-        "Kỹ thuật Chained Prompting (Prompt liên hoàn) để AI suy luận từng bước.",
-        "Cách tạo 3 giây đầu tiên (Hook) giữ chân người xem tỷ lệ giữ chân cao.",
-        "Xây dựng Bảng kịch bản 4 cột chuyên nghiệp: Thời gian - Visual Cue - Voiceover - Text Overlay."
-      ],
-      core_concept: "Kịch bản video ngắn thành bại ở 3 giây đầu tiên (Hook). AI giúp bạn thử nghiệm hàng chục câu Hook triệu view trong vài giây."
-    },
-    steps: [
-      "Mở ChatGPT hoặc Claude.",
-      "Copy Prompt Giai Đoạn 1 (Xác định góc nhìn & Hook).",
-      "Nhập chủ đề video của bạn và chạy Giai đoạn 1.",
-      "Copy Prompt Giai Đoạn 2 (Bảng phân cảnh chi tiết).",
-      "Nhận kịch bản bảng 4 cột: Giây - Visual - Voiceover - Text."
-    ],
-    troubleshooting: [
-      { issue: "Kịch bản video quá dài", cause: "AI viết nhiều lời thoại", fix: "Giới hạn thời lượng dưới 60 giây (tối đa 150 từ voiceover)." }
-    ],
-    mega_prompt: buoi5Md,
     n8n_json: "",
     sql_template: "",
     spec_text: "",
-    raw_markdown: buoi5Md
+    raw_markdown: getLessonMarkdown(4, buoi4Md)
+  },
+  {
+    session_number: 5,
+    title: "Buổi 5: Tự Động Viết Kịch Bản Video Ngắn TikTok/Reels",
+    module_name: "Chặng 2: Hệ Thống Tự Động Hóa Mạng Xã Hội",
+    time_minutes: 90,
+    description: "Tự động hóa luồng biến ý tưởng thô thành Kịch bản Video ngắn 3s Hook - Body - Call to Action.",
+    image_url: "/session_5.jpg",
+    raw_markdown_file: "src/content/buoi_5.md",
+    theory: {
+      overview: "Xây dựng luồng n8n biến ý tưởng tin tức thành kịch bản Video ngắn 3s Hook thu hút, có phân cảnh chi tiết cho TikTok / Reels / Shorts.",
+      learning_outcomes: [
+        "Cấu trúc Prompt kịch bản Video ngắn: 3s Hook -> 15s Value -> Call to Action.",
+        "Tự động xuất file kịch bản dạng Bảng chia cột (Thoại vs Hình ảnh).",
+        "Kết nối lưu trữ Kịch bản tự động vào Google Drive / Notion."
+      ],
+      core_concept: "Kịch bản chuẩn là yếu tố quyết định 80% thành công của Video ngắn Viral."
+    },
+    steps: [
+      "Import file workflow_buoi_5_video_script.json.",
+      "Thiết lập Prompts tạo kịch bản trong Node OpenAI.",
+      "Chọn thư mục lưu trữ Google Drive.",
+      "Chạy thử nghiệm xuất kịch bản."
+    ],
+    troubleshooting: [
+      { issue: "Kịch bản quá dài", cause: "Thiếu giới hạn từ", fix: "Thêm ràng buộc tối đa 150 từ trong Prompt." }
+    ],
+    mega_prompt: "",
+    n8n_json: "",
+    sql_template: "",
+    spec_text: "",
+    raw_markdown: getLessonMarkdown(5, buoi5Md)
   },
   {
     session_number: 6,
-    title: "Buổi 6: Auto Chatbot Messenger Facebook n8n",
+    title: "Buổi 6: Auto Chatbot Trả Lời Tin Nhắn Messenger",
     module_name: "Chặng 2: Hệ Thống Tự Động Hóa Mạng Xã Hội",
     time_minutes: 90,
-    description: "Quy trình Webhook n8n tự động nhận tin nhắn khách hàng trên Fanpage, xử lý AI và reply Messenger.",
+    description: "Dựng Chatbot AI tự động tư vấn khách hàng qua Facebook Messenger với bộ nhớ ngữ cảnh.",
     image_url: "/session_6.jpg",
     raw_markdown_file: "src/content/buoi_6.md",
     theory: {
-      overview: "Xây dựng Chatbot tư vấn bán hàng & báo giá thông minh kết nối trực tiếp Facebook Messenger Webhook với OpenAI API qua n8n.",
+      overview: "Thiết lập Trợ lý AI trả lời tin nhắn Facebook Messenger tự động 24/7, có khả năng tra cứu thông tin sản phẩm và chốt đơn tự động.",
       learning_outcomes: [
-        "Hiểu nguyên lý Webhook: Sự kiện khách gửi tin nhắn -> Trigger n8n tức thì.",
-        "Cấu hình Verify Token và Messenger Graph API Send Message.",
-        "Kỹ thuật ép AI trả lời ngắn gọn, thân thiện và định hướng thu thập SĐT tư vấn."
+        "Cách cấu hình Webhook nhận tin nhắn từ Facebook Messenger.",
+        "Cấu hình AI Agent với bộ nhớ hội thoại (Conversation Memory).",
+        "Tích hợp tra cứu dữ liệu giá & tồn kho từ Google Sheets."
       ],
-      core_concept: "Webhook giúp hệ thống phản hồi tức thì dưới 1 giây ngay khi khách hàng tương tác trên Fanpage."
+      core_concept: "Chatbot AI phản hồi tức thì giúp tăng 300% tỷ lệ chuyển đổi khách hàng tiềm năng."
     },
     steps: [
-      "Import workflow_buoi_6_chatbot_messenger.json vào n8n.",
-      "Copy Webhook URL từ Node Facebook Webhook.",
-      "Dán Webhook Callback URL lên Meta Developer Dashboard.",
-      "Nạp System Prompt tư vấn bán hàng vào Node OpenAI.",
-      "Thử gửi tin nhắn cho Fanpage để kiểm tra tự động trả lời."
+      "Import file workflow_buoi_6_chatbot.json.",
+      "Cấu hình Facebook Webhook verification token.",
+      "Kết nối Google Sheet làm cơ sở dữ liệu sản phẩm.",
+      "Gửi tin nhắn thử trên Fanpage."
     ],
     troubleshooting: [
-      { issue: "Webhook không phản hồi", cause: "Chưa nạp Verify Token", fix: "Cấu hình Verify Token trùng khớp ở n8n và Meta." }
+      { issue: "Chatbot trả lời lặp", cause: "Lỗi loop Webhook", fix: "Kiểm tra điều kiện ngắt trong Node Switch." }
     ],
     mega_prompt: "",
-    n8n_json: `{
-  "name": "Buổi 6 - Auto Chatbot Messenger Facebook n8n",
-  "nodes": [
-    {
-      "parameters": {
-        "path": "fb-messenger-webhook"
-      },
-      "id": "node-webhook",
-      "name": "Facebook Webhook Trigger",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 1,
-      "position": [250, 300]
-    },
-    {
-      "parameters": {
-        "model": "gpt-4o-mini"
-      },
-      "id": "node-openai-bot",
-      "name": "OpenAI Sales Bot",
-      "type": "n8n-nodes-base.openAi",
-      "typeVersion": 1.3,
-      "position": [480, 300]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://graph.facebook.com/v19.0/me/messages"
-      },
-      "id": "node-fb-reply",
-      "name": "FB Send Messenger Reply",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.1,
-      "position": [700, 300]
-    }
-  ]
-}`,
+    n8n_json: "",
     sql_template: "",
     spec_text: "",
-    raw_markdown: buoi6Md
+    raw_markdown: getLessonMarkdown(6, buoi6Md)
   },
   {
     session_number: 7,
-    title: "Buổi 7: Ra Lệnh Cho AI Agent Tự Tạo Website (Bolt.new / Lovable)",
+    title: "Buổi 7: Dùng AI Tạo Website Landing Page Siêu Tốc",
     module_name: "Chặng 3: Lập Trình Website Bằng AI",
     time_minutes: 90,
-    description: "Sử dụng bản đặc tả PRD kỹ thuật ra lệnh cho AI Agent tự sinh mã nguồn React + Tailwind CSS.",
+    description: "Sử dụng AI Web Builders tạo trang Landing Page giới thiệu sản phẩm đầy đủ hiệu ứng modern.",
     image_url: "/session_7.jpg",
     raw_markdown_file: "src/content/buoi_7.md",
     theory: {
-      overview: "Ứng dụng sức mạnh của các AI Code Generator (Bolt.new, Lovable) để xây dựng một Landing Page bán hàng hoàn chỉnh bằng ngôn ngữ tự nhiên.",
+      overview: "Tạo trang Web Landing Page giới thiệu dịch vụ/sản phẩm hoàn chỉnh bằng công cụ AI Web Builder chỉ trong 90 phút mà không cần viết code thủ công.",
       learning_outcomes: [
-        "Cách viết Bản đặc tả kỹ thuật PRD (Product Requirement Document) cho AI Code Agent.",
-        "Hiểu cấu trúc trang web hiện đại: Hero Section, Feature Cards, Form Lead Capture, Footer.",
-        "Kỹ thuật tinh chỉnh màu sắc, layout và giao diện thông qua câu lệnh hội thoại."
+        "Viết Bản Đặc Tả Kỹ Thuật (PRD) chuẩn cho AI Web Builder.",
+        "Tối ưu UX/UI: Hero Section, Feature Grid, Pricing & Lead Form.",
+        "Tùy chỉnh giao diện Responsive trên Mobile & Desktop."
       ],
-      core_concept: "Bản đặc tả kỹ thuật (PRD) chi tiết là chìa khóa giúp AI Code Agent tạo ra website chính xác 100% mong muốn."
+      core_concept: "AI Web Builder giúp rút ngắn thời gian phát triển trang web từ 2 tuần xuống còn 90 phút."
     },
     steps: [
-      "Truy cập Bolt.new hoặc Lovable.dev.",
       "Copy bản đặc tả kỹ thuật từ file landing_page_spec.txt.",
       "Dán toàn bộ PRD vào khung chat AI Web Builder.",
       "Quan sát AI Agent gõ code React + Tailwind CSS.",
@@ -412,7 +297,7 @@ Trình bày dạng Bảng Markdown rõ ràng. Văn phong hào hứng, hiện đ�
 - Framework: React 18 (Vite)
 - Styling: Tailwind CSS Modern Dark Mode
 - Layout: Top Navigation, Hero Section, Curriculum Grid, Lead Capture Form, Footer.`,
-    raw_markdown: buoi7Md
+    raw_markdown: getLessonMarkdown(7, buoi7Md)
   },
   {
     session_number: 8,
@@ -452,6 +337,6 @@ Trình bày dạng Bảng Markdown rõ ràng. Văn phong hào hứng, hiện đ�
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );`,
     spec_text: "",
-    raw_markdown: buoi8Md
+    raw_markdown: getLessonMarkdown(8, buoi8Md)
   }
 ];
