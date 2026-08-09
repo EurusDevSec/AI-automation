@@ -31,6 +31,7 @@ export default function StudentPortal() {
   // TOC (Table of Contents) States
   const [isTocVisible, setIsTocVisible] = useState(true);
   const [activeHeadingId, setActiveHeadingId] = useState('');
+  const [tocViewMode, setTocViewMode] = useState('tree');
 
   useEffect(() => {
     const overrides = getLocalLessonsOverride();
@@ -514,7 +515,7 @@ export default function StudentPortal() {
     return renderSingleMarkdownContent(markdownText);
   };
 
-  // HIGH-UX SEGMENTED CARD CHIP TOC PANEL
+  // HIERARCHICAL VISUAL TREE TOC PANEL WITH CLEAR LEVEL INDENTATION
   const renderCloudscapeTocPanel = () => {
     const headings = extractTocHeadings(currentLesson.raw_markdown);
     if (!headings.length) return null;
@@ -527,40 +528,74 @@ export default function StudentPortal() {
             <span>Mục Lục Bài Học</span>
             <Badge color="blue">{headings.length}</Badge>
           </div>
-          <button
-            onClick={() => setIsTocVisible(false)}
-            className="text-xs font-semibold text-slate-400 hover:text-red-500 cursor-pointer transition-colors px-2 py-1 rounded-md hover:bg-slate-100 flex items-center gap-1"
-            title="Thu gọn mục lực"
-          >
-            <span>Thu gọn</span>
-            <span>✕</span>
-          </button>
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={() => setTocViewMode(tocViewMode === 'tree' ? 'anchors' : 'tree')}
+              className="text-[11px] font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded-md transition-colors cursor-pointer border border-indigo-200"
+              title="Chuyển chế độ hiển thị"
+            >
+              {tocViewMode === 'tree' ? '⚓ AnchorNav' : '🌳 Cây Phân Cấp'}
+            </button>
+            <button
+              onClick={() => setIsTocVisible(false)}
+              className="text-xs font-semibold text-slate-400 hover:text-red-500 cursor-pointer transition-colors px-1.5 py-1 rounded-md hover:bg-slate-100 flex items-center gap-1"
+              title="Thu gọn mục lực"
+            >
+              <span>✕</span>
+            </button>
+          </div>
         </div>
 
-        <div className="max-h-[calc(100vh-230px)] overflow-y-auto overflow-x-hidden pr-1 space-y-2 custom-scrollbar">
-          {headings.map((h, i) => {
-            const isActive = activeHeadingId === h.id;
-            const icon = getSectionIcon(h.text);
+        <div className="max-h-[calc(100vh-230px)] overflow-y-auto overflow-x-hidden pr-1 custom-scrollbar">
+          {tocViewMode === 'anchors' ? (
+            <AnchorNavigation
+              activeHref={activeHref}
+              anchors={anchors}
+              onFollow={(e) => {
+                e.preventDefault();
+                const targetId = e.detail.href.replace('#', '');
+                scrollToHeading(targetId);
+              }}
+            />
+          ) : (
+            <div className="space-y-1.5">
+              {headings.map((h, i) => {
+                const isActive = activeHeadingId === h.id;
+                const icon = getSectionIcon(h.text);
 
-            return (
-              <button
-                key={`toc-card-${i}`}
-                onClick={() => scrollToHeading(h.id)}
-                className={`w-full text-left p-2.5 rounded-xl border transition-all flex items-start gap-2.5 cursor-pointer shadow-2xs ${
-                  isActive
-                    ? 'bg-indigo-600 border-indigo-700 text-white font-bold shadow-md ring-2 ring-indigo-300'
-                    : 'bg-white hover:bg-indigo-50/80 border-slate-200/90 text-slate-800 hover:border-indigo-300 hover:text-indigo-900'
-                }`}
-              >
-                <span className="text-sm flex-shrink-0 mt-0.5">{icon}</span>
-                <div className="flex-1 min-w-0">
-                  <div className={`text-xs leading-snug break-words ${isActive ? 'text-white' : 'text-slate-800'}`}>
-                    {h.text}
-                  </div>
-                </div>
-              </button>
-            );
-          })}
+                // Indentation & Style by Heading Level
+                let levelStyle = '';
+                if (h.level === 1) {
+                  levelStyle = 'ml-0 bg-indigo-900 border-indigo-950 text-white font-extrabold text-xs p-2.5 shadow-2xs';
+                } else if (h.level === 2) {
+                  levelStyle = 'ml-2.5 border-l-4 border-indigo-500 bg-indigo-50/90 border-indigo-200 text-indigo-950 font-bold text-xs p-2';
+                } else if (h.level === 3) {
+                  levelStyle = 'ml-5 border-l-2 border-slate-300 bg-slate-50 hover:bg-indigo-50 border-slate-200 text-slate-800 font-semibold text-xs p-2';
+                } else {
+                  levelStyle = 'ml-8 border-l-2 border-emerald-400 bg-emerald-50/40 hover:bg-emerald-100/60 border-emerald-200/80 text-emerald-950 font-medium text-[11px] p-1.5';
+                }
+
+                return (
+                  <button
+                    key={`toc-tree-${i}`}
+                    onClick={() => scrollToHeading(h.id)}
+                    className={`w-full text-left rounded-xl border transition-all flex items-start gap-2 cursor-pointer ${levelStyle} ${
+                      isActive
+                        ? '!bg-indigo-600 !border-indigo-700 !text-white font-bold shadow-md ring-2 ring-indigo-300'
+                        : ''
+                    }`}
+                  >
+                    <span className="text-xs flex-shrink-0 mt-0.5">{icon}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className={`leading-snug break-words ${isActive ? '!text-white' : ''}`}>
+                        {h.text}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     );
