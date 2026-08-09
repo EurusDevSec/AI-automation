@@ -1,6 +1,6 @@
 # Buổi 3: Hệ Thống Tự Động Hóa Săn Ý Tưởng & Content n8n (24/7)
 
-![Giao diện n8n RSS Automation](/session_3.jpg)
+![Giao diện Rss Automation](image.png)
 
 ## 📖 TỔNG QUAN BUỔI HỌC
 
