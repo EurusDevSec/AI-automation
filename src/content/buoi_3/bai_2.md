@@ -256,8 +256,6 @@ Từ đầu ra của Bước 9, bạn kéo ra 2 nhánh để thực hiện gửi
 ![Kết quả](image-28.png)
 
 * **Nhánh 2: Gửi qua Gmail (Send a message)**
-*(Giữ nguyên nội dung như bản cũ...)*
-* **Nhánh 2: Gửi qua Gmail (Send a message)**
 * Thêm node **Gmail**.
 ![Thêm node Gmail](image-19.png)
 
