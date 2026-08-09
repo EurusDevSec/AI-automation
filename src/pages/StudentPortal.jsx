@@ -13,10 +13,7 @@ import StatusIndicator from '@cloudscape-design/components/status-indicator';
 import ExpandableSection from '@cloudscape-design/components/expandable-section';
 import Alert from '@cloudscape-design/components/alert';
 import Box from '@cloudscape-design/components/box';
-import Textarea from '@cloudscape-design/components/textarea';
-import FormField from '@cloudscape-design/components/form-field';
 import HelpPanel from '@cloudscape-design/components/help-panel';
-import Checkbox from '@cloudscape-design/components/checkbox';
 import Navigation from '../components/Navigation';
 import { initialLessonsData } from '../data/lessonsData';
 import { getLocalLessonsOverride } from '../lib/supabase';
@@ -30,13 +27,9 @@ export default function StudentPortal() {
   const [lessons, setLessons] = useState(initialLessonsData);
   const [toolsOpen, setToolsOpen] = useState(false);
 
-  // Checklist state for DoD
-  const [checkListState, setCheckListState] = useState({});
-
-  // Sandbox state
-  const [sandboxPrompt, setSandboxPrompt] = useState('');
-  const [sandboxResponse, setSandboxResponse] = useState('');
-  const [sandboxLoading, setSandboxLoading] = useState(false);
+  // TOC (Table of Contents) States
+  const [isTocVisible, setIsTocVisible] = useState(true);
+  const [activeHeadingId, setActiveHeadingId] = useState('');
 
   useEffect(() => {
     const overrides = getLocalLessonsOverride();
@@ -49,37 +42,92 @@ export default function StudentPortal() {
 
   const currentLesson = lessons.find((l) => l.session_number === activeSession) || lessons[0];
 
-  const handleCopyPrompt = (text, promptName = 'Prompt') => {
-    navigator.clipboard.writeText(text);
+  const handleCopyPrompt = (promptText, promptName = 'Prompt') => {
+    navigator.clipboard.writeText(promptText);
     setCopiedPromptName(promptName);
     setCopySuccess(true);
     setTimeout(() => setCopySuccess(false), 3000);
   };
 
-  const handleRunSandbox = () => {
-    setSandboxLoading(true);
-    setSandboxResponse('');
-    setTimeout(() => {
-      setSandboxResponse(
-        `🤖 [CLOUDSCAPE AI SANDBOX - SIMULATION RESPONSE]\n--------------------------------------------------\n✔ Prompt Parsed Successfully:\n"${(sandboxPrompt || currentLesson.mega_prompt || 'Default Prompt').substring(0, 150)}..."\n\n🎉 [Status: 200 OK]: Simulation completed 100% cleanly according to Golden Path specification!`
-      );
-      setSandboxLoading(false);
-    }, 600);
+  // Helper to slugify heading text into a unique DOM element ID
+  const makeHeadingId = (text, index) => {
+    if (!text) return `section-${index}`;
+    const slug = text
+      .toLowerCase()
+      .replace(/[^a-z0-9àáảãạăắằẳẵặcâấầẩẫậèéẻẽẹêếềểễệìíỉĩịòóỏõọôốồổỗộơớờởỡợùúủũụưứừửữựỳýỷỹỵđ]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    return `heading-${slug || index}`;
   };
 
-  const toggleChecklist = (idx) => {
-    setCheckListState((prev) => ({ ...prev, [idx]: !prev[idx] }));
+  // Smooth Scroll Helper for Table of Contents
+  const scrollToHeading = (id) => {
+    setActiveHeadingId(id);
+    const el = document.getElementById(id);
+    if (el) {
+      const yOffset = -90; // offset for fixed top navbar
+      const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
   };
 
-  // Helper to parse inline markdown (**bold**, *italic*, [link](url), HTML entities)
+  // Extract Heading Structure from Raw Markdown for Table of Contents
+  const extractTocHeadings = (markdown) => {
+    if (!markdown) return [];
+    const lines = markdown.split('\n');
+    const headings = [];
+    let inCodeBlock = false;
+
+    lines.forEach((line, idx) => {
+      const trimmed = line.trim();
+      if (trimmed.startsWith('```')) {
+        inCodeBlock = !inCodeBlock;
+        return;
+      }
+      if (inCodeBlock) return;
+      if (trimmed.startsWith('=== SUBTAB:')) return;
+
+      let level = 0;
+      let text = '';
+
+      if (trimmed.startsWith('# ')) {
+        level = 1;
+        text = trimmed.replace(/^#\s+/, '');
+      } else if (trimmed.startsWith('## ')) {
+        level = 2;
+        text = trimmed.replace(/^##\s+/, '');
+      } else if (trimmed.startsWith('### ')) {
+        level = 3;
+        text = trimmed.replace(/^###\s+/, '');
+      } else if (trimmed.startsWith('#### ') || trimmed.startsWith('##### ')) {
+        level = 4;
+        text = trimmed.replace(/^#{4,5}\s+/, '');
+      }
+
+      if (level > 0 && text) {
+        const cleanText = text
+          .replace(/\[(.*?)\]\(.*?\)/g, '$1')
+          .replace(/\*\*(.*?)\*\*/g, '$1')
+          .replace(/\*(.*?)\*/g, '$1')
+          .replace(/`(.*?)`/g, '$1')
+          .replace(/\\rightarrow/g, '→')
+          .replace(/\$\\rightarrow\$/g, '→')
+          .replace(/&rarr;/g, '→');
+
+        const id = makeHeadingId(text, idx);
+        headings.push({ level, text: cleanText, id });
+      }
+    });
+
+    return headings;
+  };
+
+  // Inline Markdown Parser for bold, italic, links, backtick code, and arrows
   const parseInlineMarkdown = (text) => {
     if (!text) return '';
     
-    // Clean HTML entities, LaTeX math & arrow symbols
     let cleanText = text
       .replace(/\\rightarrow/g, '→')
       .replace(/\$\\rightarrow\$/g, '→')
-      .replace(/\$\\rightarrow/g, '→')
       .replace(/\$\\rightarrow/g, '→')
       .replace(/\\rarr/g, '→')
       .replace(/&rarr;/g, '→')
@@ -87,12 +135,10 @@ export default function StudentPortal() {
       .replace(/&lt;/g, '<')
       .replace(/&amp;/g, '&');
 
-    // Split by Markdown links [text](url), bold (**text**), italic (*text*), and inline code (`code`)
     const parts = cleanText.split(/(\[.*?\]\(.*?\)\s*|\*\*.*?\*\*|\*.*?\*|`.*?`)/g);
     return parts.map((part, idx) => {
       if (!part) return null;
 
-      // Check inline code `code`
       const codeMatch = part.match(/^`(.*?)`/);
       if (codeMatch) {
         return (
@@ -102,7 +148,6 @@ export default function StudentPortal() {
         );
       }
 
-      // Check Markdown link [label](url)
       const linkMatch = part.match(/^\[(.*?)\]\((.*?)\)/);
       if (linkMatch) {
         const label = linkMatch[1];
@@ -135,76 +180,80 @@ export default function StudentPortal() {
     });
   };
 
-  // Helper to render Full-Width 100% Clean Image Cards
-  const renderFullWidthImageCard = (src, title, badgeColor = "blue") => {
-    const resolvedUrl = resolveMarkdownImageUrl(src);
+  // Helper to render Full-Width Image Cards
+  const renderFullWidthImageCard = (src, altText, themeColor = 'indigo') => {
+    const resolvedSrc = resolveMarkdownImageUrl(src);
     return (
-      <div 
-        key={src + title}
-        className="border border-slate-200/80 rounded-2xl p-4 bg-white hover:border-indigo-200 transition-all my-5 w-full shadow-2xs"
-      >
-        <div className="text-sm font-bold text-slate-800 mb-2.5 flex items-center justify-between">
-          <span className="flex items-center gap-2">📸 <span>{title || 'Ảnh chụp màn hình'}:</span></span>
-          <Badge color={badgeColor}>{src}</Badge>
+      <div className="my-6 rounded-2xl overflow-hidden border border-slate-200/90 bg-white shadow-sm transition-all hover:shadow-md">
+        <div className="relative group bg-slate-900 overflow-hidden flex items-center justify-center min-h-[220px]">
+          <img
+            src={resolvedSrc}
+            alt={altText}
+            className="w-full h-auto object-contain max-h-[550px] transition-transform duration-300 group-hover:scale-[1.01]"
+            loading="lazy"
+          />
         </div>
-        <div className="rounded-xl overflow-hidden border border-slate-100 bg-slate-50 w-full shadow-inner">
-          <img 
-            src={resolvedUrl} 
-            alt={title || src} 
-            className="w-full h-auto object-cover" 
+        <div className="p-3.5 bg-gradient-to-r from-slate-50 to-white border-t border-slate-100 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-2.5 w-2.5 rounded-full bg-indigo-500 animate-pulse" />
+            <span className="text-xs font-semibold text-slate-700">{altText}</span>
+          </div>
+          <a
+            href={resolvedSrc}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[11px] font-medium text-indigo-600 hover:text-indigo-800 flex items-center gap-1 hover:underline"
+          >
+            <span>Mở ảnh phóng to</span>
+            <span>↗</span>
+          </a>
+        </div>
+      </div>
+    );
+  };
+
+  // Helper to render Full-Width Audio Cards
+  const renderFullWidthAudioCard = (src, title) => {
+    const resolvedSrc = resolveMarkdownImageUrl(src);
+    return (
+      <div className="my-6 p-4 rounded-2xl border border-indigo-100 bg-gradient-to-r from-indigo-50/50 via-white to-slate-50 shadow-sm flex flex-col md:flex-row items-center gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-sm flex-shrink-0 text-lg">
+            🎧
+          </div>
+          <div>
+            <h4 className="text-xs font-bold text-slate-900">{title}</h4>
+            <p className="text-[11px] text-slate-500">Audio Podcast Tóm Tắt Bản Tin</p>
+          </div>
+        </div>
+        <div className="flex-1 w-full">
+          <audio controls src={resolvedSrc} className="w-full h-10 rounded-lg shadow-2xs" />
+        </div>
+      </div>
+    );
+  };
+
+  // Helper to render Full-Width Video Cards
+  const renderFullWidthVideoCard = (src, title) => {
+    const resolvedSrc = resolveMarkdownImageUrl(src);
+    return (
+      <div className="my-6 rounded-2xl overflow-hidden border border-slate-200/90 bg-slate-900 shadow-md">
+        <div className="p-3 bg-slate-900 text-slate-200 flex items-center justify-between text-xs font-semibold border-b border-slate-800">
+          <span className="flex items-center gap-2"><span>🎬</span> <span>{title}</span></span>
+          <Badge color="blue">Video AI Trailer 5s</Badge>
+        </div>
+        <div className="relative flex justify-center bg-black">
+          <video
+            controls
+            src={resolvedSrc}
+            className="w-full h-auto max-h-[500px] object-contain"
           />
         </div>
       </div>
     );
   };
 
-  // Helper to render Full-Width 100% HTML5 Video Player Cards
-  const renderFullWidthVideoCard = (src, title = 'Video AI Trailer') => {
-    const resolvedUrl = resolveMarkdownImageUrl(src);
-    return (
-      <div 
-        key={src + title}
-        className="border border-indigo-200 rounded-2xl p-4 bg-indigo-50/30 transition-all shadow-2xs my-5 w-full"
-      >
-        <div className="text-sm font-bold text-indigo-950 mb-2.5 flex items-center justify-between">
-          <span className="flex items-center gap-2">🎬 <span>{title}:</span></span>
-          <Badge color="red">{src}</Badge>
-        </div>
-        <div className="rounded-xl overflow-hidden border border-slate-300 bg-black relative w-full shadow-md">
-          <video 
-            src={resolvedUrl} 
-            controls 
-            className="w-full h-auto max-h-[550px] object-contain mx-auto"
-          />
-        </div>
-      </div>
-    );
-  };
-
-  // Helper to render Full-Width 100% HTML5 Audio Player Cards
-  const renderFullWidthAudioCard = (src, title = 'Nhạc Nền Audio Tropical House') => {
-    const resolvedUrl = resolveMarkdownImageUrl(src);
-    return (
-      <div 
-        key={src + title}
-        className="border border-emerald-200 rounded-2xl p-4 bg-emerald-50/40 transition-all shadow-2xs my-5 w-full"
-      >
-        <div className="text-sm font-bold text-emerald-950 mb-2.5 flex items-center justify-between">
-          <span className="flex items-center gap-2">🎵 <span>{title}:</span></span>
-          <Badge color="green">{src}</Badge>
-        </div>
-        <div className="rounded-xl overflow-hidden border border-emerald-200 bg-white p-3 shadow-inner flex items-center gap-3">
-          <audio 
-            src={resolvedUrl} 
-            controls 
-            className="w-full h-11"
-          />
-        </div>
-      </div>
-    );
-  };
-
-  // RENDER SINGLE MARKDOWN CONTENT BLOCK
+  // RENDER SINGLE MARKDOWN CONTENT BLOCK WITH HEADINGS ID ATTRIBUTES
   const renderSingleMarkdownContent = (markdownText) => {
     if (!markdownText) return null;
 
@@ -217,10 +266,8 @@ export default function StudentPortal() {
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
 
-      // Code Block Start / End
       if (line.trim().startsWith('```')) {
         if (inCodeBlock) {
-          // Finish code block
           const codeText = codeBuffer.join('\n');
           const promptTitle = codeLang ? `Prompt (${codeLang})` : 'Prompt';
           elements.push(
@@ -252,23 +299,18 @@ export default function StudentPortal() {
         continue;
       }
 
-      // HTML <audio ... src="filename.mp3"> Tag Match
       const htmlAudioMatch = line.trim().match(/<audio[^>]*src=["'](.*?)["']/i);
       if (htmlAudioMatch) {
-        const audioSrc = htmlAudioMatch[1];
-        elements.push(renderFullWidthAudioCard(audioSrc, 'Nhạc Nền Audio MP3 Thực Tế'));
+        elements.push(renderFullWidthAudioCard(htmlAudioMatch[1], 'Nhạc Nền Audio MP3 Thực Tế'));
         continue;
       }
 
-      // HTML <video ... src="filename.mp4"> Tag Match
       const htmlVideoMatch = line.trim().match(/<video[^>]*src=["'](.*?)["']/i);
       if (htmlVideoMatch) {
-        const videoSrc = htmlVideoMatch[1];
-        elements.push(renderFullWidthVideoCard(videoSrc, 'Video AI Trailer Thực Tế'));
+        elements.push(renderFullWidthVideoCard(htmlVideoMatch[1], 'Video AI Trailer Thực Tế'));
         continue;
       }
 
-      // Image / Video / Audio Tag Match: ![alt](filename.ext)
       const imgMatch = line.trim().match(/^!\[(.*?)\]\((.*?)\)/);
       if (imgMatch) {
         const altText = imgMatch[1] || 'Tệp đính kèm';
@@ -286,33 +328,36 @@ export default function StudentPortal() {
         continue;
       }
 
-      // Heading 1 (# ...) -> Main Page Title Header
+      // Heading 1 (# ...)
       if (line.trim().startsWith('# ')) {
         const titleText = line.trim().replace(/^#\s+/, '');
+        const headingId = makeHeadingId(titleText, i);
         elements.push(
-          <h1 key={`h1-${i}`} className="text-xl font-extrabold text-slate-900 my-5 pb-3 border-b border-slate-200 tracking-tight leading-snug">
+          <h1 id={headingId} key={`h1-${i}`} className="text-xl font-extrabold text-slate-900 my-5 pb-3 border-b border-slate-200 tracking-tight leading-snug scroll-mt-24">
             {parseInlineMarkdown(titleText)}
           </h1>
         );
         continue;
       }
 
-      // Heading 2 (## ...) -> Container Section Header
+      // Heading 2 (## ...)
       if (line.trim().startsWith('## ')) {
         const titleText = line.trim().replace(/^##\s+/, '');
+        const headingId = makeHeadingId(titleText, i);
         elements.push(
-          <h2 key={`h2-${i}`} className="mt-8 mb-4 px-4 py-3 bg-gradient-to-r from-indigo-50/80 via-slate-50 to-white border border-indigo-100 rounded-xl text-base font-bold text-indigo-950 flex items-center gap-2.5 shadow-2xs">
+          <h2 id={headingId} key={`h2-${i}`} className="mt-8 mb-4 px-4 py-3 bg-gradient-to-r from-indigo-50/80 via-slate-50 to-white border border-indigo-100 rounded-xl text-base font-bold text-indigo-950 flex items-center gap-2.5 shadow-2xs scroll-mt-24">
             {parseInlineMarkdown(titleText)}
           </h2>
         );
         continue;
       }
 
-      // Heading 3 (### ...) -> Sub-heading
+      // Heading 3 (### ...)
       if (line.trim().startsWith('### ')) {
         const titleText = line.trim().replace(/^###\s+/, '');
+        const headingId = makeHeadingId(titleText, i);
         elements.push(
-          <h3 key={`h3-${i}`} className="mt-6 mb-3 border-l-4 border-indigo-500 pl-3.5 text-sm font-bold text-slate-900 flex items-center gap-2">
+          <h3 id={headingId} key={`h3-${i}`} className="mt-6 mb-3 border-l-4 border-indigo-500 pl-3.5 text-sm font-bold text-slate-900 flex items-center gap-2 scroll-mt-24">
             {parseInlineMarkdown(titleText)}
           </h3>
         );
@@ -322,8 +367,9 @@ export default function StudentPortal() {
       // Heading 4 (#### ...) or Heading 5 (##### ...)
       if (line.trim().startsWith('#### ') || line.trim().startsWith('##### ')) {
         const titleText = line.trim().replace(/^#{4,5}\s+/, '');
+        const headingId = makeHeadingId(titleText, i);
         elements.push(
-          <h4 key={`h4-${i}`} className="mt-5 mb-2 font-bold text-indigo-900 text-sm flex items-center gap-2">
+          <h4 id={headingId} key={`h4-${i}`} className="mt-5 mb-2 font-bold text-indigo-900 text-sm flex items-center gap-2 scroll-mt-24">
             {parseInlineMarkdown(titleText)}
           </h4>
         );
@@ -342,7 +388,7 @@ export default function StudentPortal() {
         continue;
       }
 
-      // Blockquote (> ...) -> Alert Box
+      // Blockquote (> ...)
       if (line.trim().startsWith('> ')) {
         const quoteText = line.trim().replace(/^>\s+/, '');
         elements.push(
@@ -353,26 +399,31 @@ export default function StudentPortal() {
         continue;
       }
 
-      // Standard Paragraph text
-      if (line.trim().length > 0 && !line.trim().startsWith('---')) {
+      // Horizontal Rule (---)
+      if (line.trim() === '---') {
+        elements.push(<hr key={`hr-${i}`} className="my-6 border-slate-200/80" />);
+        continue;
+      }
+
+      // Standard Paragraph Text
+      if (line.trim().length > 0) {
         elements.push(
-          <p key={`p-${i}`} className="text-slate-600 text-sm my-3 leading-relaxed font-normal">
+          <p key={`p-${i}`} className="my-3 text-slate-700 leading-relaxed text-sm">
             {parseInlineMarkdown(line)}
           </p>
         );
       }
     }
 
-    return <div className="space-y-1">{elements}</div>;
+    return elements;
   };
 
-  // DYNAMIC MARKDOWN PARSER & RENDERER WITH SUB-TABS SUPPORT
+  // DYNAMIC MARKDOWN PARSER FOR SUBTABS
   const renderDynamicMarkdown = (markdownText) => {
     if (!markdownText) return null;
 
-    // Check if markdown text contains Sub-Tab delimiters === SUBTAB:
     if (markdownText.includes('=== SUBTAB:')) {
-      const parts = markdownText.split(/=== SUBTAB:\s*/);
+      const parts = markdownText.split('=== SUBTAB: ');
       const introText = parts[0];
       const subTabs = [];
 
@@ -403,6 +454,62 @@ export default function StudentPortal() {
     }
 
     return renderSingleMarkdownContent(markdownText);
+  };
+
+  // FLOATING TABLE OF CONTENTS SIDEBAR COMPONENT
+  const RenderTableOfContents = () => {
+    const headings = extractTocHeadings(currentLesson.raw_markdown);
+    if (headings.length === 0) return null;
+
+    return (
+      <div className="sticky top-20 bg-white border border-slate-200/90 rounded-2xl p-4 shadow-sm transition-all">
+        <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
+          <div className="flex items-center gap-2 font-bold text-slate-800 text-xs tracking-wide uppercase">
+            <span>📌</span>
+            <span>Mục Lực Bài Học</span>
+            <span className="px-1.5 py-0.5 bg-indigo-100 text-indigo-700 text-[10px] rounded-full font-semibold">
+              {headings.length}
+            </span>
+          </div>
+          <button
+            onClick={() => setIsTocVisible(!isTocVisible)}
+            className="text-xs font-semibold text-slate-400 hover:text-indigo-600 cursor-pointer transition-colors px-1.5 py-0.5 rounded hover:bg-slate-100"
+            title="Ẩn / Hiện mục lực"
+          >
+            {isTocVisible ? 'Ẩn ▲' : 'Hiện ▼'}
+          </button>
+        </div>
+
+        {isTocVisible && (
+          <div className="space-y-1 max-h-[calc(100vh-220px)] overflow-y-auto pr-1 text-xs custom-scrollbar">
+            {headings.map((h, i) => {
+              const indentStyle =
+                h.level === 1 ? 'font-bold text-indigo-950 pl-0 border-l-2 border-indigo-500' :
+                h.level === 2 ? 'font-semibold text-slate-800 pl-2 border-l border-slate-300' :
+                h.level === 3 ? 'text-slate-600 pl-4 border-l border-slate-200' :
+                'text-slate-500 pl-6 text-[11px]';
+
+              const isActive = activeHeadingId === h.id;
+
+              return (
+                <button
+                  key={`toc-${i}`}
+                  onClick={() => scrollToHeading(h.id)}
+                  className={`w-full text-left py-1.5 px-2 rounded-md transition-all truncate block cursor-pointer ${indentStyle} ${
+                    isActive
+                      ? 'bg-indigo-50 text-indigo-700 font-bold border-indigo-600 shadow-2xs'
+                      : 'hover:bg-slate-50 hover:text-indigo-600'
+                  }`}
+                  title={h.text}
+                >
+                  {h.text}
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -473,12 +580,12 @@ export default function StudentPortal() {
         }
         tools={
           <HelpPanel
-            header={<h2>💡 Trợ Giúp Học Viên</h2>}
+            header={<h2>💡 Hướng Dẫn Thao Tác</h2>}
             footer={
               <div>
-                <h3>Giao Diện Tối Ưu Mới:</h3>
+                <h3>Sub-Tabs Navigation</h3>
                 <Box color="text-body-secondary">
-                  Hệ thống Sub-Tabs trực quan hỗ trợ học viên chuyển đổi mượt mà giữa các bài tập Google Docs, Sheets và Slides!
+                  Thanh Sub-Tabs trực quan nằm ở vị trí cao nhất giúp bạn chuyển đổi mượt mà giữa các bài tập thực hành 1-Click!
                 </Box>
               </div>
             }
@@ -499,7 +606,7 @@ export default function StudentPortal() {
                 actions={
                   <SpaceBetween direction="horizontal" size="xs">
                     <Badge color="blue">{currentLesson.module_name}</Badge>
-                    <StatusIndicator type="success">Sub-Tabs Active</StatusIndicator>
+                    <StatusIndicator type="success">Dynamic Sub-Tabs Active</StatusIndicator>
                     <Button iconName="help" onClick={() => setToolsOpen(!toolsOpen)}>
                       Trợ Giúp
                     </Button>
@@ -517,77 +624,32 @@ export default function StudentPortal() {
                 </Alert>
               )}
 
-              {/* UNIFIED TABS */}
-              <Tabs
-                tabs={[
-                  {
-                    id: 'tab-master-blueprint',
-                    label: '📖 1. Master Blueprint (Giáo Án & Quy Trình 90 Phút)',
-                    content: (
-                      <SpaceBetween size="l">
-                        {/* DYNAMIC MARKDOWN RENDERER - RENDERS EVERYTHING WITH SUB-TABS LIVE! */}
-                        <Container>
-                          {renderDynamicMarkdown(currentLesson.raw_markdown)}
-                        </Container>
+              {/* TWO COLUMN LAYOUT: MAIN LESSON CONTENT & FLOATING TOC SIDEBAR */}
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+                {/* LEFT COLUMN: MAIN LESSON CONTENT & SUB-TABS (TOP PROMOTED) */}
+                <div className={isTocVisible ? "lg:col-span-3 space-y-6" : "lg:col-span-4 space-y-6"}>
+                  <Container>
+                    {renderDynamicMarkdown(currentLesson.raw_markdown)}
+                  </Container>
 
-                        {/* TROUBLESHOOTING SECTION */}
-                        <ExpandableSection headerText="🛠️ Xử Lý Lỗi Thường Gặp (Troubleshooting Guide)">
-                          <SpaceBetween size="s">
-                            {currentLesson.troubleshooting.map((item, idx) => (
-                              <Alert key={idx} type="warning" header={`Lỗi hay gặp: ${item.issue}`}>
-                                <div><strong>Nguyên nhân:</strong> {item.cause}</div>
-                                <div><strong>Cách sửa nhanh:</strong> {item.fix}</div>
-                              </Alert>
-                            ))}
-                          </SpaceBetween>
-                        </ExpandableSection>
-                      </SpaceBetween>
-                    )
-                  },
-                  {
-                    id: 'tab-sandbox',
-                    label: '🧪 2. AI Prompt Sandbox (Thử Nghiệm)',
-                    content: (
-                      <Container header={<Header variant="h2" description="Khung thử nghiệm phản hồi Prompt trực quan dành cho học viên">AI Prompt Sandbox Live</Header>}>
-                        <SpaceBetween size="m">
-                          <FormField label="Nhập hoặc chỉnh sửa Prompt cần thử nghiệm:">
-                            <Textarea
-                              value={sandboxPrompt || currentLesson.mega_prompt}
-                              onChange={({ detail }) => setSandboxPrompt(detail.value)}
-                              rows={6}
-                            />
-                          </FormField>
+                  {/* TROUBLESHOOTING SECTION */}
+                  <ExpandableSection headerText="🛠️ Xử Lý Lỗi Thường Gặp (Troubleshooting Guide)">
+                    <SpaceBetween size="s">
+                      {currentLesson.troubleshooting.map((item, idx) => (
+                        <Alert key={idx} type="warning" header={`Lỗi hay gặp: ${item.issue}`}>
+                          <div><strong>Nguyên nhân:</strong> {item.cause}</div>
+                          <div><strong>Cách sửa nhanh:</strong> {item.fix}</div>
+                        </Alert>
+                      ))}
+                    </SpaceBetween>
+                  </ExpandableSection>
+                </div>
 
-                          <Button variant="primary" loading={sandboxLoading} onClick={handleRunSandbox}>
-                            🚀 Chạy Thử Nghiệm Prompt
-                          </Button>
-
-                          {sandboxResponse && <div className="custom-code-editor">{sandboxResponse}</div>}
-                        </SpaceBetween>
-                      </Container>
-                    )
-                  },
-                  {
-                    id: 'tab-checklist',
-                    label: '🎯 3. Checklist Hoàn Thành (DoD)',
-                    content: (
-                      <Container header={<Header variant="h2" description="Tự kiểm tra mức độ hoàn thành bài học 90 phút">Checklist Hoàn Thành</Header>}>
-                        <SpaceBetween size="m">
-                          {currentLesson.steps.map((step, idx) => (
-                            <Checkbox
-                              key={idx}
-                              checked={!!checkListState[idx]}
-                              onChange={() => toggleChecklist(idx)}
-                            >
-                              Hoàn thành Mắt xích {idx + 1}: {step}
-                            </Checkbox>
-                          ))}
-                        </SpaceBetween>
-                      </Container>
-                    )
-                  }
-                ]}
-              />
+                {/* RIGHT COLUMN: FLOATING STICKY TABLE OF CONTENTS */}
+                <div className="hidden lg:block lg:col-span-1">
+                  <RenderTableOfContents />
+                </div>
+              </div>
             </SpaceBetween>
           </ContentLayout>
         }
