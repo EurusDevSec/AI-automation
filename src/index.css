@@ -67,3 +67,35 @@ div[class*="awsui_tabs-header"] {
   border-bottom: 1px solid #e2e8f0 !important;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.04) !important;
 }
+
+/* 🌟 HIGH-AESTHETIC GLASSMORPHISM & AMBIENT MESH UTILITIES */
+.gradient-text-hero {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 40%, #2563eb 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-emerald {
+  background: linear-gradient(135deg, #059669 0%, #10b981 50%, #0284c7 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glass-card-premium {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+}
+
+.mesh-ambient-glow {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
