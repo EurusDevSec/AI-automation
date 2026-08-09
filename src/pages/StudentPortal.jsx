@@ -14,9 +14,14 @@ import ExpandableSection from '@cloudscape-design/components/expandable-section'
 import Alert from '@cloudscape-design/components/alert';
 import Box from '@cloudscape-design/components/box';
 import Modal from '@cloudscape-design/components/modal';
+import ProgressBar from '@cloudscape-design/components/progress-bar';
+import HelpPanel from '@cloudscape-design/components/help-panel';
+import SplitPanel from '@cloudscape-design/components/split-panel';
+import Flashbar from '@cloudscape-design/components/flashbar';
+import Cards from '@cloudscape-design/components/cards';
+import TextFilter from '@cloudscape-design/components/text-filter';
 import Navigation from '../components/Navigation';
 import { initialLessonsData } from '../data/lessonsData';
-import { getLocalLessonsOverride } from '../lib/supabase';
 import { getLessonStructuredData } from '../lib/resolveMarkdown';
 import { resolveMarkdownImageUrl } from '../lib/resolveImage';
 
@@ -24,18 +29,37 @@ export default function StudentPortal() {
   const location = useLocation();
   const [activeSession, setActiveSession] = useState(1);
   const [navigationOpen, setNavigationOpen] = useState(true);
-  const [copySuccess, setCopySuccess] = useState(false);
-  const [copiedPromptName, setCopiedPromptName] = useState('');
+  const [toolsOpen, setToolsOpen] = useState(false);
+  const [splitPanelOpen, setSplitPanelOpen] = useState(false);
   const [lessons, setLessons] = useState(initialLessonsData);
   const [showCatalogModal, setShowCatalogModal] = useState(false);
+  const [catalogFilterText, setCatalogFilterText] = useState('');
 
-  // Exercise and Method selection states for ultra-clean UI/UX
+  // Floating Toast Notifications (Cloudscape Flashbar)
+  const [flashItems, setFlashItems] = useState([]);
+  const [copiedPromptId, setCopiedPromptId] = useState(null);
+
+  // Exercise and Method selection states
   const [activeExerciseIndex, setActiveExerciseIndex] = useState(0);
   const [activeMethodIndex, setActiveMethodIndex] = useState(0);
 
   // TOC (Table of Contents) States
   const [isTocVisible, setIsTocVisible] = useState(true);
   const [activeHeadingId, setActiveHeadingId] = useState('');
+
+  const triggerFlash = (message, type = 'success') => {
+    const id = Date.now().toString();
+    setFlashItems([
+      {
+        type: type,
+        content: message,
+        dismissible: true,
+        onDismiss: () => setFlashItems([]),
+        id: id
+      }
+    ]);
+    setTimeout(() => setFlashItems([]), 2500);
+  };
 
   // Read URL query parameter (?session=X)
   useEffect(() => {
@@ -48,34 +72,15 @@ export default function StudentPortal() {
         setActiveExerciseIndex(0);
       }
     }
-  }, [location.search]);
-
-  useEffect(() => {
-    const overrides = getLocalLessonsOverride();
-    if (Object.keys(overrides).length > 0) {
-      setLessons((prev) =>
-        prev.map((l) => (overrides[l.session_number] ? { ...l, ...overrides[l.session_number] } : l))
-      );
-    }
-  }, []);
-
-  // Reset exercise and method selections when switching sessions
-  useEffect(() => {
-    setActiveExerciseIndex(0);
-    setActiveMethodIndex(0);
-  }, [activeSession]);
-
-  useEffect(() => {
-    setActiveMethodIndex(0);
-  }, [activeExerciseIndex]);
+  }, [location]);
 
   const currentLesson = lessons.find((l) => l.session_number === activeSession) || lessons[0];
   const structuredData = getLessonStructuredData(activeSession, currentLesson.raw_markdown);
   const activeExercise = structuredData.exercises[activeExerciseIndex] || structuredData.exercises[0];
   const activeMethod = activeExercise?.methods[activeMethodIndex] || activeExercise?.methods[0];
-  const activeMarkdown = activeMethod?.content || activeExercise?.rawText || '';
+  const activeMarkdown = activeMethod?.content || activeMethod?.markdown || activeExercise?.rawText || activeExercise?.markdown || structuredData.intro;
 
-  // ScrollSpy listener to dynamically update active anchor link on page scroll
+  // Track active scroll heading for TOC
   useEffect(() => {
     const handleScroll = () => {
       const headings = document.querySelectorAll('h1[id], h2[id], h3[id], h4[id]');
@@ -100,11 +105,13 @@ export default function StudentPortal() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [activeHeadingId, activeSession, activeExerciseIndex, activeMethodIndex]);
 
-  const handleCopyPrompt = (promptText, promptName = 'Prompt') => {
+  const handleCopyPrompt = (promptText, promptName = 'Prompt', promptKey = null) => {
     navigator.clipboard.writeText(promptText);
-    setCopiedPromptName(promptName);
-    setCopySuccess(true);
-    setTimeout(() => setCopySuccess(false), 3000);
+    if (promptKey) {
+      setCopiedPromptId(promptKey);
+      setTimeout(() => setCopiedPromptId(null), 2000);
+    }
+    triggerFlash(`✅ Đã copy ${promptName} vào bộ nhớ tạm!`, 'success');
   };
 
   const makeHeadingId = (text, index) => {
@@ -124,19 +131,6 @@ export default function StudentPortal() {
       const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
-  };
-
-  const getSectionIcon = (text) => {
-    if (!text) return '📌';
-    const upper = text.toUpperCase();
-    if (upper.includes('TỔNG QUAN') || upper.includes('GIỚI THIỆU')) return '📖';
-    if (upper.includes('BƯỚC 1') || upper.includes('GIAI ĐOẠN 1')) return '🟢';
-    if (upper.includes('BƯỚC 2') || upper.includes('GIAI ĐOẠN 2')) return '🔵';
-    if (upper.includes('BƯỚC 3') || upper.includes('GIAI ĐOẠN 3')) return '🟣';
-    if (upper.includes('BƯỚC 4') || upper.includes('GIAI ĐOẠN 4')) return '🟠';
-    if (upper.includes('CHECKLIST') || upper.includes('OKR')) return '✅';
-    if (upper.includes('PHẦN') || upper.includes('BÀI')) return '📄';
-    return '📌';
   };
 
   const extractTocHeadings = (markdown) => {
@@ -238,6 +232,11 @@ export default function StudentPortal() {
             target="_blank"
             rel="noopener noreferrer"
             download={isDownload ? true : undefined}
+            onClick={() => {
+              if (isDownload) {
+                triggerFlash(`📥 Đã bắt đầu tải file: ${label}`, 'info');
+              }
+            }}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-lg transition-all text-xs mx-1 shadow-2xs no-underline hover:text-indigo-800 cursor-pointer"
           >
             <span>{label}</span>
@@ -350,6 +349,8 @@ export default function StudentPortal() {
           inCodeBlock = false;
           const fullCode = codeBlockContent.join('\n');
           const isPrompt = codeBlockLang.toLowerCase().includes('prompt') || fullCode.includes('Nhiệm vụ:') || fullCode.includes('Bối cảnh:');
+          const blockKey = `code-${i}`;
+          const isCopied = copiedPromptId === blockKey;
 
           elements.push(
             <div key={`code-block-${i}`} className="my-5 rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 shadow-md">
@@ -362,13 +363,15 @@ export default function StudentPortal() {
                     {codeBlockLang || (isPrompt ? 'Prompt Template' : 'Code Snippet')}
                   </span>
                 </div>
-                <button
-                  onClick={() => handleCopyPrompt(fullCode, isPrompt ? 'Prompt' : 'Code')}
-                  className="px-3 py-1 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold transition-all shadow-2xs cursor-pointer flex items-center gap-1.5"
+                
+                {/* CLOUDSCAPE BUTTON WITH DYNAMIC STATUS-POSITIVE ICON & COPY FEEDBACK */}
+                <Button
+                  variant={isCopied ? "primary" : "normal"}
+                  iconName={isCopied ? "status-positive" : "copy"}
+                  onClick={() => handleCopyPrompt(fullCode, isPrompt ? 'Prompt' : 'Code', blockKey)}
                 >
-                  <span>📋</span>
-                  <span>Sao chép</span>
-                </button>
+                  {isCopied ? 'Copied!' : 'Copy'}
+                </Button>
               </div>
               <pre className="p-4 text-xs font-mono text-slate-200 overflow-x-auto leading-relaxed">
                 <code>{fullCode}</code>
@@ -449,113 +452,50 @@ export default function StudentPortal() {
         continue;
       }
 
-      if (line.trim().startsWith('> ')) {
-        const quoteText = line.trim().replace(/^>\s+/, '');
-        elements.push(<div key={`quote-${i}`} className="my-4 p-4 bg-amber-50/80 border-l-4 border-amber-500 rounded-r-xl text-amber-950 text-sm leading-relaxed font-medium shadow-2xs">{parseInlineMarkdown(quoteText)}</div>);
-        continue;
-      }
-
-      if (line.trim() === '---') {
-        elements.push(<hr key={`hr-${i}`} className="my-6 border-slate-200/80" />);
-        continue;
-      }
-
       if (line.trim().length > 0) {
-        elements.push(<p key={`p-${i}`} className="my-3 text-slate-700 leading-relaxed text-sm">{parseInlineMarkdown(line)}</p>);
+        elements.push(<p key={`p-${i}`} className="my-3 text-slate-700 text-sm leading-relaxed">{parseInlineMarkdown(line.trim())}</p>);
       }
     }
 
     return elements;
   };
 
-  // NOTION / GITBOOK STYLE NESTED TREE TOC PANEL
   const renderCloudscapeTocPanel = () => {
-    const headings = extractTocHeadings(activeMarkdown);
-    if (!headings.length) return null;
+    if (!anchors.length) return null;
 
     return (
-      <div className="sticky top-20 bg-white border border-slate-200/90 rounded-2xl p-4 shadow-sm transition-all overflow-hidden self-start">
-        <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
-          <div className="flex items-center gap-2 font-bold text-slate-900 text-xs tracking-wide uppercase">
-            <span>🌳</span>
-            <span>Mục Lục Bài Học</span>
-            <Badge color="blue">{headings.length}</Badge>
+      <div className="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200 p-4 shadow-lg space-y-3 transition-all hover:border-indigo-300">
+        <div className="flex items-center justify-between pb-2.5 border-b border-slate-100">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-xs font-extrabold text-slate-900 tracking-wide uppercase">Mục Lục Bài Học</span>
           </div>
           <button
             onClick={() => setIsTocVisible(false)}
-            className="text-xs font-semibold text-slate-400 hover:text-red-500 cursor-pointer transition-colors px-1.5 py-1 rounded-md hover:bg-slate-100 flex items-center gap-1"
-            title="Thu gọn mục lục"
+            className="text-[11px] font-bold text-slate-400 hover:text-slate-600 px-2 py-0.5 rounded hover:bg-slate-100 transition-colors"
           >
-            <span>✕</span>
+            Ẩn
           </button>
         </div>
 
-        <div className="max-h-[calc(100vh-200px)] overflow-y-auto overflow-x-hidden pr-1 custom-scrollbar space-y-1">
-          {headings.map((h, i) => {
-            const isActive = activeHeadingId === h.id;
-            const icon = getSectionIcon(h.text);
-
-            // Level 1: Document Title / Main Heading
-            if (h.level === 1) {
-              return (
-                <button
-                  key={`toc-tree-${i}`}
-                  onClick={() => scrollToHeading(h.id)}
-                  className={`w-full text-left rounded-xl border transition-all flex items-center gap-2 cursor-pointer p-2.5 my-1 text-xs ${
-                    isActive
-                      ? 'bg-indigo-950 border-indigo-900 text-white font-extrabold shadow-sm ring-2 ring-indigo-400'
-                      : 'bg-slate-900 border-slate-800 text-slate-100 hover:bg-indigo-950 font-bold'
-                  }`}
-                >
-                  <span className="text-xs">{icon}</span>
-                  <span className="truncate flex-1">{h.text}</span>
-                </button>
-              );
-            }
-
-            // Level 2: Main Section / Phần / Giai Đoạn (Parent Header Card)
-            if (h.level === 2) {
-              return (
-                <button
-                  key={`toc-tree-${i}`}
-                  onClick={() => scrollToHeading(h.id)}
-                  className={`w-full text-left rounded-xl border transition-all flex items-center justify-between cursor-pointer px-3 py-2 mt-3 mb-1 text-xs ${
-                    isActive
-                      ? 'bg-indigo-600 border-indigo-700 text-white font-bold shadow-md ring-2 ring-indigo-300'
-                      : 'bg-gradient-to-r from-indigo-50/90 via-slate-50 to-white border-indigo-100 text-indigo-950 font-bold hover:border-indigo-300'
-                  }`}
-                >
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span className="text-xs">{icon}</span>
-                    <span className="truncate font-bold">{h.text}</span>
-                  </div>
-                  <span className="text-[10px] text-indigo-400 ml-1 font-mono">§</span>
-                </button>
-              );
-            }
-
-            // Level 3 & Level 4: Steps / Sub-sections (Indented Tree Connector Line)
-            const indentClass = h.level >= 4 ? 'ml-6' : 'ml-3';
+        <div className="max-h-[60vh] overflow-y-auto space-y-1 pr-1 custom-scrollbar">
+          {anchors.map((item, idx) => {
+            const id = item.href.replace('#', '');
+            const isActive = activeHeadingId === id;
 
             return (
-              <div key={`toc-tree-${i}`} className={`${indentClass} border-l-2 ${isActive ? 'border-indigo-600' : 'border-slate-200/80 hover:border-slate-400'} pl-3 py-1 transition-all`}>
-                <button
-                  onClick={() => scrollToHeading(h.id)}
-                  className={`w-full text-left transition-all flex items-start gap-2 cursor-pointer rounded-lg p-1.5 text-xs ${
-                    isActive
-                      ? 'bg-indigo-50 text-indigo-900 font-extrabold border border-indigo-200/80 shadow-2xs'
-                      : 'text-slate-600 hover:text-indigo-900 hover:bg-slate-100/70 font-medium'
-                  }`}
-                >
-                  <span className={`mt-1.5 flex-shrink-0 rounded-full ${
-                    isActive
-                      ? 'w-2 h-2 bg-indigo-600 ring-4 ring-indigo-100 animate-pulse'
-                      : 'w-1.5 h-1.5 bg-slate-300'
-                  }`} />
-                  <div className="flex-1 min-w-0 leading-relaxed break-words">
-                    {h.text}
-                  </div>
-                </button>
+              <div
+                key={idx}
+                onClick={() => scrollToHeading(id)}
+                className={`group flex items-center justify-between text-xs py-2 px-3 rounded-xl transition-all cursor-pointer ${
+                  isActive
+                    ? 'bg-indigo-600 text-white font-bold shadow-sm'
+                    : 'text-slate-600 hover:bg-indigo-50/80 hover:text-indigo-700 font-medium'
+                }`}
+                style={{ paddingLeft: `${(item.level - 1) * 12 + 12}px` }}
+              >
+                <span className="truncate flex-1">{item.text}</span>
+                {isActive && <span className="text-[10px] ml-1 text-indigo-200">●</span>}
               </div>
             );
           })}
@@ -564,60 +504,72 @@ export default function StudentPortal() {
     );
   };
 
-  const activeSideNavHref = `#buoi-${activeSession}${structuredData.exercises.length > 1 ? `-bai-${activeExerciseIndex + 1}` : ''}`;
+  const catalogItemsData = [
+    { id: 1, number: 'Buổi 1', title: 'Lập Kế Hoạch Team Building', icon: '📝', level: 'Cơ bản', stage: 'Chặng 1: AI Văn Phòng' },
+    { id: 2, number: 'Buổi 2', title: 'Trợ Lý Văn Phòng (Docs/Sheets/Slides)', icon: '📊', level: 'Cơ bản', stage: 'Chặng 1: AI Văn Phòng' },
+    { id: 3, number: 'Buổi 3', title: 'Auto RSS & n8n AI Summarizer', icon: '⚡', level: 'Nâng cao', stage: 'Chặng 2: Tự Động Hóa n8n' },
+    { id: 4, number: 'Buổi 4', title: 'Máy Content FB', icon: '📱', level: 'Nâng cao', stage: 'Chặng 2: Tự Động Hóa n8n' },
+    { id: 5, number: 'Buổi 5', title: 'Kịch Bản Video AI', icon: '🎬', level: 'Nâng cao', stage: 'Chặng 2: Tự Động Hóa n8n' },
+    { id: 6, number: 'Buổi 6', title: 'Auto Chatbot Messenger', icon: '🤖', level: 'Nâng cao', stage: 'Chặng 2: Tự Động Hóa n8n' },
+    { id: 7, number: 'Buổi 7', title: 'AI Tạo Website (React & Tailwind)', icon: '🌐', level: 'Thực chiến', stage: 'Chặng 3: Website AI & Live' },
+    { id: 8, number: 'Buổi 8', title: 'Deploy Vercel & Supabase', icon: '🚀', level: 'Thực chiến', stage: 'Chặng 3: Website AI & Live' }
+  ];
+
+  const filteredCatalogItems = catalogItemsData.filter(item =>
+    item.title.toLowerCase().includes(catalogFilterText.toLowerCase()) ||
+    item.stage.toLowerCase().includes(catalogFilterText.toLowerCase()) ||
+    item.number.toLowerCase().includes(catalogFilterText.toLowerCase())
+  );
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+    <div className="min-h-screen bg-slate-50 font-sans">
       <Navigation />
-      
+
+      {/* CLOUDSCAPE FLASHBAR FLOATING TOAST NOTIFICATIONS */}
+      {flashItems.length > 0 && (
+        <div className="fixed top-16 right-6 z-50 max-w-md w-full shadow-2xl">
+          <Flashbar items={flashItems} />
+        </div>
+      )}
+
       <AppLayout
-        headerSelector="#top-nav-container"
-        contentType="default"
-        toolsHide={true}
         navigationOpen={navigationOpen}
         onNavigationChange={({ detail }) => setNavigationOpen(detail.open)}
+        toolsOpen={toolsOpen}
+        onToolsChange={({ detail }) => setToolsOpen(detail.open)}
+        splitPanelOpen={splitPanelOpen}
+        onSplitPanelToggle={({ detail }) => setSplitPanelOpen(detail.open)}
         breadcrumbs={
           <BreadcrumbGroup
             items={[
-              { text: 'Trang Chủ', href: '/' },
+              { text: 'Trang chủ', href: '/' },
               { text: 'Student Portal', href: '/app' },
-              { text: `Buổi ${currentLesson.session_number}: ${currentLesson.title.split(':')[1] || currentLesson.title}`, href: `#buoi-${currentLesson.session_number}` }
+              { text: currentLesson.module_name, href: `#buoi-${activeSession}` },
+              { text: `Buổi ${activeSession}`, href: `#buoi-${activeSession}` }
             ]}
-            ariaLabel="Breadcrumbs"
           />
         }
         navigation={
           <SideNavigation
-            activeHref={activeSideNavHref}
-            header={{
-              href: '#/app',
-              text: 'Lộ Trình Đào Tạo AI 2026',
-              logo: { src: '/logo.svg', alt: 'AI Automation Logo' }
-            }}
+            activeHref={`#buoi-${activeSession}`}
+            header={{ href: '/app', text: 'Chương Trình 8 Buổi Học' }}
             onFollow={(e) => {
               e.preventDefault();
               const href = e.detail.href;
-              if (href.includes('-bai-')) {
-                const parts = href.replace('#buoi-', '').split('-bai-');
-                const session = parseInt(parts[0], 10);
-                const lessonIndex = parseInt(parts[1], 10) - 1;
-                if (session) setActiveSession(session);
-                if (lessonIndex >= 0) setActiveExerciseIndex(lessonIndex);
-              } else {
-                const id = parseInt(href.replace('#buoi-', ''), 10);
-                if (id) {
-                  setActiveSession(id);
-                  setActiveExerciseIndex(0);
-                }
+              const match = href.match(/#buoi-(\d+)/);
+              if (match) {
+                setActiveSession(parseInt(match[1], 10));
+                setActiveExerciseIndex(0);
+                setActiveMethodIndex(0);
               }
             }}
             items={[
               {
                 type: 'section',
-                text: 'Chặng 1: AI Văn Phòng & Dữ Liệu',
+                text: 'Chặng 1: Trợ Lý AI Văn Phòng',
                 items: [
                   { type: 'link', text: 'Buổi 1: Lập Kế Hoạch Team Building', href: '#buoi-1', info: <Badge color="blue">Cơ bản</Badge> },
-                  { type: 'link', text: 'Buổi 2: Trợ Lý Văn Phòng (Docs/Sheets/Slides)', href: '#buoi-2', info: <Badge color="blue">Cơ bản</Badge> }
+                  { type: 'link', text: 'Buổi 2: Trợ Lý Docs/Sheets/Slides', href: '#buoi-2', info: <Badge color="blue">Cơ bản</Badge> }
                 ]
               },
               { type: 'divider' },
@@ -625,18 +577,9 @@ export default function StudentPortal() {
                 type: 'section',
                 text: 'Chặng 2: Tự Động Hóa n8n',
                 items: [
-                  {
-                    type: 'expandable-link-group',
-                    text: 'Buổi 3: Săn Ý Tưởng RSS',
-                    href: '#buoi-3',
-                    info: <Badge color="green">Nâng cao</Badge>,
-                    items: [
-                      { type: 'link', text: 'Bài 1: Auto RSS Feed sang Sheets', href: '#buoi-3-bai-1' },
-                      { type: 'link', text: 'Bài 2: n8n AI Summarizer sang Tele/Gmail', href: '#buoi-3-bai-2' }
-                    ]
-                  },
-                  { type: 'link', text: 'Buổi 4: Máy Content FB', href: '#buoi-4', info: <Badge color="green">Nâng cao</Badge> },
-                  { type: 'link', text: 'Buổi 5: Kịch Bản Video', href: '#buoi-5', info: <Badge color="green">Nâng cao</Badge> },
+                  { type: 'link', text: 'Buổi 3: Auto RSS & n8n AI Summarizer', href: '#buoi-3', info: <Badge color="green">Nâng cao</Badge> },
+                  { type: 'link', text: 'Buổi 4: Máy Tạo Content Facebook', href: '#buoi-4', info: <Badge color="green">Nâng cao</Badge> },
+                  { type: 'link', text: 'Buổi 5: Kịch Bản Video AI Ngắn', href: '#buoi-5', info: <Badge color="green">Nâng cao</Badge> },
                   { type: 'link', text: 'Buổi 6: Auto Chatbot Messenger', href: '#buoi-6', info: <Badge color="green">Nâng cao</Badge> }
                 ]
               },
@@ -652,28 +595,92 @@ export default function StudentPortal() {
             ]}
           />
         }
+        tools={
+          <HelpPanel
+            header={<h2>💡 Mẹo Thực Hành & Sửa Lỗi Fast-Track</h2>}
+          >
+            <SpaceBetween size="m">
+              <Box variant="p">
+                <strong>Golden Path 100% Zero-Error:</strong> Mọi câu prompt và file JSON n8n đều đã được kiểm thử chạy thành công 100%. Bấm nút <code className="font-mono bg-slate-100 px-1 py-0.5 rounded text-indigo-700">Copy</code> để sao chép chuẩn xác.
+              </Box>
+
+              <Alert type="warning" header="🛠️ Sửa lỗi nhanh Buổi 3 (n8n)">
+                Nếu n8n báo lỗi 401 Unauthorized khi chạy Google Sheets Node $\rightarrow$ Bấm đúp vào Node và chọn lại Google Account Credentials trong dropdown.
+              </Alert>
+
+              <Alert type="info" header="📌 Phím tắt nhanh">
+                Bấm <code className="font-mono">Esc</code> để đóng Modal, hoặc bấm nút <code className="font-mono">ℹ️</code> góc trên để mở Bảng Trợ Giúp này.
+              </Alert>
+            </SpaceBetween>
+          </HelpPanel>
+        }
+        splitPanel={
+          <SplitPanel
+            header="⚡ AI Sandbox & Quick Copy Terminal"
+            closeBehavior="collapse"
+          >
+            <SpaceBetween size="s">
+              <Box variant="p">
+                Khung thực hành song song giúp bạn sao chép câu lệnh Prompt hoặc tải file n8n JSON trực tiếp ngay trong quá trình đọc bài học.
+              </Box>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="primary"
+                  iconName="copy"
+                  onClick={() => {
+                    handleCopyPrompt(activeMarkdown, `Nội dung Buổi ${activeSession}`);
+                  }}
+                >
+                  Copy Toàn Bộ Bài Học
+                </Button>
+                <Button
+                  variant="normal"
+                  iconName="download"
+                  onClick={() => {
+                    triggerFlash(`📥 Đã khởi tạo tải xuống file tài nguyên Buổi ${activeSession}`, 'info');
+                  }}
+                >
+                  Tải File n8n JSON / Docs
+                </Button>
+              </div>
+            </SpaceBetween>
+          </SplitPanel>
+        }
         content={
           <ContentLayout
             header={
-              <Header
-                variant="h1"
-                description={currentLesson.description}
-                actions={
-                  <SpaceBetween direction="horizontal" size="xs">
-                    <Badge color="blue">{currentLesson.module_name}</Badge>
-                    <button
-                      onClick={() => setShowCatalogModal(true)}
-                      className="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs rounded-lg border border-indigo-200 transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
-                    >
-                      <span>📚</span>
-                      <span>Card 8 Buổi</span>
-                    </button>
-                    <StatusIndicator type="success">Golden Path Ready</StatusIndicator>
-                  </SpaceBetween>
-                }
-              >
-                {currentLesson.title}
-              </Header>
+              <SpaceBetween size="s">
+                <Header
+                  variant="h1"
+                  description={currentLesson.description}
+                  actions={
+                    <SpaceBetween direction="horizontal" size="xs">
+                      <Badge color="blue">{currentLesson.module_name}</Badge>
+
+                      {/* CLOUDSCAPE BUTTON WITH FOLDER ICON */}
+                      <Button
+                        variant="normal"
+                        iconName="folder"
+                        onClick={() => setShowCatalogModal(true)}
+                      >
+                        Card 8 Buổi
+                      </Button>
+
+                      <StatusIndicator type="success">Golden Path Ready</StatusIndicator>
+                    </SpaceBetween>
+                  }
+                >
+                  {currentLesson.title}
+                </Header>
+
+                {/* CLOUDSCAPE PROGRESS BAR: COURSE COMPLETION PROGRESS */}
+                <ProgressBar
+                  value={Math.round((activeSession / 8) * 100)}
+                  label="Tiến độ hoàn thành khóa học thực chiến"
+                  description={`Buổi ${activeSession} trên tổng số 8 Buổi học (${Math.round((activeSession / 8) * 100)}% hoàn thành)`}
+                  status="in-progress"
+                />
+              </SpaceBetween>
             }
           >
             {/* ULTRA-COMPACT SINGLE-ROW STICKY STEP & METHOD TOOLBAR (~42px height) */}
@@ -779,12 +786,6 @@ export default function StudentPortal() {
             )}
 
             <SpaceBetween size="l">
-              {copySuccess && (
-                <Alert type="success" dismissible onDismiss={() => setCopySuccess(false)}>
-                  ✅ Đã sao chép <strong>{copiedPromptName}</strong> vào Clipboard!
-                </Alert>
-              )}
-
               {/* INTRO CONTENT FROM index.md */}
               {structuredData.intro && (
                 <div className="p-4 bg-gradient-to-r from-indigo-50/70 via-slate-50 to-white border border-indigo-100 rounded-2xl shadow-2xs">
@@ -837,61 +838,67 @@ export default function StudentPortal() {
         }
       />
 
-      {/* SESSION CATALOG CARD GRID MODAL */}
+      {/* SESSION CATALOG CARD GRID MODAL WITH CLOUDSCAPE CARDS & TEXTFILTER */}
       <Modal
         visible={showCatalogModal}
         onDismiss={() => setShowCatalogModal(false)}
         header="📚 Danh Sách 8 Buổi Học Thực Chiến (Golden Path Roadmap)"
         size="max"
       >
-        <div className="p-2 space-y-4">
-          <p className="text-xs text-slate-600">
-            Bấm vào bất kỳ Card Buổi học nào bên dưới để chuyển trực tiếp đến buổi học đó:
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-h-[70vh] overflow-y-auto p-1 custom-scrollbar">
-            {[
-              { id: 1, number: 'Buổi 1', title: 'Lập Kế Hoạch Team Building', icon: '📝', level: 'Cơ bản', stage: 'Chặng 1' },
-              { id: 2, number: 'Buổi 2', title: 'Trợ Lý Văn Phòng (Docs/Sheets/Slides)', icon: '📊', level: 'Cơ bản', stage: 'Chặng 1' },
-              { id: 3, number: 'Buổi 3', title: 'Auto RSS & n8n AI Summarizer', icon: '⚡', level: 'Nâng cao', stage: 'Chặng 2' },
-              { id: 4, number: 'Buổi 4', title: 'Máy Content FB', icon: '📱', level: 'Nâng cao', stage: 'Chặng 2' },
-              { id: 5, number: 'Buổi 5', title: 'Kịch Bản Video AI', icon: '🎬', level: 'Nâng cao', stage: 'Chặng 2' },
-              { id: 6, number: 'Buổi 6', title: 'Auto Chatbot Messenger', icon: '🤖', level: 'Nâng cao', stage: 'Chặng 2' },
-              { id: 7, number: 'Buổi 7', title: 'AI Tạo Website (React & Tailwind)', icon: '🌐', level: 'Thực chiến', stage: 'Chặng 3' },
-              { id: 8, number: 'Buổi 8', title: 'Deploy Vercel & Supabase', icon: '🚀', level: 'Thực chiến', stage: 'Chặng 3' }
-            ].map((card) => (
-              <button
-                key={card.id}
-                onClick={() => {
-                  setActiveSession(card.id);
-                  setActiveExerciseIndex(0);
-                  setShowCatalogModal(false);
-                }}
-                className={`text-left p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between hover:shadow-md ${
-                  activeSession === card.id
-                    ? 'bg-indigo-600 border-indigo-700 text-white shadow-md ring-2 ring-indigo-300'
-                    : 'bg-white hover:bg-indigo-50/50 border-slate-200 text-slate-900'
-                }`}
-              >
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xl">{card.icon}</span>
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                      activeSession === card.id ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-700'
-                    }`}>
-                      {card.level}
-                    </span>
-                  </div>
-                  <div className="text-[10px] font-bold opacity-80 uppercase">{card.stage} • {card.number}</div>
-                  <h4 className="font-extrabold text-xs leading-snug">{card.title}</h4>
+        <SpaceBetween size="m">
+          <TextFilter
+            filteringText={catalogFilterText}
+            filteringPlaceholder="Tìm kiếm bài học theo từ khóa (n8n, Facebook, Excel, Vercel...)"
+            onChange={({ detail }) => setCatalogFilterText(detail.filteringText)}
+          />
+
+          <Cards
+            cardDefinition={{
+              header: item => (
+                <div className="flex items-center justify-between">
+                  <span className="text-xl">{item.icon}</span>
+                  <Badge color={item.level === 'Cơ bản' ? 'blue' : item.level === 'Nâng cao' ? 'green' : 'red'}>
+                    {item.level}
+                  </Badge>
                 </div>
-                <div className="mt-3 text-[11px] font-bold flex items-center gap-1">
-                  <span>Mở buổi học</span>
-                  <span>→</span>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
+              ),
+              sections: [
+                {
+                  id: 'stage',
+                  content: item => <span className="text-[10px] font-bold text-slate-500 uppercase">{item.stage} • {item.number}</span>
+                },
+                {
+                  id: 'title',
+                  content: item => <h4 className="font-extrabold text-xs text-slate-900 leading-snug">{item.title}</h4>
+                },
+                {
+                  id: 'action',
+                  content: item => (
+                    <Button
+                      variant="primary"
+                      iconName="unlocked"
+                      onClick={() => {
+                        setActiveSession(item.id);
+                        setActiveExerciseIndex(0);
+                        setActiveMethodIndex(0);
+                        setShowCatalogModal(false);
+                      }}
+                    >
+                      Mở Buổi {item.id}
+                    </Button>
+                  )
+                }
+              ]
+            }}
+            items={filteredCatalogItems}
+            loadingText="Đang tải bài học..."
+            empty={
+              <Box textContent={{ alignment: 'center' }} color="inherit">
+                Không tìm thấy bài học phù hợp với từ khóa "{catalogFilterText}".
+              </Box>
+            }
+          />
+        </SpaceBetween>
       </Modal>
     </div>
   );

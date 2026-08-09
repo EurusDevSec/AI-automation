@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Button from '@cloudscape-design/components/button';
+import Flashbar from '@cloudscape-design/components/flashbar';
 import {
   ShieldCheck, Zap, Globe, Cpu, CheckCircle2, ArrowRight,
   BookOpen, UserCheck, Star, Sparkles, Copy, Check,
@@ -17,12 +19,29 @@ export default function LandingPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // Floating Toast Notifications (Cloudscape Flashbar)
+  const [flashItems, setFlashItems] = useState([]);
+
   // Interactive Stage Filter State
   const [activeStageFilter, setActiveStageFilter] = useState('all');
 
   // Interactive Sandbox Widget State
   const [activeSandboxTab, setActiveSandboxTab] = useState('prompt');
   const [copiedSandbox, setCopiedSandbox] = useState(false);
+
+  const triggerFlash = (message, type = 'success') => {
+    const id = Date.now().toString();
+    setFlashItems([
+      {
+        type: type,
+        content: message,
+        dismissible: true,
+        onDismiss: () => setFlashItems([]),
+        id: id
+      }
+    ]);
+    setTimeout(() => setFlashItems([]), 2500);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -209,12 +228,20 @@ export default function HeroSection() {
   const handleCopySandbox = (text) => {
     navigator.clipboard.writeText(text);
     setCopiedSandbox(true);
+    triggerFlash(`✅ Đã copy ${activeSandboxTab === 'prompt' ? 'Mega Prompt mẫu' : activeSandboxTab === 'workflow' ? 'n8n Workflow JSON' : 'Mã nguồn React'} vào bộ nhớ tạm!`, 'success');
     setTimeout(() => setCopiedSandbox(false), 2000);
   };
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-500 selection:text-white relative overflow-hidden">
       <Navigation />
+
+      {/* CLOUDSCAPE FLASHBAR FLOATING TOAST NOTIFICATIONS */}
+      {flashItems.length > 0 && (
+        <div className="fixed top-16 right-6 z-50 max-w-md w-full shadow-2xl">
+          <Flashbar items={flashItems} />
+        </div>
+      )}
 
       {/* TOP NOTIFICATION BANNER */}
       <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 text-white text-xs sm:text-sm py-2.5 px-4 text-center font-medium flex items-center justify-center gap-2 shadow-sm">
@@ -479,13 +506,13 @@ export default function HeroSection() {
               <span className="text-slate-400 font-bold uppercase text-[10px]">
                 {activeSandboxTab === 'prompt' ? 'Mega Prompt Template' : activeSandboxTab === 'workflow' ? 'n8n Workflow JSON' : 'React Code Snippet'}
               </span>
-              <button
+              <Button
+                variant={copiedSandbox ? "primary" : "normal"}
+                iconName={copiedSandbox ? "status-positive" : "copy"}
                 onClick={() => handleCopySandbox(sandboxSnippets[activeSandboxTab])}
-                className="px-3 py-1 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shadow-sm active:scale-95"
               >
-                {copiedSandbox ? <Check className="w-3.5 h-3.5 text-emerald-300" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copiedSandbox ? 'Đã sao chép!' : 'Sao chép 1-Click'}</span>
-              </button>
+                {copiedSandbox ? 'Copied!' : 'Copy'}
+              </Button>
             </div>
             <pre className="overflow-x-auto leading-relaxed whitespace-pre-wrap">
               <code>{sandboxSnippets[activeSandboxTab]}</code>
