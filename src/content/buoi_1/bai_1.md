@@ -14,9 +14,7 @@ Dùng công cụ Deep Research cào và phân tích top 3 địa điểm nổi b
 
 * **Đầu ra:** Gemini xuất bài viết kế hoạch trên Canvas.
 
-![Mô phỏng Deep Research](image-1.png)
-
-![Chi tiết bài phân tích Deep Research](image-2.png)
+![Giao diện Web App Team Building Canvas](canvas-web-app.png)
 
 ---
 
@@ -26,10 +24,6 @@ Dùng công cụ Deep Research cào và phân tích top 3 địa điểm nổi b
   - **Bài kiểm tra (Quiz):** Sinh bộ câu hỏi trắc nghiệm tương tác chọn địa điểm.
   - **Tổng quan bằng âm thanh (Audio Overview):** Sinh file Audio Podcast tóm tắt lịch trình chuyến đi bằng giọng đối thoại hào hứng.
 
-![Giao diện Trắc Nghiệm Guided Learning Quiz](guided-learning-quiz.png)
-
-![Tạo Audio Podcast từ Deep Research](image-15.png)
-
 ![Tính năng nút Tạo trên Canvas](canvas-create-web.png)
 
-![Giao diện Web App Team Building Canvas](canvas-web-app.png)
+![Giao diện Trắc Nghiệm Guided Learning Quiz](guided-learning-quiz.png)

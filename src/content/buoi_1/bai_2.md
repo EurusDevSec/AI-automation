@@ -13,10 +13,6 @@ Tạo cho tôi một bức ảnh Poster du lịch chuẩn Cinematic, phong cách
 - Phong cách: Ánh sáng mặt trời rực rỡ, màu sắc tươi sáng, sắc nét chuẩn ảnh tạp chí du lịch.
 ```
 
-![Prompt tạo ảnh Poster](image-4.png)
-
-![Kết quả ảnh Poster AI](image-5.png)
-
 ```prompt
 Tạo một video ngắn 5 giây từ bức ảnh này với yêu cầu:
 - Chuyển động Camera: Góc quay Cinematic lướt chậm từ dưới lên cao (Tilt up) mở ra toàn cảnh thiên nhiên.
@@ -36,7 +32,5 @@ Tạo một video ngắn 5 giây từ bức ảnh này với yêu cầu:
 ```prompt
 Tạo một đoạn nhạc nền Audio thời lượng 15 giây phong cách Tropical House / Indie Pop tươi vui, nhịp điệu rộn ràng, mang lại cảm giác hào hứng, tự do cho chuyến đi du lịch mùa hè.
 ```
-
-![Prompt tạo nhạc nền](image-7.png)
 
 <audio controls src="Cứ_Đi_Thôi.mp3" title="Nhạc Nền Audio MP3 Thực Tế"></audio>

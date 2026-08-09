@@ -12,8 +12,6 @@ import StatusIndicator from '@cloudscape-design/components/status-indicator';
 import ExpandableSection from '@cloudscape-design/components/expandable-section';
 import Alert from '@cloudscape-design/components/alert';
 import Box from '@cloudscape-design/components/box';
-import HelpPanel from '@cloudscape-design/components/help-panel';
-import AnchorNavigation from '@cloudscape-design/components/anchor-navigation';
 import Navigation from '../components/Navigation';
 import { initialLessonsData } from '../data/lessonsData';
 import { getLocalLessonsOverride } from '../lib/supabase';
@@ -26,7 +24,6 @@ export default function StudentPortal() {
   const [copySuccess, setCopySuccess] = useState(false);
   const [copiedPromptName, setCopiedPromptName] = useState('');
   const [lessons, setLessons] = useState(initialLessonsData);
-  const [toolsOpen, setToolsOpen] = useState(false);
 
   // Exercise and Method selection states for ultra-clean UI/UX
   const [activeExerciseIndex, setActiveExerciseIndex] = useState(0);
@@ -35,7 +32,6 @@ export default function StudentPortal() {
   // TOC (Table of Contents) States
   const [isTocVisible, setIsTocVisible] = useState(true);
   const [activeHeadingId, setActiveHeadingId] = useState('');
-  const [tocViewMode, setTocViewMode] = useState('tree');
 
   useEffect(() => {
     const overrides = getLocalLessonsOverride();
@@ -94,7 +90,6 @@ export default function StudentPortal() {
     setTimeout(() => setCopySuccess(false), 3000);
   };
 
-  // Helper to slugify heading text into a unique DOM element ID
   const makeHeadingId = (text, index) => {
     if (!text) return `section-${index}`;
     const slug = text
@@ -104,7 +99,6 @@ export default function StudentPortal() {
     return `heading-${slug || index}`;
   };
 
-  // Smooth Scroll Helper for Table of Contents Anchor Links
   const scrollToHeading = (id) => {
     setActiveHeadingId(id);
     const el = document.getElementById(id);
@@ -115,7 +109,6 @@ export default function StudentPortal() {
     }
   };
 
-  // Get Icon helper for TOC Cards
   const getSectionIcon = (text) => {
     if (!text) return '📌';
     const upper = text.toUpperCase();
@@ -129,7 +122,6 @@ export default function StudentPortal() {
     return '📌';
   };
 
-  // Extract Key Heading Structure from active Markdown
   const extractTocHeadings = (markdown) => {
     if (!markdown) return [];
     const lines = markdown.split('\n');
@@ -182,21 +174,13 @@ export default function StudentPortal() {
     return headings;
   };
 
-  // Convert headings to Cloudscape AnchorNavigation format
-  const getCloudscapeAnchors = (markdown) => {
-    const headings = extractTocHeadings(markdown);
-    if (!headings.length) return [];
-    return headings.map((h) => ({
-      text: h.text,
-      href: `#${h.id}`,
-      level: Math.min(Math.max(h.level, 1), 3)
-    }));
-  };
-
-  const anchors = getCloudscapeAnchors(activeMarkdown);
+  const anchors = extractTocHeadings(activeMarkdown).map((h) => ({
+    text: h.text,
+    href: `#${h.id}`,
+    level: Math.min(Math.max(h.level, 1), 3)
+  }));
   const activeHref = activeHeadingId ? `#${activeHeadingId}` : (anchors[0]?.href || '');
 
-  // Inline Markdown Parser
   const parseInlineMarkdown = (text) => {
     if (!text) return '';
     
@@ -227,7 +211,7 @@ export default function StudentPortal() {
       if (linkMatch) {
         const label = linkMatch[1];
         const rawUrl = linkMatch[2];
-        const resolvedUrl = resolveMarkdownImageUrl(rawUrl);
+        const resolvedUrl = resolveMarkdownImageUrl(rawUrl, activeSession, activeExerciseIndex + 1);
         const isDownload = /\.(docx|doc|pdf|xlsx|xls|zip|rar|json)$/i.test(rawUrl);
 
         return (
@@ -255,9 +239,8 @@ export default function StudentPortal() {
     });
   };
 
-  // Helper to render Full-Width Image Cards
   const renderFullWidthImageCard = (src, altText) => {
-    const resolvedSrc = resolveMarkdownImageUrl(src);
+    const resolvedSrc = resolveMarkdownImageUrl(src, activeSession, activeExerciseIndex + 1);
     return (
       <div className="my-6 rounded-2xl overflow-hidden border border-slate-200/90 bg-white shadow-sm transition-all hover:shadow-md">
         <div className="relative group bg-slate-900 overflow-hidden flex items-center justify-center min-h-[220px]">
@@ -287,9 +270,8 @@ export default function StudentPortal() {
     );
   };
 
-  // Helper to render Full-Width Audio Cards
   const renderFullWidthAudioCard = (src, title) => {
-    const resolvedSrc = resolveMarkdownImageUrl(src);
+    const resolvedSrc = resolveMarkdownImageUrl(src, activeSession, activeExerciseIndex + 1);
     return (
       <div className="my-6 p-4 rounded-2xl border border-indigo-100 bg-gradient-to-r from-indigo-50/50 via-white to-slate-50 shadow-sm flex flex-col md:flex-row items-center gap-4">
         <div className="flex items-center gap-3">
@@ -298,19 +280,18 @@ export default function StudentPortal() {
           </div>
           <div>
             <h4 className="text-xs font-bold text-slate-900">{title}</h4>
-            <p className="text-[11px] text-slate-500">Audio Podcast Tóm Tắt Bản Tin</p>
+            <p className="text-[11px] text-slate-500 font-medium">Audio Overview / Podcast AI</p>
           </div>
         </div>
-        <div className="flex-1 w-full">
+        <div className="w-full md:flex-1">
           <audio controls src={resolvedSrc} className="w-full h-10 rounded-lg shadow-2xs" />
         </div>
       </div>
     );
   };
 
-  // Helper to render Full-Width Video Cards
   const renderFullWidthVideoCard = (src, title) => {
-    const resolvedSrc = resolveMarkdownImageUrl(src);
+    const resolvedSrc = resolveMarkdownImageUrl(src, activeSession, activeExerciseIndex + 1);
     return (
       <div className="my-6 rounded-2xl overflow-hidden border border-slate-200/90 bg-slate-900 shadow-md">
         <div className="p-3 bg-slate-900 text-slate-200 flex items-center justify-between text-xs font-semibold border-b border-slate-800">
@@ -328,61 +309,72 @@ export default function StudentPortal() {
     );
   };
 
-  // RENDER SINGLE MARKDOWN CONTENT BLOCK WITH HEADINGS ID ATTRIBUTES
   const renderSingleMarkdownContent = (markdownText) => {
     if (!markdownText) return null;
 
     const lines = markdownText.split('\n');
     const elements = [];
     let inCodeBlock = false;
-    let codeBuffer = [];
-    let codeLang = '';
+    let codeBlockContent = [];
+    let codeBlockLang = '';
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
 
       if (line.trim().startsWith('```')) {
-        if (inCodeBlock) {
-          const codeText = codeBuffer.join('\n');
-          const promptTitle = codeLang ? `Prompt (${codeLang})` : 'Prompt';
+        if (!inCodeBlock) {
+          inCodeBlock = true;
+          codeBlockLang = line.trim().replace(/^```/, '');
+          codeBlockContent = [];
+        } else {
+          inCodeBlock = false;
+          const fullCode = codeBlockContent.join('\n');
+          const isPrompt = codeBlockLang.toLowerCase().includes('prompt') || fullCode.includes('Nhiệm vụ:') || fullCode.includes('Bối cảnh:');
+
           elements.push(
-            <div key={`code-${i}`} className="my-5 shadow-2xs rounded-xl overflow-hidden border border-slate-800">
-              <div className="flex items-center justify-between bg-slate-900 text-slate-200 px-4 py-2.5 text-xs font-semibold border-b border-slate-800">
-                <span className="flex items-center gap-2"><span>📝</span> <span>{promptTitle}</span></span>
-                <Button 
-                  iconName="copy" 
-                  variant="primary" 
-                  onClick={() => handleCopyPrompt(codeText, promptTitle)}
+            <div key={`code-block-${i}`} className="my-5 rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 shadow-md">
+              <div className="px-4 py-2.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="w-3 h-3 rounded-full bg-red-500/80" />
+                  <span className="w-3 h-3 rounded-full bg-amber-500/80" />
+                  <span className="w-3 h-3 rounded-full bg-emerald-500/80" />
+                  <span className="text-xs font-mono font-bold text-slate-300 ml-2 uppercase">
+                    {codeBlockLang || (isPrompt ? 'Prompt Template' : 'Code Snippet')}
+                  </span>
+                </div>
+                <button
+                  onClick={() => handleCopyPrompt(fullCode, isPrompt ? 'Prompt' : 'Code')}
+                  className="px-3 py-1 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold transition-all shadow-2xs cursor-pointer flex items-center gap-1.5"
                 >
-                  1-Click Copy Prompt
-                </Button>
+                  <span>📋</span>
+                  <span>Sao chép</span>
+                </button>
               </div>
-              <div className="custom-code-editor rounded-none border-none">{codeText}</div>
+              <pre className="p-4 text-xs font-mono text-slate-200 overflow-x-auto leading-relaxed">
+                <code>{fullCode}</code>
+              </pre>
             </div>
           );
-          codeBuffer = [];
-          inCodeBlock = false;
-        } else {
-          inCodeBlock = true;
-          codeLang = line.trim().replace('```', '');
         }
         continue;
       }
 
       if (inCodeBlock) {
-        codeBuffer.push(line);
+        codeBlockContent.push(line);
+        continue;
+      }
+
+      if (line.trim().startsWith('=== SUBTAB:')) continue;
+
+      const htmlVideoMatch = line.trim().match(/<video[^>]*src=["'](.*?)["']/i);
+      if (htmlVideoMatch) {
+        elements.push(renderFullWidthVideoCard(htmlVideoMatch[1], 'Video AI Trailer Thực Tế'));
         continue;
       }
 
       const htmlAudioMatch = line.trim().match(/<audio[^>]*src=["'](.*?)["']/i);
       if (htmlAudioMatch) {
         elements.push(renderFullWidthAudioCard(htmlAudioMatch[1], 'Nhạc Nền Audio MP3 Thực Tế'));
-        continue;
-      }
-
-      const htmlVideoMatch = line.trim().match(/<video[^>]*src=["'](.*?)["']/i);
-      if (htmlVideoMatch) {
-        elements.push(renderFullWidthVideoCard(htmlVideoMatch[1], 'Video AI Trailer Thực Tế'));
         continue;
       }
 
@@ -403,180 +395,121 @@ export default function StudentPortal() {
         continue;
       }
 
-      // Heading 1 (# ...)
       if (line.trim().startsWith('# ')) {
         const titleText = line.trim().replace(/^#\s+/, '');
         const headingId = makeHeadingId(titleText, i);
-        elements.push(
-          <h1 id={headingId} key={`h1-${i}`} className="text-xl font-extrabold text-slate-900 my-5 pb-3 border-b border-slate-200 tracking-tight leading-snug scroll-mt-24">
-            {parseInlineMarkdown(titleText)}
-          </h1>
-        );
+        elements.push(<h1 id={headingId} key={`h1-${i}`} className="text-xl font-extrabold text-slate-900 my-5 pb-3 border-b border-slate-200 tracking-tight leading-snug scroll-mt-24">{parseInlineMarkdown(titleText)}</h1>);
         continue;
       }
 
-      // Heading 2 (## ...)
       if (line.trim().startsWith('## ')) {
         const titleText = line.trim().replace(/^##\s+/, '');
         const headingId = makeHeadingId(titleText, i);
-        elements.push(
-          <h2 id={headingId} key={`h2-${i}`} className="mt-8 mb-4 px-4 py-3 bg-gradient-to-r from-indigo-50/80 via-slate-50 to-white border border-indigo-100 rounded-xl text-base font-bold text-indigo-950 flex items-center gap-2.5 shadow-2xs scroll-mt-24">
-            {parseInlineMarkdown(titleText)}
-          </h2>
-        );
+        elements.push(<h2 id={headingId} key={`h2-${i}`} className="mt-8 mb-4 px-4 py-3 bg-gradient-to-r from-indigo-50/80 via-slate-50 to-white border border-indigo-100 rounded-xl text-base font-bold text-indigo-950 flex items-center gap-2.5 shadow-2xs scroll-mt-24">{parseInlineMarkdown(titleText)}</h2>);
         continue;
       }
 
-      // Heading 3 (### ...)
       if (line.trim().startsWith('### ')) {
         const titleText = line.trim().replace(/^###\s+/, '');
         const headingId = makeHeadingId(titleText, i);
-        elements.push(
-          <h3 id={headingId} key={`h3-${i}`} className="mt-6 mb-3 border-l-4 border-indigo-500 pl-3.5 text-sm font-bold text-slate-900 flex items-center gap-2 scroll-mt-24">
-            {parseInlineMarkdown(titleText)}
-          </h3>
-        );
+        elements.push(<h3 id={headingId} key={`h3-${i}`} className="mt-6 mb-3 border-l-4 border-indigo-500 pl-3.5 text-sm font-bold text-slate-900 flex items-center gap-2 scroll-mt-24">{parseInlineMarkdown(titleText)}</h3>);
         continue;
       }
 
-      // Heading 4 (#### ...) or Heading 5 (##### ...)
       if (line.trim().startsWith('#### ') || line.trim().startsWith('##### ')) {
         const titleText = line.trim().replace(/^#{4,5}\s+/, '');
         const headingId = makeHeadingId(titleText, i);
-        elements.push(
-          <h4 id={headingId} key={`h4-${i}`} className="mt-5 mb-2 font-bold text-indigo-900 text-sm flex items-center gap-2 scroll-mt-24">
-            {parseInlineMarkdown(titleText)}
-          </h4>
-        );
+        elements.push(<h4 id={headingId} key={`h4-${i}`} className="mt-5 mb-2 font-bold text-indigo-900 text-sm flex items-center gap-2 scroll-mt-24">{parseInlineMarkdown(titleText)}</h4>);
         continue;
       }
 
-      // Bullet List Items (* ... or - ...)
       if (line.trim().startsWith('* ') || line.trim().startsWith('- ')) {
         const listText = line.trim().replace(/^[\*\-]\s+/, '');
-        elements.push(
-          <div key={`li-${i}`} className="my-2.5 p-3.5 bg-white border border-slate-200/80 rounded-xl shadow-2xs text-slate-700 text-sm leading-relaxed flex items-start gap-3 hover:border-indigo-200 transition-all">
-            <span className="w-2 h-2 rounded-full bg-indigo-500 mt-2 flex-shrink-0" />
-            <div className="flex-1">{parseInlineMarkdown(listText)}</div>
-          </div>
-        );
+        elements.push(<div key={`li-${i}`} className="my-2.5 p-3.5 bg-white border border-slate-200/80 rounded-xl shadow-2xs text-slate-700 text-sm leading-relaxed flex items-start gap-3 hover:border-indigo-200 transition-all"><span className="w-2 h-2 rounded-full bg-indigo-500 mt-2 flex-shrink-0" /><div className="flex-1">{parseInlineMarkdown(listText)}</div></div>);
         continue;
       }
 
-      // Blockquote (> ...)
       if (line.trim().startsWith('> ')) {
         const quoteText = line.trim().replace(/^>\s+/, '');
-        elements.push(
-          <div key={`quote-${i}`} className="my-4 p-4 bg-amber-50/80 border-l-4 border-amber-500 rounded-r-xl text-amber-950 text-sm leading-relaxed font-medium shadow-2xs">
-            {parseInlineMarkdown(quoteText)}
-          </div>
-        );
+        elements.push(<div key={`quote-${i}`} className="my-4 p-4 bg-amber-50/80 border-l-4 border-amber-500 rounded-r-xl text-amber-950 text-sm leading-relaxed font-medium shadow-2xs">{parseInlineMarkdown(quoteText)}</div>);
         continue;
       }
 
-      // Horizontal Rule (---)
       if (line.trim() === '---') {
         elements.push(<hr key={`hr-${i}`} className="my-6 border-slate-200/80" />);
         continue;
       }
 
-      // Standard Paragraph Text
       if (line.trim().length > 0) {
-        elements.push(
-          <p key={`p-${i}`} className="my-3 text-slate-700 leading-relaxed text-sm">
-            {parseInlineMarkdown(line)}
-          </p>
-        );
+        elements.push(<p key={`p-${i}`} className="my-3 text-slate-700 leading-relaxed text-sm">{parseInlineMarkdown(line)}</p>);
       }
     }
 
     return elements;
   };
 
-  // HIERARCHICAL VISUAL TREE TOC PANEL WITH FOCUS ON ACTIVE EXERCISE & METHOD
   const renderCloudscapeTocPanel = () => {
     const headings = extractTocHeadings(activeMarkdown);
     if (!headings.length) return null;
 
     return (
-      <div className="sticky top-24 bg-white border border-slate-200/90 rounded-2xl p-4 shadow-sm transition-all overflow-hidden self-start">
+      <div className="sticky top-20 bg-white border border-slate-200/90 rounded-2xl p-4 shadow-sm transition-all overflow-hidden self-start">
         <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
           <div className="flex items-center gap-2 font-bold text-slate-800 text-xs tracking-wide uppercase">
             <span>📌</span>
-            <span>Mục Lục Mục Xem</span>
+            <span>Mục Lục Bài Học</span>
             <Badge color="blue">{headings.length}</Badge>
           </div>
-          <div className="flex items-center gap-1.5">
-            <button
-              onClick={() => setTocViewMode(tocViewMode === 'tree' ? 'anchors' : 'tree')}
-              className="text-[11px] font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded-md transition-colors cursor-pointer border border-indigo-200"
-              title="Chuyển chế độ hiển thị"
-            >
-              {tocViewMode === 'tree' ? '⚓ AnchorNav' : '🌳 Cây Phân Cấp'}
-            </button>
-            <button
-              onClick={() => setIsTocVisible(false)}
-              className="text-xs font-semibold text-slate-400 hover:text-red-500 cursor-pointer transition-colors px-1.5 py-1 rounded-md hover:bg-slate-100 flex items-center gap-1"
-              title="Thu gọn mục lực"
-            >
-              <span>✕</span>
-            </button>
-          </div>
+          <button
+            onClick={() => setIsTocVisible(false)}
+            className="text-xs font-semibold text-slate-400 hover:text-red-500 cursor-pointer transition-colors px-1.5 py-1 rounded-md hover:bg-slate-100 flex items-center gap-1"
+            title="Thu gọn mục lục"
+          >
+            <span>✕</span>
+          </button>
         </div>
 
-        <div className="max-h-[calc(100vh-230px)] overflow-y-auto overflow-x-hidden pr-1 custom-scrollbar">
-          {tocViewMode === 'anchors' ? (
-            <AnchorNavigation
-              activeHref={activeHref}
-              anchors={anchors}
-              onFollow={(e) => {
-                e.preventDefault();
-                const targetId = e.detail.href.replace('#', '');
-                scrollToHeading(targetId);
-              }}
-            />
-          ) : (
-            <div className="space-y-1.5">
-              {headings.map((h, i) => {
-                const isActive = activeHeadingId === h.id;
-                const icon = getSectionIcon(h.text);
+        <div className="max-h-[calc(100vh-200px)] overflow-y-auto overflow-x-hidden pr-1 custom-scrollbar space-y-1.5">
+          {headings.map((h, i) => {
+            const isActive = activeHeadingId === h.id;
+            const icon = getSectionIcon(h.text);
 
-                let levelStyle = '';
-                if (h.level === 1) {
-                  levelStyle = 'ml-0 bg-indigo-900 border-indigo-950 text-white font-extrabold text-xs p-2.5 shadow-2xs';
-                } else if (h.level === 2) {
-                  levelStyle = 'ml-2.5 border-l-4 border-indigo-500 bg-indigo-50/90 border-indigo-200 text-indigo-950 font-bold text-xs p-2';
-                } else if (h.level === 3) {
-                  levelStyle = 'ml-5 border-l-2 border-slate-300 bg-slate-50 hover:bg-indigo-50 border-slate-200 text-slate-800 font-semibold text-xs p-2';
-                } else {
-                  levelStyle = 'ml-8 border-l-2 border-emerald-400 bg-emerald-50/40 hover:bg-emerald-100/60 border-emerald-200/80 text-emerald-950 font-medium text-[11px] p-1.5';
-                }
+            let levelStyle = '';
+            if (h.level === 1) {
+              levelStyle = 'ml-0 bg-indigo-950 border-indigo-900 text-white font-extrabold text-xs p-2.5 shadow-2xs';
+            } else if (h.level === 2) {
+              levelStyle = 'ml-2 border-l-4 border-indigo-500 bg-indigo-50/90 border-indigo-200 text-indigo-950 font-bold text-xs p-2';
+            } else if (h.level === 3) {
+              levelStyle = 'ml-4 border-l-2 border-slate-300 bg-slate-50 hover:bg-indigo-50 border-slate-200 text-slate-800 font-semibold text-xs p-2';
+            } else {
+              levelStyle = 'ml-6 border-l-2 border-emerald-400 bg-emerald-50/40 hover:bg-emerald-100/60 border-emerald-200/80 text-emerald-950 font-medium text-[11px] p-1.5';
+            }
 
-                return (
-                  <button
-                    key={`toc-tree-${i}`}
-                    onClick={() => scrollToHeading(h.id)}
-                    className={`w-full text-left rounded-xl border transition-all flex items-start gap-2 cursor-pointer ${levelStyle} ${
-                      isActive
-                        ? '!bg-indigo-600 !border-indigo-700 !text-white font-bold shadow-md ring-2 ring-indigo-300'
-                        : ''
-                    }`}
-                  >
-                    <span className="text-xs flex-shrink-0 mt-0.5">{icon}</span>
-                    <div className="flex-1 min-w-0">
-                      <div className={`leading-snug break-words ${isActive ? '!text-white' : ''}`}>
-                        {h.text}
-                      </div>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          )}
+            return (
+              <button
+                key={`toc-tree-${i}`}
+                onClick={() => scrollToHeading(h.id)}
+                className={`w-full text-left rounded-xl border transition-all flex items-start gap-2 cursor-pointer ${levelStyle} ${
+                  isActive
+                    ? '!bg-indigo-600 !border-indigo-700 !text-white font-bold shadow-md ring-2 ring-indigo-300'
+                    : ''
+                }`}
+              >
+                <span className="text-xs flex-shrink-0 mt-0.5">{icon}</span>
+                <div className="flex-1 min-w-0">
+                  <div className={`leading-snug break-words ${isActive ? '!text-white' : ''}`}>
+                    {h.text}
+                  </div>
+                </div>
+              </button>
+            );
+          })}
         </div>
       </div>
     );
   };
+
+  const activeSideNavHref = `#buoi-${activeSession}${structuredData.exercises.length > 1 ? `-bai-${activeExerciseIndex + 1}` : ''}`;
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
@@ -585,10 +518,9 @@ export default function StudentPortal() {
       <AppLayout
         headerSelector="#top-nav-container"
         contentType="default"
+        toolsHide={true}
         navigationOpen={navigationOpen}
         onNavigationChange={({ detail }) => setNavigationOpen(detail.open)}
-        toolsOpen={toolsOpen}
-        onToolsChange={({ detail }) => setToolsOpen(detail.open)}
         breadcrumbs={
           <BreadcrumbGroup
             items={[
@@ -601,7 +533,7 @@ export default function StudentPortal() {
         }
         navigation={
           <SideNavigation
-            activeHref={`#buoi-${activeSession}`}
+            activeHref={activeSideNavHref}
             header={{
               href: '#/app',
               text: 'Lộ Trình Đào Tạo AI 2026',
@@ -609,8 +541,20 @@ export default function StudentPortal() {
             }}
             onFollow={(e) => {
               e.preventDefault();
-              const id = parseInt(e.detail.href.replace('#buoi-', ''), 10);
-              if (id) setActiveSession(id);
+              const href = e.detail.href;
+              if (href.includes('-bai-')) {
+                const parts = href.replace('#buoi-', '').split('-bai-');
+                const session = parseInt(parts[0], 10);
+                const lessonIndex = parseInt(parts[1], 10) - 1;
+                if (session) setActiveSession(session);
+                if (lessonIndex >= 0) setActiveExerciseIndex(lessonIndex);
+              } else {
+                const id = parseInt(href.replace('#buoi-', ''), 10);
+                if (id) {
+                  setActiveSession(id);
+                  setActiveExerciseIndex(0);
+                }
+              }
             }}
             items={[
               {
@@ -626,7 +570,16 @@ export default function StudentPortal() {
                 type: 'section',
                 text: 'Chặng 2: Tự Động Hóa n8n',
                 items: [
-                  { type: 'link', text: 'Buổi 3: Săn Ý Tưởng RSS', href: '#buoi-3', info: <Badge color="green">Nâng cao</Badge> },
+                  {
+                    type: 'expandable-link-group',
+                    text: 'Buổi 3: Săn Ý Tưởng RSS',
+                    href: '#buoi-3',
+                    info: <Badge color="green">Nâng cao</Badge>,
+                    items: [
+                      { type: 'link', text: 'Bài 1: Auto RSS Feed sang Sheets', href: '#buoi-3-bai-1' },
+                      { type: 'link', text: 'Bài 2: n8n AI Summarizer sang Tele/Gmail', href: '#buoi-3-bai-2' }
+                    ]
+                  },
                   { type: 'link', text: 'Buổi 4: Máy Content FB', href: '#buoi-4', info: <Badge color="green">Nâng cao</Badge> },
                   { type: 'link', text: 'Buổi 5: Kịch Bản Video', href: '#buoi-5', info: <Badge color="green">Nâng cao</Badge> },
                   { type: 'link', text: 'Buổi 6: Auto Chatbot Messenger', href: '#buoi-6', info: <Badge color="green">Nâng cao</Badge> }
@@ -644,39 +597,6 @@ export default function StudentPortal() {
             ]}
           />
         }
-        tools={
-          <HelpPanel
-            header={<h2>📌 Mục Lục Bài Học (TOC)</h2>}
-            footer={
-              <div>
-                <h3>Lộ Trình Đào Tạo AI 2026</h3>
-                <Box color="text-body-secondary">
-                  Bấm vào bất kỳ mục tiêu đề nào để di chuyển nhanh tới phần bài học tương ứng!
-                </Box>
-              </div>
-            }
-          >
-            <SpaceBetween size="m">
-              <Box variant="p">
-                <strong>Buổi {currentLesson.session_number}</strong>: {currentLesson.description}
-              </Box>
-
-              {anchors.length > 0 && (
-                <div className="border border-slate-200 rounded-xl p-3 bg-white">
-                  <AnchorNavigation
-                    activeHref={activeHref}
-                    anchors={anchors}
-                    onFollow={(e) => {
-                      e.preventDefault();
-                      const targetId = e.detail.href.replace('#', '');
-                      scrollToHeading(targetId);
-                    }}
-                  />
-                </div>
-              )}
-            </SpaceBetween>
-          </HelpPanel>
-        }
         content={
           <ContentLayout
             header={
@@ -686,10 +606,7 @@ export default function StudentPortal() {
                 actions={
                   <SpaceBetween direction="horizontal" size="xs">
                     <Badge color="blue">{currentLesson.module_name}</Badge>
-                    <StatusIndicator type="success">Structured 2-Tier Navigation</StatusIndicator>
-                    <Button iconName="help" onClick={() => setToolsOpen(!toolsOpen)}>
-                      Mục Lục (TOC)
-                    </Button>
+                    <StatusIndicator type="success">Structured Learning Roadmap</StatusIndicator>
                   </SpaceBetween>
                 }
               >
@@ -704,27 +621,65 @@ export default function StudentPortal() {
                 </Alert>
               )}
 
-              {/* LEVEL 1: PRIMARY EXERCISE TABS SELECTOR */}
+              {/* MODERN ELEGANT STEP NAVIGATION BANNER FOR SUB-LESSONS */}
               {structuredData.exercises.length > 1 && (
-                <div className="bg-white border border-slate-200/90 rounded-2xl p-2.5 shadow-2xs">
-                  <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 px-2">
-                    🎯 Danh Sách Bài Tập Thực Hành:
-                  </div>
-                  <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
-                    {structuredData.exercises.map((ex, idx) => (
-                      <button
-                        key={ex.id}
-                        onClick={() => setActiveExerciseIndex(idx)}
-                        className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer whitespace-nowrap border ${
-                          activeExerciseIndex === idx
-                            ? 'bg-indigo-600 border-indigo-700 text-white shadow-md ring-2 ring-indigo-300'
-                            : 'bg-slate-50 hover:bg-indigo-50 border-slate-200/80 text-slate-700 hover:text-indigo-900'
-                        }`}
-                      >
-                        <span className="text-sm">{ex.icon}</span>
-                        <span>{ex.title}</span>
-                      </button>
-                    ))}
+                <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-2xl p-5 text-white shadow-md border border-indigo-900/80 my-2">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-11 h-11 rounded-xl bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 flex items-center justify-center font-extrabold text-sm flex-shrink-0 shadow-inner">
+                        {activeExerciseIndex + 1}/{structuredData.exercises.length}
+                      </div>
+                      <div>
+                        <div className="text-[11px] font-bold text-indigo-400 uppercase tracking-widest flex items-center gap-2">
+                          <span>🎯 Danh Sách Bài Tập Thực Hành</span>
+                          <Badge color="green">Bài {activeExerciseIndex + 1} của {structuredData.exercises.length}</Badge>
+                        </div>
+                        <h2 className="text-base font-extrabold text-white mt-0.5 flex items-center gap-2">
+                          <span>{activeExercise.icon}</span>
+                          <span>{activeExercise.title}</span>
+                        </h2>
+                      </div>
+                    </div>
+
+                    {/* Step Switcher Controls */}
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {activeExerciseIndex > 0 && (
+                        <button
+                          onClick={() => setActiveExerciseIndex(activeExerciseIndex - 1)}
+                          className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-all flex items-center gap-1.5 cursor-pointer border border-white/15 active:scale-95"
+                        >
+                          <span>←</span>
+                          <span>Bài Trước</span>
+                        </button>
+                      )}
+
+                      <div className="flex items-center gap-1 bg-white/10 p-1 rounded-xl border border-white/15">
+                        {structuredData.exercises.map((ex, idx) => (
+                          <button
+                            key={ex.id}
+                            onClick={() => setActiveExerciseIndex(idx)}
+                            className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                              activeExerciseIndex === idx
+                                ? 'bg-indigo-600 text-white shadow-md ring-1 ring-indigo-400'
+                                : 'text-slate-300 hover:text-white hover:bg-white/10'
+                            }`}
+                          >
+                            <span>{ex.icon}</span>
+                            <span>Bài {idx + 1}</span>
+                          </button>
+                        ))}
+                      </div>
+
+                      {activeExerciseIndex < structuredData.exercises.length - 1 && (
+                        <button
+                          onClick={() => setActiveExerciseIndex(activeExerciseIndex + 1)}
+                          className="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-all flex items-center gap-1.5 cursor-pointer shadow-md active:scale-95"
+                        >
+                          <span>Bài Tiếp</span>
+                          <span>→</span>
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}

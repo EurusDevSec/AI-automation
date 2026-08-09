@@ -26,12 +26,14 @@ Dưới đây là tài liệu kỹ thuật chi tiết để xây dựng hệ th�
 ### Phần 2: Cấu hình từng Node chi tiết
 
 #### Bước 1: Thiết lập lịch chạy tự động (Schedule Trigger)
+
 * Thêm node **Schedule Trigger**.
 * Tại mục **Rule**, thiết lập **Interval** để luồng chạy tự động vào lúc **7 giờ sáng** mỗi ngày (`triggerAtHour: 7`).
 
 ![Thiết lập Schedule Trigger](image-2.png)
 
 #### Bước 2: Khai báo danh sách nguồn tin (Code in JavaScript)
+
 * Thêm node **Code** (tên: `Code in JavaScript`) kết nối vào sau node Schedule Trigger.
 * Dán đoạn mã sau vào node để lấy dữ liệu từ các nguồn RSS:
 
@@ -47,6 +49,7 @@ return [
 ![Thiết lập code in Javascript](image-3.png)
 
 #### Bước 3: Thu thập nội dung (RSS Read)
+
 * Thêm node **RSS Read** nối tiếp vào node Code.
 * Tại trường **URL**, bật chế độ Expression và nhập công thức: `{{ $json.url }}`.
 
@@ -54,6 +57,7 @@ return [
 ![Thêm Filter](image-6.png)
 
 #### Bước 4: Bộ lọc bài viết trong 24 giờ (Filter)
+
 * Thêm node **Filter**.
 * **Left Value**: `{{ $json.isoDate }}`.
 * **Operator**: Chọn `After` (thuộc nhóm dateTime).
@@ -64,16 +68,18 @@ return [
 * Ý nghĩa: Lọc các tin mới xuất bản trong vòng 24 giờ qua.
 
 #### Bước 5: Gom nhóm dữ liệu cho AI (Aggregate)
+
 * Thêm node **Aggregate**.
 * Tại mục **Fields To Aggregate**, thêm 3 trường dữ liệu cần thiết:
-  - Trường 1: `title`.
-  - Trường 2: `contentSnippet`.
-  - Trường 3: `link`.
+  * Trường 1: `title`.
+  * Trường 2: `contentSnippet`.
+  * Trường 3: `link`.
 
 ![Kéo 3 trường title, contentSnippet, link sang](image-8.png)
 ![Trạng thái sau khi Thêm Aggregate](image-9.png)
 
 #### Bước 6: Xử lý bằng AI (Message a model - Google Gemini)
+
 * Thêm node **Google Gemini**.
 
 ![Chọn node Gemini](image-10.png)
@@ -121,6 +127,7 @@ Danh sách Link:
 ```
 
 #### Bước 7: Bóc tách dữ liệu JSON (Code in JavaScript1)
+
 * Thêm node **Code** (tên: `Code in JavaScript1`).
 * Dán đoạn mã dưới đây để phân tách kết quả của AI thành các items độc lập:
 
@@ -138,6 +145,7 @@ return parsedData;
 ![Thêm code javascript](image-14.png)
 
 #### Bước 8: Lưu trữ lịch sử (Append or update row in sheet)
+
 * Thêm node **Google Sheets**.
 
 ![Thêm node Google Sheets](image-15.png)
@@ -147,16 +155,17 @@ return parsedData;
 * **Document ID** & **Sheet Name**: Chọn bảng tính "AI Tech Digest" và trang tính tương ứng của bạn.
 * **Column to match on** (Cột đối chiếu): Chọn `Link`.
 * **Columns Mapping** (Ghép dữ liệu vào các cột) sử dụng Expression:
-  - `Link`: `{{ $json.link }}`.
-  - `Ngày`: `{{ $now.setZone('Asia/Ho_Chi_Minh').toFormat('dd/MM/yyyy') }}`.
-  - `Tiêu đề`: `{{ $json.title }}`.
-  - `Chủ đề`: `{{ $json.category }}`.
-  - `Điểm`: `{{ $json.score }}`.
-  - `Tóm tắt`: `{{ $json.summary }}`.
+  * `Link`: `{{ $json.link }}`.
+  * `Ngày`: `{{ $now.setZone('Asia/Ho_Chi_Minh').toFormat('dd/MM/yyyy') }}`.
+  * `Tiêu đề`: `{{ $json.title }}`.
+  * `Chủ đề`: `{{ $json.category }}`.
+  * `Điểm`: `{{ $json.score }}`.
+  * `Tóm tắt`: `{{ $json.summary }}`.
 
 ![Thiết lập Operation, Document ID, Column to match on, Columns Mapping](image-17.png)
 
 #### Bước 9: Khởi tạo định dạng bản tin đa nền tảng (Code in JavaScript2)
+
 * Thêm node **Code** (tên: `Code in JavaScript2`).
 * Dán mã sau để soạn sẵn một phiên bản cho Telegram (dùng `\n`) và một phiên bản cho Email (dùng thẻ `<br>`):
 
@@ -196,40 +205,41 @@ return [{
 ![Thêm node javascript](image-18.png)
 
 #### Bước 10: Phân phối thông báo (Chia nhánh song song)
+
 Từ đầu ra của Bước 9, kéo ra 2 nhánh gửi tin qua 2 kênh cùng lúc:
 
 * **Nhánh 1: Gửi qua Telegram (Send a text message)**
-  - Thêm node **Telegram**.
+  * Thêm node **Telegram**.
 
 ![Thêm node Telegram](image-23.png)
 
-  - **Chuẩn bị kết nối và Lấy Chat ID:**
+* **Chuẩn bị kết nối và Lấy Chat ID:**
     1. **Tạo Bot:** Tìm **`@BotFather`** trên Telegram → Gõ `/newbot` → Copy đoạn API Token dán vào Credential Telegram trên n8n.
-    
+
     ![Tạo @BotFather lấy Access Token](image-24.png)
     ![Dán Access Token từ @BotFather vào Credential](image-25.png)
 
-    2. **Lấy ID cá nhân:** Tìm bot **`@userinfobot`** trên Telegram → Bấm **Start** → Copy dãy số ID cá nhân trả về (Ví dụ: `8374731299`).
-    
+    1. **Lấy ID cá nhân:** Tìm bot **`@userinfobot`** trên Telegram → Bấm **Start** → Copy dãy số ID cá nhân trả về (Ví dụ: `8374731299`).
+
     ![Lấy ID cá nhân](image-26.png)
 
-    3. **Kích hoạt Bot:** Tìm tên con bot bạn vừa tạo ở Bước 1 → Bấm **Start** để cấp quyền nhắn tin.
+    1. **Kích hoạt Bot:** Tìm tên con bot bạn vừa tạo ở Bước 1 → Bấm **Start** để cấp quyền nhắn tin.
 
-  - **Chat ID:** Nhập dãy số ID cá nhân lấy từ `@userinfobot`.
-  - **Text:** Bật Expression (`fx`) và nhập: `={{ $json.telegram_message }}`.
-  - **Additional Fields:** Chọn `Parse Mode` → **`HTML`**.
+* **Chat ID:** Nhập dãy số ID cá nhân lấy từ `@userinfobot`.
+* **Text:** Bật Expression (`fx`) và nhập: `={{ $json.telegram_message }}`.
+* **Additional Fields:** Chọn `Parse Mode` → **`HTML`**.
 
 ![Cấu hình Chat ID, Text và Additional Fields](image-27.png)
 ![Kết quả bản tin Telegram](image-28.png)
 
 * **Nhánh 2: Gửi qua Gmail (Send a message)**
-  - Thêm node **Gmail**.
+  * Thêm node **Gmail**.
 
 ![Thêm node Gmail](image-19.png)
 
-  - **Send To**: Nhập địa chỉ Gmail nhận (Ví dụ: `nguyenvana@gmail.com`).
-  - **Subject**: `🧠 Bản tin Tech Digest ({{ $json.today }})`.
-  - **Message**: `{{ $json.email_message }}`.
+* **Send To**: Nhập địa chỉ Gmail nhận (Ví dụ: `nguyenvana@gmail.com`).
+* **Subject**: `🧠 Bản tin Tech Digest ({{ $json.today }})`.
+* **Message**: `{{ $json.email_message }}`.
 
 ![Thiết lập Send To, Subject, Message](image-20.png)
 ![Kết quả bot gửi Gmail](image-21.png)
@@ -244,9 +254,10 @@ Từ đầu ra của Bước 9, kéo ra 2 nhánh gửi tin qua 2 kênh cùng lú
 
 ### 📦 MÃ WORKFLOW N8N JSON CHUẨN (10 NODES FULL PIPELINE)
 
-> 💡 **Hướng dẫn Nhanh:** 
-> - **Cách A:** Bấm nút **1-Click Copy Prompt** ở khung mã bên dưới, sau đó mở giao diện n8n Canvas và dán trực tiếp (`Ctrl + V`).
-> - **Cách B:** Bấm nút **Tải xuống** ở bên dưới để lấy file `.json` về máy, sau đó vào n8n chọn **Workflows → Import from File**.
+> 💡 **Hướng dẫn Nhanh:**
+>
+> * **Cách A:** Bấm nút **1-Click Copy Prompt** ở khung mã bên dưới, sau đó mở giao diện n8n Canvas và dán trực tiếp (`Ctrl + V`).
+> * **Cách B:** Bấm nút **Tải xuống** ở bên dưới để lấy file `.json` về máy, sau đó vào n8n chọn **Workflows → Import from File**.
 
 * **Tải File Workflow n8n Bài 2:** [📥 Tải Xuống File Workflow n8n JSON (workflow_buoi_3_bai_2.json)](/workflow_buoi_3_bai_2.json)
 
@@ -497,18 +508,22 @@ Sau khi dán mã JSON trên vào n8n Canvas, học viên chỉ cần lấy đún
 ---
 
 #### 1. CÁCH LẤY GOOGLE SHEET DOCUMENT ID
-- **Nơi thay thế:** Trong Node **Append or update row in sheet** → Mục `Document`.
-- **Cách lấy chính xác:**
+
+* **Nơi thay thế:** Trong Node **Append or update row in sheet** → Mục `Document`.
+
+* **Cách lấy chính xác:**
   1. Mở trang file Google Sheets `AI Tech Digest` của bạn.
   2. Nhìn lên thanh địa chỉ trình duyệt web (URL), copy chuỗi ký tự nằm ở giữa đoạn `/d/` và `/edit`:
-     - *Ví dụ URL:* `https://docs.google.com/spreadsheets/d/`**`1YpScQoArwt2z2gVhi2n1hUr9UpPpguH9Eyo7au2noUA`**`/edit#gid=0`
-     - *Đoạn ID cần copy dán vào ô Document:* `1YpScQoArwt2z2gVhi2n1hUr9UpPpguH9Eyo7au2noUA`
+     * *Ví dụ URL:* `https://docs.google.com/spreadsheets/d/`**`1YpScQoArwt2z2gVhi2n1hUr9UpPpguH9Eyo7au2noUA`**`/edit#gid=0`
+     * *Đoạn ID cần copy dán vào ô Document:* `1YpScQoArwt2z2gVhi2n1hUr9UpPpguH9Eyo7au2noUA`
 
 ---
 
 #### 2. CÁCH LẤY TELEGRAM CHAT ID CÁ NHÂN
-- **Nơi thay thế:** Trong Node **Send a text message** (Telegram) → Mục `Chat ID`.
-- **Cách lấy chính xác:**
+
+* **Nơi thay thế:** Trong Node **Send a text message** (Telegram) → Mục `Chat ID`.
+
+* **Cách lấy chính xác:**
   1. Mở ứng dụng Telegram trên máy tính hoặc điện thoại.
   2. Tìm kiếm tên bot **`@userinfobot`** và bấm nút **Start**.
   3. Bot sẽ trả về ngay dãy số ID cá nhân của bạn (Ví dụ: `8374731299`). Copy dãy số này dán vào ô `Chat ID` trên n8n.
@@ -516,8 +531,10 @@ Sau khi dán mã JSON trên vào n8n Canvas, học viên chỉ cần lấy đún
 ---
 
 #### 3. CÁCH TẠO TELEGRAM BOT ACCESS TOKEN
-- **Nơi thay thế:** Trong Node Telegram → Mục `Credential for Telegram API`.
-- **Cách lấy chính xác:**
+
+* **Nơi thay thế:** Trong Node Telegram → Mục `Credential for Telegram API`.
+
+* **Cách lấy chính xác:**
   1. Tìm kiếm bot **`@BotFather`** trên Telegram → Gõ lệnh `/newbot`.
   2. Đặt tên hiển thị và username cho Bot của bạn.
   3. `@BotFather` sẽ xuất ra đoạn mã **HTTP API Token** (Ví dụ: `7123456789:AAFxxx...`). Copy đoạn mã này dán vào mục *Create New Credential* trên n8n.
@@ -525,8 +542,10 @@ Sau khi dán mã JSON trên vào n8n Canvas, học viên chỉ cần lấy đún
 ---
 
 #### 4. CÁCH LẤY GOOGLE GEMINI API KEY
-- **Nơi thay thế:** Trong Node **Message a model** (Google Gemini) → Mục `Credential for Google Gemini(PaLM) API`.
-- **Cách lấy chính xác:**
+
+* **Nơi thay thế:** Trong Node **Message a model** (Google Gemini) → Mục `Credential for Google Gemini(PaLM) API`.
+
+* **Cách lấy chính xác:**
   1. Truy cập trang web [Google AI Studio (aistudio.google.com)](https://aistudio.google.com).
   2. Đăng nhập bằng Gmail cá nhân và nhấp chọn **Get API key** ở thanh menu bên trái.
   3. Bấm **Create API Key** → Copy chuỗi ký tự Key dài màu xám và dán vào n8n.
@@ -534,5 +553,7 @@ Sau khi dán mã JSON trên vào n8n Canvas, học viên chỉ cần lấy đún
 ---
 
 #### 5. ĐỊA CHỈ EMAIL NHẬN BẢN TIN GMAIL
-- **Nơi thay thế:** Trong Node **Send a message** (Gmail) → Mục `Send To`.
-- **Cách nhập:** Điền chính xác địa chỉ Email Gmail cá nhân của bạn (Ví dụ: `nguyenvana@gmail.com`) để n8n tự động gửi bản tin về hòm thư của bạn mỗi sáng lúc 7:00 AM.
+
+* **Nơi thay thế:** Trong Node **Send a message** (Gmail) → Mục `Send To`.
+
+* **Cách nhập:** Điền chính xác địa chỉ Email Gmail cá nhân của bạn (Ví dụ: `nguyenvana@gmail.com`) để n8n tự động gửi bản tin về hòm thư của bạn mỗi sáng lúc 7:00 AM.

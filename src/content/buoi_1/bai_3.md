@@ -35,8 +35,6 @@ Mỗi khi có Gmail mới gửi đến chứa từ khóa "Thanh toán du lịch"
 - Bổ sung dữ liệu vừa trích xuất vào đúng các cột tương ứng (A: Ngày, B: Tên, C: Số tiền, D: Nội dung).
 ```
 
-![Prompt Standing Instruction 24/7](image-8.png)
-
 #### Bước 2: Kịch bản Test thực chiến ngay tại lớp (2 phút)
 
 Yêu cầu học viên mở Gmail cá nhân và tự gửi 1 email cho chính mình với đúng cấu trúc:
@@ -44,13 +42,7 @@ Yêu cầu học viên mở Gmail cá nhân và tự gửi 1 email cho chính m�
 - **Tiêu đề:** `Thanh toán du lịch - Nguyễn Văn A`
 - **Nội dung:** `Xác nhận đã chuyển khoản 3.000.000 VNĐ tiền cọc chuyến đi Đà Lạt.`
 
-![Ảnh gửi Gmail kiểm tra](image-9.png)
-
 * **Kết quả nghiệm thu:** Sau 30-60 giây, mở file `Thu Chi Du Lịch 2026` trên Drive ra thấy dữ liệu tự nhảy đúng 4 cột.
-
-![Spark nhận ra Gmail](image-10.png)
-
-![Spark lưu kết quả vào Sheets](image-11.png)
 
 ---
 
@@ -71,7 +63,3 @@ Mỗi khi tôi nhập tên một địa điểm hoặc ý tưởng chuyến đi 
 [ĐẦU RA]
 Trình bày dạng Bảng Markdown rõ ràng. Văn phong hào hứng, hiện đại, dễ hiểu cho tất cả mọi người.
 ```
-
-![System Instruction Custom Gem](image-12.png)
-![Prompt khi sử dụng Gem](image-13.png)
-![Kết quả Gem tự sinh prompt](image-14.png)
