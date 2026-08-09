@@ -16,7 +16,7 @@ Toàn bộ mã JSON workflow n8n đã được đóng gói sẵn. Học viên c�
 
 ---
 
-#### 1. BƯỚC 1: TẠO FILE GOOGLE SHEETS & ĐỊNH NGHĨA 4 CỘT HEADER
+### BƯỚC 1: TẠO FILE GOOGLE SHEETS & ĐỊNH NGHĨA 4 CỘT HEADER
 - Truy cập trang [sheets.new](https://sheets.new) để tạo 01 file Google Sheets mới (Đặt tên file: `Data RSS VNExpress`).
 - Tại dòng đầu tiên (Header Row 1), tạo đúng 4 tên cột:
   - Cột A: `Tiêu đề`
@@ -27,16 +27,16 @@ Toàn bộ mã JSON workflow n8n đã được đóng gói sẵn. Học viên c�
 
 ---
 
-#### 2. BƯỚC 2: LẤY SPREADSHEET DOCUMENT ID TỪ NGHĨA THANH URL
+### BƯỚC 2: LẤY SPREADSHEET DOCUMENT ID TỪ THANH URL
 - Nhìn lên thanh địa chỉ trình duyệt web (URL) của trang Google Sheets vừa tạo, tìm đoạn mã **Document ID** nằm giữa `/d/` và `/edit`:
-  - *Ví dụ URL:* `https://docs.google.com/spreadsheets/d/`**`1ABCXYZ_123456789`**`/edit#gid=0`
-  - *Đoạn ID cần copy:* **`1ABCXYZ_123456789`**
+  - *Ví dụ URL:* `https://docs.google.com/spreadsheets/d/1ABCXYZ_123456789/edit#gid=0`
+  - *Đoạn ID cần copy:* `1ABCXYZ_123456789`
 
 ---
 
-#### 3. BƯỚC 3: COPY/PASTE MÃ JSON HOẶC IMPORT FILE VÀO N8N CANVAS
-- **Cách A (Dán trực tiếp):** Bấm nút **1-Click Copy Prompt** ở khung mã bên dưới $\rightarrow$ Mở giao diện n8n Canvas $\rightarrow$ Nhấn tổ hợp phím **`Ctrl + V`** (hoặc `Cmd + V` trên Mac).
-- **Cách B (Import từ File):** Bấm nút **Tải xuống** ở bên dưới để lấy file `.json` về máy $\rightarrow$ Trên menu n8n chọn **Workflows → Import from File**.
+### BƯỚC 3: COPY/PASTE MÃ JSON HOẶC IMPORT FILE VÀO N8N CANVAS
+- **Cách A (Dán trực tiếp):** Bấm nút **1-Click Copy Prompt** ở khung mã bên dưới → Mở giao diện n8n Canvas → Nhấn tổ hợp phím **Ctrl + V** (hoặc Cmd + V trên Mac).
+- **Cách B (Import từ File):** Bấm nút **Tải xuống** ở bên dưới để lấy file `.json` về máy → Trên menu n8n chọn **Workflows → Import from File**.
 
 * **Tải File Workflow n8n:** [📥 Tải Xuống File Workflow n8n JSON (workflow_buoi_3_rss.json)](/workflow_buoi_3_rss.json)
 
@@ -210,11 +210,11 @@ Toàn bộ mã JSON workflow n8n đã được đóng gói sẵn. Học viên c�
 
 ---
 
-#### 4. BƯỚC 4: THAY SPREADSHEET ID & KẾT NỐI TÀI KHOẢN GOOGLE N8N
+### BƯỚC 4: THAY SPREADSHEET ID & KẾT NỐI TÀI KHOẢN GOOGLE N8N
 - Click đúp vào Node **Append or update row in sheet** trên n8n canvas.
 - Dán **Document ID** (lấy ở Bước 2) vào mục **Document**.
 - Mục **Credential for Google Sheets**: Chọn tài khoản Google Account của bạn (Bấm *Sign in with Google* nếu chưa kết nối).
-- Bấm **Execute workflow** thử nghiệm màu xanh lá $\rightarrow$ Gạt công tắc **Active** để n8n tự động săn tin ngầm 24/7!
+- Bấm **Execute workflow** thử nghiệm màu xanh lá → Gạt công tắc **Active** để n8n tự động săn tin ngầm 24/7!
 
 ---
 

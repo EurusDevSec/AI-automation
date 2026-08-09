@@ -79,15 +79,28 @@ export default function StudentPortal() {
     let cleanText = text
       .replace(/\\rightarrow/g, '→')
       .replace(/\$\\rightarrow\$/g, '→')
+      .replace(/\$\\rightarrow/g, '→')
+      .replace(/\$\\rightarrow/g, '→')
+      .replace(/\\rarr/g, '→')
       .replace(/&rarr;/g, '→')
       .replace(/&gt;/g, '>')
       .replace(/&lt;/g, '<')
       .replace(/&amp;/g, '&');
 
-    // Split by Markdown links [text](url), bold (**text**), and italic (*text*)
-    const parts = cleanText.split(/(\[.*?\]\(.*?\)\s*|\*\*.*?\*\*|\*.*?\*)/g);
+    // Split by Markdown links [text](url), bold (**text**), italic (*text*), and inline code (`code`)
+    const parts = cleanText.split(/(\[.*?\]\(.*?\)\s*|\*\*.*?\*\*|\*.*?\*|`.*?`)/g);
     return parts.map((part, idx) => {
       if (!part) return null;
+
+      // Check inline code `code`
+      const codeMatch = part.match(/^`(.*?)`/);
+      if (codeMatch) {
+        return (
+          <code key={`code-${idx}`} className="px-1.5 py-0.5 bg-slate-100 border border-slate-200 text-indigo-700 font-mono text-xs rounded font-semibold mx-0.5">
+            {codeMatch[1]}
+          </code>
+        );
+      }
 
       // Check Markdown link [label](url)
       const linkMatch = part.match(/^\[(.*?)\]\((.*?)\)/);
@@ -95,7 +108,7 @@ export default function StudentPortal() {
         const label = linkMatch[1];
         const rawUrl = linkMatch[2];
         const resolvedUrl = resolveMarkdownImageUrl(rawUrl);
-        const isDownload = /\.(docx|doc|pdf|xlsx|xls|zip|rar)$/i.test(rawUrl);
+        const isDownload = /\.(docx|doc|pdf|xlsx|xls|zip|rar|json)$/i.test(rawUrl);
 
         return (
           <a
@@ -302,6 +315,17 @@ export default function StudentPortal() {
           <h3 key={`h3-${i}`} className="mt-6 mb-3 border-l-4 border-indigo-500 pl-3.5 text-sm font-bold text-slate-900 flex items-center gap-2">
             {parseInlineMarkdown(titleText)}
           </h3>
+        );
+        continue;
+      }
+
+      // Heading 4 (#### ...) or Heading 5 (##### ...)
+      if (line.trim().startsWith('#### ') || line.trim().startsWith('##### ')) {
+        const titleText = line.trim().replace(/^#{4,5}\s+/, '');
+        elements.push(
+          <h4 key={`h4-${i}`} className="mt-5 mb-2 font-bold text-indigo-900 text-sm flex items-center gap-2">
+            {parseInlineMarkdown(titleText)}
+          </h4>
         );
         continue;
       }
