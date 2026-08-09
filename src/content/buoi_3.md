@@ -1,6 +1,6 @@
 # Buổi 3: Auto Cào Ý Tưởng RSS Sang Google Sheets (n8n)
 
-![Giao diện n8n RSS Automation](/session_3.jpg)
+![Giao diện RSS Automation](image-30.png)
 
 ## 📖 TỔNG QUAN BUỔI HỌC
 
