@@ -97,6 +97,21 @@ export default function StudentPortal() {
   };
 
   // Extract Heading Structure from Raw Markdown
+  // Get Icon helper for TOC Cards
+  const getSectionIcon = (text) => {
+    if (!text) return '📌';
+    const upper = text.toUpperCase();
+    if (upper.includes('TỔNG QUAN') || upper.includes('GIỚI THIỆU')) return '📖';
+    if (upper.includes('BƯỚC 1') || upper.includes('GIAI ĐOẠN 1')) return '🟢';
+    if (upper.includes('BƯỚC 2') || upper.includes('GIAI ĐOẠN 2')) return '🔵';
+    if (upper.includes('BƯỚC 3') || upper.includes('GIAI ĐOẠN 3')) return '🟣';
+    if (upper.includes('BƯỚC 4') || upper.includes('GIAI ĐOẠN 4')) return '🟠';
+    if (upper.includes('CHECKLIST') || upper.includes('OKR')) return '✅';
+    if (upper.includes('PHẦN') || upper.includes('BÀI')) return '📄';
+    return '📌';
+  };
+
+  // Extract Key Heading Structure from Raw Markdown (Filtered for high UX readability)
   const extractTocHeadings = (markdown) => {
     if (!markdown) return [];
     const lines = markdown.split('\n');
@@ -124,9 +139,12 @@ export default function StudentPortal() {
       } else if (trimmed.startsWith('### ')) {
         level = 3;
         text = trimmed.replace(/^###\s+/, '');
-      } else if (trimmed.startsWith('#### ') || trimmed.startsWith('##### ')) {
-        level = 4;
-        text = trimmed.replace(/^#{4,5}\s+/, '');
+      } else if (trimmed.startsWith('#### ')) {
+        text = trimmed.replace(/^####\s+/, '');
+        // Only include H4 if it represents a major Step/Phase/Checklist to prevent clutter
+        if (/^(bước|giai đoạn|phần|chặng|checklist|okr|quần|tỔng quan)/i.test(text)) {
+          level = 4;
+        }
       }
 
       if (level > 0 && text) {
@@ -496,17 +514,18 @@ export default function StudentPortal() {
     return renderSingleMarkdownContent(markdownText);
   };
 
-  // NATIVE AWS CLOUDSCAPE ANCHOR NAVIGATION PANEL
+  // HIGH-UX SEGMENTED CARD CHIP TOC PANEL
   const renderCloudscapeTocPanel = () => {
-    if (!anchors.length) return null;
+    const headings = extractTocHeadings(currentLesson.raw_markdown);
+    if (!headings.length) return null;
 
     return (
       <div className="sticky top-24 bg-white border border-slate-200/90 rounded-2xl p-4 shadow-sm transition-all overflow-hidden self-start">
         <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
           <div className="flex items-center gap-2 font-bold text-slate-800 text-xs tracking-wide uppercase">
             <span>📌</span>
-            <span>Mục Lực Bài Học (TOC)</span>
-            <Badge color="blue">{anchors.length}</Badge>
+            <span>Mục Lục Bài Học</span>
+            <Badge color="blue">{headings.length}</Badge>
           </div>
           <button
             onClick={() => setIsTocVisible(false)}
@@ -518,16 +537,30 @@ export default function StudentPortal() {
           </button>
         </div>
 
-        <div className="max-h-[calc(100vh-230px)] overflow-y-auto overflow-x-hidden pr-1 custom-scrollbar">
-          <AnchorNavigation
-            activeHref={activeHref}
-            anchors={anchors}
-            onFollow={(e) => {
-              e.preventDefault();
-              const targetId = e.detail.href.replace('#', '');
-              scrollToHeading(targetId);
-            }}
-          />
+        <div className="max-h-[calc(100vh-230px)] overflow-y-auto overflow-x-hidden pr-1 space-y-2 custom-scrollbar">
+          {headings.map((h, i) => {
+            const isActive = activeHeadingId === h.id;
+            const icon = getSectionIcon(h.text);
+
+            return (
+              <button
+                key={`toc-card-${i}`}
+                onClick={() => scrollToHeading(h.id)}
+                className={`w-full text-left p-2.5 rounded-xl border transition-all flex items-start gap-2.5 cursor-pointer shadow-2xs ${
+                  isActive
+                    ? 'bg-indigo-600 border-indigo-700 text-white font-bold shadow-md ring-2 ring-indigo-300'
+                    : 'bg-white hover:bg-indigo-50/80 border-slate-200/90 text-slate-800 hover:border-indigo-300 hover:text-indigo-900'
+                }`}
+              >
+                <span className="text-sm flex-shrink-0 mt-0.5">{icon}</span>
+                <div className="flex-1 min-w-0">
+                  <div className={`text-xs leading-snug break-words ${isActive ? 'text-white' : 'text-slate-800'}`}>
+                    {h.text}
+                  </div>
+                </div>
+              </button>
+            );
+          })}
         </div>
       </div>
     );
