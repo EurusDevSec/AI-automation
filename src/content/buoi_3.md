@@ -17,6 +17,7 @@ Toàn bộ mã JSON workflow n8n đã được đóng gói sẵn. Học viên c�
 ---
 
 ### BƯỚC 1: TẠO FILE GOOGLE SHEETS & ĐỊNH NGHĨA 4 CỘT HEADER
+
 - Truy cập trang [sheets.new](https://sheets.new) để tạo 01 file Google Sheets mới (Đặt tên file: `Data RSS VNExpress`).
 - Tại dòng đầu tiên (Header Row 1), tạo đúng 4 tên cột:
   - Cột A: `Tiêu đề`
@@ -27,18 +28,12 @@ Toàn bộ mã JSON workflow n8n đã được đóng gói sẵn. Học viên c�
 
 ---
 
-### BƯỚC 2: LẤY SPREADSHEET DOCUMENT ID TỪ THANH URL
-- Nhìn lên thanh địa chỉ trình duyệt web (URL) của trang Google Sheets vừa tạo, tìm đoạn mã **Document ID** nằm giữa `/d/` và `/edit`:
-  - *Ví dụ URL:* `https://docs.google.com/spreadsheets/d/1ABCXYZ_123456789/edit#gid=0`
-  - *Đoạn ID cần copy:* `1ABCXYZ_123456789`
+### BƯỚC 2: COPY/PASTE MÃ JSON HOẶC IMPORT FILE VÀO N8N CANVAS
 
----
-
-### BƯỚC 3: COPY/PASTE MÃ JSON HOẶC IMPORT FILE VÀO N8N CANVAS
 - **Cách A (Dán trực tiếp):** Bấm nút **1-Click Copy Prompt** ở khung mã bên dưới → Mở giao diện n8n Canvas → Nhấn tổ hợp phím **Ctrl + V** (hoặc Cmd + V trên Mac).
 - **Cách B (Import từ File):** Bấm nút **Tải xuống** ở bên dưới để lấy file `.json` về máy → Trên menu n8n chọn **Workflows → Import from File**.
 
-* **Tải File Workflow n8n:** [📥 Tải Xuống File Workflow n8n JSON (workflow_buoi_3_rss.json)](/workflow_buoi_3_rss.json)
+- **Tải File Workflow n8n:** [📥 Tải Xuống File Workflow n8n JSON (workflow_buoi_3_rss.json)](/workflow_buoi_3_rss.json)
 
 ```json
 {
@@ -211,6 +206,7 @@ Toàn bộ mã JSON workflow n8n đã được đóng gói sẵn. Học viên c�
 ---
 
 ### BƯỚC 4: THAY SPREADSHEET ID & KẾT NỐI TÀI KHOẢN GOOGLE N8N
+
 - Click đúp vào Node **Append or update row in sheet** trên n8n canvas.
 - Dán **Document ID** (lấy ở Bước 2) vào mục **Document**.
 - Mục **Credential for Google Sheets**: Chọn tài khoản Google Account của bạn (Bấm *Sign in with Google* nếu chưa kết nối).
@@ -222,7 +218,8 @@ Toàn bộ mã JSON workflow n8n đã được đóng gói sẵn. Học viên c�
 
 ### GIAI ĐOẠN 1: KHỞI TẠO CƠ SỞ DỮ LIỆU (DATABASE SETUP)
 
-* **Mục tiêu:** Chuẩn bị kho chứa dữ liệu đích (Data Warehouse) để n8n đổ dữ liệu tin tức về.
+- **Mục tiêu:** Chuẩn bị kho chứa dữ liệu đích (Data Warehouse) để n8n đổ dữ liệu tin tức về.
+
 1. Truy cập [Google Sheets](https://sheets.new) và tạo một bảng tính mới (VD: `Data RSS VNExpress`).
 2. Tại dòng đầu tiên (Header), định nghĩa 4 trường dữ liệu chính (viết chính xác):
    - Cột A: `Tiêu đề`
@@ -237,9 +234,10 @@ Toàn bộ mã JSON workflow n8n đã được đóng gói sẵn. Học viên c�
 
 ### GIAI ĐOẠN 2: DỰNG LUỒNG TRÍCH XUẤT (EXTRACTION PIPELINE)
 
-* **Mục tiêu:** Lên lịch chạy tự động và cào dữ liệu thô từ nguồn tin tức RSS.
+- **Mục tiêu:** Lên lịch chạy tự động và cào dữ liệu thô từ nguồn tin tức RSS.
 
 #### 1. Thêm Node Kích Hoạt (Schedule Trigger)
+
 - Tìm và thêm Node **Schedule Trigger**.
 - Thiết lập khoảng thời gian chạy mong muốn (Ví dụ: `Minutes` hoặc `Hours` → `24` để chạy cập nhật mỗi 24 giờ).
 
@@ -248,6 +246,7 @@ Toàn bộ mã JSON workflow n8n đã được đóng gói sẵn. Học viên c�
 ![Thiết lập khoảng thời gian kích hoạt cho Trigger](image-18.png)
 
 #### 2. Thêm Node Trích Xuất (RSS Read)
+
 - Thêm Node **RSS Read** và nối dây từ `Schedule Trigger` sang.
 
 ![Chọn Node RSS Read](image-19.png)
@@ -264,16 +263,18 @@ Toàn bộ mã JSON workflow n8n đã được đóng gói sẵn. Học viên c�
 
 ### GIAI ĐOẠN 3: KẾT NỐI VÀ ĐỊNH TUYẾN DỮ LIỆU (LOAD & MAPPING)
 
-* **Mục tiêu:** Bơm dữ liệu vào Google Sheets với cơ chế chống trùng lặp dữ liệu (Idempotent).
+- **Mục tiêu:** Bơm dữ liệu vào Google Sheets với cơ chế chống trùng lặp dữ liệu (Idempotent).
 
 ![Thêm Node Google Sheets](image-22.png)
 
 #### 1. Cấu Hình Node Google Sheets
+
 - Thêm Node **Google Sheets** và nối từ `RSS Read` sang.
 
 ![Nhấn vào Node Google Sheets](image-23.png)
 
 #### 2. Xác Thực Tài Khoản (Authentication)
+
 - Ở mục Credential, chọn **Create New Credential → Google Sheets OAuth2 API**.
 - Giữ nguyên chế độ mặc định **Managed OAuth2 (recommended)**.
 - Bấm **Sign in with Google**, chọn tài khoản Gmail chứa file Sheets và cấp quyền (hệ thống sẽ báo *Account connected* màu xanh lá).
@@ -285,6 +286,7 @@ Toàn bộ mã JSON workflow n8n đã được đóng gói sẵn. Học viên c�
 ![Chọn Gmail và xác thực thành công](image-26.png)
 
 #### 3. Thiết Lập Thao Tác & Ánh Xạ Dữ Liệu (Data Mapping)
+
 - **Resource:** Chọn `Row` (Xử lý theo từng dòng dữ liệu).
 - **Operation:** Chọn `Append or Update` (Cốt lõi để bảo vệ tính toàn vẹn dữ liệu, không sinh dòng rác trùng lặp).
 - **Document:** Chọn `From list` và chọn file `Data RSS VNExpress` của bạn.
@@ -306,8 +308,8 @@ Toàn bộ mã JSON workflow n8n đã được đóng gói sẵn. Học viên c�
 
 ![Nhấn Execute workflow thử nghiệm toàn trình](image-28.png)
 
-2. Mở file Google Sheets để xác minh dữ liệu tin tức đã được n8n tự động đổ vào đúng các cột.
-3. Chuyển trạng thái workflow từ **Inactive** sang **Active** (bấm công tắc góc trên bên phải) để hệ thống tự động chạy ngầm 24/7.
+1. Mở file Google Sheets để xác minh dữ liệu tin tức đã được n8n tự động đổ vào đúng các cột.
+2. Chuyển trạng thái workflow từ **Inactive** sang **Active** (bấm công tắc góc trên bên phải) để hệ thống tự động chạy ngầm 24/7.
 
 ![Mở file Google Sheets kiểm tra kết quả thành công](image-29.png)
 
