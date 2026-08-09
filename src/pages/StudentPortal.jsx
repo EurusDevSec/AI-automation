@@ -75,8 +75,10 @@ export default function StudentPortal() {
   const parseInlineMarkdown = (text) => {
     if (!text) return '';
     
-    // Clean HTML entities & arrow symbols
+    // Clean HTML entities, LaTeX math & arrow symbols
     let cleanText = text
+      .replace(/\\rightarrow/g, '→')
+      .replace(/\$\\rightarrow\$/g, '→')
       .replace(/&rarr;/g, '→')
       .replace(/&gt;/g, '>')
       .replace(/&lt;/g, '<')

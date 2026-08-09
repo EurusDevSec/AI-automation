@@ -10,11 +10,33 @@ Bắt đầu bước chân vào thế giới Tự Động Hóa Workflow không c
 
 === SUBTAB: ⚡ Cách 1: Import Nhanh Bằng n8n JSON (1-Click Copy / Download) ===
 
-### 📦 MÃ WORKFLOW n8n JSON CHUẨN
+### 📌 QUY TRÌNH IMPORT N8N JSON CHUẨN (4 BƯỚC BẮT BUỘC)
 
-> 💡 **Hướng dẫn Nhanh:** 
-> - **Cách A:** Bấm nút **1-Click Copy Prompt** ở khung bên dưới, sau đó mở giao diện n8n Canvas và dán trực tiếp (`Ctrl + V`).
-> - **Cách B:** Bấm nút **Tải xuống** ở bên dưới để lấy file `.json` về máy, sau đó vào n8n chọn **Workflows $\rightarrow$ Import from File**.
+Toàn bộ mã JSON workflow n8n đã được đóng gói sẵn. Học viên cần thực hiện đúng **4 Bước chuẩn bị & cấu hình** bên dưới để luồng chạy tự động 100%:
+
+---
+
+#### 1. BƯỚC 1: TẠO FILE GOOGLE SHEETS & ĐỊNH NGHĨA 4 CỘT HEADER
+- Truy cập trang [sheets.new](https://sheets.new) để tạo 01 file Google Sheets mới (Đặt tên file: `Data RSS VNExpress`).
+- Tại dòng đầu tiên (Header Row 1), tạo đúng 4 tên cột:
+  - Cột A: `Tiêu đề`
+  - Cột B: `Link`
+  - Cột C: `Mô tả`
+  - Cột D: `Ngày xuất bản`
+- Đóng băng dòng 1 (**View → Freeze → 1 row**).
+
+---
+
+#### 2. BƯỚC 2: LẤY SPREADSHEET DOCUMENT ID TỪ NGHĨA THANH URL
+- Nhìn lên thanh địa chỉ trình duyệt web (URL) của trang Google Sheets vừa tạo, tìm đoạn mã **Document ID** nằm giữa `/d/` và `/edit`:
+  - *Ví dụ URL:* `https://docs.google.com/spreadsheets/d/`**`1ABCXYZ_123456789`**`/edit#gid=0`
+  - *Đoạn ID cần copy:* **`1ABCXYZ_123456789`**
+
+---
+
+#### 3. BƯỚC 3: COPY/PASTE MÃ JSON HOẶC IMPORT FILE VÀO N8N CANVAS
+- **Cách A (Dán trực tiếp):** Bấm nút **1-Click Copy Prompt** ở khung mã bên dưới $\rightarrow$ Mở giao diện n8n Canvas $\rightarrow$ Nhấn tổ hợp phím **`Ctrl + V`** (hoặc `Cmd + V` trên Mac).
+- **Cách B (Import từ File):** Bấm nút **Tải xuống** ở bên dưới để lấy file `.json` về máy $\rightarrow$ Trên menu n8n chọn **Workflows → Import from File**.
 
 * **Tải File Workflow n8n:** [📥 Tải Xuống File Workflow n8n JSON (workflow_buoi_3_rss.json)](/workflow_buoi_3_rss.json)
 
@@ -188,6 +210,14 @@ Bắt đầu bước chân vào thế giới Tự Động Hóa Workflow không c
 
 ---
 
+#### 4. BƯỚC 4: THAY SPREADSHEET ID & KẾT NỐI TÀI KHOẢN GOOGLE N8N
+- Click đúp vào Node **Append or update row in sheet** trên n8n canvas.
+- Dán **Document ID** (lấy ở Bước 2) vào mục **Document**.
+- Mục **Credential for Google Sheets**: Chọn tài khoản Google Account của bạn (Bấm *Sign in with Google* nếu chưa kết nối).
+- Bấm **Execute workflow** thử nghiệm màu xanh lá $\rightarrow$ Gạt công tắc **Active** để n8n tự động săn tin ngầm 24/7!
+
+---
+
 === SUBTAB: 🛠️ Cách 2: Hướng Dẫn Dựng Thủ Công Từng Bước (Step-by-Step UI) ===
 
 ### GIAI ĐOẠN 1: KHỞI TẠO CƠ SỞ DỮ LIỆU (DATABASE SETUP)
@@ -199,7 +229,7 @@ Bắt đầu bước chân vào thế giới Tự Động Hóa Workflow không c
    - Cột B: `Link`
    - Cột C: `Mô tả`
    - Cột D: `Ngày xuất bản`
-3. Đóng băng dòng đầu tiên (**View $\rightarrow$ Freeze $\rightarrow$ 1 row**) để dữ liệu đổ xuống không bị lộn xộn.
+3. Đóng băng dòng đầu tiên (**View → Freeze → 1 row**) để dữ liệu đổ xuống không bị lộn xộn.
 
 ![Khởi tạo 4 trường trên Google Sheets](image-16.png)
 
@@ -211,7 +241,7 @@ Bắt đầu bước chân vào thế giới Tự Động Hóa Workflow không c
 
 #### 1. Thêm Node Kích Hoạt (Schedule Trigger)
 - Tìm và thêm Node **Schedule Trigger**.
-- Thiết lập khoảng thời gian chạy mong muốn (Ví dụ: `Minutes` hoặc `Hours` $\rightarrow$ `24` để chạy cập nhật mỗi 24 giờ).
+- Thiết lập khoảng thời gian chạy mong muốn (Ví dụ: `Minutes` hoặc `Hours` → `24` để chạy cập nhật mỗi 24 giờ).
 
 ![Chọn Schedule Trigger Node](image-17.png)
 
@@ -244,7 +274,7 @@ Bắt đầu bước chân vào thế giới Tự Động Hóa Workflow không c
 ![Nhấn vào Node Google Sheets](image-23.png)
 
 #### 2. Xác Thực Tài Khoản (Authentication)
-- Ở mục Credential, chọn **Create New Credential $\rightarrow$ Google Sheets OAuth2 API**.
+- Ở mục Credential, chọn **Create New Credential → Google Sheets OAuth2 API**.
 - Giữ nguyên chế độ mặc định **Managed OAuth2 (recommended)**.
 - Bấm **Sign in with Google**, chọn tài khoản Gmail chứa file Sheets và cấp quyền (hệ thống sẽ báo *Account connected* màu xanh lá).
 
