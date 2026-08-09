@@ -14,6 +14,7 @@ import ExpandableSection from '@cloudscape-design/components/expandable-section'
 import Alert from '@cloudscape-design/components/alert';
 import Box from '@cloudscape-design/components/box';
 import HelpPanel from '@cloudscape-design/components/help-panel';
+import AnchorNavigation from '@cloudscape-design/components/anchor-navigation';
 import Navigation from '../components/Navigation';
 import { initialLessonsData } from '../data/lessonsData';
 import { getLocalLessonsOverride } from '../lib/supabase';
@@ -42,6 +43,31 @@ export default function StudentPortal() {
 
   const currentLesson = lessons.find((l) => l.session_number === activeSession) || lessons[0];
 
+  // ScrollSpy listener to dynamically update active anchor link on page scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      const headings = document.querySelectorAll('h1[id], h2[id], h3[id], h4[id]');
+      if (!headings.length) return;
+
+      let currentId = '';
+      const scrollPosition = window.scrollY + 130;
+
+      headings.forEach((heading) => {
+        const top = heading.offsetTop;
+        if (scrollPosition >= top) {
+          currentId = heading.id;
+        }
+      });
+
+      if (currentId && currentId !== activeHeadingId) {
+        setActiveHeadingId(currentId);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [activeHeadingId, activeSession]);
+
   const handleCopyPrompt = (promptText, promptName = 'Prompt') => {
     navigator.clipboard.writeText(promptText);
     setCopiedPromptName(promptName);
@@ -59,18 +85,18 @@ export default function StudentPortal() {
     return `heading-${slug || index}`;
   };
 
-  // Smooth Scroll Helper for Table of Contents
+  // Smooth Scroll Helper for Table of Contents Anchor Links
   const scrollToHeading = (id) => {
     setActiveHeadingId(id);
     const el = document.getElementById(id);
     if (el) {
-      const yOffset = -90; // offset for fixed top navbar
+      const yOffset = -90; // offset for sticky top navigation bar
       const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
 
-  // Extract Heading Structure from Raw Markdown for Table of Contents
+  // Extract Heading Structure from Raw Markdown
   const extractTocHeadings = (markdown) => {
     if (!markdown) return [];
     const lines = markdown.split('\n');
@@ -121,7 +147,21 @@ export default function StudentPortal() {
     return headings;
   };
 
-  // Inline Markdown Parser for bold, italic, links, backtick code, and arrows
+  // Convert headings to Cloudscape AnchorNavigation format
+  const getCloudscapeAnchors = (markdown) => {
+    const headings = extractTocHeadings(markdown);
+    if (!headings.length) return [];
+    return headings.map((h) => ({
+      text: h.text,
+      href: `#${h.id}`,
+      level: Math.min(Math.max(h.level, 1), 3)
+    }));
+  };
+
+  const anchors = getCloudscapeAnchors(currentLesson.raw_markdown);
+  const activeHref = activeHeadingId ? `#${activeHeadingId}` : (anchors[0]?.href || '');
+
+  // Inline Markdown Parser
   const parseInlineMarkdown = (text) => {
     if (!text) return '';
     
@@ -456,58 +496,39 @@ export default function StudentPortal() {
     return renderSingleMarkdownContent(markdownText);
   };
 
-  // FLOATING TABLE OF CONTENTS SIDEBAR COMPONENT
-  const RenderTableOfContents = () => {
-    const headings = extractTocHeadings(currentLesson.raw_markdown);
-    if (headings.length === 0) return null;
+  // NATIVE AWS CLOUDSCAPE ANCHOR NAVIGATION PANEL
+  const renderCloudscapeTocPanel = () => {
+    if (!anchors.length) return null;
 
     return (
-      <div className="sticky top-20 bg-white border border-slate-200/90 rounded-2xl p-4 shadow-sm transition-all">
+      <div className="sticky top-24 bg-white border border-slate-200/90 rounded-2xl p-4 shadow-sm transition-all overflow-hidden self-start">
         <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
           <div className="flex items-center gap-2 font-bold text-slate-800 text-xs tracking-wide uppercase">
             <span>📌</span>
-            <span>Mục Lực Bài Học</span>
-            <span className="px-1.5 py-0.5 bg-indigo-100 text-indigo-700 text-[10px] rounded-full font-semibold">
-              {headings.length}
-            </span>
+            <span>Mục Lực Bài Học (TOC)</span>
+            <Badge color="blue">{anchors.length}</Badge>
           </div>
           <button
-            onClick={() => setIsTocVisible(!isTocVisible)}
-            className="text-xs font-semibold text-slate-400 hover:text-indigo-600 cursor-pointer transition-colors px-1.5 py-0.5 rounded hover:bg-slate-100"
-            title="Ẩn / Hiện mục lực"
+            onClick={() => setIsTocVisible(false)}
+            className="text-xs font-semibold text-slate-400 hover:text-red-500 cursor-pointer transition-colors px-2 py-1 rounded-md hover:bg-slate-100 flex items-center gap-1"
+            title="Thu gọn mục lực"
           >
-            {isTocVisible ? 'Ẩn ▲' : 'Hiện ▼'}
+            <span>Thu gọn</span>
+            <span>✕</span>
           </button>
         </div>
 
-        {isTocVisible && (
-          <div className="space-y-1 max-h-[calc(100vh-220px)] overflow-y-auto pr-1 text-xs custom-scrollbar">
-            {headings.map((h, i) => {
-              const indentStyle =
-                h.level === 1 ? 'font-bold text-indigo-950 pl-0 border-l-2 border-indigo-500' :
-                h.level === 2 ? 'font-semibold text-slate-800 pl-2 border-l border-slate-300' :
-                h.level === 3 ? 'text-slate-600 pl-4 border-l border-slate-200' :
-                'text-slate-500 pl-6 text-[11px]';
-
-              const isActive = activeHeadingId === h.id;
-
-              return (
-                <button
-                  key={`toc-${i}`}
-                  onClick={() => scrollToHeading(h.id)}
-                  className={`w-full text-left py-1.5 px-2 rounded-md transition-all truncate block cursor-pointer ${indentStyle} ${
-                    isActive
-                      ? 'bg-indigo-50 text-indigo-700 font-bold border-indigo-600 shadow-2xs'
-                      : 'hover:bg-slate-50 hover:text-indigo-600'
-                  }`}
-                  title={h.text}
-                >
-                  {h.text}
-                </button>
-              );
-            })}
-          </div>
-        )}
+        <div className="max-h-[calc(100vh-230px)] overflow-y-auto overflow-x-hidden pr-1 custom-scrollbar">
+          <AnchorNavigation
+            activeHref={activeHref}
+            anchors={anchors}
+            onFollow={(e) => {
+              e.preventDefault();
+              const targetId = e.detail.href.replace('#', '');
+              scrollToHeading(targetId);
+            }}
+          />
+        </div>
       </div>
     );
   };
@@ -580,12 +601,12 @@ export default function StudentPortal() {
         }
         tools={
           <HelpPanel
-            header={<h2>💡 Hướng Dẫn Thao Tác</h2>}
+            header={<h2>📌 Mục Lực Bài Học (TOC)</h2>}
             footer={
               <div>
-                <h3>Sub-Tabs Navigation</h3>
+                <h3>Lộ Trình Đào Tạo AI 2026</h3>
                 <Box color="text-body-secondary">
-                  Thanh Sub-Tabs trực quan nằm ở vị trí cao nhất giúp bạn chuyển đổi mượt mà giữa các bài tập thực hành 1-Click!
+                  Bấm vào bất kỳ mục tiêu đề nào để di chuyển nhanh tới phần bài học tương ứng!
                 </Box>
               </div>
             }
@@ -594,6 +615,20 @@ export default function StudentPortal() {
               <Box variant="p">
                 <strong>Buổi {currentLesson.session_number}</strong>: {currentLesson.description}
               </Box>
+
+              {anchors.length > 0 && (
+                <div className="border border-slate-200 rounded-xl p-3 bg-white">
+                  <AnchorNavigation
+                    activeHref={activeHref}
+                    anchors={anchors}
+                    onFollow={(e) => {
+                      e.preventDefault();
+                      const targetId = e.detail.href.replace('#', '');
+                      scrollToHeading(targetId);
+                    }}
+                  />
+                </div>
+              )}
             </SpaceBetween>
           </HelpPanel>
         }
@@ -608,7 +643,7 @@ export default function StudentPortal() {
                     <Badge color="blue">{currentLesson.module_name}</Badge>
                     <StatusIndicator type="success">Dynamic Sub-Tabs Active</StatusIndicator>
                     <Button iconName="help" onClick={() => setToolsOpen(!toolsOpen)}>
-                      Trợ Giúp
+                      Mục Lực (TOC)
                     </Button>
                   </SpaceBetween>
                 }
@@ -625,9 +660,9 @@ export default function StudentPortal() {
               )}
 
               {/* TWO COLUMN LAYOUT: MAIN LESSON CONTENT & FLOATING TOC SIDEBAR */}
-              <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
-                {/* LEFT COLUMN: MAIN LESSON CONTENT & SUB-TABS (TOP PROMOTED) */}
-                <div className={isTocVisible ? "lg:col-span-3 space-y-6" : "lg:col-span-4 space-y-6"}>
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start relative">
+                {/* LEFT COLUMN: MAIN LESSON CONTENT */}
+                <div className={isTocVisible && anchors.length > 0 ? "lg:col-span-3 space-y-6" : "lg:col-span-4 space-y-6"}>
                   <Container>
                     {renderDynamicMarkdown(currentLesson.raw_markdown)}
                   </Container>
@@ -645,11 +680,25 @@ export default function StudentPortal() {
                   </ExpandableSection>
                 </div>
 
-                {/* RIGHT COLUMN: FLOATING STICKY TABLE OF CONTENTS */}
-                <div className="hidden lg:block lg:col-span-1">
-                  <RenderTableOfContents />
-                </div>
+                {/* RIGHT COLUMN: CLOUDSCAPE ANCHOR NAVIGATION SIDEBAR */}
+                {isTocVisible && anchors.length > 0 && (
+                  <div className="hidden lg:block lg:col-span-1 sticky top-24 self-start">
+                    {renderCloudscapeTocPanel()}
+                  </div>
+                )}
               </div>
+
+              {/* FLOATING RESTORE BUTTON WHEN TOC IS MINIMIZED / HIDDEN */}
+              {!isTocVisible && anchors.length > 0 && (
+                <button
+                  onClick={() => setIsTocVisible(true)}
+                  className="fixed bottom-6 right-6 z-50 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-3 rounded-full shadow-xl flex items-center gap-2 transition-all hover:scale-105 cursor-pointer border border-indigo-400 animate-bounce"
+                  title="Mở lại Mục Lục Bài Học"
+                >
+                  <span className="text-base">📌</span>
+                  <span className="text-xs tracking-wide">Mục Lục Bài Học ({anchors.length})</span>
+                </button>
+              )}
             </SpaceBetween>
           </ContentLayout>
         }
