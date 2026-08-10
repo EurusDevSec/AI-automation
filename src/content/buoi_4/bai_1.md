@@ -148,38 +148,71 @@ Trả về định dạng JSON BẮT BUỘC:
 #### 🔹 GIAI ĐOẠN 1: KHỞI TẠO TÀI KHOẢN META DEVELOPER VÀ TẠO APP
 
 ##### Bước 1: Đăng ký tài khoản Meta for Developers
+
 1. Đăng nhập sẵn tài khoản Facebook cá nhân trên trình duyệt.
 2. Truy cập vào đường dẫn: [developers.facebook.com](https://developers.facebook.com/).
+
+![Truy cập vào developers.facebook.com](image-6.png)
 3. Bấm vào nút **Bắt đầu** (Get Started) hoặc **Đăng nhập** ở góc trên bên phải.
 4. Xác nhận thông tin cá nhân, chọn vai trò (chọn **Nhà phát triển / Developer** hoặc **Khác / Other**) và hoàn tất đăng ký.
 
 ##### Bước 2: Tạo Meta App (Ứng dụng)
+
 1. Sau khi hoàn tất đăng ký, truy cập trang quản lý ứng dụng: [developers.facebook.com/apps](https://developers.facebook.com/apps/).
 2. Bấm nút màu xanh **Tạo ứng dụng** (Create App).
+![create app](image-7.png)
+
+![Chọn tên app](image-8.png)
 3. **Chọn mục đích sử dụng:**
-   - Chọn mục **Khác** (Other) → Bấm **Tiếp tục** (Next).
-   - Chọn loại ứng dụng: Chọn **Doanh nghiệp** (Business) hoặc **Không có** / **Khác** tùy giao diện hiện tại → Bấm **Tiếp tục**.
-4. **Điền thông tin ứng dụng:**
-   - **Tên hiển thị ứng dụng (App Name):** Đặt tên dễ nhớ (ví dụ: `n8n Auto Post`).
-   - **Email liên hệ:** Nhập email cá nhân của bạn.
-5. Bấm nút **Tạo ứng dụng** (Create App) và nhập lại mật khẩu Facebook để xác minh.
+
+* Chọn mục **Khác** (Other) → Bấm **Tiếp tục** (Next).
+
+![Chọn Others](image-9.png)
+
+* Chọn loại ứng dụng: Chọn **Doanh nghiệp** (Business) hoặc **Không có** / **Khác** tùy giao diện hiện tại → Bấm **Tiếp tục**.
+![Chọn Business](image-10.png)
+
+1. **Điền thông tin ứng dụng:**
+   * **Tên hiển thị ứng dụng (App Name):** Đặt tên dễ nhớ (ví dụ: `n8n Auto Post`).
+
+![Kiểm tra thông tin](image-11.png)
+
+* **Email liên hệ:** Nhập email cá nhân của bạn.
+
+1. Bấm nút **Tạo ứng dụng** (Create App) và nhập lại mật khẩu Facebook để xác minh.
 
 ---
+Tiếp theo chọn setup cho Facebook Login for Business
+![Facebook Login for business](image-12.png)
+
+![Sau khi setup Facebook Login for business](image-13.png)
 
 #### 🔹 GIAI ĐOẠN 2: CẤP QUYỀN VÀ LẤY PAGE ACCESS TOKEN TỪ GRAPH API EXPLORER
 
 ##### Bước 3: Truy cập công cụ Graph API Explorer
+
 1. Truy cập trực tiếp vào công cụ thử nghiệm của Meta: [developers.facebook.com/tools/explorer](https://developers.facebook.com/tools/explorer/).
-2. Nhìn sang cột **Access Token** nằm ở bên phải màn hình.
+
+![Vaò Graph API Explorer](image-14.png)
+
+![Sau khi vào được Graph API Explorer](image-15.png)
+
+1. Nhìn sang cột **Access Token** nằm ở bên phải màn hình.
+![Chọn Page Access Token và Chọn Page cần test](image-16.png)
 
 ##### Bước 4: Thêm các quyền (Permissions) bắt buộc
+
 1. Tìm đến mục **Permissions** ở góc dưới bên phải.
 2. Bấm vào ô **Add a Permission** để tìm và thêm đủ 3 quyền sau:
-   - `pages_show_list` (Đọc danh sách Fanpage bạn quản lý)
-   - `pages_read_engagement` (Đọc thông tin tương tác Trang)
-   - `pages_manage_posts` (Đặc quyền đăng bài lên Fanpage)
+   * `pages_show_list` (Đọc danh sách Fanpage bạn quản lý)
+   * `pages_read_engagement` (Đọc thông tin tương tác Trang)
+   * `pages_manage_posts` (Đặc quyền đăng bài lên Fanpage)
+
+Chọn 3 quyền page_show_list, Pages_read_engagement, Pages_manage_posts
+![Chọn 3 quyền trên](image-17.png)
 
 ##### Bước 5: Tạo Token người dùng trước (User Token)
+
 1. Ngay bên dưới mục Access Token, tại ô **Meta App**, bấm chọn đúng tên App bạn vừa tạo ở Bước 2 (ví dụ: `n8n Auto Post`).
 2. Bấm nút màu xanh **Generate Access Token**.
 3. Màn hình sẽ hiện một pop-up của Facebook yêu cầu cấp quyền: Bấm **Tiếp tục dưới tên [Tên bạn]** → Chọn Fanpage bạn muốn kết nối → Bấm **Đồng ý / Hoàn tất**.
@@ -194,21 +227,29 @@ Trả về định dạng JSON BẮT BUỘC:
 4. Bấm vào biểu tượng **Copy Token** bên cạnh ô Access Token để lưu mã này lại.
 
 ##### Bước 7: Lấy Page ID (ID Fanpage)
+
 1. Mở một thẻ (tab) mới trên trình duyệt, vào trực tiếp **Fanpage Facebook** của bạn.
 2. Vào mục **Giới thiệu (About)** → Cuộn xuống tìm dòng **ID Trang (Page ID)** và copy dãy số này (Ví dụ: `1234567890123456`).
 3. *Cách 2:* Hoặc ngay trên trang Graph API Explorer, xóa ô nhập lệnh ở giữa, gõ `me/accounts` rồi bấm **Submit**. Trong khung JSON trả về, tìm tên Fanpage của bạn và copy dãy số `id` ngay bên dưới.
 
+Lấy PageID
+![tên id dưới tên Page](image-18.png)
+
+Nhấn vào pageId để hiện mã pageId chi tiết
+![chi tiết pageId](image-19.png)
 ---
 
 #### 🔹 GIAI ĐOẠN 3: ĐƯA THÔNG TIN VÀO N8N
 
 ##### Bước 8: Lưu Credential trong n8n
+
 1. Mở n8n, vào mục **Credentials** (hoặc mở Node Facebook Graph API lên).
 2. Tạo mới một Credential loại **Facebook Graph API**.
 3. Tại ô **Access Token**: Xóa sạch ký tự cũ và **dán đoạn Page Access Token** đã copy ở Bước 6 vào.
 4. Bấm **Save** (Lưu lại).
 
 ##### Bước 9: Cấu hình chi tiết Node 10 (Facebook Graph API)
+
 Sau khi có credential chuẩn, bạn tiến hành điền các tham số vào Node 10 trong luồng n8n:
 
 * **Type**: `Facebook Graph API`
@@ -222,7 +263,7 @@ Sau khi có credential chuẩn, bạn tiến hành điền các tham số vào N
   * **Parameter 2**: `Name: url` → `Value (Expression): ={{ $json.ImageURL }}`
 
 Bấm **Execute step** để kiểm tra bài viết và hình ảnh được đẩy lên tường Fanpage thành công!
-
+![Kết quả](image-20.png)
 ---
 
 ## 🛠️ IV. BẢN ĐỒ TRÁNH BẪY LỖI CHO HỌC VIÊN (TROUBLESHOOTING)
