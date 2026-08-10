@@ -189,13 +189,13 @@ Trả về định dạng JSON BẮT BUỘC:
 > ⚠️ **Bẫy lỗi phổ biến:** Mã vừa sinh ra ở Bước 5 chỉ là **User Token** (Mã cá nhân). Nếu dán mã này vào n8n, Facebook sẽ chặn và báo lỗi `403 Forbidden` ngay lập tức!
 
 1. Tại cột bên phải, nhìn vào mục **User or Page** (đang hiển thị chữ `User Token` hoặc tên cá nhân).
-2. Bấm vào menu thả xuống và **chọn chính xác tên Fanpage của bạn** (ví dụ: `Zeflyo Shop`).
+2. Bấm vào menu thả xuống và **chọn chính xác tên Fanpage của bạn** (ví dụ: `Fanpage Của Bạn`).
 3. Ngay lập tức, chuỗi mã ở ô **Access Token** trên cùng sẽ tự động làm mới. **Đó mới chính là Page Access Token chuẩn.**
 4. Bấm vào biểu tượng **Copy Token** bên cạnh ô Access Token để lưu mã này lại.
 
 ##### Bước 7: Lấy Page ID (ID Fanpage)
 1. Mở một thẻ (tab) mới trên trình duyệt, vào trực tiếp **Fanpage Facebook** của bạn.
-2. Vào mục **Giới thiệu (About)** $\rightarrow$ Cuộn xuống tìm dòng **ID Trang (Page ID)** và copy dãy số này (Ví dụ: `1028776643660761`).
+2. Vào mục **Giới thiệu (About)** $\rightarrow$ Cuộn xuống tìm dòng **ID Trang (Page ID)** và copy dãy số này (Ví dụ: `1234567890123456`).
 3. *Cách 2:* Hoặc ngay trên trang Graph API Explorer, xóa ô nhập lệnh ở giữa, gõ `me/accounts` rồi bấm **Submit**. Trong khung JSON trả về, tìm tên Fanpage của bạn và copy dãy số `id` ngay bên dưới.
 
 ---
@@ -215,7 +215,7 @@ Sau khi có credential chuẩn, bạn tiến hành điền các tham số vào N
 * **Credential**: Chọn Credential vừa lưu ở Bước 8.
 * **HTTP Request Method**: `POST`
 * **Graph API Version**: `v25.0` (hoặc giữ mặc định)
-* **Node**: Điền **Page ID** đã lấy ở Bước 7 (Ví dụ: `1028776643660761`).
+* **Node**: Điền **Page ID** đã lấy ở Bước 7 (Ví dụ: `1234567890123456`).
 * **Edge**: `photos` (Để đăng bài kèm hình ảnh).
 * **Query Parameters**:
   * **Parameter 1**: `Name: message` $\rightarrow$ `Value (Expression): ={{ $json.Content }}`

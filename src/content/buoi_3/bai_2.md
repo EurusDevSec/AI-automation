@@ -219,7 +219,7 @@ Từ đầu ra của Bước 9, kéo ra 2 nhánh gửi tin qua 2 kênh cùng lú
     ![Tạo @BotFather lấy Access Token](image-24.png)
     ![Dán Access Token từ @BotFather vào Credential](image-25.png)
 
-    1. **Lấy ID cá nhân:** Tìm bot **`@userinfobot`** trên Telegram → Bấm **Start** → Copy dãy số ID cá nhân trả về (Ví dụ: `8374731299`).
+    1. **Lấy ID cá nhân:** Tìm bot **`@userinfobot`** trên Telegram → Bấm **Start** → Copy dãy số ID cá nhân trả về (Ví dụ: `123456789`).
 
     ![Lấy ID cá nhân](image-26.png)
 
@@ -526,7 +526,7 @@ Sau khi dán mã JSON trên vào n8n Canvas, học viên chỉ cần lấy đún
 * **Cách lấy chính xác:**
   1. Mở ứng dụng Telegram trên máy tính hoặc điện thoại.
   2. Tìm kiếm tên bot **`@userinfobot`** và bấm nút **Start**.
-  3. Bot sẽ trả về ngay dãy số ID cá nhân của bạn (Ví dụ: `8374731299`). Copy dãy số này dán vào ô `Chat ID` trên n8n.
+  3. Bot sẽ trả về ngay dãy số ID cá nhân của bạn (Ví dụ: `123456789`). Copy dãy số này dán vào ô `Chat ID` trên n8n.
 
 ---
 
