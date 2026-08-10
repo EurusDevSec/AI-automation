@@ -81,18 +81,20 @@ Trả về định dạng JSON BẮT BUỘC:
 * **Column to match on**: `ID`
 * **Values to Send (Chuyển sang Expression)**:
 
+> 💡 **Lưu ý n8n Pro Tip khi copy Expression (`fx`)**: Khi bạn bật chế độ Expression trên n8n, giao diện n8n đã tự động chèn sẵn dấu `=` ở đầu ô nhập. Do đó khi sao chép các đoạn mã bên dưới, bạn **KHÔNG nhập dấu `=` ở đầu** để tránh bị lỗi cú pháp `=={{ ... }}`!
+
 ```javascript
 // Cột ID
-={{ $execution.id }}
+{{ $execution.id }}
 
 // Cột Keyword
-={{ JSON.parse($json.content.parts[0].text.replace(/```json/gi, '').replace(/```/g, '').trim()).trending_keyword }}
+{{ JSON.parse($json.content.parts[0].text.replace(/```json/gi, '').replace(/```/g, '').trim()).trending_keyword }}
 
 // Cột Content
-={{ JSON.parse($json.content.parts[0].text.replace(/```json/gi, '').replace(/```/g, '').trim()).social_post }}
+{{ JSON.parse($json.content.parts[0].text.replace(/```json/gi, '').replace(/```/g, '').trim()).social_post }}
 
 // Cột ImageURL
-=https://image.pollinations.ai/prompt/{{ encodeURIComponent("Tech illustration about " + JSON.parse($json.content.parts[0].text.replace(/```json/gi, '').replace(/```/g, '').trim()).trending_keyword) }}?width=1024&height=1024&nologo=true
+https://image.pollinations.ai/prompt/{{ encodeURIComponent("Tech illustration about " + JSON.parse($json.content.parts[0].text.replace(/```json/gi, '').replace(/```/g, '').trim()).trending_keyword) }}?width=1024&height=1024&nologo=true
 ```
 
 #### Node 7: Send a text message (Gửi bản nháp qua Telegram)
@@ -104,7 +106,7 @@ Trả về định dạng JSON BẮT BUỘC:
 * **Text (Expression)**:
 
 ```html
-=<b>🔥 BẢN NHÁP MỚI CẦN DUYỆT</b>
+<b>🔥 BẢN NHÁP MỚI CẦN DUYỆT</b>
 
 <b>Chủ đề:</b> {{ $json.Keyword }}
 
@@ -134,7 +136,7 @@ Trả về định dạng JSON BẮT BUỘC:
 * **Document**: Chọn file `Auto post Fb`
 * **Filter Values**:
   * **Lookup Column**: `ID`
-  * **Lookup Value (Expression)**: `={{ $json.query.id }}` (Trích xuất ID gửi kèm từ URL Telegram).
+  * **Lookup Value (Expression)**: `{{ $json.query.id }}` (Trích xuất ID gửi kèm từ URL Telegram).
 
 #### Node 10: Facebook Graph API (Đăng bài kèm ảnh)
 
@@ -267,8 +269,8 @@ Sau khi có credential chuẩn, bạn tiến hành điền các tham số vào N
 * **Node**: Điền **Page ID** đã lấy ở Bước 8 (Ví dụ: `1234567890123456`).
 * **Edge**: `photos` (Để đăng bài kèm hình ảnh).
 * **Query Parameters**:
-  * **Parameter 1**: `Name: message` → `Value (Expression): ={{ $json.Content }}`
-  * **Parameter 2**: `Name: url` → `Value (Expression): ={{ $json.ImageURL }}`
+  * **Parameter 1**: `Name: message` → `Value (Expression): {{ $json.Content }}`
+  * **Parameter 2**: `Name: url` → `Value (Expression): {{ $json.ImageURL }}`
 
 Bấm **Execute step** để kiểm tra bài viết và hình ảnh được đẩy lên tường Fanpage thành công!
 

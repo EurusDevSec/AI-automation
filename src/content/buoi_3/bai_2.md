@@ -226,7 +226,7 @@ Từ đầu ra của Bước 9, kéo ra 2 nhánh gửi tin qua 2 kênh cùng lú
     1. **Kích hoạt Bot:** Tìm tên con bot bạn vừa tạo ở Bước 1 → Bấm **Start** để cấp quyền nhắn tin.
 
 * **Chat ID:** Nhập dãy số ID cá nhân lấy từ `@userinfobot`.
-* **Text:** Bật Expression (`fx`) và nhập: `={{ $json.telegram_message }}`.
+* **Text:** Bật Expression (`fx`) và nhập: `{{ $json.telegram_message }}`.
 * **Additional Fields:** Chọn `Parse Mode` → **`HTML`**.
 
 ![Cấu hình Chat ID, Text và Additional Fields](image-27.png)
