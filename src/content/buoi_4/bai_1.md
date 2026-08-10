@@ -19,18 +19,7 @@ Trước khi cấu hình chi tiết từng Node trong n8n, kỹ sư AI/DevOps c�
 
 Trong các hệ thống tự động hóa hiện đại 2026+, **Webhook** là cơ chế định hình mô hình **Event-Driven (Đẩy theo sự kiện)** thay vì **Polling (Quét liên tục)**:
 
-```mermaid
-graph TD
-    subgraph Mô hình Polling (Cũ & Tốn tài nguyên)
-        A1["Server n8n"] -- "Gửi request mỗi 5s: Có bài mới không?" --> B1["Meta/Telegram Server"]
-        B1 -- "Trả về 200 OK: Không có dữ liệu" --> A1
-    end
-
-    subgraph Mô hình Webhook (Event-Driven hiện đại)
-        A2["Telegram User"] -- "Bấm nút ✅ DUYỆT" --> B2["Telegram Server"]
-        B2 -- "HTTP POST Webhook Push (Thời gian thực)" --> C2["n8n Webhook Endpoint"]
-    end
-```
+![So sánh EventDrivent và Polling](image-21.png)
 
 * **Ưu điểm Webhook**: Độ trễ gần như bằng 0 (Real-time), tiết kiệm 99% tài nguyên băng thông và CPU server so với việc gọi Polling liên tục.
 
@@ -49,12 +38,7 @@ Trong môi trường Production thực tế, một Webhook công khai rất dễ
 
 Meta Graph API áp dụng mô hình phân quyền chặt chẽ thông qua OAuth 2.0 Token:
 
-```mermaid
-graph LR
-    A["Facebook Account (User)"] -->|Đăng nhập App| B["User Access Token (Hạn 1-2h)"]
-    B -->|Đổi qua Graph Explorer| C["Page Access Token (Hạn 60 ngày hoặc Vĩnh viễn)"]
-    C -->|Dán vào n8n Credential| D["Meta Graph API Post Photo"]
-```
+![Mô hình Phân quyền](image-22.png)
 
 | Loại Token | Phạm vi cấp quyền | Thời hạn hiệu lực | Dùng trong trường hợp |
 | :--- | :--- | :--- | :--- |
@@ -77,9 +61,9 @@ graph LR
 
 ![Chuẩn bị Google Sheets](image-2.png)
 
-2. **Telegram Bot**: Dùng `@BotFather` tạo con bot mới, lấy **Bot Token** và **Chat ID** cá nhân/nhóm.
-3. **Google Gemini API Key**: Khởi tạo API Key miễn phí tại Google AI Studio.
-4. **Facebook Fanpage**: Đảm bảo có quyền Admin Fanpage, lấy **Page ID** và **Page Access Token** từ Meta Graph API Explorer.
+1. **Telegram Bot**: Dùng `@BotFather` tạo con bot mới, lấy **Bot Token** và **Chat ID** cá nhân/nhóm.
+2. **Google Gemini API Key**: Khởi tạo API Key miễn phí tại Google AI Studio.
+3. **Facebook Fanpage**: Đảm bảo có quyền Admin Fanpage, lấy **Page ID** và **Page Access Token** từ Meta Graph API Explorer.
 
 ---
 
@@ -217,8 +201,8 @@ https://image.pollinations.ai/prompt/{{ encodeURIComponent("Tech illustration ab
 
 ![Truy cập vào developers.facebook.com](image-6.png)
 
-3. Bấm vào nút **Bắt đầu** (Get Started) hoặc **Đăng nhập** ở góc trên bên phải.
-4. Xác nhận thông tin cá nhân, chọn vai trò (chọn **Nhà phát triển / Developer** hoặc **Khác / Other**) và hoàn tất đăng ký.
+1. Bấm vào nút **Bắt đầu** (Get Started) hoặc **Đăng nhập** ở góc trên bên phải.
+2. Xác nhận thông tin cá nhân, chọn vai trò (chọn **Nhà phát triển / Developer** hoặc **Khác / Other**) và hoàn tất đăng ký.
 
 ##### Bước 2: Tạo Meta App (Ứng dụng)
 
@@ -229,22 +213,22 @@ https://image.pollinations.ai/prompt/{{ encodeURIComponent("Tech illustration ab
 
 ![Đặt tên ứng dụng](image-8.png)
 
-3. **Chọn mục đích sử dụng:**
+1. **Chọn mục đích sử dụng:**
    * Chọn mục **Khác** (Other) → Bấm **Tiếp tục** (Next).
 
 ![Chọn mục Khác (Other)](image-9.png)
 
-   * Chọn loại ứng dụng: Chọn **Doanh nghiệp** (Business) hoặc **Không có** / **Khác** tùy giao diện hiện tại → Bấm **Tiếp tục**.
+* Chọn loại ứng dụng: Chọn **Doanh nghiệp** (Business) hoặc **Không có** / **Khác** tùy giao diện hiện tại → Bấm **Tiếp tục**.
 
 ![Chọn loại ứng dụng Doanh nghiệp](image-10.png)
 
-4. **Điền thông tin ứng dụng:**
+1. **Điền thông tin ứng dụng:**
    * **Tên hiển thị ứng dụng (App Name):** Đặt tên dễ nhớ (ví dụ: `n8n Auto Post`).
    * **Email liên hệ:** Nhập email cá nhân của bạn.
 
 ![Kiểm tra thông tin ứng dụng](image-11.png)
 
-5. Bấm nút **Tạo ứng dụng** (Create App) và nhập lại mật khẩu Facebook để xác minh.
+1. Bấm nút **Tạo ứng dụng** (Create App) và nhập lại mật khẩu Facebook để xác minh.
 
 ---
 
@@ -254,7 +238,7 @@ https://image.pollinations.ai/prompt/{{ encodeURIComponent("Tech illustration ab
 
 ![Chọn thiết lập Facebook Login for Business](image-12.png)
 
-2. Hoàn tất các bước thiết lập cơ bản cho sản phẩm.
+1. Hoàn tất các bước thiết lập cơ bản cho sản phẩm.
 
 ![Giao diện sau khi cài đặt Facebook Login for Business](image-13.png)
 
@@ -270,7 +254,7 @@ https://image.pollinations.ai/prompt/{{ encodeURIComponent("Tech illustration ab
 
 ![Giao diện Graph API Explorer](image-15.png)
 
-2. Nhìn sang cột **Access Token** nằm ở bên phải màn hình.
+1. Nhìn sang cột **Access Token** nằm ở bên phải màn hình.
 
 ![Chọn Page Access Token và Chọn Page cần kết nối](image-16.png)
 
@@ -347,6 +331,7 @@ Bấm **Execute step** để kiểm tra bài viết và hình ảnh được đ�
 Nếu bạn muốn cài đặt nhanh toàn bộ luồng tự động hóa này chỉ trong **10 giây**, hãy làm theo các bước đơn giản bên dưới:
 
 ### 1. Copy Mã Workflow JSON Chuẩn Đã Làm Sạch
+
 Bấm nút **`Copy`** ở góc trên bên phải của ô mã JSON bên dưới:
 
 ```json
@@ -635,6 +620,7 @@ Bấm nút **`Copy`** ở góc trên bên phải của ô mã JSON bên dưới:
 
 > [!IMPORTANT]
 > **Checklist 5 Tiêu Chuẩn Vận Hành Đẳng Cấp Kỹ Sư (DevOps / Cloud Specialist)**:
+>
 > 1. **Chuyển đổi sang Long-lived Page Access Token**: Không dùng Token tạm thời trên Explorer cho môi trường chạy tự động 24/7.
 > 2. **Bật SSL/HTTPS cho Webhook Endpoint**: Bắt buộc n8n domain chạy trên HTTPS mã hóa TLS 1.3.
 > 3. **Bọc hàm encodeURIComponent() cho tham số URL**: Tránh gãy link ảnh khi truyền từ khóa tiếng Việt hoặc ký tự đặc biệt.
