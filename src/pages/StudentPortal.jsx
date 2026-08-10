@@ -450,6 +450,105 @@ export default function StudentPortal() {
         continue;
       }
 
+      // Markdown Table parsing (| col1 | col2 |)
+      if (line.trim().startsWith('|') && line.trim().endsWith('|')) {
+        const tableLines = [];
+        let j = i;
+        while (j < lines.length && lines[j].trim().startsWith('|') && lines[j].trim().endsWith('|')) {
+          tableLines.push(lines[j].trim());
+          j++;
+        }
+        i = j - 1;
+
+        if (tableLines.length >= 2) {
+          const headerRow = tableLines[0].split('|').slice(1, -1).map((cell) => cell.trim());
+          const dataRows = tableLines.slice(2).map((rowLine) =>
+            rowLine.split('|').slice(1, -1).map((cell) => cell.trim())
+          );
+
+          elements.push(
+            <div key={`table-${i}`} className="my-6 overflow-x-auto rounded-2xl border border-slate-200/90 shadow-sm bg-white">
+              <table className="w-full text-xs text-left border-collapse">
+                <thead className="bg-slate-100/90 text-slate-800 font-bold border-b border-slate-200 uppercase tracking-wider">
+                  <tr>
+                    {headerRow.map((col, colIdx) => (
+                      <th key={colIdx} className="px-4 py-3 border-r border-slate-200/60 last:border-r-0">
+                        {parseInlineMarkdown(col)}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 text-slate-700">
+                  {dataRows.map((row, rowIdx) => (
+                    <tr key={rowIdx} className="hover:bg-indigo-50/40 transition-colors odd:bg-white even:bg-slate-50/50">
+                      {row.map((cell, cellIdx) => (
+                        <td key={cellIdx} className="px-4 py-3 border-r border-slate-100 last:border-r-0 leading-relaxed font-medium">
+                          {parseInlineMarkdown(cell)}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          );
+          continue;
+        }
+      }
+
+      // Blockquotes & GitHub-style Alerts (> [!IMPORTANT])
+      if (line.trim().startsWith('>')) {
+        const quoteLines = [];
+        let j = i;
+        while (j < lines.length && lines[j].trim().startsWith('>')) {
+          quoteLines.push(lines[j].trim().replace(/^>\s?/, ''));
+          j++;
+        }
+        i = j - 1;
+
+        const firstQuoteLine = quoteLines[0] || '';
+        const alertMatch = firstQuoteLine.match(/^\[!(NOTE|IMPORTANT|TIP|WARNING|CAUTION)\]/i);
+
+        let alertType = 'note';
+        let alertContentLines = quoteLines;
+
+        if (alertMatch) {
+          alertType = alertMatch[1].toLowerCase();
+          alertContentLines = quoteLines.slice(1);
+        }
+
+        let alertStyles = {
+          bg: 'bg-indigo-50/70',
+          border: 'border-indigo-200',
+          text: 'text-indigo-950',
+          icon: '💡',
+          label: 'Lưu Ý'
+        };
+
+        if (alertType === 'important') {
+          alertStyles = { bg: 'bg-purple-50/80', border: 'border-purple-200', text: 'text-purple-950', icon: '🌟', label: 'Lưu Ý Quan Trọng' };
+        } else if (alertType === 'warning') {
+          alertStyles = { bg: 'bg-amber-50/80', border: 'border-amber-200', text: 'text-amber-950', icon: '⚠️', label: 'Cảnh Báo Bẫy Lỗi' };
+        } else if (alertType === 'tip') {
+          alertStyles = { bg: 'bg-emerald-50/80', border: 'border-emerald-200', text: 'text-emerald-950', icon: '⚡', label: 'Mẹo Nhanh' };
+        }
+
+        elements.push(
+          <div key={`alert-${i}`} className={`my-5 p-4 rounded-2xl border ${alertStyles.bg} ${alertStyles.border} ${alertStyles.text} shadow-2xs`}>
+            <div className="flex items-center gap-2 font-bold text-xs mb-2">
+              <span className="text-base">{alertStyles.icon}</span>
+              <span className="uppercase tracking-wide">{alertStyles.label}</span>
+            </div>
+            <div className="text-xs leading-relaxed space-y-1">
+              {alertContentLines.map((qLine, qIdx) => (
+                <div key={qIdx}>{parseInlineMarkdown(qLine)}</div>
+              ))}
+            </div>
+          </div>
+        );
+        continue;
+      }
+
       if (line.trim().startsWith('* ') || line.trim().startsWith('- ')) {
         const listText = line.trim().replace(/^[\*\-]\s+/, '');
         elements.push(<div key={`li-${i}`} className="my-2.5 p-3.5 bg-white border border-slate-200/80 rounded-xl shadow-2xs text-slate-700 text-sm leading-relaxed flex items-start gap-3 hover:border-indigo-200 transition-all"><span className="w-2 h-2 rounded-full bg-indigo-500 mt-2 flex-shrink-0" /><div className="flex-1">{parseInlineMarkdown(listText)}</div></div>);
