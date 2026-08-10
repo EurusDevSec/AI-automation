@@ -16,16 +16,18 @@ function parseSubtabsFromMarkdown(rawText) {
   }
 
   const parts = rawText.split('=== SUBTAB: ');
+  const headerPrefix = parts[0].trim();
   const methods = [];
 
   for (let i = 1; i < parts.length; i++) {
     const lines = parts[i].split('\n');
     const label = lines[0].trim();
-    const content = lines.slice(1).join('\n').trim();
+    const methodContent = lines.slice(1).join('\n').trim();
+    const fullContent = headerPrefix ? `${headerPrefix}\n\n${methodContent}` : methodContent;
     methods.push({
       id: `method-${i}`,
       label: label.replace(/===/g, '').trim(),
-      content
+      content: fullContent
     });
   }
 
