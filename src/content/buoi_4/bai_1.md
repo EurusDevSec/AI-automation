@@ -11,7 +11,67 @@ Hệ thống giúp học viên tự động hóa toàn bộ quy trình tiếp th
 
 ---
 
-## 🛠️ II. CHUẨN BỊ TRƯỚC KHI CẤU HÌNH
+## 🏛️ II. NỀN TẢNG KIẾN TRÚC & SYSTEM DESIGN (FOUNDATION)
+
+Trước khi cấu hình chi tiết từng Node trong n8n, kỹ sư AI/DevOps cần nắm vững 3 trụ cột kiến trúc quan trọng sau:
+
+### 1. Webhook Event-Driven Architecture vs Polling
+
+Trong các hệ thống tự động hóa hiện đại 2026+, **Webhook** là cơ chế định hình mô hình **Event-Driven (Đẩy theo sự kiện)** thay vì **Polling (Quét liên tục)**:
+
+```mermaid
+graph TD
+    subgraph Mô hình Polling (Cũ & Tốn tài nguyên)
+        A1["Server n8n"] -- "Gửi request mỗi 5s: Có bài mới không?" --> B1["Meta/Telegram Server"]
+        B1 -- "Trả về 200 OK: Không có dữ liệu" --> A1
+    end
+
+    subgraph Mô hình Webhook (Event-Driven hiện đại)
+        A2["Telegram User"] -- "Bấm nút ✅ DUYỆT" --> B2["Telegram Server"]
+        B2 -- "HTTP POST Webhook Push (Thời gian thực)" --> C2["n8n Webhook Endpoint"]
+    end
+```
+
+* **Ưu điểm Webhook**: Độ trễ gần như bằng 0 (Real-time), tiết kiệm 99% tài nguyên băng thông và CPU server so với việc gọi Polling liên tục.
+
+---
+
+### 2. Bảo Mật Webhook: Signature Verification & Idempotency
+
+Trong môi trường Production thực tế, một Webhook công khai rất dễ bị tấn công DDoS hoặc giả mạo dữ liệu. Các nguyên tắc bảo mật bắt buộc bao gồm:
+
+* **Xác thực chữ ký (HMAC SHA256 Verification)**: Meta và Telegram gửi kèm header `X-Hub-Signature-256`. Webhook Receiver (n8n/Backend) sẽ băm dữ liệu với Secret Key để xác minh request đến từ đúng Facebook/Telegram chứ không phải kẻ mạo danh.
+* **Tính bất biến (Idempotency)**: Khi n8n nhận lại request do Telegram retry (khi mạng lag), hệ thống dùng `Execution ID` hoặc `Sheet Row ID` để đảm bảo bài viết **chỉ đăng đúng 1 lần lên Fanpage**, không bị lặp bài.
+
+---
+
+### 3. Vòng Đời Token Meta OAuth 2.0 (Token Lifecycle & Exchange)
+
+Meta Graph API áp dụng mô hình phân quyền chặt chẽ thông qua OAuth 2.0 Token:
+
+```mermaid
+graph LR
+    A["Facebook Account (User)"] -->|Đăng nhập App| B["User Access Token (Hạn 1-2h)"]
+    B -->|Đổi qua Graph Explorer| C["Page Access Token (Hạn 60 ngày hoặc Vĩnh viễn)"]
+    C -->|Dán vào n8n Credential| D["Meta Graph API Post Photo"]
+```
+
+| Loại Token | Phạm vi cấp quyền | Thời hạn hiệu lực | Dùng trong trường hợp |
+| :--- | :--- | :--- | :--- |
+| **User Token** | Quyền tài khoản cá nhân | 1 - 2 giờ | Thử nghiệm nhanh trên Graph Explorer |
+| **Short-lived Page Token** | Quyền quản trị Fanpage | 2 giờ | Test gọi API thời gian ngắn |
+| **Long-lived Page Token** | Quyền quản trị Fanpage | **Vĩnh viễn** (hoặc 60 ngày) | **Sử dụng trong n8n Production** |
+
+---
+
+### 4. Quản Lý Giới Hạn Tần Suất Gọi API (Rate Limiting & Quota)
+
+* **Giới hạn của Facebook Meta Graph API**: Mỗi ứng dụng được cấp khoảng **200 lượt gọi API / giờ / người dùng**.
+* **Xử lý bẫy Rate Limit trong n8n**: Đặt thời gian Schedule Trigger phù hợp (ví dụ: 1-2 bài/ngày) và bật chế độ `Retry ON Fail` trong n8n để tự động thử lại khi dính lỗi tạm thời `HTTP 429 Too Many Requests`.
+
+---
+
+## 🛠️ III. CHUẨN BỊ TRƯỚC KHI CẤU HÌNH
 
 1. **Google Sheets**: Tạo 1 file tên `Auto post Fb` chứa 4 cột tiêu đề tại dòng 1: `ID`, `Keyword`, `Content`, `ImageURL`.
 
@@ -25,7 +85,7 @@ Hệ thống giúp học viên tự động hóa toàn bộ quy trình tiếp th
 
 === SUBTAB: 🛠️ Phương pháp 1: Hướng dẫn Cấu hình Chi Tiết Từng Node
 
-## ⚙️ III. HƯỚNG DẪN CẤU HÌNH CHI TIẾT TỪNG NODE
+## ⚙️ IV. HƯỚNG DẪN CẤU HÌNH CHI TIẾT TỪNG NODE
 
 ### 🟢 NHÁNH 1: TỰ ĐỘNG TẠO VÀ CHUẨN BỊ BẢN NHÁP
 
@@ -59,7 +119,7 @@ Hệ thống giúp học viên tự động hóa toàn bộ quy trình tiếp th
 * **Prompt Content (Chế độ Expression)**:
 
 ```prompt
-=Bạn là một chuyên gia về DevOps và Cloud Computing. Dưới đây là 3 từ khóa đang trending trên Google:
+Bạn là một chuyên gia về DevOps và Cloud Computing. Dưới đây là 3 từ khóa đang trending trên Google:
 {{ $json.title }}
 
 Nhiệm vụ của bạn:
@@ -559,10 +619,24 @@ Bấm nút **`Copy`** ở góc trên bên phải của ô mã JSON bên dưới:
 
 ---
 
-## 🛠️ IV. BẢN ĐỒ TRÁNH BẪY LỖI CHO HỌC VIÊN (TROUBLESHOOTING)
+## 🛠️ V. BẢN ĐỒ TRÁNH BẪY LỖI PRODUCTION & TỔNG KẾT BÀI HỌC
+
+### 1. Bảng Phân Tích Lỗi Thường Gặp (Troubleshooting Matrix)
 
 | Hiện tượng lỗi | Nguyên nhân chính | Cách xử lý nhanh |
 | :--- | :--- | :--- |
 | **Facebook báo lỗi 403 Forbidden / Invalid Token** | Copy nhầm User Token cá nhân thay vì Page Access Token. | Trên trang Graph API Explorer, tại mục *User or Page*, bắt buộc bấm vào menu thả xuống và chọn chính xác tên Fanpage rồi mới copy token. |
 | **Facebook báo lỗi #100 url should represent a valid URL** | Link ảnh bị dính dấu `=` thừa hoặc chứa ký tự tiếng Việt có dấu khiến URL bị gãy. | Kiểm tra lại ô `ImageURL` trong Google Sheets, bắt buộc bọc hàm `encodeURIComponent()` xung quanh từ khóa tiếng Việt. |
 | **Google Sheets lỗi SyntaxError: Unexpected token** | Dữ liệu trả về từ Gemini có chứa ký hiệu mã markdown ```json ...``` làm hỏng hàm `JSON.parse`. | Sử dụng đoạn mã làm sạch chuỗi: `.replace(/```json/gi, '').replace(/```/g, '').trim()` trước khi truyền vào `JSON.parse`. |
+
+---
+
+### 2. Checklist Bảo Mật & Vận Hành Hệ Thống Trong Production
+
+> [!IMPORTANT]
+> **Checklist 5 Tiêu Chuẩn Vận Hành Đẳng Cấp Kỹ Sư (DevOps / Cloud Specialist)**:
+> 1. **Chuyển đổi sang Long-lived Page Access Token**: Không dùng Token tạm thời trên Explorer cho môi trường chạy tự động 24/7.
+> 2. **Bật SSL/HTTPS cho Webhook Endpoint**: Bắt buộc n8n domain chạy trên HTTPS mã hóa TLS 1.3.
+> 3. **Bọc hàm encodeURIComponent() cho tham số URL**: Tránh gãy link ảnh khi truyền từ khóa tiếng Việt hoặc ký tự đặc biệt.
+> 4. **Giám sát Quota API**: Theo dõi số lượng request hàng ngày để tránh vượt hạn ngạch 200 calls/giờ của Meta Graph API.
+> 5. **Human-In-The-Loop Control**: Luôn duy trì cổng duyệt kiểm duyệt của quản trị viên trước khi đẩy nội dung tự động lên mạng xã hội.
