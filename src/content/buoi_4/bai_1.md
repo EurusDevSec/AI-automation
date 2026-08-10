@@ -368,7 +368,13 @@ Bấm nút **`Copy`** ở góc trên bên phải của ô mã JSON bên dưới:
       "typeVersion": 1.2,
       "position": [304, -16],
       "id": "11b0a4fb-0102-4103-8562-c875e4511025",
-      "name": "Message a model"
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "YOUR_GEMINI_CREDENTIAL_ID",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
     },
     {
       "parameters": {
@@ -406,7 +412,13 @@ Bấm nút **`Copy`** ở góc trên bên phải của ô mã JSON bên dưới:
       "typeVersion": 4.7,
       "position": [736, -32],
       "id": "c6a278e8-6241-4421-99b1-7d3b5db6d0a9",
-      "name": "Append or update row in sheet"
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YOUR_GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
     },
     {
       "parameters": {
@@ -448,7 +460,13 @@ Bấm nút **`Copy`** ở góc trên bên phải của ô mã JSON bên dưới:
       "typeVersion": 1.2,
       "position": [1040, -32],
       "id": "bfc0c5f5-8fb6-49cb-9c48-8f3101a6db96",
-      "name": "Send a text message"
+      "name": "Send a text message",
+      "credentials": {
+        "telegramApi": {
+          "id": "YOUR_TELEGRAM_CREDENTIAL_ID",
+          "name": "Telegram account"
+        }
+      }
     },
     {
       "parameters": {
@@ -477,7 +495,13 @@ Bấm nút **`Copy`** ở góc trên bên phải của ô mã JSON bên dưới:
       "typeVersion": 4.7,
       "position": [-352, 224],
       "id": "797b4045-1290-4446-8763-5b8689632e15",
-      "name": "Get row(s) in sheet"
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YOUR_GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
     },
     {
       "parameters": {
@@ -504,7 +528,13 @@ Bấm nút **`Copy`** ở góc trên bên phải của ô mã JSON bên dưới:
       "typeVersion": 1,
       "position": [-128, 224],
       "id": "4ec6e73e-3525-4cfd-8bbc-d4bc52c28011",
-      "name": "Facebook Graph API"
+      "name": "Facebook Graph API",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "YOUR_FACEBOOK_GRAPH_API_CREDENTIAL_ID",
+          "name": "Facebook Graph account"
+        }
+      }
     }
   ],
   "connections": {
