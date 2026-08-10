@@ -196,9 +196,13 @@ export default function StudentPortal() {
     if (!text) return '';
     
     let cleanText = text
-      .replace(/\\rightarrow/g, '→')
       .replace(/\$\\rightarrow\$/g, '→')
       .replace(/\$\\rightarrow/g, '→')
+      .replace(/\\rightarrow\$/g, '→')
+      .replace(/\\rightarrow/g, '→')
+      .replace(/\$→\$/g, '→')
+      .replace(/\$→/g, '→')
+      .replace(/→\$/g, '→')
       .replace(/\\rarr/g, '→')
       .replace(/&rarr;/g, '→')
       .replace(/&gt;/g, '>')

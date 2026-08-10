@@ -6,8 +6,8 @@
 
 Hệ thống giúp học viên tự động hóa toàn bộ quy trình tiếp thị nội dung trên mạng xã hội theo mô hình 2 nhánh chuyên nghiệp:
 
-* **Nhánh 1 (Tạo nội dung & Gửi bản nháp)**: Lấy xu hướng từ Google Trends $\rightarrow$ AI Gemini chọn từ khóa & viết bài $\rightarrow$ Tạo link ảnh AI tự động $\rightarrow$ Lưu vào Google Sheets $\rightarrow$ Bắn bản nháp sang Telegram kèm nút bấm duyệt.
-* **Nhánh 2 (Kích hoạt & Đăng Fanpage)**: Quản trị viên bấm nút duyệt trên Telegram $\rightarrow$ Webhook kích hoạt $\rightarrow$ Lấy nội dung từ Google Sheets $\rightarrow$ Đăng bài kèm ảnh trực tiếp lên Fanpage Facebook qua Meta Graph API.
+* **Nhánh 1 (Tạo nội dung & Gửi bản nháp)**: Lấy xu hướng từ Google Trends → AI Gemini chọn từ khóa & viết bài → Tạo link ảnh AI tự động → Lưu vào Google Sheets → Bắn bản nháp sang Telegram kèm nút bấm duyệt.
+* **Nhánh 2 (Kích hoạt & Đăng Fanpage)**: Quản trị viên bấm nút duyệt trên Telegram → Webhook kích hoạt → Lấy nội dung từ Google Sheets → Đăng bài kèm ảnh trực tiếp lên Fanpage Facebook qua Meta Graph API.
 
 ---
 
@@ -157,8 +157,8 @@ Trả về định dạng JSON BẮT BUỘC:
 1. Sau khi hoàn tất đăng ký, truy cập trang quản lý ứng dụng: [developers.facebook.com/apps](https://developers.facebook.com/apps/).
 2. Bấm nút màu xanh **Tạo ứng dụng** (Create App).
 3. **Chọn mục đích sử dụng:**
-   - Chọn mục **Khác** (Other) $\rightarrow$ Bấm **Tiếp tục** (Next).
-   - Chọn loại ứng dụng: Chọn **Doanh nghiệp** (Business) hoặc **Không có** / **Khác** tùy giao diện hiện tại $\rightarrow$ Bấm **Tiếp tục**.
+   - Chọn mục **Khác** (Other) → Bấm **Tiếp tục** (Next).
+   - Chọn loại ứng dụng: Chọn **Doanh nghiệp** (Business) hoặc **Không có** / **Khác** tùy giao diện hiện tại → Bấm **Tiếp tục**.
 4. **Điền thông tin ứng dụng:**
    - **Tên hiển thị ứng dụng (App Name):** Đặt tên dễ nhớ (ví dụ: `n8n Auto Post`).
    - **Email liên hệ:** Nhập email cá nhân của bạn.
@@ -182,7 +182,7 @@ Trả về định dạng JSON BẮT BUỘC:
 ##### Bước 5: Tạo Token người dùng trước (User Token)
 1. Ngay bên dưới mục Access Token, tại ô **Meta App**, bấm chọn đúng tên App bạn vừa tạo ở Bước 2 (ví dụ: `n8n Auto Post`).
 2. Bấm nút màu xanh **Generate Access Token**.
-3. Màn hình sẽ hiện một pop-up của Facebook yêu cầu cấp quyền: Bấm **Tiếp tục dưới tên [Tên bạn]** $\rightarrow$ Chọn Fanpage bạn muốn kết nối $\rightarrow$ Bấm **Đồng ý / Hoàn tất**.
+3. Màn hình sẽ hiện một pop-up của Facebook yêu cầu cấp quyền: Bấm **Tiếp tục dưới tên [Tên bạn]** → Chọn Fanpage bạn muốn kết nối → Bấm **Đồng ý / Hoàn tất**.
 
 ##### Bước 6: Đổi sang Page Access Token (BƯỚC QUAN TRỌNG NHẤT)
 
@@ -195,7 +195,7 @@ Trả về định dạng JSON BẮT BUỘC:
 
 ##### Bước 7: Lấy Page ID (ID Fanpage)
 1. Mở một thẻ (tab) mới trên trình duyệt, vào trực tiếp **Fanpage Facebook** của bạn.
-2. Vào mục **Giới thiệu (About)** $\rightarrow$ Cuộn xuống tìm dòng **ID Trang (Page ID)** và copy dãy số này (Ví dụ: `1234567890123456`).
+2. Vào mục **Giới thiệu (About)** → Cuộn xuống tìm dòng **ID Trang (Page ID)** và copy dãy số này (Ví dụ: `1234567890123456`).
 3. *Cách 2:* Hoặc ngay trên trang Graph API Explorer, xóa ô nhập lệnh ở giữa, gõ `me/accounts` rồi bấm **Submit**. Trong khung JSON trả về, tìm tên Fanpage của bạn và copy dãy số `id` ngay bên dưới.
 
 ---
@@ -218,8 +218,8 @@ Sau khi có credential chuẩn, bạn tiến hành điền các tham số vào N
 * **Node**: Điền **Page ID** đã lấy ở Bước 7 (Ví dụ: `1234567890123456`).
 * **Edge**: `photos` (Để đăng bài kèm hình ảnh).
 * **Query Parameters**:
-  * **Parameter 1**: `Name: message` $\rightarrow$ `Value (Expression): ={{ $json.Content }}`
-  * **Parameter 2**: `Name: url` $\rightarrow$ `Value (Expression): ={{ $json.ImageURL }}`
+  * **Parameter 1**: `Name: message` → `Value (Expression): ={{ $json.Content }}`
+  * **Parameter 2**: `Name: url` → `Value (Expression): ={{ $json.ImageURL }}`
 
 Bấm **Execute step** để kiểm tra bài viết và hình ảnh được đẩy lên tường Fanpage thành công!
 
