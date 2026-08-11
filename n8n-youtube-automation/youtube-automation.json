@@ -1,334 +1,334 @@
 {
-  "nodes": [
-    {
-      "parameters": {
-        "rule": {
-          "interval": [
-            {
-              "triggerAtHour": 7
-            }
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "typeVersion": 1.2,
-      "position": [
-        -528,
-        32
-      ],
-      "id": "cc6a02c2-aed5-4af3-a62b-088c20a46a53",
-      "name": "Schedule Trigger"
-    },
-    {
-      "parameters": {
-        "url": "https://trends.google.com/trending/rss?geo=VN",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        -240,
-        32
-      ],
-      "id": "e1b9b502-f014-4b15-be43-cb06812712b9",
-      "name": "HTTP Request1"
-    },
-    {
-      "parameters": {
-        "modelId": {
-          "__rl": true,
-          "mode": "list",
-          "value": "models/gemini-3-flash-preview"
+    "nodes": [
+        {
+            "parameters": {
+                "rule": {
+                    "interval": [
+                        {
+                            "triggerAtHour": 7
+                        }
+                    ]
+                }
+            },
+            "type": "n8n-nodes-base.scheduleTrigger",
+            "typeVersion": 1.2,
+            "position": [
+                7776,
+                960
+            ],
+            "id": "cfe8efe4-3920-402e-a645-ecb23efc259b",
+            "name": "Schedule Trigger"
         },
-        "messages": {
-          "values": [
-            {
-              "content": "=Bạn là một nhà sáng tạo nội dung YouTube chuyên nghiệp và tuân thủ nghiêm ngặt Luật An ninh mạng Việt Nam.\n\nQUY TẮC AN TOÀN NỘI DUNG (BẮT BUỘC KHÔNG ĐƯỢC VI PHẠM):\n1. TUYỆT ĐỐI BỎ QUA VÀ NÉ TRÁNH các chủ đề liên quan đến: Chính trị, Nhà nước, Chính phủ, Bộ Công An, Quân đội, Luật pháp, VNeID, Căn cước, Sổ đỏ, Thuế, Chính sách đất đai, Tôn giáo, Tranh chấp địa chính trị, hoặc tin tức hành chính.\n2. CHỈ CHỌN các chủ đề an toàn thuộc nhóm: Công nghệ (AI, Gadgets, Smartphone, Xe điện), Đời sống & Giải trí (Âm nhạc, Điện ảnh, Game, Thể thao, Du lịch, Ẩm thực, Khoa học vũ trụ, Mẹo vặt đời sống).\n\nDựa vào dữ liệu trending sau đây: {{ $json.data }}, hãy lọc bỏ tất cả các tin nhà nước/chính trị và chọn ra 1 chủ đề thuần Giải trí/Công nghệ/Đời sống hấp dẫn nhất để viết kịch bản cho một video dài khoảng 2-3 phút.\n\nYêu cầu BẮT BUỘC trả về định dạng JSON chuẩn xác theo cấu trúc sau (không kèm markdown ```json):\n{\n  \"title\": \"Tiêu đề video cực kỳ thu hút, giật tít (thuần giải trí/công nghệ)\",\n  \"description\": \"Mô tả video chuẩn SEO\",\n  \"tags\": \"trend, cong nghe, giai tri, vietnam\",\n  \"scenes\": [\n    {\n      \"scene_number\": 1,\n      \"voiceover_text\": \"Văn bản tiếng Việt để AI đọc. Cảnh 1 phải là Hook thật mạnh để giữ chân người xem.\",\n      \"image_prompt\": \"English prompt to generate image/video, cinematic, 8k resolution, photorealistic, 16:9 ratio\"\n    },\n    {\n      \"scene_number\": 2,\n      \"voiceover_text\": \"Văn bản tiếng Việt...\",\n      \"image_prompt\": \"English prompt...\"\n    }\n  ]\n}\n"
-            }
-          ]
+        {
+            "parameters": {
+                "url": "https://trends.google.com/trending/rss?geo=VN",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                8064,
+                960
+            ],
+            "id": "e5afec96-807f-41d5-9dc1-de5bc6609934",
+            "name": "HTTP Request1"
         },
-        "jsonOutput": true,
-        "builtInTools": {},
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.googleGemini",
-      "typeVersion": 1.2,
-      "position": [
-        16,
-        32
-      ],
-      "id": "7d4ced5c-0e24-4199-a495-1d49272ee5d9",
-      "name": "Message a model",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "ynDche0xi4ZevhFR",
-          "name": "Google Gemini(PaLM) Api account"
+        {
+            "parameters": {
+                "modelId": {
+                    "__rl": true,
+                    "mode": "list",
+                    "value": "models/gemini-3-flash-preview"
+                },
+                "messages": {
+                    "values": [
+                        {
+                            "content": "=Bạn là một nhà sáng tạo nội dung YouTube chuyên nghiệp và tuân thủ nghiêm ngặt Luật An ninh mạng Việt Nam.\n\nQUY TẮC AN TOÀN NỘI DUNG (BẮT BUỘC KHÔNG ĐƯỢC VI PHẠM):\n1. TUYỆT ĐỐI BỎ QUA VÀ NÉ TRÁNH các chủ đề liên quan đến: Chính trị, Nhà nước, Chính phủ, Bộ Công An, Quân đội, Luật pháp, VNeID, Căn cước, Sổ đỏ, Thuế, Chính sách đất đai, Tôn giáo, Tranh chấp địa chính trị, hoặc tin tức hành chính.\n2. CHỈ CHỌN các chủ đề an toàn thuộc nhóm: Công nghệ (AI, Gadgets, Smartphone, Xe điện), Đời sống & Giải trí (Âm nhạc, Điện ảnh, Game, Thể thao, Du lịch, Ẩm thực, Khoa học vũ trụ, Mẹo vặt đời sống).\n\nDựa vào dữ liệu trending sau đây: {{ $json.data }}, hãy lọc bỏ tất cả các tin nhà nước/chính trị và chọn ra 1 chủ đề thuần Giải trí/Công nghệ/Đời sống hấp dẫn nhất để viết kịch bản cho một video dài khoảng 2-3 phút.\n\nYêu cầu BẮT BUỘC trả về định dạng JSON chuẩn xác theo cấu trúc sau (không kèm markdown ```json):\n{\n  \"title\": \"Tiêu đề video cực kỳ thu hút, giật tít (thuần giải trí/công nghệ)\",\n  \"description\": \"Mô tả video chuẩn SEO\",\n  \"tags\": \"trend, cong nghe, giai tri, vietnam\",\n  \"scenes\": [\n    {\n      \"scene_number\": 1,\n      \"voiceover_text\": \"Văn bản tiếng Việt để AI đọc. Cảnh 1 phải là Hook thật mạnh để giữ chân người xem.\",\n      \"image_prompt\": \"English prompt to generate image/video, cinematic, 8k resolution, photorealistic, 16:9 ratio\"\n    },\n    {\n      \"scene_number\": 2,\n      \"voiceover_text\": \"Văn bản tiếng Việt...\",\n      \"image_prompt\": \"English prompt...\"\n    }\n  ]\n}\n"
+                        }
+                    ]
+                },
+                "jsonOutput": true,
+                "builtInTools": {},
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.googleGemini",
+            "typeVersion": 1.2,
+            "position": [
+                8272,
+                800
+            ],
+            "id": "28538baf-c5a0-4bf4-b878-a8aeea1545fe",
+            "name": "Message a model",
+            "credentials": {
+                "googlePalmApi": {
+                    "id": "ynDche0xi4ZevhFR",
+                    "name": "Google Gemini(PaLM) Api account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "jsCode": "const text = items[0].json.content?.parts?.[0]?.text || items[0].json.text || items[0].json.message?.content;\nreturn JSON.parse(text);"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                8592,
+                960
+            ],
+            "id": "e77758a9-65fb-4358-939e-1c7162ffd289",
+            "name": "Code"
+        },
+        {
+            "parameters": {
+                "chatId": "8374731299",
+                "text": "=🎬 BÁO CÁO KỊCH BẢN MỚI 🎬\nTên video: {{ $json.title }}\nSố cảnh: {{ $json.scenes.length }} cảnh.\n\nBạn có muốn duyệt kịch bản này để AI tự động render video không?",
+                "replyMarkup": "inlineKeyboard",
+                "inlineKeyboard": {
+                    "rows": [
+                        {
+                            "row": {
+                                "buttons": [
+                                    {
+                                        "text": "✅ Duyệt & Làm Video",
+                                        "additionalFields": {
+                                            "url": "={{ $execution.resumeUrl }}&action=approve"
+                                        }
+                                    },
+                                    {
+                                        "text": "❌ Hủy bỏ",
+                                        "additionalFields": {
+                                            "url": "={{ $execution.resumeUrl }}&action=reject"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "additionalFields": {}
+            },
+            "type": "n8n-nodes-base.telegram",
+            "typeVersion": 1.2,
+            "position": [
+                8848,
+                960
+            ],
+            "id": "683d6209-a008-4ea1-ba58-54afb7e70613",
+            "name": "Telegram",
+            "webhookId": "283839fe-8a7c-4790-b231-99d953ba863b",
+            "credentials": {
+                "telegramApi": {
+                    "id": "0hzQ8odZKSpiUXSe",
+                    "name": "Telegram account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "resume": "webhook",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.wait",
+            "typeVersion": 1.1,
+            "position": [
+                9088,
+                960
+            ],
+            "id": "38df0b39-341b-4519-9284-700149d93ed3",
+            "name": "Wait",
+            "webhookId": "310b3213-5bf7-4388-95ce-5e73e2e18ad8"
+        },
+        {
+            "parameters": {
+                "jsCode": "const { execSync } = require('child_process');\nconst item = $('Loop Over Items').item.json;\nconst sceneNum = item.scene_number;\nconst text = (item.voiceover_text || '').replace(/\"/g, '').replace(/\\n/g, ' ');\n\nexecSync(`edge-tts --voice vi-VN-HoaiMyNeural --text \"${text}\" --write-media /data/scene_${sceneNum}.mp3`);\n\nreturn [{ json: { ...item, voice_file: `/data/scene_${sceneNum}.mp3` } }];"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                9568,
+                960
+            ],
+            "id": "b9527ad4-2e0a-41bf-8882-124452cdd255",
+            "name": "Tạo Voice (Edge-TTS)"
+        },
+        {
+            "parameters": {
+                "url": "=https://image.pollinations.ai/prompt/{{ encodeURIComponent($('Loop Over Items').item.json.image_prompt) }}?width=1920&height=1080&nologo=true",
+                "options": {
+                    "response": {
+                        "response": {
+                            "responseFormat": "file"
+                        }
+                    }
+                }
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                9808,
+                960
+            ],
+            "id": "010bd334-6d2e-478e-92b1-3cabfe51cf41",
+            "name": "Tạo Ảnh (Pollinations)"
+        },
+        {
+            "parameters": {
+                "operation": "write",
+                "fileName": "=/data/scene_{{ $('Loop Over Items').item.json.scene_number }}.jpg",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.readWriteFile",
+            "typeVersion": 1.1,
+            "position": [
+                10048,
+                960
+            ],
+            "id": "5d4eb7ed-c1bf-489f-9f9b-2d57ef6c1011",
+            "name": "Lưu Ảnh (Local)"
+        },
+        {
+            "parameters": {
+                "jsCode": "const { execSync } = require('child_process');\nconst item = $('Loop Over Items').item.json;\nconst sceneNum = item.scene_number;\n\nexecSync(`ffmpeg -loop 1 -i /data/scene_${sceneNum}.jpg -i /data/scene_${sceneNum}.mp3 -c:v libx264 -tune stillimage -c:a aac -b:a 192k -pix_fmt yuv420p -shortest /data/video_scene_${sceneNum}.mp4 -y`);\n\nreturn [{ json: { ...item, video_file: `/data/video_scene_${sceneNum}.mp4` } }];"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                10288,
+                960
+            ],
+            "id": "c1989583-c9e3-4cdc-8822-bbd953e2ead0",
+            "name": "Ghép Video Cảnh (FFmpeg)"
+        },
+        {
+            "parameters": {
+                "jsCode": "const scriptData = $('Code').first().json;\nreturn scriptData.scenes.map(scene => ({ json: scene }));\n"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                9312,
+                960
+            ],
+            "id": "f3456963-2f5b-4c7f-bd4d-ccb6a052419b",
+            "name": "Loop Over Items"
         }
-      }
-    },
-    {
-      "parameters": {
-        "jsCode": "const text = items[0].json.content?.parts?.[0]?.text || items[0].json.text || items[0].json.message?.content;\nreturn JSON.parse(text);"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        280,
-        32
-      ],
-      "id": "8fb97f21-b44a-4525-a32d-fc6db0042b8f",
-      "name": "Code"
-    },
-    {
-      "parameters": {
-        "chatId": "8374731299",
-        "text": "=🎬 BÁO CÁO KỊCH BẢN MỚI 🎬\nTên video: {{ $json.title }}\nSố cảnh: {{ $json.scenes.length }} cảnh.\n\nBạn có muốn duyệt kịch bản này để AI tự động render video không?",
-        "replyMarkup": "inlineKeyboard",
-        "inlineKeyboard": {
-          "rows": [
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "✅ Duyệt & Làm Video",
-                    "additionalFields": {
-                      "url": "={{ $execution.resumeUrl }}&action=approve"
+    ],
+    "connections": {
+        "Schedule Trigger": {
+            "main": [
+                [
+                    {
+                        "node": "HTTP Request1",
+                        "type": "main",
+                        "index": 0
                     }
-                  },
-                  {
-                    "text": "❌ Hủy bỏ",
-                    "additionalFields": {
-                      "url": "={{ $execution.resumeUrl }}&action=reject"
-                    }
-                  }
                 ]
-              }
-            }
-          ]
+            ]
         },
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        540,
-        32
-      ],
-      "id": "47ee228e-48f1-49c2-aab1-ec0940bdeb5a",
-      "name": "Telegram",
-      "credentials": {
-        "telegramApi": {
-          "id": "0hzQ8odZKSpiUXSe",
-          "name": "Telegram account"
+        "HTTP Request1": {
+            "main": [
+                [
+                    {
+                        "node": "Message a model",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Message a model": {
+            "main": [
+                [
+                    {
+                        "node": "Code",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Code": {
+            "main": [
+                [
+                    {
+                        "node": "Telegram",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Telegram": {
+            "main": [
+                [
+                    {
+                        "node": "Wait",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Wait": {
+            "main": [
+                [
+                    {
+                        "node": "Loop Over Items",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Tạo Voice (Edge-TTS)": {
+            "main": [
+                [
+                    {
+                        "node": "Tạo Ảnh (Pollinations)",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Tạo Ảnh (Pollinations)": {
+            "main": [
+                [
+                    {
+                        "node": "Lưu Ảnh (Local)",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Lưu Ảnh (Local)": {
+            "main": [
+                [
+                    {
+                        "node": "Ghép Video Cảnh (FFmpeg)",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Loop Over Items": {
+            "main": [
+                [
+                    {
+                        "node": "Tạo Voice (Edge-TTS)",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         }
-      }
     },
-    {
-      "parameters": {
-        "resume": "webhook",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [
-        780,
-        32
-      ],
-      "id": "662400f0-13e7-4414-bc84-aa4d415764d8",
-      "name": "Wait",
-      "webhookId": "310b3213-5bf7-4388-95ce-5e73e2e18ad8"
-    },
-    {
-      "parameters": {
-        "fieldToSplitOut": "scenes",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1,
-      "position": [
-        1020,
-        32
-      ],
-      "id": "node-loop-scenes",
-      "name": "Loop Over Items"
-    },
-    {
-      "parameters": {
-        "jsCode": "const { execSync } = require('child_process');\nconst item = $('Loop Over Items').item.json;\nconst sceneNum = item.scene_number;\nconst text = (item.voiceover_text || '').replace(/\"/g, '').replace(/\\n/g, ' ');\n\nexecSync(`edge-tts --voice vi-VN-HoaiMyNeural --text \"${text}\" --write-media /data/scene_${sceneNum}.mp3`);\n\nreturn [{ json: { ...item, voice_file: `/data/scene_${sceneNum}.mp3` } }];"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1260,
-        32
-      ],
-      "id": "node-tts-code",
-      "name": "Tạo Voice (Edge-TTS)"
-    },
-    {
-      "parameters": {
-        "url": "=https://image.pollinations.ai/prompt/{{ encodeURIComponent($('Loop Over Items').item.json.image_prompt) }}?width=1920&height=1080&nologo=true",
-        "options": {
-          "response": {
-            "response": {
-              "responseFormat": "file"
-            }
-          }
-        }
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        1500,
-        32
-      ],
-      "id": "node-image",
-      "name": "Tạo Ảnh (Pollinations)"
-    },
-    {
-      "parameters": {
-        "operation": "write",
-        "fileName": "=/data/scene_{{ $('Loop Over Items').item.json.scene_number }}.jpg",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.readWriteFile",
-      "typeVersion": 1.1,
-      "position": [
-        1740,
-        32
-      ],
-      "id": "node-save-image",
-      "name": "Lưu Ảnh (Local)"
-    },
-    {
-      "parameters": {
-        "jsCode": "const { execSync } = require('child_process');\nconst item = $('Loop Over Items').item.json;\nconst sceneNum = item.scene_number;\n\nexecSync(`ffmpeg -loop 1 -i /data/scene_${sceneNum}.jpg -i /data/scene_${sceneNum}.mp3 -c:v libx264 -tune stillimage -c:a aac -b:a 192k -pix_fmt yuv420p -shortest /data/video_scene_${sceneNum}.mp4 -y`);\n\nreturn [{ json: { ...item, video_file: `/data/video_scene_${sceneNum}.mp4` } }];"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1980,
-        32
-      ],
-      "id": "node-ffmpeg-code",
-      "name": "Ghép Video Cảnh (FFmpeg)"
+    "pinData": {},
+    "meta": {
+        "templateCredsSetupCompleted": true,
+        "instanceId": "068f7554d32535a90db1bb79c88c509e0000314d2403255278859234b5a9aa1f"
     }
-  ],
-  "connections": {
-    "Schedule Trigger": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTTP Request1": {
-      "main": [
-        [
-          {
-            "node": "Message a model",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Message a model": {
-      "main": [
-        [
-          {
-            "node": "Code",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Code": {
-      "main": [
-        [
-          {
-            "node": "Telegram",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Telegram": {
-      "main": [
-        [
-          {
-            "node": "Wait",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Wait": {
-      "main": [
-        [
-          {
-            "node": "Loop Over Items",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Loop Over Items": {
-      "main": [
-        [
-          {
-            "node": "Tạo Voice (Edge-TTS)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Tạo Voice (Edge-TTS)": {
-      "main": [
-        [
-          {
-            "node": "Tạo Ảnh (Pollinations)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Tạo Ảnh (Pollinations)": {
-      "main": [
-        [
-          {
-            "node": "Lưu Ảnh (Local)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Lưu Ảnh (Local)": {
-      "main": [
-        [
-          {
-            "node": "Ghép Video Cảnh (FFmpeg)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    }
-  },
-  "pinData": {},
-  "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "068f7554d32535a90db1bb79c88c509e0000314d2403255278859234b5a9aa1f"
-  }
 }

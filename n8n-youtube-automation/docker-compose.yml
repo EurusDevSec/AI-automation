@@ -6,13 +6,16 @@ services:
     ports:
       - "5678:5678"
     environment:
-      - N8N_HOST=localhost
+      - N8N_HOST=localtest.me
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
-      - WEBHOOK_URL=http://localhost:5678/
+      - WEBHOOK_URL=http://localtest.me:5678/
       - NODE_ENV=production
       # Múi giờ Việt Nam
       - GENERIC_TIMEZONE=Asia/Ho_Chi_Minh
+      # Cho phép n8n Code node gọi child_process (FFmpeg & Edge-TTS)
+      - NODE_FUNCTION_ALLOW_BUILTIN=*
+      - NODE_FUNCTION_ALLOW_EXTERNAL=*
       # Cho phép dùng node Execute Command và script linh hoạt
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=false
     volumes:
