@@ -1,0 +1,25 @@
+services:
+  n8n:
+    build: .
+    container_name: n8n_video_automation
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://localhost:5678/
+      - NODE_ENV=production
+      # Múi giờ Việt Nam
+      - GENERIC_TIMEZONE=Asia/Ho_Chi_Minh
+      # Cho phép dùng node Execute Command và script linh hoạt
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=false
+    volumes:
+      # Lưu trữ database của n8n để không mất dữ liệu khi tắt máy
+      - n8n_data:/home/node/.n8n
+      # Ánh xạ thư mục máy tính vào trong n8n để xuất video
+      - ./local_files:/data
+
+volumes:
+  n8n_data:
