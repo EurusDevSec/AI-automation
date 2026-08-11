@@ -3,3 +3,6 @@ dist
 .DS_Store
 *.local
 .env
+# Ignore private working n8n backup file with actual credentials & chat ID
+n8n-youtube-automation/youtube-automation.json
+n8n-youtube-automation/local_files/

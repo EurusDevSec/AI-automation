@@ -10,12 +10,15 @@ services:
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
       - WEBHOOK_URL=http://localtest.me:5678/
+      - N8N_SECURE_COOKIE=false
       - NODE_ENV=production
       # Múi giờ Việt Nam
       - GENERIC_TIMEZONE=Asia/Ho_Chi_Minh
       # Cho phép n8n Code node gọi child_process (FFmpeg & Edge-TTS)
       - NODE_FUNCTION_ALLOW_BUILTIN=*
       - NODE_FUNCTION_ALLOW_EXTERNAL=*
+      # Tắt task-runner sub-process để chạy execSync mượt mà không bị timeout heartbeat
+      - N8N_RUNNERS_ENABLED=false
       # Cho phép dùng node Execute Command và script linh hoạt
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=false
     volumes:
