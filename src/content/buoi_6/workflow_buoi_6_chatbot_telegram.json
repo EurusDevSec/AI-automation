@@ -154,7 +154,7 @@
       ],
       "credentials": {
         "openAiApi": {
-          "id": "GVIl85Pva8mlxHDB",
+          "id": "",
           "name": "OpenAI API account"
         }
       }
@@ -309,7 +309,7 @@
       ],
       "credentials": {
         "openAiApi": {
-          "id": "GVIl85Pva8mlxHDB",
+          "id": "",
           "name": "OpenAI API account"
         }
       }

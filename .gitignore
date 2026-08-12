@@ -5,4 +5,5 @@ dist
 .env
 # Ignore private working n8n backup file with actual credentials & chat ID
 n8n-youtube-automation/youtube-automation.json
-n8n-youtube-automation/local_files/
+n8n-youtube-automation/local_files/*
+src/content/buoi_6/chatbot_agent.json

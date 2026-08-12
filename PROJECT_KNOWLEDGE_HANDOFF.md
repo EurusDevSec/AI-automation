@@ -1,85 +1,85 @@
-# 🧠 PROJECT KNOWLEDGE & MEMORY HANDOFF (AI-AUTOMATION MASTERCLASS)
+# 🚀 PROJECT KNOWLEDGE HANDOFF & CONTINUITY MASTER GUIDE
 
-> **Document Purpose**: This file serves as the single source of truth, technical memory, design guidelines, and architectural blueprint for future AI agents working on the `AI-automation` project.
-
----
-
-## 📌 1. EXECUTIVE SUMMARY & CORE OBJECTIVES
-- **Project**: AI & Automation Masterclass 2026 (Lộ Trình Đào Tạo AI 2026).
-- **Goal**: Provide an ultra-premium, interactive student portal featuring real-world n8n automation workflows, Google Gemini AI integrations, and full step-by-step technical guides.
-- **Location**: `R:\_Projects\Eurus_Workspace\AI-automation\`
-- **Design System**: Official AWS Cloudscape Design System (`@cloudscape-design/components`) + Tailwind CSS.
+> **MỤC TIÊU TÀI LIỆU**: Đây là tài liệu bàn giao tri thức (Handoff Artifact) tích tụ 100% tinh túy kỹ thuật, quyết định kiến trúc, bài học thực chiến, bẫy lỗi đã xử lý và tình trạng dự án. Bất kỳ AI Agent nào khi khởi tạo session mới chỉ cần đọc file này là ngay lập tức nắm trọn bối cảnh, tư duy làm việc và tiếp tục công việc mà KHÔNG CẦN người dùng giải thích lại.
 
 ---
 
-## 📐 2. CORE ARCHITECTURE & FILE MAP
+## 📌 I. BẢN ĐỒ DỰ ÁN & CẤU TRÚC FILE CHÍNH (FILE MAP)
 
-### Key Components & Libraries:
-- **`src/pages/StudentPortal.jsx`**: Main lesson view page. Handles the 3-Tier Navigation, Dynamic TOC, ScrollSpy, and Markdown Rendering.
-- **`src/lib/resolveMarkdown.js`**: Dynamic markdown loader using Vite's `import.meta.glob('../content/**/*.md', { eager: true, query: '?raw' })`. Parses multi-file folders (`src/content/buoi_X/`) into structured exercises and methods.
-- **`src/data/lessonsData.js`**: Core metadata registry for all 8 sessions (titles, descriptions, modules, troubleshooting guides).
-- **`src/lib/resolveImage.js`**: Dynamically maps markdown image paths (`image-1.png`) to imported assets.
-
-### Content Structure (`src/content/`):
-```
-src/content/
-├── buoi_1/ (index.md, bai_1.md, bai_2.md, bai_3.md)
-├── buoi_2/ (index.md, bai_1.md, bai_2.md, bai_3.md)
-├── buoi_3/ (index.md, bai_1.md, bai_2.md, bai_3.md, bai_4.md, 29 images, public/workflow_buoi_3_*.json)
-└── buoi_X.md (Fallback single-file mode)
-```
+| Loại File | Đường dẫn File | Mục mục & Vai trò |
+| :--- | :--- | :--- |
+| **Nguồn Bài Học LMS** | [src/content/buoi_5/bai_1.md](file:///r:/_Projects/Eurus_Workspace/AI-automation/src/content/buoi_5/bai_1.md) | **FILE CHÍNH THỨC 100%** hiển thị trên cổng Web LMS cho học viên. |
+| **Tổng Quan Buổi 5** | [src/content/buoi_5.md](file:///r:/_Projects/Eurus_Workspace/AI-automation/src/content/buoi_5.md) | File tóm tắt OKRs & nội dung Buổi 5 trên giao diện danh mục. |
+| **Tài liệu Docs Dự phòng**| [docs/buoi_5_tu_dong_hoa_youtube_shorts.md](file:///r:/_Projects/Eurus_Workspace/AI-automation/docs/buoi_5_tu_dong_hoa_youtube_shorts.md) | File Docs lưu trữ độc lập (Đã đồng bộ 100% với file LMS). |
+| **Workflow Local (Backup)**| [n8n-youtube-automation/youtube-automation.json](file:///r:/_Projects/Eurus_Workspace/AI-automation/n8n-youtube-automation/youtube-automation.json) | File n8n JSON thực tế local (Chứa Chat ID thực tế, đã `.gitignore`). |
+| **Workflow Public (Mẫu)** | [n8n-youtube-automation/youtube-automation-public.json](file:///r:/_Projects/Eurus_Workspace/AI-automation/n8n-youtube-automation/youtube-automation-public.json) | File n8n JSON mẫu đã khử thông tin bảo mật + có 4 Sticky Notes. |
+| **Docker Compose** | [n8n-youtube-automation/docker-compose.yml](file:///r:/_Projects/Eurus_Workspace/AI-automation/n8n-youtube-automation/docker-compose.yml) | Cấu hình Docker n8n v2.x + `N8N_RUNNERS_ENABLED=false` + mount `/data`. |
+| **Bảo Vệ Git** | [.gitignore](file:///r:/_Projects/Eurus_Workspace/AI-automation/.gitignore) | Khóa ẩn file `youtube-automation.json` và thư mục `local_files/`. |
 
 ---
 
-## 🎨 3. STRICT UI/UX DESIGN SYSTEM & PATTERNS
+## 🏛️ II. KIẾN TRÚC KĨ THUẬT VÀ 5 BÀI HỌC THỰC CHIẾN XƯƠNG MÁU
 
-Future agents **MUST ADHERE STRICTLY** to the following 3 UI/UX principles:
+### 1. n8n v2.x Task Runner Timeout Bug
+* **Hiện tượng lỗi**: `Task execution aborted because runner became unresponsive`.
+* **Nguyên nhân**: Khi thực thi lệnh CLI nặng (`FFmpeg`, `edge-tts`), n8n v2.x tạo sub-process qua WebSocket Task Runner. Lệnh đồng bộ `execSync` làm CPU Node.js bị đóng băng, rớt nhịp tim Heartbeat.
+* **Cách khắc phục triệt để**:
+  1. Trong `docker-compose.yml`: Bắt buộc thiết lập `N8N_RUNNERS_ENABLED=false`.
+  2. Trong các Code Node n8n: Bắt buộc đổi từ `execSync` sang bất đồng bộ `util.promisify(exec)` với `await execPromise(...)`.
 
-### Rule 1: The 3-Tier Navigation Pattern ("Don't Make Me Think")
-1. **Tier 1 (Primary Exercises Bar)**: Top horizontal tabs for switching between Exercises (`📘 Bài 1`, `🤖 Bài 2`, `🗂️ Bài 3`, `⚡ Bài 4`). Never dump multiple exercises into a single flat tab bar!
-2. **Tier 2 (Secondary Method Switch)**: Segmented pill switch inside the active exercise view for toggling methods:
-   - `[ 🛠️ Cách 1: Hướng Dẫn Dựng Thủ Công (10 Bước UI) ]` (Always First!)
-   - `[ ⚡ Cách 2: Import Nhanh Bằng n8n JSON (1-Click Copy) ]` (Always Second!)
-3. **Tier 3 (Focused Dynamic TOC)**: The right-sidebar Table of Contents filters and renders **ONLY** headings belonging to the currently selected Exercise and active Method.
+### 2. Pollinations AI WAF & HTTP 429 Too Many Requests
+* **Hiện tượng lỗi**: Node sinh ảnh AI bị trả về lỗi `HTTP 429` hoặc trả về phông màu đơn sắc (`null` data).
+* **Nguyên nhân**: Cloudflare WAF của Pollinations AI chặn Python Scraper User-Agent mặc định (`Python-urllib/3.14`).
+* **Cách khắc phục triệt me**:
+  1. Giả lập Header trình duyệt thật: `headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}` trong lệnh Python.
+  2. Thêm hàm `sleep(2000)` dãn cách 2 giây giữa các request sinh ảnh.
+  3. Thêm cơ chế **HD Photo Fallback**: Nếu dịch vụ AI bị bảo trì, tự động tải ảnh chụp HD từ Picsum (`https://picsum.photos/1920/1080`) $\rightarrow$ Đảm bảo 100% không rớt về phông đơn sắc.
 
-### Rule 2: Table of Contents (TOC) Visual Tree Hierarchy
-- **Level 1 (Session Title)**: `ml-0 bg-indigo-900 text-white font-extrabold text-xs p-2.5`
-- **Level 2 (Major Sections / SubTabs)**: `ml-2.5 border-l-4 border-indigo-500 bg-indigo-50 text-indigo-950 font-bold text-xs`
-- **Level 3 (Process / Pipeline)**: `ml-5 border-l-2 border-slate-300 bg-slate-50 text-slate-800 font-semibold text-xs`
-- **Level 4 (Steps 1, 2, 3...)**: `ml-8 border-l-2 border-emerald-400 bg-emerald-50/40 text-emerald-950 text-[11px]`
-- **Dual View Mode**: Provides a toggle between `🌳 Cây Phân Cấp` and `⚓ AnchorNav` (AWS Cloudscape native component).
+### 3. Edge-TTS Connection Drop & Voice Fallback
+* **Hiện tượng lỗi**: Lỗi `NoAudioReceived` khi gọi giọng đọc Microsoft Edge.
+* **Cách khắc phục**:
+  * Sử dụng vòng lặp `while` thử lại 3 lần (Auto-Retry 3x với `sleep(1500)`).
+  * Nếu sau 3 lần thất bại, tự động chuyển sang giọng nam dự phòng `vi-VN-NamMinhNeural`.
 
-### Rule 3: Floating Restore Button
-- If the student clicks `Thu gọn ✕` to collapse the TOC sidebar, a floating purple button (`📌 Mục Lục (N)`) **MUST ALWAYS** stay fixed at the bottom right corner so the user can restore it in 1-click.
+### 4. FFmpeg Stream Mapping Cho Hòa Âm BGM
+* **Hiện tượng lỗi**: Lỗi `Filter amix:default has output 0 (a) unconnected` khi trộn nhạc nền BGM.
+* **Cách khắc phục**: Lệnh hòa âm phải sử dụng cờ ánh xạ stream chuẩn xác:
+  ```bash
+  ffmpeg -i /data/FINAL_MERGED.mp4 -i /data/bg_music.mp3 -filter_complex "[1:a]volume=0.15[bg];[0:a][bg]amix=inputs=2:duration=first[a]" -map 0:v -map "[a]" -c:v copy -c:a aac /data/FINAL_YOUTUBE_SHORTS.mp4 -y
+  ```
 
----
-
-## 🛡️ 4. SECURITY AUDIT & PRIVACY PROTOCOLS
-
-When working with n8n JSON files or markdown content, **NEVER** expose real credentials or private keys:
-- **Google Sheets Document ID**: Replace with `"NHAP_ID_GOOGLE_SHEET_CUA_BAN_VAO_DAY"`.
-- **Telegram Chat ID**: Replace with `"NHAP_TELEGRAM_CHAT_ID_CUA_BAN_VAO_DAY"`.
-- **Email Addresses**: Replace with `"NHAP_EMAIL_CA_NHAN_CUA_BAN_VAO_DAY"`.
-- **Credential Internal IDs**: Set `id: ""` in JSON for `googlePalmApi`, `googleSheetsOAuth2Api`, `telegramApi`, `gmailOAuth2`.
-- **Placeholder Guide Requirement**: Under `Cách 2: Import Nhanh n8n JSON`, always provide explicit 5-point instructions telling students exactly where and how to retrieve these 5 placeholder values.
-
----
-
-## 🚀 5. LESSON STATUS & NEXT STEPS
-
-- **Buổi 1**: Completed & Modularized (`src/content/buoi_1/`).
-- **Buổi 2**: Completed & Modularized (`src/content/buoi_2/`).
-- **Buổi 3**: 
-  - `bai_1.md`: Completed (Auto RSS Feed sang Google Sheets).
-  - `bai_2.md`: Completed (n8n AI Summarizer sang Telegram/Slack with 29 images & sanitized `workflow_buoi_3_bai_2.json`).
-  - `bai_3.md` & `bai_4.md`: Pending detailed step-by-step content.
-- **Buổi 4 - Buổi 8**: Pending full modularization into `src/content/buoi_X/` sub-folders.
+### 5. URL Xác Thực Local Host Chuẩn Cho Google OAuth2
+* **Tên miền chuẩn**: Sử dụng **`http://localtest.me:5678`** thay vì `localhost:5678`.
+* **Lý do**: `localtest.me` trỏ về IP `127.0.0.1` nhưng là Tên miền công khai hợp lệ $\rightarrow$ Khớp 100% Redirect URI của Google Cloud OAuth2 (`http://localtest.me:5678/rest/oauth2-credential/callback`), loại bỏ hoàn toàn lỗi `redirect_uri_mismatch`.
 
 ---
 
-## 🛠️ 6. VERIFICATION COMMANDS
-Before ending any turn, future agents must run:
-```powershell
-& C:\Users\ACER\AppData\Roaming\npm\yarn.cmd build
-```
-Ensure build exits with code 0 and zero compilation errors.
+## ⚖️ III. KHUNG PHÁP LÝ & AN TOÀN AI (LUẬT AI 2026 & LUẬT AN NINH MẠNG)
+
+1. **Luật Trí tuệ Nhân tạo Việt Nam (Hiệu lực 01/03/2026)**: Bắt buộc gắn nhãn nhận biết nội dung do AI tạo ra. Workflow đã tích hợp tự động chèn bộ Hashtag `#Shorts #AIContent #CreatedWithAI` vào Description của Video.
+2. **Luật An ninh mạng (Sửa đổi 2025, Hiệu lực 01/07/2026)**: Nghiêm cấm Deepfake & Giả mạo. Workflow n8n đã tích hợp **Content Safety Guardrails** trong Prompt Gemini AI (bỏ qua 100% tin tức nhà nước, chính trị, pháp luật, đất đai $\rightarrow$ chỉ chọn Giải trí/Công nghệ/Đời sống) và chỉ sử dụng giọng đọc/hình ảnh nghệ thuật ảo.
+3. **Mô hình Human-In-The-Loop**: 2 chặng kiểm duyệt Telegram Bot (Duyệt kịch bản chữ $\rightarrow$ Duyệt phát thử video MP4) giúp người dùng nắm quyền kiểm soát 100% trước khi đăng.
+
+---
+
+## 📝 IV. QUY NẮC TRÌNH BÀY & QUY TRÌNH PHÁT TRIỂN (AGENTS.MD RULES)
+
+1. **Tuân thủ AGENTS.md**: Mọi chỉnh sửa mã nguồn phải sử dụng khối Search & Replace Diff blocks (`<<<<<<< SEARCH`).
+2. **Pedagogical Structure**: Bài học trên LMS tuân thủ chặt chẽ cấu trúc Buổi 4:
+   - Phần I: Tổng quan & OKRs.
+   - Phần II: Khung Pháp lý & Luật AI 2026.
+   - Phần III: Nền tảng Kiến trúc & Ý nghĩa Công nghệ (Tech Stack Rationale).
+   - Phần IV: Chuẩn bị Môi trường & Credentials Upfront.
+   - Phần V: Phương pháp 1 - Hướng dẫn Cấu hình Chi tiết từng Node (16 Nodes).
+   - Phần VI: Phương pháp 2 - Import 1-Click qua file JSON (có Sticky Notes).
+   - Phần VII: Bản đồ Troubleshooting thực chiến.
+3. **Bảo mật**: Không bao giờ commit API Key hay Chat ID thật lên Git repository.
+
+---
+
+## 🎯 V. TÌNH TRẠNG HIỆN TẠI (CURRENT STATE)
+
+- [x] Workflow n8n YouTube Shorts Automation 4 Chặng (16 Nodes + 4 Sticky Notes) đã hoàn tất 100%, chạy test thành công trên Container Docker.
+- [x] File JSON mẫu `youtube-automation-public.json` và file local backup `youtube-automation.json` đã đồng bộ.
+- [x] Giáo trình Buổi 5 tại `src/content/buoi_5/bai_1.md` và `docs/buoi_5_tu_dong_hoa_youtube_shorts.md` đã cập nhật đầy đủ Luật AI 2026 và kiến thức công nghệ.
+- [x] Hệ thống sẵn sàng cho công việc tiếp theo do người dùng yêu cầu!
