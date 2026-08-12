@@ -3,6 +3,70 @@
   "nodes": [
     {
       "parameters": {
+        "content": "## 🟢 CHẶNG 1: SĂN XU HƯỚNG & LẬP KỊCH BẢN AI\n- Tự động chạy lúc 7:00 AM mỗi ngày\n- Quét tin tức Google Trends RSS Việt Nam\n- Gemini AI lọc nội dung an toàn & tạo kịch bản 5-6 cảnh JSON\n- Bắn báo cáo sang Telegram xin duyệt kịch bản",
+        "height": 300,
+        "width": 1420,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        -220
+      ],
+      "id": "sticky-note-1",
+      "name": "Sticky Note Chặng 1"
+    },
+    {
+      "parameters": {
+        "content": "## 🟡 CHẶNG 2: XỬ LÝ MẢNG CẢNH, VOICE & ẢNH AI\n- Xóa dọn file rác cũ trên đĩa /data\n- Edge-TTS tạo 6 file voice MP3 (Auto-Retry 3x + Voice dự phòng)\n- Pollinations AI tạo 6 ảnh 8K (User-Agent Mozilla/5.0 + Picsum HD fallback)",
+        "height": 300,
+        "width": 900,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        980,
+        -220
+      ],
+      "id": "sticky-note-2",
+      "name": "Sticky Note Chặng 2"
+    },
+    {
+      "parameters": {
+        "content": "## 🟠 CHẶNG 3: RENDER FFMPEG & BÁO XEM TRƯỚC TELEGRAM\n- FFmpeg ghép lặp ảnh + voice thành video từng cảnh\n- Concat nối liên hoàn tất cả các cảnh thành video full\n- Hòa âm nhạc nền BGM 15% qua cờ -map 0:v -map \"[a]\"\n- Gửi trực tiếp file Video MP4 về Telegram cho quản trị viên phát xem trước",
+        "height": 300,
+        "width": 900,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1940,
+        -220
+      ],
+      "id": "sticky-note-3",
+      "name": "Sticky Note Chặng 3"
+    },
+    {
+      "parameters": {
+        "content": "## 🔴 CHẶNG 4: DUYỆT ĐĂNG YOUTUBE SHORTS\n- Giữ tiến trình chờ nút bấm duyệt trên Telegram\n- Nạp file video nhị phân hoàn chỉnh\n- Đăng video lên YouTube Shorts (RegionCode: VN, CategoryId: 28)",
+        "height": 300,
+        "width": 650,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2900,
+        -220
+      ],
+      "id": "sticky-note-4",
+      "name": "Sticky Note Chặng 4"
+    },
+    {
+      "parameters": {
         "rule": {
           "interval": [
             {
@@ -44,7 +108,7 @@
         "messages": {
           "values": [
             {
-              "content": "=Bạn là một nhà sáng tạo nội dung YouTube chuyên nghiệp và tuân thủ nghiêm ngặt Luật An ninh mạng Việt Nam.\n\nQUY TẮC AN TOÀN NỘI DUNG (BẮT BUỘC KHÔNG ĐƯỢC VI PHẠM):\n1. TUYỆT ĐỐI BỎ QUA VÀ NÉ TRÁNH các chủ đề liên quan đến: Chính trị, Nhà nước, Chính phủ, Bộ Công An, Quân đội, Luật pháp, VNeID, Căn cước, Sổ đỏ, Thuế, Chính sách đất đai, Tôn giáo, Tranh chấp địa chính trị, hoặc tin tức hành chính.\n2. CHỈ CHỌN các chủ đề an toàn thuộc nhóm: Công nghệ (AI, Gadgets, Smartphone, Xe điện), Đời sống & Giải trí (Âm nhạc, Điện ảnh, Game, Thể thao, Du lịch, Ẩm thực, Khoa học vũ trụ, Mẹo vặt đời sống).\n\nDựa vào dữ liệu trending sau đây: {{ $json.data }}, hãy lọc bỏ tất cả các tin nhà nước/chính trị và chọn ra 1 chủ đề thuần Giải trí/Công nghệ/Đời sống hấp dẫn nhất để viết kịch bản cho một video YouTube Shorts.\n\nYêu cầu BẮT BUỘC:\n1. Kịch bản BẮT BUỘC phải bao gồm TỐI THIỂU 5 đến 6 CẢNH (scenes) phân biệt rõ ràng.\n2. Trả về định dạng JSON chuẩn xác theo cấu trúc sau (không kèm markdown ```json):\n{\n  \"title\": \"Tiêu đề video cực kỳ thu hút, giật tít (thuần giải trí/công nghệ)\",\n  \"description\": \"Mô tả video chuẩn SEO #Shorts\",\n  \"tags\": \"trend, cong nghe, giai tri, vietnam, shorts\",\n  \"scenes\": [\n    {\n      \"scene_number\": 1,\n      \"voiceover_text\": \"Văn bản tiếng Việt mở đầu (Hook mạnh).\",\n      \"image_prompt\": \"Cinematic prompt 1, 8k resolution, photorealistic, 16:9 ratio\"\n    },\n    {\n      \"scene_number\": 2,\n      \"voiceover_text\": \"Văn bản tiếng Việt nội dung tiếp theo.\",\n      \"image_prompt\": \"Cinematic prompt 2...\"\n    },\n    {\n      \"scene_number\": 3,\n      \"voiceover_text\": \"Văn bản tiếng Việt nội dung tiếp theo.\",\n      \"image_prompt\": \"Cinematic prompt 3...\"\n    },\n    {\n      \"scene_number\": 4,\n      \"voiceover_text\": \"Văn bản tiếng Việt nội dung tiếp theo.\",\n      \"image_prompt\": \"Cinematic prompt 4...\"\n    },\n    {\n      \"scene_number\": 5,\n      \"voiceover_text\": \"Văn bản tiếng Việt kết bài và Call to Action.\",\n      \"image_prompt\": \"Cinematic prompt 5...\"\n    }\n  ]\n}\n"
+              "content": "=Bạn là một nhà sáng tạo nội dung YouTube chuyên nghiệp và tuân thủ nghiêm ngặt Luật An ninh mạng Việt Nam.\n\nQUY TẮC AN TOÀN NỘI DUNG (BẮT BUỘC KHÔNG ĐƯỢC VI PHẠM):\n1. TUYỆT ĐỐI BỎ QUA VÀ NÉ TRÁNH các chủ đề liên quan đến: Chính trị, Nhà nước, Chính phủ, Bộ Công An, Quân đội, Luật pháp, VNeID, Căn cước, Sổ đỏ, Thuế, Chính sách đất đai, Tôn giáo, Tranh chấp địa chính trị, hoặc tin tức hành chính.\n2. CHỈ CHỌN các chủ đề an toàn thuộc nhóm: Công nghệ (AI, Gadgets, Smartphone, Xe điện), Đời sống & Giải trí (Âm nhạc, Điện ảnh, Game, Thể thao, Du lịch, Ẩm thực, Khoa học vũ trụ, Mẹo vặt đời sống).\n3. TUÂN THỦ LUẬT AI 2026: Phần description bắt buộc thêm nhãn gắn minh bạch: \"#Shorts #AIContent #CreatedWithAI\".\n\nDựa vào dữ liệu trending sau đây: {{ $json.data }}, hãy lọc bỏ tất cả các tin nhà nước/chính trị và chọn ra 1 chủ đề thuần Giải trí/Công nghệ/Đời sống hấp dẫn nhất để viết kịch bản cho một video YouTube Shorts.\n\nYêu cầu BẮT BUỘC:\n1. Kịch bản BẮT BUỘC phải bao gồm TỐI THIỂU 5 đến 6 CẢNH (scenes) phân biệt rõ ràng.\n2. Trả về định dạng JSON chuẩn xác theo cấu trúc sau (không kèm markdown ```json):\n{\n  \"title\": \"Tiêu đề video cực kỳ thu hút, giật tít (thuần giải trí/công nghệ)\",\n  \"description\": \"Mô tả video chuẩn SEO #Shorts #AIContent #CreatedWithAI\",\n  \"tags\": \"trend, cong nghe, giai tri, vietnam, shorts, aicontent\",\n  \"scenes\": [\n    {\n      \"scene_number\": 1,\n      \"voiceover_text\": \"Văn bản tiếng Việt mở đầu (Hook mạnh).\",\n      \"image_prompt\": \"Cinematic prompt 1, 8k resolution, photorealistic, 16:9 ratio\"\n    },\n    {\n      \"scene_number\": 2,\n      \"voiceover_text\": \"Văn bản tiếng Việt nội dung tiếp theo.\",\n      \"image_prompt\": \"Cinematic prompt 2...\"\n    },\n    {\n      \"scene_number\": 3,\n      \"voiceover_text\": \"Văn bản tiếng Việt nội dung tiếp theo.\",\n      \"image_prompt\": \"Cinematic prompt 3...\"\n    },\n    {\n      \"scene_number\": 4,\n      \"voiceover_text\": \"Văn bản tiếng Việt nội dung tiếp theo.\",\n      \"image_prompt\": \"Cinematic prompt 4...\"\n    },\n    {\n      \"scene_number\": 5,\n      \"voiceover_text\": \"Văn bản tiếng Việt kết bài và Call to Action.\",\n      \"image_prompt\": \"Cinematic prompt 5...\"\n    }\n  ]\n}\n"
             }
           ]
         },
