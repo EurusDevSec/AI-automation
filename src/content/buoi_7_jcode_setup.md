@@ -1,11 +1,11 @@
-# Buổi 7: Vibe Coding Chuẩn Kỹ Nghệ — Điều Khiển AI Agent Xây Dựng Ứng Dụng Với Antigravity IDE
+# Buổi 7: Vibe Coding Chuẩn Kỹ Nghệ — Điều Khiển AI Agent Xây Dựng Ứng Dụng Tự Động Hóa (jcode + eurus-agent)
 
-![Giao diện Antigravity Agent Engine](/session_7.jpg)
+![Giao diện Vibe Coding Engine](/session_7.jpg)
 
 ## 📖 Tổng Quan Buổi Học
 Không giống như các trào lưu "Vibe Coding" nhắm mắt gõ prompt ngô nghê dẫn đến vỡ code và đốt tiền Token, buổi học này trang bị cho bạn **Tư Duy Kỹ Nghệ Kiểm Soát AI Agent (Spec-Driven Agentic Engineering)**. 
 
-Thay vì mất 20 phút ngồi cài đặt công cụ CLI hay cấu hình API Key rắc rối, bạn sẽ sử dụng trực tiếp **Antigravity IDE** tích hợp sẵn năng lực Agent để tự tay xây dựng một ứng dụng web thực tế theo đúng **Happy Path** (chính xác, không lỗi, kiểm soát 100% ranh giới).
+Bạn sẽ học cách kết hợp bộ công cụ siêu tiết kiệm chi phí: **`jcode` CLI (Rust Engine)** + **OpenRouter (DeepSeek V3 / Qwen Coder)** + **`eurus-agent v2.4`** để tự tay xây dựng một ứng dụng web thực tế theo đúng **Happy Path** (chính xác, không lỗi, độc lập 100%, không phụ thuộc API bên thứ 3).
 
 ---
 
@@ -39,13 +39,13 @@ Trước khi bắt tay vào gõ code, học viên BẮT BUỘC phải hiểu 6 k
     └─ Chống cạm bẫy: Bắt AI sửa code bằng khối Diff (Search & Replace) thay vì gõ lại cả file 5,000 dòng.
 
  6. PROMPT CACHING PHYSICS (Vật Lý Nạp Tiền Đề Cố Định)
-    └─ Cơ chế giảm giá 95% chi phí API của LLM Engine.
+    └─ Cơ chế giảm giá 95% chi phí API của OpenRouter / Anthropic / DeepSeek.
     └─ Điều kiện: Tiền đề đầu file (Prefix) phải là một dải Byte cố định liên tục (như AGENTS.md & active_context.md).
 ```
 
 ---
 
-## 🎯 3 Trụ Cột Tư Duy Kỹ Nghệ Eurus Agent
+## 🎯 3 Trụ Cột Tư Duy Của Buổi Học
 
 1. **Chống "Vibe Coding Ảo Giác" (Anti-Hallucination)**:
    - Không bắt AI đoán mò. Dùng **Hiến Pháp Router** và **Spec Hợp Đồng** để ép AI làm đúng 100% scope.
@@ -56,7 +56,27 @@ Trước khi bắt tay vào gõ code, học viên BẮT BUỘC phải hiểu 6 k
 
 ---
 
-## 🚀 Thực Hành Dự Án Thực Tế Trong Antigravity IDE: AI Interactive Quiz & Exam Studio
+## 🛠️ Thiết Lập Môi Trường (Setup Tooling)
+
+### 1. Cấu hình `jcode` CLI (Rust Engine <28MB RAM)
+- Tải & Cài đặt `jcode` CLI.
+- Nạp API Key OpenRouter (Chọn model `deepseek/deepseek-chat` hoặc `qwen/qwen-2.5-coder-32b` — Chi phí siêu rẻ chỉ ~$0.01 cho cả buổi học!).
+- Đặt `temperature = 0.0` trong file `~/.jcode/config.toml` để đảm bảo code chính xác 100%.
+
+### 2. Triển khai `eurus-agent v2.4` (1-Line Installer)
+Mở Terminal tại thư mục dự án và chạy:
+- **Windows (PowerShell)**:
+  ```powershell
+  irm https://raw.githubusercontent.com/EurusDevSec/eurus-agent/main/install.ps1 | iex
+  ```
+- **Linux / macOS (Bash)**:
+  ```bash
+  curl -fsSL https://raw.githubusercontent.com/EurusDevSec/eurus-agent/main/install.sh | bash
+  ```
+
+---
+
+## 🚀 Thực Hành Dự Án Thực Tế: AI Interactive Quiz & Exam Studio
 
 Dự án mẫu thực chiến: Một **Ứng Dụng Tạo Đề Thi Trắc Nghiệm & Chấm Điểm Thông Minh (Single Page App)** giao diện Dark Mode chuẩn doanh nghiệp, chạy 100% độc lập trên trình duyệt!
 
@@ -69,45 +89,45 @@ AI Interactive Quiz & Exam Studio/
 
 ---
 
-## 📋 Quy Trình Thực Thi Theo Happy Path Trực Tiếp Trên Antigravity IDE
+## 📋 Quy Trình Thực Thi Theo Happy Path (6 Bước Vàng)
 
-### Bước 1: Mở Antigravity IDE & Nạp bối cảnh (`start`)
-Nhập từ khóa tự nhiên vào ô Chat Agent trong Antigravity IDE:
+### Bước 1: Khởi tạo bối cảnh (`start`)
+Gõ từ khóa tự nhiên vào `jcode`:
 ```text
 start
 ```
-*(AI Agent tự động nạp `active_context.md` và `ROADMAP.md` trong 0.5s)*.
+*(AI tự động quét dự án, nạp `active_context.md` và `ROADMAP.md` trong 0.5s)*.
 
 ### Bước 2: Tạo Hợp đồng Đặc tả (`/spec`)
-Nhập:
+Gõ:
 ```text
 /spec Xây dựng AI Interactive Quiz & Exam Studio
 ```
-*(AI sinh ra file đặc tả `SPEC-01_Quiz_Studio.md` chứa Yêu cầu Gherkin, Schema dữ liệu và **3 Điều Cấm**: 1. Khai báo 0 external DB requirement, 2. Lưu bộ câu hỏi & điểm số qua LocalStorage, 3. Giao diện chuẩn Tailwind Dark Mode)*.
+*(AI sinh ra file `SPEC-01_Quiz_Studio.md` chứa Yêu cầu Gherkin, Schema dữ liệu và **3 Điều Cấm**: 1. Khai báo 0 external DB requirement, 2. Lưu bộ câu hỏi & điểm số qua LocalStorage, 3. Giao diện chuẩn Tailwind Dark Mode)*.
 
-### Bước 3: Phản biện Kỹ sư trưởng (`/challenge`)
-Nhập:
+### Bước 3: Kỹ sư trưởng Phản biện (`/challenge`)
+Gõ:
 ```text
 /challenge
 ```
 *(AI đóng vai Principal Engineer soi lỗ hổng giao diện và tự vá lại Spec)*.
 
 ### Bước 4: Lập Phương án Kỹ thuật (`/plan`)
-Nhập:
+Gõ:
 ```text
 /plan
 ```
 *(AI bẻ Ma Trận Task Mẹ & Task Con `[NEW]` kèm Micro-Assertions)*.
 
 ### Bước 5: Thi công mã nguồn (`/build`)
-Nhập:
+Gõ:
 ```text
 /build
 ```
 *(AI xuất khối Diff Search & Replace gõ code thực tế, tự kích hoạt Spec-Reflector đồng bộ 2 chiều)*.
 
 ### Bước 6: Đóng gói & Lưu trữ (`save`)
-Nhập từ khóa tự nhiên:
+Gõ từ khóa tự nhiên:
 ```text
 save
 ```
@@ -116,5 +136,5 @@ save
 ---
 
 ## 💡 Bài Học Rút Ra Dành Cho Học Viên
-- Không tốn thời gian cài đặt công cụ. Tập trung 100% vào **Tư duy Điều khiển AI Agent**!
-- Vibe Coding thành công **không nằm ở công cụ hay số lượng code AI viết ra**, mà nằm ở **Tư duy Khống chế Ranh giới và Quản lý Bối cảnh của Lập trình viên**!
+- Vibe Coding thành công **không nằm ở số lượng code AI viết ra**, mà nằm ở **Tư duy Khống chế Ranh giới và Quản lý Bối cảnh của Lập trình viên**!
+- Hiểu rõ 6 khái niệm bản chất (`Token`, `Context Window`, `Hallucination`, `Temperature = 0.0`, `Max Output Token`, `Prompt Caching`) giúp bạn làm chủ 100% mọi AI Agent trên thị trường!
