@@ -36,22 +36,26 @@ Trong bài học này, học viên sẽ được tự tay xây dựng một **"T
 Học viên tiến hành thiết lập sẵn toàn bộ Môi trường & Credentials ngay ở bước này để khi kéo-thả n8n không bị ngắt quãng.
 
 ### 1. Telegram Bot Token (Miễn phí 100%)
+
 - Mở ứng dụng Telegram $\rightarrow$ Tìm bot `@BotFather`.
 - Gõ lệnh `/newbot` $\rightarrow$ Nhập tên Bot và Username cho Bot.
 - Copy chuỗi **API Token** được cấp (VD: `8699105519:AAGa7X...`).
 - Trên n8n UI: Mở **Credentials** $\rightarrow$ Thêm mới **Telegram account** $\rightarrow$ Dán Access Token vào và bấm Save.
 
 ### 2. OpenAI API Key (Model GPT-4o-mini & Vision)
+
 - Truy cập trang [platform.openai.com/api-keys](https://platform.openai.com/api-keys) $\rightarrow$ Đăng nhập tài khoản OpenAI.
 - Bấm **Create new secret key** $\rightarrow$ Copy chuỗi API Key (`sk-proj-...`).
 - Trên n8n UI: Thêm Credential **OpenAI API account** $\rightarrow$ Dán API Key vào và bấm Save.
 
 ### 3. SerpAPI Key (Dùng cho Tool Google Search)
+
 - Truy cập [serpapi.com](https://serpapi.com) $\rightarrow$ Đăng ký tài khoản miễn phí (nhận 100 lượt tìm kiếm/tháng).
 - Mở trang Dashboard $\rightarrow$ Copy mã **Private API Key**.
 - Trên n8n UI: Thêm Credential **SerpAPI account** $\rightarrow$ Dán Key vào và bấm Save.
 
 ### 4. Google OAuth2 Credential (Dùng cho Gmail & Google Calendar)
+
 - Trên n8n UI: Thêm Credential **Gmail OAuth2 API** và **Google Calendar OAuth2 API**.
 - Chọn chế độ **Managed OAuth2** $\rightarrow$ Bấm nút **Sign in with Google** $\rightarrow$ Ủy quyền chọn tài khoản Gmail của bạn (Hệ thống sẽ hiện thông báo *Account connected* màu xanh lá).
 
@@ -66,12 +70,14 @@ Học viên kéo-thả từng Node trên n8n canvas và điền thông số theo
 ### 🟢 GIAI ĐOẠN 1: TỰ ĐỘNG NHẬN TIN VÀ PHÂN LOẠI DỮ LIỆU
 
 #### Node 1: Telegram Trigger (`Receive Message`)
+
 - **Type**: `n8n-nodes-base.telegramTrigger`
 - **Trigger On**: `Message`
 - **Credential**: Chọn `Telegram account`.
 - **Lý do dùng**: Tự động lắng nghe sự kiện tin nhắn mới từ người dùng trên Telegram.
 
 #### Node 2: Switch Node (`Switch`)
+
 - **Type**: `n8n-nodes-base.switch`
 - **Rules**:
   - **Nhánh 1 (Image)**: `leftValue` = `={{ $json.message.photo }}` | Operator: `exists` | Output Name: `image`
@@ -84,43 +90,52 @@ Học viên kéo-thả từng Node trên n8n canvas và điền thông số theo
 ### 🧠 GIAI ĐOẠN 2: DỰNG AI AGENT VỚI 5 SIÊU CÔNG CỤ (MULTI-TOOL AGENTIC AI)
 
 #### Node 3: AI Agent Node (`AI Agent`)
+
 - **Type**: `@n8n/n8n-nodes-langchain.agent`
 - **Prompt Type**: `Define below`
 - **Text**: `={{ $json.message.text }}`
 - **System Message**:
+
   ```text
   You are a helpful assistant named Sam. You communicate in a friendly, concise manner. Always format your responses using HTML tags for formatting where appropriate (e.g. <b>bold</b>, <i>italic</i>, <code>code</code>, <a href="...">links</a>, etc.). DO NOT use Markdown syntax such as **bold** or *italic*.
   ```
 
 #### Node 4: OpenAI Chat Model
+
 - **Type**: `@n8n/n8n-nodes-langchain.lmChatOpenAi`
 - **Model**: `gpt-4o-mini`
 - **Credential**: Chọn `OpenAI API account`.
 
 #### Node 5: Window Buffer Memory
+
 - **Type**: `@n8n/n8n-nodes-langchain.memoryBufferWindow`
 - **Session Key**: `={{ $('Receive Message').first().json.message.chat.id }}`
 - **Context Window Length**: `20`
 
 #### Node 6: Get Emails (Gmail Tool)
+
 - **Type**: `n8n-nodes-base.gmailTool`
 - **Operation**: `GetAll`
 - **Limit**: `5`
 - **Filters**: `readStatus` = `unread`
 
 #### Node 7: Send Email (Gmail Tool)
+
 - **Type**: `n8n-nodes-base.gmailTool`
 - **Operation**: `Send`
 
 #### Node 8: Get Calendar (Google Calendar Tool)
+
 - **Type**: `n8n-nodes-base.googleCalendarTool`
 - **Operation**: `GetAll`
 
 #### Node 9: Set Calendar (Google Calendar Tool)
+
 - **Type**: `n8n-nodes-base.googleCalendarTool`
 - **Operation**: `Create`
 
 #### Node 10: Google Search (SerpAPI Tool)
+
 - **Type**: `n8n-nodes-base.serpApi`
 - **Credential**: Chọn `SerpAPI account`.
 
@@ -129,12 +144,14 @@ Học viên kéo-thả từng Node trên n8n canvas và điền thông số theo
 ### 👁️ GIAI ĐOẠN 3: XỬ LÝ HÌNH ẢNH VỚI VISION AI
 
 #### Node 11: OpenAI Vision
+
 - **Type**: `@n8n/n8n-nodes-langchain.openAi`
 - **Resource**: `Image`
 - **Model**: `gpt-4o-mini`
 - **Prompt**: `={{ $json.message.caption || 'Describe this image' }}`
 
 #### Node 12: Format Vision Output (`Format Vision Output`)
+
 - **Type**: `n8n-nodes-base.set`
 - **Assignment**: `output` = `={{ $json.content }}`
 
@@ -143,6 +160,7 @@ Học viên kéo-thả từng Node trên n8n canvas và điền thông số theo
 ### 🚀 GIAI ĐOẠN 4: PHẢN HỒI TIN NHẮN VỀ TELEGRAM (HTML FORMATTER)
 
 #### Node 13: Send Telegram Response
+
 - **Type**: `n8n-nodes-base.telegram`
 - **Chat ID**: `={{ $('Receive Message').first().json.message.chat.id }}`
 - **Text**: `={{ $json.output }}`
@@ -166,41 +184,59 @@ Học viên kéo-thả từng Node trên n8n canvas và điền thông số theo
 Đảm bảo Workflow đã được chuyển sang trạng thái **`🟢 Published`** (Active) trên n8n. Mở ứng dụng Telegram nhắn tin trực tiếp cho Bot Sam để kiểm tra 9 kịch bản:
 
 ### 1. Nhánh Text cơ bản (Chào hỏi)
-* **Gửi**: `hello`
-* **Mong đợi**: Bot trả lời thân thiện, xưng tên Sam. Chữ viết hiển thị chuẩn HTML đẹp mắt.
+
+- **Gửi**: `hello`
+
+- **Mong đợi**: Bot trả lời thân thiện, xưng tên Sam. Chữ viết hiển thị chuẩn HTML đẹp mắt.
 
 ### 2. Test Định Dạng HTML (Formatting)
-* **Gửi**: `Liệt kê giúp tôi 5 mẹo tiết kiệm tiền, có in đậm tiêu đề mỗi mục`
-* **Mong đợi**: Danh sách hiển thị gọn gàng, tiêu đề được in đậm bằng thẻ `<b>`, gạch đầu dòng dùng dấu `-`. Không lộ ký tự Markdown thô.
+
+- **Gửi**: `Liệt kê giúp tôi 5 mẹo tiết kiệm tiền, có in đậm tiêu đề mỗi mục`
+
+- **Mong đợi**: Danh sách hiển thị gọn gàng, tiêu đề được in đậm bằng thẻ `<b>`, gạch đầu dòng dùng dấu `-`. Không lộ ký tự Markdown thô.
 
 ### 3. Nhánh Gmail — Đọc Email Chưa Đọc (Tool Get Emails)
-* **Gửi**: `Kiểm tra email chưa đọc của tôi`
-* **Mong đợi**: Bot tự gọi Tool Gmail trích xuất tối đa 5 email UNREAD trong hộp thư INBOX, tóm tắt người gửi và tiêu đề.
+
+- **Gửi**: `Kiểm tra email chưa đọc của tôi`
+
+- **Mong đợi**: Bot tự gọi Tool Gmail trích xuất tối đa 5 email UNREAD trong hộp thư INBOX, tóm tắt người gửi và tiêu đề.
 
 ### 4. Nhánh Gmail — Gửi Email Tự Động (Tool Send Email)
-* **Gửi**: `Gửi email tới [email_cua_ban@gmail.com] với tiêu đề "Test Bot Sam" và nội dung "Đây là email thử nghiệm từ Sam"`
-* **Mong đợi**: Bot xác nhận đã gửi email thành công $\rightarrow$ Kiểm tra hộp thư đến nhận được email.
+
+- **Gửi**: `Gửi email tới [email_cua_ban@gmail.com] với tiêu đề "Test Bot Sam" và nội dung "Đây là email thử nghiệm từ Sam"`
+
+- **Mong đợi**: Bot xác nhận đã gửi email thành công $\rightarrow$ Kiểm tra hộp thư đến nhận được email.
 
 ### 5. Nhánh Google Calendar — Xem Lịch Làm Việc (Tool Get Calendar)
-* **Gửi**: `Hôm nay tôi có lịch gì không?` hoặc `Xem lịch tuần này`
-* **Mong đợi**: Bot tra cứu và liệt kê các sự kiện có trên Google Calendar của bạn.
+
+- **Gửi**: `Hôm nay tôi có lịch gì không?` hoặc `Xem lịch tuần này`
+
+- **Mong đợi**: Bot tra cứu và liệt kê các sự kiện có trên Google Calendar của bạn.
 
 ### 6. Nhánh Google Calendar — Tạo Sự Kiện Mới (Tool Set Calendar)
-* **Gửi**: `Tạo sự kiện "Họp nhóm Dự án AI" ngày mai lúc 15h đến 16h`
-* **Mong đợi**: Bot tự gọi Tool tạo sự kiện trên Google Calendar và gửi thông báo xác nhận đã thêm vào lịch.
+
+- **Gửi**: `Tạo sự kiện "Họp nhóm Dự án AI" ngày mai lúc 15h đến 16h`
+
+- **Mong đợi**: Bot tự gọi Tool tạo sự kiện trên Google Calendar và gửi thông báo xác nhận đã thêm vào lịch.
 
 ### 7. Nhánh Google Search — Tra Cứu Real-time (Tool SerpAPI)
-* **Gửi**: `Tìm giúp tôi giá Bitcoin hôm nay` hoặc `Tin tức công nghệ mới nhất về n8n`
-* **Mong đợi**: Bot dùng SerpAPI tìm kiếm web real-time và tổng hợp câu trả lời chính xác.
+
+- **Gửi**: `Tìm giúp tôi giá Bitcoin hôm nay` hoặc `Tin tức công nghệ mới nhất về n8n`
+
+- **Mong đợi**: Bot dùng SerpAPI tìm kiếm web real-time và tổng hợp câu trả lời chính xác.
 
 ### 8. Nhánh Image — Thị Giác AI (OpenAI Vision)
-* **Gửi**: *[Gửi một tấm ảnh bất kỳ lên Telegram]* kèm caption: `Mô tả tấm ảnh này giúp tôi`
-* **Mong đợi**: Bot nhận diện ảnh qua GPT-4o-mini Vision và trả lời chi tiết nội dung bức ảnh.
+
+- **Gửi**: *[Gửi một tấm ảnh bất kỳ lên Telegram]* kèm caption: `Mô tả tấm ảnh này giúp tôi`
+
+- **Mong đợi**: Bot nhận diện ảnh qua GPT-4o-mini Vision và trả lời chi tiết nội dung bức ảnh.
 
 ### 9. Test Bộ Nhớ Hội Thoại (Window Buffer Memory)
-* **Gửi lần 1**: `Tên tôi là Minh, nhớ nhé`
-* **Gửi lần 2**: `Tên tôi là gì?`
-* **Mong đợi**: Bot ghi nhớ Chat ID và trả lời chính xác tên "Minh".
+
+- **Gửi lần 1**: `Tên tôi là Minh, nhớ nhé`
+
+- **Gửi lần 2**: `Tên tôi là gì?`
+- **Mong đợi**: Bot ghi nhớ Chat ID và trả lời chính xác tên "Minh".
 
 ---
 
