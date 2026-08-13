@@ -1,6 +1,9 @@
 # Bài 1: Trợ Lý AI Siêu Năng Lực Telegram (Multi-Tool Agentic AI: Gmail, Calendar, Web Search & Vision)
 
-![Giao diện AI Chatbot Telegram Agent](/session_6.jpg)
+![Giao diện workflow](image.png)
+
+Kết quả
+![Kết quả agent trên telegram](image-1.png)
 
 ## 📖 I. TỔNG QUAN VÀ MỤC TIÊU BÀI HỌC (THỜI LƯỢNG: 120 PHÚT)
 
@@ -20,12 +23,7 @@ Trong bài học này, học viên sẽ được tự tay xây dựng một **"T
 > **LƯU Ý BẢO MẬT QUAN TRỌNG KHI KẾT NỐI API TRỢ LÝ AI VỚI HỘP THƯ & LỊCH CÁ NHÂN:**
 > Khi ủy quyền cho AI Agent truy cập các dữ liệu nhạy cảm (Gmail, Google Calendar), kỹ sư AI bắt buộc phải tuân thủ các nguyên tắc an toàn dữ liệu:
 
-```mermaid
-flowchart LR
-    A[Luật An ninh mạng & Bảo vệ dữ liệu] --> B[Nguyên tắc Quyền Tối Thiểu]
-    C[Google OAuth2 Security Policy] --> D[Xác thực Người dùng Minh Bạch]
-    E[Telegram API Session Isolation] --> F[Phân tách Bộ nhớ theo Chat ID]
-```
+![sơ đồ nguyên tắc an toàn dữ liệu](image-2.png)
 
 1. **Nguyên tắc Quyền tối thiểu (Principle of Least Privilege)**: Chỉ cấp quyền đọc/gửi email cần thiết, không chia sẻ quyền quản trị toàn bộ tài khoản Google Workspace.
 2. **Phân tách Bộ nhớ theo Chat ID**: Mã `sessionKey` trong Node Memory bắt buộc phải gán theo `chat.id` của từng người dùng trên Telegram để tránh rò rỉ dữ liệu hội thoại chéo giữa các tài khoản khác nhau.
