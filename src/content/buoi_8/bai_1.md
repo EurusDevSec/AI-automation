@@ -1,4 +1,4 @@
-# Buổi 8: Đưa Web Lên Internet Toàn Cầu Vercel & Quản Trị Cơ Sở Dữ Liệu Supabase
+# Bài 1: Đưa Ứng Dụng Web Lên Internet Toàn Cầu Với Vercel & Quản Trị Cơ Sở Dữ Liệu Supabase
 
 ![Giao diện Vercel & Supabase Live Deployment](/session_8.jpg)
 
